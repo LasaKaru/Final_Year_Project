@@ -184,3 +184,19 @@ th { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: upp
   .card { box-shadow: none; }
   .detail { position: static; max-height: none; }
 }
+
+/* ---- call graph ---- */
+.cg-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 6px; }
+.cg { display: block; font-family: var(--mono); }
+.cg-edge { fill: none; stroke: var(--border); stroke-width: 2; }
+.cg-edge.to-sink { stroke: var(--vuln); stroke-dasharray: 4 3; }
+.cg-node rect { fill: var(--surface-2); stroke: var(--accent); stroke-width: 1.5; }
+.cg-sink rect { fill: var(--vuln-bg); stroke: var(--vuln); }
+.cg-guarded rect { fill: var(--prot-bg); stroke: var(--prot); }
+.cg-label { font-size: 12.5px; fill: var(--text); }
+.cg-badge { font-size: 10.5px; fill: var(--muted); }
+.cg-legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 6px; }
+.lg::before { content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; border: 1.5px solid var(--accent); background: var(--surface-2); }
+.lg-sink::before { border-color: var(--vuln); background: var(--vuln-bg); border-radius: 6px; }
+.lg-guarded::before { border-color: var(--prot); background: var(--prot-bg); border-radius: 6px; }
+.rationale p, .muted.small { overflow-wrap: anywhere; }

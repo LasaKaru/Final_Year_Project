@@ -266,6 +266,79 @@
     return h('div', { class: 'md' + (sel ? ' has-selection' : '') }, master, detail);
   }
 
+  // ---- call graph (RQ4): endpoint → service → repository → EF Core sink, built from the traced path's steps
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  function svg(tag, attrs, text) {
+    const el = document.createElementNS(SVGNS, tag);
+    for (const [k, v] of Object.entries(attrs || {})) if (v !== null && v !== undefined) el.setAttribute(k, String(v));
+    if (text !== undefined) el.textContent = String(text); // text node only: analysed code is untrusted
+    return el;
+  }
+  const shortSymbol = sym => {
+    const noArgs = String(sym || '').replace(/\(.*$/, '').replace(/<.*?>/g, '');
+    return noArgs.split('.').slice(-2).join('.') || String(sym || '?');
+  };
+  const sameRef = (a, b) => a && b && a.filePath === b.filePath && a.startLine === b.startLine;
+
+  function graphModel(f) {
+    const ep = f.path.endpoint;
+    const root = { label: `${ep.controller}.${ep.action}`, depth: 0, kind: 'method', loads: 0, checks: 0, unresolved: 0, count: 1, children: [], loc: ep.location };
+    const stack = [root];
+    for (const s of f.path.steps) {
+      const d = Math.min(s.depth || 0, stack.length - 1);
+      const parent = stack[d];
+      if (s.kind === 'Call') {
+        const label = shortSymbol(s.symbol || s.description.replace(/^calls /, ''));
+        let n = parent.children.find(c => c.kind === 'method' && c.label === label);
+        if (n) n.count++;
+        else { n = { label, depth: d + 1, kind: 'method', loads: 0, checks: 0, unresolved: 0, count: 1, children: [], loc: s.location }; parent.children.push(n); }
+        stack.length = d + 1; stack.push(n);
+      } else if (s.kind === 'Sink') {
+        const sink = f.path.sinks.find(k => sameRef(k.location, s.location));
+        const guarded = !!(sink && sink.guardIndices && sink.guardIndices.length);
+        parent.children.push({ label: s.description.replace(/^state change: /, ''), depth: d + 1, kind: guarded ? 'guarded' : 'sink', children: [], loc: s.location });
+      } else if (s.kind === 'Load') parent.loads++;
+      else if (s.kind === 'Check') parent.checks++;
+      else if (s.kind === 'Unresolved') parent.unresolved++;
+    }
+    return root;
+  }
+
+  function callGraph(f) {
+    const rows = [];
+    (function walk(n) { rows.push(n); n.children.forEach(walk); })(graphModel(f));
+    const ROW = 46, H = 32, IND = 30, CH = 7.4;
+    rows.forEach((n, i) => {
+      n.y = 8 + i * ROW; n.x = 8 + n.depth * IND;
+      const extra = n.kind === 'method' ? [n.loads ? `${n.loads} load` : '', n.checks ? `${n.checks} check` : '', n.unresolved ? `${n.unresolved} unresolved` : '', n.count > 1 ? `×${n.count}` : ''].filter(Boolean).join(' · ') : '';
+      n.badge = extra;
+      n.w = Math.max(n.label.length, extra.length) * CH + 24;
+    });
+    const width = Math.ceil(Math.max(...rows.map(n => n.x + n.w)) + 8);
+    const height = rows.length * ROW + 8;
+    const root = svg('svg', { class: 'cg', viewBox: `0 0 ${width} ${height}`, width, height, role: 'img',
+      'aria-label': `Call graph with ${rows.length} nodes from ${rows[0].label}` });
+    const parentOf = new Map();
+    rows.forEach(n => n.children.forEach(c => parentOf.set(c, n)));
+    for (const n of rows) {
+      const p = parentOf.get(n);
+      if (p) root.append(svg('path', { class: 'cg-edge' + (n.kind === 'sink' ? ' to-sink' : ''), d: `M${p.x + 14} ${p.y + H} V${n.y + H / 2} H${n.x}` }));
+    }
+    for (const n of rows) {
+      const g = svg('g', { class: 'cg-node cg-' + n.kind, transform: `translate(${n.x} ${n.y})` });
+      g.append(svg('title', {}, `${n.label}${n.loc ? ' — ' + where(n.loc) : ''}`));
+      g.append(svg('rect', { width: n.w, height: H, rx: n.kind === 'method' ? 7 : 15 }));
+      g.append(svg('text', { x: 12, y: n.badge ? 14 : 20, class: 'cg-label' }, n.label));
+      if (n.badge) g.append(svg('text', { x: 12, y: 27, class: 'cg-badge' }, n.badge));
+      root.append(g);
+    }
+    return h('div', { class: 'section' }, h('h3', {}, 'Call graph'),
+      h('div', { class: 'cg-wrap', tabindex: '0', 'aria-label': 'Call graph (scrolls sideways on small screens)' }, root),
+      h('div', { class: 'cg-legend muted small' },
+        h('span', { class: 'lg lg-method' }, 'method on the path'), h('span', { class: 'lg lg-sink' }, 'state change without a valid guard'),
+        h('span', { class: 'lg lg-guarded' }, 'state change covered by a valid guard')));
+  }
+
   function findingDetail(f, groups) {
     const ep = f.path.endpoint;
     const siblings = groups.find(g => g.id === ep.id).findings;
@@ -288,6 +361,8 @@
           h('p', { style: 'margin:6px 0 0' }, f.semantic.reason),
           ev.size ? h('div', { class: 'muted small' }, 'Evidence lines: ' + [...ev].join(', ')) : null) : null,
         h('p', { class: 'muted small' }, 'Final: ', f.finalReason)),
+
+      callGraph(f),
 
       h('div', { class: 'section' }, h('h3', {}, `Traced path from “${f.path.taintSource.name}” (${f.path.taintSource.source.toLowerCase()})`),
         h('ol', { class: 'steps' }, f.path.steps.map(s => h('li', { class: 'k-' + s.kind.toLowerCase(), style: `margin-left:${(s.depth || 0) * 16}px` },
