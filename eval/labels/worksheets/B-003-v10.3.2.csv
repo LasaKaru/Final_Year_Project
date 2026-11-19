@@ -126,7 +126,7 @@ PUT api/page/{id},PageController.Put,Oqtane.Server/Controllers/PageController.cs
 PUT api/pagemodule/{id},PageModuleController.Put,Oqtane.Server/Controllers/PageModuleController.cs:107,yes,Registered Users,,id;pageModule,,,,,,,
 PUT api/profile/{id},ProfileController.Put,Oqtane.Server/Controllers/ProfileController.cs:93,yes,,Profile:Write:Administrators,id;profile,,,,,,,
 PUT api/role/{id},RoleController.Put,Oqtane.Server/Controllers/RoleController.cs:97,yes,,Role:Write:Administrators,id;role,,,,,,,
-PUT api/setting/{entityname}/{entityid},SettingController.Put,Oqtane.Server/Controllers/SettingController.cs:220,no/global,,,entityName;entityId,,,,,,,
+PUT api/setting/{entityname}/{entityid},SettingController.Put,Oqtane.Server/Controllers/SettingController.cs:220,no/global,,,entityName;entityId;settings,,,,,,,
 PUT api/setting/{entityname}/{entityid}/{settingname}/{settingvalue}/{isprivate},SettingController.Put,Oqtane.Server/Controllers/SettingController.cs:182,no/global,,,entityName;entityId;settingName;settingValue;isPrivate,,,,,,,
 PUT api/setting/{id},SettingController.Put,Oqtane.Server/Controllers/SettingController.cs:160,no/global,,,id;setting,,,,,,,
 PUT api/site/{id},SiteController.Put,Oqtane.Server/Controllers/SiteController.cs:60,yes,Administrators,,id;site,,,,,,,

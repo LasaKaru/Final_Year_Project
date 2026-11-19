@@ -1,0 +1,9 @@
+unit,action,file,authorize,roles,policies,id_parameters,q1_client_id_selects_object,q2_cross_user_effect,q3_owner_check_before_effect,label,notes,rater,date
+DELETE todos/{id},TodoApi.lambda@67,Todo.Api/Todos/TodoApi.cs:67,yes,,,id;owner,,,,,,,
+GET auth/login/{provider},AuthApi.lambda@55,Todo.Web/Server/AuthApi.cs:55,no/global,,,provider,,,,,,,
+GET auth/signin/{provider},AuthApi.lambda@64,Todo.Web/Server/AuthApi.cs:64,no/global,,,provider,,,,,,,
+GET todos,TodoApi.lambda@24,Todo.Api/Todos/TodoApi.cs:24,yes,,,owner,,,,,,,
+GET todos/{id},TodoApi.lambda@29,Todo.Api/Todos/TodoApi.cs:29,yes,,,id;owner,,,,,,,
+POST todos,TodoApi.lambda@38,Todo.Api/Todos/TodoApi.cs:38,yes,,,newTodo;owner,,,,,,,
+POST users/token/{provider},UsersApi.lambda@24,Todo.Api/Users/UsersApi.cs:24,no/global,,,provider;userInfo;userManager;signInManager,,,,,,,
+PUT todos/{id},TodoApi.lambda@52,Todo.Api/Todos/TodoApi.cs:52,yes,,,id;todo;owner,,,,,,,

@@ -23,7 +23,9 @@ def unit_key(verb, route):
 
 
 def latest_run(mode, case_id, variant):
-    runs = sorted(glob.glob(os.path.join(ROOT, "eval", "runs", f"*-{mode}-{case_id}-{variant}")))
+    # only completed runs (env.md is written last by run-case.sh)
+    runs = sorted(r for r in glob.glob(os.path.join(ROOT, "eval", "runs", f"*-{mode}-{case_id}-{variant}"))
+                  if os.path.exists(os.path.join(r, "env.md")))
     return runs[-1] if runs else None
 
 

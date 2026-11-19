@@ -1,0 +1,9 @@
+unit,action,file,authorize,roles,policies,id_parameters,q1_client_id_selects_object,q2_cross_user_effect,q3_owner_check_before_effect,label,notes,rater,date
+DELETE api/catalog-items/{catalogitemid},DeleteCatalogItemEndpoint.lambda@20,src/PublicApi/CatalogItemEndpoints/DeleteCatalogItemEndpoint.cs:20,yes,,,catalogItemId,,,,,,,
+GET api/catalog-items,CatalogItemListPagedEndpoint.lambda@31,src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs:31,no/global,,,catalogBrandId;catalogTypeId,,,,,,,
+GET api/catalog-items/{catalogitemid},CatalogItemGetByIdEndpoint.lambda@25,src/PublicApi/CatalogItemEndpoints/CatalogItemGetByIdEndpoint.cs:25,no/global,,,catalogItemId,,,,,,,
+GET order/detail/{orderid},OrderController.Detail,src/Web/Controllers/OrderController.cs:31,yes,,,orderId,,,,,,,
+POST api/catalog-items,CreateCatalogItemEndpoint.lambda@29,src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs:29,yes,,,request,,,,,,,
+POST manage/enableauthenticator,ManageController.EnableAuthenticator,src/Web/Controllers/ManageController.cs:403,yes,,,model,,,,,,,
+POST manage/removelogin,ManageController.RemoveLogin,src/Web/Controllers/ManageController.cs:293,yes,,,model,,,,,,,
+PUT api/catalog-items,UpdateCatalogItemEndpoint.lambda@27,src/PublicApi/CatalogItemEndpoints/UpdateCatalogItemEndpoint.cs:27,yes,,,request,,,,,,,

@@ -3,5 +3,6 @@ DELETE todoitems/{id},TodoItems.DeleteTodoItem,src/Web/Endpoints/TodoItems.cs:18
 DELETE todolists/{id},TodoLists.DeleteTodoList,src/Web/Endpoints/TodoLists.cs:18,yes,,,id,,,,,,,
 PATCH todoitems/updatedetail/{id},TodoItems.UpdateTodoItemDetail,src/Web/Endpoints/TodoItems.cs:17,yes,,,id;command,,,,,,,
 POST todoitems,TodoItems.CreateTodoItem,src/Web/Endpoints/TodoItems.cs:15,yes,,,command,,,,,,,
+POST users/logout,Users.Logout,src/Web/Endpoints/Users.cs:14,no/global,,,signInManager,,,,,,,
 PUT todoitems/{id},TodoItems.UpdateTodoItem,src/Web/Endpoints/TodoItems.cs:16,yes,,,id;command,,,,,,,
 PUT todolists/{id},TodoLists.UpdateTodoList,src/Web/Endpoints/TodoLists.cs:17,yes,,,id;command,,,,,,,
