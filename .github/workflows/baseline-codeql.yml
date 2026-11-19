@@ -1,0 +1,74 @@
+name: baseline-codeql
+# Third evaluation configuration (baseline SAST): CodeQL C# security-extended on every dataset case at its pinned commit.
+# Manual only. build-mode none: the analysed code is not built or executed. SARIF is kept as an artifact (never uploaded
+# to this repository's code scanning). Evaluate locally:
+#   bolalens eval --report <run>/report.json --labels <labels> --baseline-sarif csharp.sarif --baseline-name CodeQL --baseline-cwe 639 285 862 863
+on:
+  workflow_dispatch:
+    inputs:
+      cases:
+        description: Case IDs to analyse (comma-separated, empty = all in eval/datasets/cases.json)
+        default: ''
+
+permissions:
+  contents: read
+  actions: read
+  security-events: read
+
+jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      include: ${{ steps.m.outputs.include }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: m
+        env:
+          WANT: ${{ inputs.cases }}
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os
+          want = {c.strip() for c in os.environ.get("WANT", "").split(",") if c.strip()}
+          rows = []
+          for c in json.load(open("eval/datasets/cases.json"))["cases"]:
+              if want and c["caseId"] not in want: continue
+              repo = c["repo"].removeprefix("https://github.com/").removesuffix(".git")
+              for variant, sha in c["variants"].items():
+                  rows.append({"case": c["caseId"], "variant": variant, "repo": repo, "sha": sha})
+          print("include=" + json.dumps(rows))
+          PY
+
+  codeql:
+    needs: matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.matrix.outputs.include) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.repo }}
+          ref: ${{ matrix.sha }}
+          path: target
+          persist-credentials: false
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: csharp
+          build-mode: none
+          source-root: target
+          queries: security-extended
+      - uses: github/codeql-action/analyze@v3
+        with:
+          category: baseline-${{ matrix.case }}-${{ matrix.variant }}
+          upload: never
+          output: sarif
+      - name: Record versions
+        run: |
+          ls sarif
+          echo "case=${{ matrix.case }} variant=${{ matrix.variant }} repo=${{ matrix.repo }} sha=${{ matrix.sha }}" > sarif/env.txt
+          python3 -c "import json,glob;d=json.load(open(glob.glob('sarif/*.sarif')[0]));print('codeql', d['runs'][0]['tool']['driver'].get('semanticVersion'))" >> sarif/env.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: codeql-${{ matrix.case }}-${{ matrix.variant }}
+          path: sarif/

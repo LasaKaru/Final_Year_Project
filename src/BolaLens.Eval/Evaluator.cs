@@ -3,12 +3,12 @@ using BolaLens.Core.Model;
 namespace BolaLens.Eval;
 
 /// <summary>One evaluated arm (symbolic-only or hybrid) of one report.</summary>
-public sealed record EvalArm(string Name, ConfusionMatrix Matrix, Metrics Metrics, IReadOnlyList<MatchedUnit> Units);
+public sealed record EvalArm(string Name, ConfusionMatrix Matrix, Metrics Metrics, IReadOnlyList<MatchedUnit> Units, bool IsBaseline = false);
 
 /// <summary>Evaluation of one or more reports against one label set.</summary>
 public sealed record EvalResult(string Title, IReadOnlyList<EvalArm> Arms)
 {
-    public string ToMarkdown() => MarkdownTable.Render(Title, Arms.Select(a => (a.Name, a.Matrix, a.Metrics)).ToList(), Arms[^1].Units);
+    public string ToMarkdown() => MarkdownTable.Render(Title, Arms.Select(a => (a.Name, a.Matrix, a.Metrics)).ToList(), Arms.Last(a => !a.IsBaseline).Units);
 }
 
 /// <summary>Builds evaluation arms: every report gives a symbolic arm; a hybrid report also gives a
