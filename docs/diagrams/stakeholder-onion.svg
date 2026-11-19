@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" role="img" aria-label="BolaLens stakeholder onion model">
+<rect width="1400" height="900" fill="#ffffff"/>
+<text x="700" y="34" text-anchor="middle" font-size="26" font-weight="700" fill="#172033">BolaLens — Stakeholder Onion Model</text>
+<ellipse cx="700" cy="470" rx="660" ry="420" fill="#eef2ff" stroke="#9aa6c0" stroke-width="2"/>
+<ellipse cx="700" cy="470" rx="500" ry="320" fill="#e6f4ea" stroke="#9aa6c0" stroke-width="2"/>
+<ellipse cx="700" cy="470" rx="330" ry="215" fill="#fff4e0" stroke="#9aa6c0" stroke-width="2"/>
+<ellipse cx="700" cy="470" rx="150" ry="95" fill="#3b5bdb" stroke="#3b5bdb" stroke-width="2"/>
+<text x="700" y="76" text-anchor="middle" font-size="15" font-weight="600" fill="#5d6880">4. Wider environment</text>
+<text x="700" y="176" text-anchor="middle" font-size="15" font-weight="600" fill="#5d6880">3. Containing business</text>
+<text x="700" y="281" text-anchor="middle" font-size="15" font-weight="600" fill="#5d6880">2. Containing system (operational)</text>
+<text x="700" y="458" text-anchor="middle" font-size="24" font-weight="700" fill="#ffffff">BolaLens</text>
+<text x="700" y="486" text-anchor="middle" font-size="13" font-weight="400" fill="#ffffff">CLI · local SLM · web UI · Action</text>
+<g><rect x="357" y="333" width="186" height="30" rx="15" fill="#ffffff" stroke="#1c7ed6" stroke-width="2"/><text x="450" y="353" text-anchor="middle" font-size="14" fill="#172033">Application developer</text></g>
+<g><rect x="838" y="333" width="224" height="30" rx="15" fill="#ffffff" stroke="#1c7ed6" stroke-width="2"/><text x="950" y="353" text-anchor="middle" font-size="14" fill="#172033">Security reviewer / AppSec</text></g>
+<g><rect x="318" y="578" width="224" height="30" rx="15" fill="#ffffff" stroke="#2b8a3e" stroke-width="2"/><text x="430" y="598" text-anchor="middle" font-size="14" fill="#172033">CI / DevOps pipeline owner</text></g>
+<g><rect x="842" y="578" width="246" height="30" rx="15" fill="#ffffff" stroke="#2b8a3e" stroke-width="2"/><text x="965" y="598" text-anchor="middle" font-size="14" fill="#172033">Researcher-operator (student)</text></g>
+<g><rect x="569" y="191" width="262" height="30" rx="15" fill="#ffffff" stroke="#e8590c" stroke-width="2"/><text x="700" y="211" text-anchor="middle" font-size="14" fill="#172033">Supervisor — Ms. Pudara Dewdini</text></g>
+<g><rect x="187" y="443" width="216" height="30" rx="15" fill="#ffffff" stroke="#1c7ed6" stroke-width="2"/><text x="295" y="463" text-anchor="middle" font-size="14" fill="#172033">Team lead / product owner</text></g>
+<g><rect x="977" y="443" width="246" height="30" rx="15" fill="#ffffff" stroke="#2b8a3e" stroke-width="2"/><text x="1100" y="463" text-anchor="middle" font-size="14" fill="#172033">Security &amp; compliance officer</text></g>
+<g><rect x="615" y="721" width="170" height="30" rx="15" fill="#ffffff" stroke="#e8590c" stroke-width="2"/><text x="700" y="741" text-anchor="middle" font-size="14" fill="#172033">IIT / UoW examiners</text></g>
+<g><rect x="109" y="153" width="322" height="30" rx="15" fill="#ffffff" stroke="#1c7ed6" stroke-width="2"/><text x="270" y="173" text-anchor="middle" font-size="14" fill="#172033">End users of scanned APIs (data owners)</text></g>
+<g><rect x="992" y="153" width="277" height="30" rx="15" fill="#ffffff" stroke="#2b8a3e" stroke-width="2"/><text x="1130" y="173" text-anchor="middle" font-size="14" fill="#172033">OSS maintainers of analysed repos</text></g>
+<g><rect x="114" y="633" width="163" height="30" rx="15" fill="#ffffff" stroke="#e8590c" stroke-width="2"/><text x="195" y="653" text-anchor="middle" font-size="14" fill="#172033">Research community</text></g>
+<g><rect x="1127" y="633" width="155" height="30" rx="15" fill="#ffffff" stroke="#e8590c" stroke-width="2"/><text x="1205" y="653" text-anchor="middle" font-size="14" fill="#172033">Regulators / GDPR</text></g>
+<g><rect x="312" y="783" width="246" height="30" rx="15" fill="#ffffff" stroke="#2b8a3e" stroke-width="2"/><text x="435" y="803" text-anchor="middle" font-size="14" fill="#172033">SAST / DAST vendors (CodeQL…)</text></g>
+<g><rect x="785" y="783" width="330" height="30" rx="15" fill="#ffffff" stroke="#2b8a3e" stroke-width="2"/><text x="950" y="803" text-anchor="middle" font-size="14" fill="#172033">Model / framework providers (.NET, ONNX)</text></g>
+<g><rect x="565" y="838" width="269" height="30" rx="15" fill="#ffffff" stroke="#c92a2a" stroke-width="2"/><text x="700" y="858" text-anchor="middle" font-size="14" fill="#172033">Attackers — negative stakeholder</text></g>
+<text x="30" y="780" font-size="14" font-weight="600" fill="#172033">Role type</text>
+<rect x="30" y="790" width="18" height="18" rx="9" fill="#fff" stroke="#1c7ed6" stroke-width="3"/><text x="58" y="804" font-size="14" fill="#172033">Functional beneficiary</text>
+<rect x="30" y="816" width="18" height="18" rx="9" fill="#fff" stroke="#2b8a3e" stroke-width="3"/><text x="58" y="830" font-size="14" fill="#172033">Operational / supplier</text>
+<rect x="30" y="842" width="18" height="18" rx="9" fill="#fff" stroke="#e8590c" stroke-width="3"/><text x="58" y="856" font-size="14" fill="#172033">Academic / regulatory</text>
+<rect x="30" y="868" width="18" height="18" rx="9" fill="#fff" stroke="#c92a2a" stroke-width="3"/><text x="58" y="882" font-size="14" fill="#172033">Negative stakeholder</text>
+</svg>

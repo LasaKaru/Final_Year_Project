@@ -1,4 +1,4 @@
-# Project status & roadmap (19 Nov 2026) — what is done, what is left
+# Project status & roadmap (19 Nov 2026, updated end of session 3) — what is done, what is left
 
 Short answer: **the IPD-level prototype is largely built; the research (datasets A/B/C, three-way comparison,
 RQ1–RQ4 results) and the dissertation are not started.** The proposal (PP deck) promises an *evaluated* tool —
@@ -12,18 +12,18 @@ the evaluation is where most of the remaining work and most of the final marks a
 | Stage 1 — DbContext Schema Mapper (F3) | ✅ | `Analysis/Schema` (incl. IEntityTypeConfiguration) |
 | Stage 1 — taint walker across DI layers + sink classification (F4) | ✅ | `Analysis/Taint`, `DI`, `Sinks`, `Guards`; TC13/TC14 cross-layer |
 | Stage 2 — IR slice generator, context enrichment (F5) | ✅ | `Slicing`, label-free, source map, token budget |
-| Stage 2 — few-shot local ONNX SLM, deterministic JSON (F6) | 🔶 | Works with SmolLM2-135M (schema-guided, greedy, gate). **No capable model evaluated yet** (Phi-3 / Qwen2.5-Coder) |
+| Stage 2 — few-shot local ONNX SLM, deterministic JSON (F6) | ✅ | SmolLM2-135M (advisory) and Phi-3-mini (gate 3/4) run end to end; model comparison on datasets pending |
 | Stage 3 — JSON diagnostics (F7) | ✅ | `report.json`, rule IDs, spans, coverage, run info |
-| Stage 3 — "React developer dashboard / visual call graphs" (F7, RQ4) | 🔶 | Responsive local UI + offline HTML (ADR-010, not React). **Missing: graphical call-graph view** of a path |
-| R4 — 100 % offline, < 30 min CI (N1, N2) | 🔶 | Offline proven (`unshare -n`); BolaLab 4 s / 82 s. **Not yet measured on a real, medium-size repo** |
-| O1 / RQ1 — path recall on labelled cases | 🔶 | 16/16 on BolaLab (development set only). **Dataset A recall not measured** |
+| Stage 3 — "React developer dashboard / visual call graphs" (F7, RQ4) | ✅ | Responsive local UI + offline HTML (ADR-010, not React) with an SVG call graph per path |
+| R4 — 100 % offline, < 30 min CI (N1, N2) | ✅ | Offline proven (`unshare -n`); Oqtane (204 endpoints) symbolic 15–19 s; Action runs in CI |
+| O1 / RQ1 — path recall on labelled cases | 🔶 | Dataset A first measurement on draft labels (TP 6, FN 1); labels need owner verification; more cases needed |
 | O2 / RQ2 — SLM false-positive reduction vs symbolic-only | ⬜ | Harness + ablation ready; tiny model fails the gate. **Needs capable model + datasets** |
 | O3 / RQ4 — explanation quality via triage rubric | ⬜ | **Rubric not designed, no review done** |
-| O4 / RQ3 — 3 datasets, F1, FPR, time, RAM | ⬜ | **Datasets A/B/C not built** |
-| Evaluation: 3 configurations (hybrid, symbolic-only, **baseline .NET SAST**) | 🔶 | Two arms work. **Baseline SAST tool not chosen/run** |
+| O4 / RQ3 — 3 datasets, F1, FPR, time, RAM | 🔶 | Framework + 4 A-cases (8 commits incl. C controls) + 3 B-repos recorded with time/RAM; B labels pending |
+| Evaluation: 3 configurations (hybrid, symbolic-only, **baseline .NET SAST**) | 🔶 | All three arms implemented (CodeQL via `baseline-codeql.yml` + SARIF adapter); CodeQL not yet run |
 | Methodology: 6-step flow (requirements → dataset curation → Roslyn → IR+SLM → ablation → error analysis) | steps 1, 3, 4 ✅ · 2, 5, 6 ⬜ | Ablation is technically ready; error analysis needs data |
 | Ethics form (Class 1) signed | ⬜ | Part A incomplete — do this first |
-| IPD artefacts (onion, FR/NFR, use case, Gantt, slides, demo) | 🔶 | FR/NFR status, diagrams sources, screenshots exist; **slides, onion, demo script, video missing** |
+| IPD artefacts (onion, FR/NFR, use case, Gantt, slides, demo) | 🔶 | Onion, use cases, updated Gantt + deviations, demo script, Q&A evidence map done; **slides and backup video are the owner's** |
 | Dissertation | ⬜ | Not started (thesis notes only) |
 
 ## 2. Datasets A, B, C — concrete plan

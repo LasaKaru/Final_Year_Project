@@ -1,0 +1,23 @@
+[scan] Loading solution (MSBuildWorkspace)…
+[scan] Stage 1: endpoints, policy, schema, DI, taint paths, rules…
+[scan] Done.
+wrote /home/user/Final_Year_Project/eval/runs/2026-11-19-symbolic-B-001-head-r2/report.json
+BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-001-head/Conduit.slnx
+╭──────────────────────────────────────┬────────────┬────────────┬────────┬──────────╮
+│ Endpoint                             │ Final      │ Symbolic   │ Rules  │ Semantic │
+├──────────────────────────────────────┼────────────┼────────────┼────────┼──────────┤
+│ GET articles/{slug}                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT articles/{slug}                  │ Protected  │ Protected  │ SYM-03 │ —        │
+│ DELETE articles/{slug}               │ Protected  │ Protected  │ SYM-03 │ —        │
+│ POST articles/{slug}/comments        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET articles/{slug}/comments         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE articles/{slug}/comments/{id} │ Protected  │ Protected  │ SYM-03 │ —        │
+│ POST articles/{slug}/favorite        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE articles/{slug}/favorite      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST profiles/{username}/follow      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE profiles/{username}/follow    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET profiles/{username}              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+╰──────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
+projects 3 (with errors 2) · endpoints 15 (with ids 11) · paths 12 (truncated 0) · unresolved calls 0
+symbolic: 0 vulnerable · 3 protected · 0 unknown · 9 out of scope
+time 8.7s · peak memory 347 MB

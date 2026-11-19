@@ -4,6 +4,7 @@
 #   scripts/run-case.sh A-001                 # all variants of a case (vuln + fixed)
 #   scripts/run-case.sh A-002 vuln            # one variant
 #   MODE=hybrid MODEL=models/phi3-mini scripts/run-case.sh B-001
+#   RUN_SUFFIX=-r2 scripts/run-case.sh A-001      # a repetition (own folder)
 #
 # Cases are listed in eval/datasets/cases.json. Third-party code is cloned OUTSIDE this repo into
 # $BOLALENS_DATASETS (default: ../datasets) and never committed. The analysed code is only parsed and
@@ -71,7 +72,7 @@ for entry in "${variants[@]}"; do
     echo "!! restore failed (scan continues; missing references appear as compile errors in the report)"; tail -5 "$restore_log"
   fi
 
-  out="$ROOT/eval/runs/$DATE-$MODE-$case_id-$variant"
+  out="$ROOT/eval/runs/$DATE-$MODE-$case_id-$variant${RUN_SUFFIX:-}"
   mkdir -p "$out"
   args=(scan "$work/$solution" --mode "$MODE" --out "$out/report.json" --no-fail)
   [[ -n "$config" ]] && args+=(--config "$ROOT/$config")

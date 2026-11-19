@@ -144,7 +144,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-001-fixed/Oqtane.slnx
 ╰─────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴───────────────┴──────────╯
 projects 3 (with errors 2) · endpoints 200 (with ids 135) · paths 179 (truncated 1) · unresolved calls 2724
 symbolic: 53 vulnerable · 3 protected · 11 unknown · 112 out of scope
-time 18.1s · peak memory 603 MB
+time 16.6s · peak memory 600 MB
 
 Vulnerable POST api/alias via 'alias' (c036947fb4cb)
   SaveChanges on Alias at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: detached Alias built from the client-controlled key is written without loading

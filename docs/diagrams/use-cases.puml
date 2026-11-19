@@ -19,6 +19,10 @@ rectangle "BolaLens" {
   usecase "UC10 Gate pull request\n(exit code)" as UC10
   usecase "UC11 Run evaluation\n(labels -> metrics)" as UC11
   usecase "UC12 Provision & pin local model" as UC12
+  usecase "UC13 Browse runs & call graph\n(local web UI)" as UC13
+  usecase "UC14 Run robustness perturbations" as UC14
+  usecase "UC15 Compare with baseline SAST\n(SARIF arm)" as UC15
+  usecase "UC16 Export offline HTML report" as UC16
 }
 
 Dev --> UC01
@@ -32,6 +36,11 @@ CI  --> UC09
 Res --> UC11
 Res --> UC12
 Res --> UC01
+Res --> UC14
+Res --> UC15
+Dev --> UC13
+Rev --> UC13
+Rev --> UC16
 
 UC01 ..> UC03 : <<include>>
 UC01 ..> UC04 : <<include>>
@@ -41,4 +50,7 @@ UC09 ..> UC07 : <<extend>>
 UC10 ..> UC01 : <<include>>
 UC11 ..> UC01 : <<include>>
 UC06 ..> UC12 : <<include>>
+UC13 ..> UC08 : <<include>>
+UC14 ..> UC05 : <<include>>
+UC15 ..> UC11 : <<extend>>
 @enduml

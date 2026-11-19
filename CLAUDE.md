@@ -41,6 +41,10 @@ dotnet run --project src/BolaLens.Cli -- eval --report a.json --compare b.json -
 dotnet run --project src/BolaLens.Web        # UI on http://127.0.0.1:5057 (runs stored in .bolalens/runs)
 scripts/ensure-model.sh                      # verifies the committed 86 MB SmolLM2 model; rebuilds it if missing
 scripts/get-model-smollm2.sh                 # (re)builds the SmolLM2-135M int4 model from Hugging Face (network once)
+scripts/run-case.sh A-001                    # dataset case: clone at pinned SHA (../datasets), restore, scan, record
+python3 scripts/dataset-report.py --worksheets   # summary + blind labelling worksheets
+dotnet run --project src/BolaLens.Cli -- robustness fixtures/BolaLab/BolaLab.sln     # FR21 perturbations
+dotnet run --project src/BolaLens.Cli -- scan <sln> --sarif out.sarif               # SARIF 2.1.0
 ```
 Always rebuild before `--no-build` runs (a stale Release build once produced invalid recorded runs).
 UI screenshots for slides: `docs/ipd/screenshots/`. Playwright is preinstalled in cloud sessions for UI checks.
@@ -60,21 +64,26 @@ UI screenshots for slides: `docs/ipd/screenshots/`. Playwright is preinstalled i
 7. BolaLab numbers are **development-set** results; never mix them with datasets A/B/C.
 
 ## Status (update at the end of every session)
-**Done (build-flow phases 0–22 + extras):** solution/CI; BolaLab TC01–TC16; Core; loader + inventory; endpoints; policy map;
-schema (incl. IEntityTypeConfiguration); DI resolver; identity; EF classifier; inter-procedural taint walker with entity
-tokens; guard binding; rules SYM-01..09; JSON report + console; golden tests (16/16); IR slicer; prompt v1 (Phi-3 + ChatML);
-ONNX validator with JSON-schema guidance; parser + grounding + retry; fusion; **calibration gate**; eval harness with
-`--compare`; offline HTML export; **local responsive web UI**; tiny local model SmolLM2-135M int4 (86 MB) end to end.
-**Findings so far:** symbolic 16/16 on BolaLab (dev set). SmolLM2-135M answers "vulnerable" for every slice → fails the gate
-2/4 → advisory only; without the gate it adds 1 FP (TC09) and wrongly escalates TC10 (see eval/runs/*smollm2*).
-**Overall:** prototype ≈ IPD-ready; research evaluation (datasets A/B/C, baseline SAST, RQ1–RQ4) and dissertation not
-started — full gap analysis, dataset plan, methodology and revised timeline in `docs/project-status-and-roadmap.md`.
+**Done (build-flow phases 0–23 + extras, as of 19 Nov 2026):** solution/CI; BolaLab TC01–TC16; full symbolic engine (MVC +
+Minimal APIs, MediatR dispatch, DI incl. library implementations, inter-procedural taint walker, entity tokens with same-row
+aliasing, helper/flag/OR owner checks, permissive-helper and request-body rejection, swallowed throws, rules SYM-01..10);
+read mode (ADR-011); IR slices; ONNX validator (SmolLM2 committed, Phi-3-mini run), calibration gate, conservative fusion
+(ADR-012); eval harness (+ `--compare`, `--baseline-sarif` arm); SARIF 2.1.0 + reusable GitHub Action (self-tested in CI);
+robustness runner P1–P4; local web UI with SVG call graph + offline HTML; dataset framework (`eval/datasets/cases.json`,
+`scripts/run-case.sh`, `scripts/dataset-report.py`, `scripts/run-experiments.sh`), CodeQL baseline workflow (manual).
+**Findings so far:** BolaLab 16/16 (dev set). Dataset A (Oqtane, draft labels): TP 6 / FN 1 (A-003 field-level, expected);
+Dataset C (fixed commits): TN 4 / FP 2 (A-004 custom permission service); 3 of 6 vuln→fixed pairs discriminated.
+Robustness: P1–P3 stability 1.000 (BolaLab, Oqtane), P4 owner renames 0.313 / 0.891. Phi-3: gate 3/4, ~78 s/slice, only
+added FPs via escalation → escalation off by default. See `eval/results/summary-symbolic.md`, `error-analysis.md`.
+**Owner actions (cannot be delegated):** ethics Part A; verify draft labels (`eval/labels/drafts`); blind-label Dataset B
+worksheets + 2nd-rater sample; read/explain every class (R6); supervisor sign-off of ADR-011..013; trigger the
+`baseline-codeql` workflow (Actions tab) and evaluate its SARIF.
 **Next (in order):**
-1. Phase 23: scan ≥ 1 real open-source ASP.NET Core + EF Core repo (pinned SHA), record coverage/Unknowns/runtime; exploratory labels.
-2. Run Phi-3-mini (or Qwen2.5-Coder-0.5B/1.5B) on the 16 GB laptop: hybrid ×3, gate result, timings → eval/runs.
-3. Existence-check guards (`AnyAsync(... && owner == uid)`), method-summary cache, CFG dominance (S6).
-4. IPD artefacts (S5): slides, stakeholder onion, use case diagram (docs/diagrams/use-cases.puml), Gantt, demo script, backup video.
-5. Post-IPD: SARIF + GitHub Action, minimal-API endpoints, robustness runner, datasets A/B/C, labels frozen 21 Mar.
+1. More Dataset A cases (Umbraco GHSA-fpvf/wx5h, FormCMS) and Dataset B repos (nopCommerce, SimplCommerce) via cases.json.
+2. Phi-3 / Qwen2.5-Coder hybrid ×3 on the 16 GB laptop for A/B/C (`MODES="symbolic hybrid" scripts/run-experiments.sh`).
+3. Permission-service modelling (A-004 FP), CFG dominance (S6), custom policy handlers (Oqtane `[Authorize(Policy=…)]`).
+4. IPD (S5): slides from `docs/ipd/*` (onion, Gantt + deviations, demo script, Q&A evidence map), rehearse, backup video.
+5. After the freeze (21 Mar): final experiments, RQ4 rubric study, dissertation (`docs/thesis/outline-and-evidence-map.md`).
 
 ## Environment notes (cloud sessions)
 Network environment "Final_Year_Project" allows huggingface.co (+ us.aws.cdn.hf.co and xet/lfs CDNs) and the PyTorch CPU index,
