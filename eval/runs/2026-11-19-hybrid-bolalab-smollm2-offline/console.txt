@@ -1,0 +1,29 @@
+0
+network: unreachable (as intended)
+wrote eval/runs/2026-11-19-hybrid-bolalab-smollm2-offline/report.json
+BolaLens 0.1.0 · mode hybrid · fixtures/BolaLab/BolaLab.sln
+model smollm2-135m-instruct-int4 · prompt v1/chatml (70a0a264086f53f4)
+calibration gate failed 2/4 (needs 3) — model verdicts are advisory only
+╭────────────────────────────────────────────────┬────────────┬────────────┬────────┬───────────────────╮
+│ Endpoint                                       │ Final      │ Symbolic   │ Rules  │ Semantic          │
+├────────────────────────────────────────────────┼────────────┼────────────┼────────┼───────────────────┤
+│ PUT api/documents/{id}                         │ Protected  │ Protected  │ SYM-05 │ Vulnerable (0.90) │
+│ DELETE api/invoices/{id}                       │ Vulnerable │ Vulnerable │ SYM-08 │ Vulnerable (0.90) │
+│ PUT api/invoices/{id}/amount                   │ Protected  │ Protected  │ SYM-03 │ —                 │
+│ PUT api/notes/{id}                             │ Vulnerable │ Vulnerable │ SYM-08 │ Vulnerable (0.90) │
+│ PUT api/orders/{id}/status                     │ Vulnerable │ Vulnerable │ SYM-08 │ Vulnerable (0.90) │
+│ PUT api/orders/{id}                            │ Protected  │ Protected  │ SYM-03 │ —                 │
+│ DELETE api/orders/{id}                         │ Vulnerable │ Vulnerable │ SYM-08 │ Vulnerable (0.90) │
+│ POST api/orders/{id}/copy-status-to/{targetid} │ Vulnerable │ Vulnerable │ SYM-08 │ Vulnerable (0.90) │
+│ PUT api/orders/{id}/total                      │ Vulnerable │ Vulnerable │ SYM-08 │ Vulnerable (0.90) │
+│ PUT api/orders/{id}/status-detached            │ Vulnerable │ Vulnerable │ SYM-07 │ Vulnerable (0.90) │
+│ POST api/orders/{id}/process                   │ Unknown    │ Unknown    │ SYM-02 │ Vulnerable (0.90) │
+│ POST api/orders/{id}/archive                   │ Protected  │ Protected  │ SYM-03 │ —                 │
+│ DELETE api/orders/{id}/hard                    │ Vulnerable │ Vulnerable │ SYM-07 │ Vulnerable (0.90) │
+│ PUT api/orders/{id}/adjust-total               │ Protected  │ Protected  │ SYM-03 │ —                 │
+│ PUT api/projects/{id}                          │ Protected  │ Protected  │ SYM-04 │ —                 │
+│ DELETE api/projects/{id}                       │ Vulnerable │ Vulnerable │ SYM-06 │ Vulnerable (0.90) │
+╰────────────────────────────────────────────────┴────────────┴────────────┴────────┴───────────────────╯
+projects 1 (with errors 0) · endpoints 16 (with ids 16) · paths 18 (truncated 0) · unresolved calls 1
+symbolic: 9 vulnerable · 6 protected · 1 unknown · 2 out of scope · SLM calls 11 (parse failures 0)
+time 82.5s · peak memory 1007 MB

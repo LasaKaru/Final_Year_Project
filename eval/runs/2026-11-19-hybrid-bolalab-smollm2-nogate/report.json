@@ -1,0 +1,3144 @@
+{
+  "run": {
+    "toolVersion": "0.1.0",
+    "mode": "hybrid",
+    "targetPath": "fixtures/BolaLab/BolaLab.sln",
+    "targetCommit": "8a157f2261b0a9e69c272c580e64d1ccd34c4449",
+    "configHash": "c3b3ca3238ecde43",
+    "modelId": "smollm2-135m-instruct-int4",
+    "modelSha256": "manifest:2309c80f0da802474c593f109df312ea2be7ba02587db76dfa74f4384afbde50",
+    "promptVersion": "v1/chatml (70a0a264086f53f4)",
+    "startedUtc": "2026-11-19T07:27:37.2492957+00:00",
+    "totalSeconds": 62.154,
+    "modelLoadSeconds": 0.356,
+    "peakWorkingSetBytes": 995057664,
+    "machine": "Ubuntu 24.04.5 LTS; X64; 4 logical cores; .NET 8.0.34",
+    "phaseSeconds": {
+      "compile": 2.278,
+      "context": 0.226,
+      "paths": 0.058,
+      "verdict": 0.007,
+      "load": 1.718,
+      "sliceAndInfer": 57.779
+    }
+  },
+  "coverage": {
+    "projectsLoaded": 1,
+    "projectsFailed": 0,
+    "endpoints": 16,
+    "endpointsWithIdParams": 16,
+    "pathsExtracted": 18,
+    "pathsTruncated": 0,
+    "unresolvedCalls": 1,
+    "symbolicVulnerable": 9,
+    "symbolicProtected": 6,
+    "symbolicUnknown": 1,
+    "semanticParseFailures": 0,
+    "symbolicOutOfScope": 2,
+    "semanticInvocations": 11,
+    "unsupportedEndpointStyles": 0
+  },
+  "findings": [
+    {
+      "findingId": "0133493fc377",
+      "path": {
+        "id": "33a821fe9355",
+        "endpoint": {
+          "id": "PUT api/documents/{id}",
+          "verb": "Put",
+          "routeTemplate": "api/Documents/{id}",
+          "controller": "DocumentsController",
+          "action": "Update",
+          "actionSymbol": "BolaLab.Api.Controllers.DocumentsController.Update(int, BolaLab.Api.Contracts.UpdateDocumentRequest)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            },
+            {
+              "name": "request",
+              "type": "UpdateDocumentRequest",
+              "source": "Body",
+              "isIdLike": false
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/DocumentsController.cs",
+            "startLine": 13,
+            "endLine": 23,
+            "snippet": "DocumentsController.Update"
+          }
+        },
+        "taintSource": {
+          "name": "id",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "id : int (route, client-controlled)",
+            "symbol": "int id",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/DocumentsController.cs",
+              "startLine": 14,
+              "endLine": 14,
+              "snippet": "int id"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Load",
+            "description": "loads Document selected by the client-controlled id",
+            "symbol": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<BolaLab.Api.Domain.Document>(System.Linq.IQueryable<BolaLab.Api.Domain.Document>, System.Linq.Expressions.Expression<System.Func<BolaLab.Api.Domain.Document, bool>>, System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/DocumentsController.cs",
+              "startLine": 16,
+              "endLine": 16,
+              "snippet": "var document = await db.Documents.Include(d => d.Shares).FirstOrDefaultAsync(d => d.Id == id);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "condition",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/DocumentsController.cs",
+              "startLine": 17,
+              "endLine": 17,
+              "snippet": "if (document is null) return NotFound();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Call",
+            "description": "resource-based authorization call",
+            "symbol": "Microsoft.AspNetCore.Authorization.IAuthorizationService.AuthorizeAsync(System.Security.Claims.ClaimsPrincipal, object?, string)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/DocumentsController.cs",
+              "startLine": 18,
+              "endLine": 18,
+              "snippet": "var result = await authorizationService.AuthorizeAsync(User, document, \"DocumentEdit\");"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "authorization result for document",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/DocumentsController.cs",
+              "startLine": 19,
+              "endLine": 19,
+              "snippet": "if (!result.Succeeded) return Forbid();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Mutation",
+            "description": "modifies document.Title",
+            "symbol": "BolaLab.Api.Domain.Document.Title",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/DocumentsController.cs",
+              "startLine": 20,
+              "endLine": 20,
+              "snippet": "document.Title = request.Title;"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Commit",
+            "description": "commits tracked changes",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/DocumentsController.cs",
+              "startLine": 21,
+              "endLine": 21,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Sink",
+            "description": "state change: SaveChanges Document",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/DocumentsController.cs",
+              "startLine": 21,
+              "endLine": 21,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          }
+        ],
+        "sinks": [
+          {
+            "kind": "SaveChanges",
+            "entityType": "BolaLab.Api.Domain.Document",
+            "isStateChanging": true,
+            "bypassesQueryFilters": false,
+            "isDetached": false,
+            "queryHasOwnerPredicate": false,
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/DocumentsController.cs",
+              "startLine": 21,
+              "endLine": 21,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "guardIndices": [
+              0
+            ],
+            "validGuards": [
+              0
+            ]
+          }
+        ],
+        "guards": [
+          {
+            "kind": "ResourceAuthorization",
+            "isValid": true,
+            "callerExpression": "IAuthorizationService.AuthorizeAsync",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/DocumentsController.cs",
+              "startLine": 19,
+              "endLine": 19,
+              "snippet": "if (!result.Succeeded) return Forbid();"
+            }
+          }
+        ],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "Protected",
+        "ruleIds": [
+          "SYM-05"
+        ],
+        "rationale": "SaveChanges on Document at src/BolaLab.Api/Controllers/DocumentsController.cs:21 is gated by resource-based authorization at src/BolaLab.Api/Controllers/DocumentsController.cs:19 (delegated to an authorization handler)."
+      },
+      "semantic": {
+        "status": "Vulnerable",
+        "confidence": 0.9,
+        "reason": "The user is allowed to rename the ticket only to the tenant owner. The tenant owner is allowed to rename the ticket only to the tenant owner only. The tenant owner is allowed to rename the ticket only to the tenant owner only. The tenant is",
+        "evidenceLineIds": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5",
+          "L6"
+        ],
+        "parseOk": true,
+        "modelId": "smollm2-135m-instruct-int4",
+        "latencyMs": 5501,
+        "rawOutput": "{\n\n\"status\":\"vulnerable\",\"confidence\":0.9,\"reason\":\"The user is allowed to rename the ticket only to the tenant owner. The tenant owner is allowed to rename the ticket only to the tenant owner only. The tenant owner is allowed to rename the ticket only to the tenant owner only. The tenant is\"\n\n,\n\n\"evidence\":[\"L1\",\"L2\",\"L3\",\"L4\",\"L5\",\"L6\"]\n}",
+        "attempts": 1
+      },
+      "final": "Vulnerable",
+      "finalReason": "SLM disputes the delegated authorization check: The user is allowed to rename the ticket only to the tenant owner. The tenant owner is allowed to rename the ticket only to the tenant owner only. The tenant owner is allowed to rename the ticket only to the tenant owner only. The tenant is",
+      "slice": "L1  [ENDPOINT] PUT api/Documents/{id} -> DocumentsController.Update  (DocumentsController.cs:13)\nL2  [POLICY] [Authorize]; fallback=authenticated-user; scheme=JwtBearer; resource handler DocumentEditHandler(DocumentEditRequirement, Document)\nL3  [SCHEMA] Document owners: OwnerUserId(User); query filters: none\nL4  [SOURCE] id : int (route, client-controlled)  (DocumentsController.cs:14)\nL5  [LOAD] var document = await db.Documents.Include(d => d.Shares).FirstOrDefaultAsync(d => d.Id == id);   (loads Document selected by the client-controlled id)  (DocumentsController.cs:16)\nL6  [CHECK] if (document is null) return NotFound();  (DocumentsController.cs:17)\nL7  [CALL] var result = await authorizationService.AuthorizeAsync(User, document, \"DocumentEdit\");  (DocumentsController.cs:18)\nL8  [CHECK] if (!result.Succeeded) return Forbid();   (authorization result for document)  (DocumentsController.cs:19)\nL9  [MUTATE] document.Title = request.Title;  (DocumentsController.cs:20)\nL10 [SINK] await db.SaveChangesAsync();   (state change: SaveChanges Document)  (DocumentsController.cs:21)"
+    },
+    {
+      "findingId": "441f63a1deae",
+      "path": {
+        "id": "96346ea3597f",
+        "endpoint": {
+          "id": "DELETE api/invoices/{id}",
+          "verb": "Delete",
+          "routeTemplate": "api/Invoices/{id}",
+          "controller": "InvoicesController",
+          "action": "Void",
+          "actionSymbol": "BolaLab.Api.Controllers.InvoicesController.Void(int)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/InvoicesController.cs",
+            "startLine": 13,
+            "endLine": 18,
+            "snippet": "InvoicesController.Void"
+          }
+        },
+        "taintSource": {
+          "name": "id",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "id : int (route, client-controlled)",
+            "symbol": "int id",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/InvoicesController.cs",
+              "startLine": 14,
+              "endLine": 14,
+              "snippet": "int id"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Call",
+            "description": "calls InvoiceService.VoidAsync",
+            "symbol": "BolaLab.Api.Services.InvoiceService.VoidAsync(int)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/InvoicesController.cs",
+              "startLine": 16,
+              "endLine": 16,
+              "snippet": "await invoices.VoidAsync(id);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Call",
+            "description": "calls InvoiceRepository.GetByIdAsync",
+            "symbol": "BolaLab.Api.Services.InvoiceRepository.GetByIdAsync(int)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Services/Invoices.cs",
+              "startLine": 27,
+              "endLine": 27,
+              "snippet": "var invoice = await repo.GetByIdAsync(invoiceId) ?? throw new KeyNotFoundException();"
+            },
+            "depth": 1
+          },
+          {
+            "kind": "Load",
+            "description": "loads Invoice selected by the client-controlled id",
+            "symbol": "Microsoft.EntityFrameworkCore.DbSet<BolaLab.Api.Domain.Invoice>.FindAsync(params object?[]?)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Services/Invoices.cs",
+              "startLine": 13,
+              "endLine": 13,
+              "snippet": "await db.Invoices.FindAsync(id)"
+            },
+            "depth": 2
+          },
+          {
+            "kind": "Mutation",
+            "description": "modifies invoice.IsVoid",
+            "symbol": "BolaLab.Api.Domain.Invoice.IsVoid",
+            "location": {
+              "filePath": "src/BolaLab.Api/Services/Invoices.cs",
+              "startLine": 28,
+              "endLine": 28,
+              "snippet": "invoice.IsVoid = true;"
+            },
+            "depth": 1
+          },
+          {
+            "kind": "Call",
+            "description": "calls InvoiceRepository.SaveAsync",
+            "symbol": "BolaLab.Api.Services.InvoiceRepository.SaveAsync()",
+            "location": {
+              "filePath": "src/BolaLab.Api/Services/Invoices.cs",
+              "startLine": 29,
+              "endLine": 29,
+              "snippet": "await repo.SaveAsync();"
+            },
+            "depth": 1
+          },
+          {
+            "kind": "Commit",
+            "description": "commits tracked changes",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Services/Invoices.cs",
+              "startLine": 14,
+              "endLine": 14,
+              "snippet": "db.SaveChangesAsync()"
+            },
+            "depth": 2
+          },
+          {
+            "kind": "Sink",
+            "description": "state change: SaveChanges Invoice",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Services/Invoices.cs",
+              "startLine": 14,
+              "endLine": 14,
+              "snippet": "db.SaveChangesAsync()"
+            },
+            "depth": 2
+          }
+        ],
+        "sinks": [
+          {
+            "kind": "SaveChanges",
+            "entityType": "BolaLab.Api.Domain.Invoice",
+            "isStateChanging": true,
+            "bypassesQueryFilters": false,
+            "isDetached": false,
+            "queryHasOwnerPredicate": false,
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Services/Invoices.cs",
+              "startLine": 14,
+              "endLine": 14,
+              "snippet": "db.SaveChangesAsync()"
+            },
+            "guardIndices": [],
+            "validGuards": []
+          }
+        ],
+        "guards": [],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "Vulnerable",
+        "ruleIds": [
+          "SYM-08"
+        ],
+        "rationale": "SaveChanges on Invoice at src/BolaLab.Api/Services/Invoices.cs:14: Invoice (owners: CustomerId (User)) is selected by client-controlled 'id' and changed with no valid owner guard or applicable query filter."
+      },
+      "semantic": {
+        "status": "Vulnerable",
+        "confidence": 0.9,
+        "reason": "The request is invalid and the request is invalid.",
+        "evidenceLineIds": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5",
+          "L6"
+        ],
+        "parseOk": true,
+        "modelId": "smollm2-135m-instruct-int4",
+        "latencyMs": 4873,
+        "rawOutput": "{\n\n\"status\":\"vulnerable\",\"confidence\":0.9,\"reason\":\"The request is invalid and the request is invalid.\",\n\"evidence\":[\"L1\",\"L2\",\"L3\",\"L4\",\"L5\",\"L6\"]}",
+        "attempts": 1
+      },
+      "final": "Vulnerable",
+      "finalReason": "Symbolic and semantic agree.",
+      "slice": "L1  [ENDPOINT] DELETE api/Invoices/{id} -> InvoicesController.Void  (InvoicesController.cs:13)\nL2  [POLICY] [Authorize]; fallback=authenticated-user; scheme=JwtBearer\nL3  [SCHEMA] Invoice owners: CustomerId(User); query filters: none\nL4  [SOURCE] id : int (route, client-controlled)  (InvoicesController.cs:14)\nL5  [CALL] await invoices.VoidAsync(id);  (InvoicesController.cs:16)\nL6  [CALL]   ↳ var invoice = await repo.GetByIdAsync(invoiceId) ?? throw new KeyNotFoundException();  (Invoices.cs:27)\nL7  [LOAD]     ↳ await db.Invoices.FindAsync(id)   (loads Invoice selected by the client-controlled id)  (Invoices.cs:13)\nL8  [MUTATE]   ↳ invoice.IsVoid = true;  (Invoices.cs:28)\nL9  [CALL]   ↳ await repo.SaveAsync();  (Invoices.cs:29)\nL10 [SINK]     ↳ db.SaveChangesAsync()   (state change: SaveChanges Invoice)  (Invoices.cs:14)"
+    },
+    {
+      "findingId": "5dc62ded2fac",
+      "path": {
+        "id": "2596b844c141",
+        "endpoint": {
+          "id": "PUT api/invoices/{id}/amount",
+          "verb": "Put",
+          "routeTemplate": "api/Invoices/{id}/amount",
+          "controller": "InvoicesController",
+          "action": "ChangeAmount",
+          "actionSymbol": "BolaLab.Api.Controllers.InvoicesController.ChangeAmount(int, BolaLab.Api.Contracts.ChangeAmountRequest)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            },
+            {
+              "name": "request",
+              "type": "ChangeAmountRequest",
+              "source": "Body",
+              "isIdLike": false
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/InvoicesController.cs",
+            "startLine": 20,
+            "endLine": 25,
+            "snippet": "InvoicesController.ChangeAmount"
+          }
+        },
+        "taintSource": {
+          "name": "id",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "id : int (route, client-controlled)",
+            "symbol": "int id",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/InvoicesController.cs",
+              "startLine": 21,
+              "endLine": 21,
+              "snippet": "int id"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Call",
+            "description": "calls InvoiceService.ChangeAmountAsync",
+            "symbol": "BolaLab.Api.Services.InvoiceService.ChangeAmountAsync(int, decimal, string)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/InvoicesController.cs",
+              "startLine": 23,
+              "endLine": 23,
+              "snippet": "await invoices.ChangeAmountAsync(id, request.Amount, currentUser.UserId);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Call",
+            "description": "calls InvoiceRepository.GetByIdAsync",
+            "symbol": "BolaLab.Api.Services.InvoiceRepository.GetByIdAsync(int)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Services/Invoices.cs",
+              "startLine": 34,
+              "endLine": 34,
+              "snippet": "var invoice = await repo.GetByIdAsync(invoiceId);"
+            },
+            "depth": 1
+          },
+          {
+            "kind": "Load",
+            "description": "loads Invoice selected by the client-controlled id",
+            "symbol": "Microsoft.EntityFrameworkCore.DbSet<BolaLab.Api.Domain.Invoice>.FindAsync(params object?[]?)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Services/Invoices.cs",
+              "startLine": 13,
+              "endLine": 13,
+              "snippet": "await db.Invoices.FindAsync(id)"
+            },
+            "depth": 2
+          },
+          {
+            "kind": "Check",
+            "description": "invoice.CustomerId (owner: User) vs callerId (trusted identity: User)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Services/Invoices.cs",
+              "startLine": 35,
+              "endLine": 36,
+              "snippet": "if (invoice is null || invoice.CustomerId != callerId) throw new UnauthorizedAccessException();"
+            },
+            "depth": 1
+          },
+          {
+            "kind": "Mutation",
+            "description": "modifies invoice.Amount",
+            "symbol": "BolaLab.Api.Domain.Invoice.Amount",
+            "location": {
+              "filePath": "src/BolaLab.Api/Services/Invoices.cs",
+              "startLine": 37,
+              "endLine": 37,
+              "snippet": "invoice.Amount = amount;"
+            },
+            "depth": 1
+          },
+          {
+            "kind": "Call",
+            "description": "calls InvoiceRepository.SaveAsync",
+            "symbol": "BolaLab.Api.Services.InvoiceRepository.SaveAsync()",
+            "location": {
+              "filePath": "src/BolaLab.Api/Services/Invoices.cs",
+              "startLine": 38,
+              "endLine": 38,
+              "snippet": "await repo.SaveAsync();"
+            },
+            "depth": 1
+          },
+          {
+            "kind": "Commit",
+            "description": "commits tracked changes",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Services/Invoices.cs",
+              "startLine": 14,
+              "endLine": 14,
+              "snippet": "db.SaveChangesAsync()"
+            },
+            "depth": 2
+          },
+          {
+            "kind": "Sink",
+            "description": "state change: SaveChanges Invoice",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Services/Invoices.cs",
+              "startLine": 14,
+              "endLine": 14,
+              "snippet": "db.SaveChangesAsync()"
+            },
+            "depth": 2
+          }
+        ],
+        "sinks": [
+          {
+            "kind": "SaveChanges",
+            "entityType": "BolaLab.Api.Domain.Invoice",
+            "isStateChanging": true,
+            "bypassesQueryFilters": false,
+            "isDetached": false,
+            "queryHasOwnerPredicate": false,
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Services/Invoices.cs",
+              "startLine": 14,
+              "endLine": 14,
+              "snippet": "db.SaveChangesAsync()"
+            },
+            "guardIndices": [
+              0
+            ],
+            "validGuards": [
+              0
+            ]
+          }
+        ],
+        "guards": [
+          {
+            "kind": "OwnerEquality",
+            "isValid": true,
+            "ownerProperty": "CustomerId",
+            "callerExpression": "callerId",
+            "location": {
+              "filePath": "src/BolaLab.Api/Services/Invoices.cs",
+              "startLine": 35,
+              "endLine": 36,
+              "snippet": "if (invoice is null || invoice.CustomerId != callerId) throw new UnauthorizedAccessException();"
+            },
+            "ownerKind": "User"
+          }
+        ],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "Protected",
+        "ruleIds": [
+          "SYM-03"
+        ],
+        "rationale": "SaveChanges on Invoice at src/BolaLab.Api/Services/Invoices.cs:14 is protected: OwnerEquality binds Invoice.CustomerId to the caller (callerId) at src/BolaLab.Api/Services/Invoices.cs:35."
+      },
+      "final": "Protected",
+      "finalReason": "Symbolic verdict (not a semantic candidate)."
+    },
+    {
+      "findingId": "d1e4c0c35aee",
+      "path": {
+        "id": "054c2ed0bdbb",
+        "endpoint": {
+          "id": "PUT api/notes/{id}",
+          "verb": "Put",
+          "routeTemplate": "api/Notes/{id}",
+          "controller": "NotesController",
+          "action": "Update",
+          "actionSymbol": "BolaLab.Api.Controllers.NotesController.Update(int, BolaLab.Api.Contracts.UpdateNoteRequest)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            },
+            {
+              "name": "request",
+              "type": "UpdateNoteRequest",
+              "source": "Body",
+              "isIdLike": false
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/NotesController.cs",
+            "startLine": 13,
+            "endLine": 21,
+            "snippet": "NotesController.Update"
+          }
+        },
+        "taintSource": {
+          "name": "id",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "id : int (route, client-controlled)",
+            "symbol": "int id",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/NotesController.cs",
+              "startLine": 14,
+              "endLine": 14,
+              "snippet": "int id"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Load",
+            "description": "loads Note selected by the client-controlled id",
+            "symbol": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<BolaLab.Api.Domain.Note>(System.Linq.IQueryable<BolaLab.Api.Domain.Note>, System.Linq.Expressions.Expression<System.Func<BolaLab.Api.Domain.Note, bool>>, System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/NotesController.cs",
+              "startLine": 16,
+              "endLine": 16,
+              "snippet": "var note = await db.Notes.FirstOrDefaultAsync(n => n.Id == id);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "condition",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/NotesController.cs",
+              "startLine": 17,
+              "endLine": 17,
+              "snippet": "if (note is null) return NotFound();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Mutation",
+            "description": "modifies note.Text",
+            "symbol": "BolaLab.Api.Domain.Note.Text",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/NotesController.cs",
+              "startLine": 18,
+              "endLine": 18,
+              "snippet": "note.Text = request.Text;"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Commit",
+            "description": "commits tracked changes",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/NotesController.cs",
+              "startLine": 19,
+              "endLine": 19,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Sink",
+            "description": "state change: SaveChanges Note",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/NotesController.cs",
+              "startLine": 19,
+              "endLine": 19,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          }
+        ],
+        "sinks": [
+          {
+            "kind": "SaveChanges",
+            "entityType": "BolaLab.Api.Domain.Note",
+            "isStateChanging": true,
+            "bypassesQueryFilters": false,
+            "isDetached": false,
+            "queryHasOwnerPredicate": false,
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/NotesController.cs",
+              "startLine": 19,
+              "endLine": 19,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "guardIndices": [],
+            "validGuards": []
+          }
+        ],
+        "guards": [
+          {
+            "kind": "QueryFilter",
+            "isValid": false,
+            "invalidReason": "tenant-level check but object has a user owner",
+            "ownerProperty": "TenantId",
+            "callerExpression": "n.TenantId == currentUser.TenantId",
+            "location": {
+              "filePath": "src/BolaLab.Api/Data/AppDbContext.cs",
+              "startLine": 18,
+              "endLine": 18
+            },
+            "ownerKind": "Tenant"
+          }
+        ],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "Vulnerable",
+        "ruleIds": [
+          "SYM-08"
+        ],
+        "rationale": "SaveChanges on Note at src/BolaLab.Api/Controllers/NotesController.cs:19: Note (owners: OwnerUserId (User), TenantId (Tenant)) is selected by client-controlled 'id' and changed with no valid owner guard or applicable query filter. Query filter not sufficient: tenant-level check but object has a user owner."
+      },
+      "semantic": {
+        "status": "Vulnerable",
+        "confidence": 0.9,
+        "reason": "The user is not allowed to rename the Ticket. The Ticket owner is allowed to rename the Ticket. The Ticket owner is allowed to rename the Ticket. The Ticket owner is allowed to rename the Ticket. The Ticket owner is allowed to rename the Tk",
+        "evidenceLineIds": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5",
+          "L6"
+        ],
+        "parseOk": true,
+        "modelId": "smollm2-135m-instruct-int4",
+        "latencyMs": 5495,
+        "rawOutput": "{\n\n\"status\":\"vulnerable\",\"confidence\":0.9,\"reason\":\"The user is not allowed to rename the Ticket. The Ticket owner is allowed to rename the Ticket. The Ticket owner is allowed to rename the Ticket. The Ticket owner is allowed to rename the Ticket. The Ticket owner is allowed to rename the Tk\"\n\n,\n\n\"evidence\":\n\n[\n\n\"L1\",\n\n\"L2\",\n\n\"L3\",\n\n\"L4\",\n\n\"L5\",\n\n\"L6\"\n\n]\n\n}",
+        "attempts": 1
+      },
+      "final": "Vulnerable",
+      "finalReason": "Symbolic and semantic agree.",
+      "slice": "L1  [ENDPOINT] PUT api/Notes/{id} -> NotesController.Update  (NotesController.cs:13)\nL2  [POLICY] [Authorize]; fallback=authenticated-user; scheme=JwtBearer\nL3  [SCHEMA] Note owners: OwnerUserId(User), TenantId(Tenant); query filters: n.TenantId == currentUser.TenantId [Tenant]\nL4  [SOURCE] id : int (route, client-controlled)  (NotesController.cs:14)\nL5  [LOAD] var note = await db.Notes.FirstOrDefaultAsync(n => n.Id == id);   (loads Note selected by the client-controlled id)  (NotesController.cs:16)\nL6  [CHECK] if (note is null) return NotFound();  (NotesController.cs:17)\nL7  [MUTATE] note.Text = request.Text;  (NotesController.cs:18)\nL8  [SINK] await db.SaveChangesAsync();   (state change: SaveChanges Note)  (NotesController.cs:19)"
+    },
+    {
+      "findingId": "727c78c6572c",
+      "path": {
+        "id": "750debbf8b69",
+        "endpoint": {
+          "id": "PUT api/orders/{id}/status",
+          "verb": "Put",
+          "routeTemplate": "api/Orders/{id}/status",
+          "controller": "OrdersController",
+          "action": "UpdateStatus",
+          "actionSymbol": "BolaLab.Api.Controllers.OrdersController.UpdateStatus(int, BolaLab.Api.Contracts.UpdateStatusRequest)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            },
+            {
+              "name": "request",
+              "type": "UpdateStatusRequest",
+              "source": "Body",
+              "isIdLike": false
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+            "startLine": 16,
+            "endLine": 24,
+            "snippet": "OrdersController.UpdateStatus"
+          }
+        },
+        "taintSource": {
+          "name": "id",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "id : int (route, client-controlled)",
+            "symbol": "int id",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 17,
+              "endLine": 17,
+              "snippet": "int id"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Load",
+            "description": "loads Order selected by the client-controlled id",
+            "symbol": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<BolaLab.Api.Domain.Order>(System.Linq.IQueryable<BolaLab.Api.Domain.Order>, System.Linq.Expressions.Expression<System.Func<BolaLab.Api.Domain.Order, bool>>, System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 19,
+              "endLine": 19,
+              "snippet": "var order = await db.Orders.FirstOrDefaultAsync(o => o.Id == id);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "condition",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 20,
+              "endLine": 20,
+              "snippet": "if (order is null) return NotFound();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Mutation",
+            "description": "modifies order.Status",
+            "symbol": "BolaLab.Api.Domain.Order.Status",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 21,
+              "endLine": 21,
+              "snippet": "order.Status = request.Status;"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Commit",
+            "description": "commits tracked changes",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 22,
+              "endLine": 22,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Sink",
+            "description": "state change: SaveChanges Order",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 22,
+              "endLine": 22,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          }
+        ],
+        "sinks": [
+          {
+            "kind": "SaveChanges",
+            "entityType": "BolaLab.Api.Domain.Order",
+            "isStateChanging": true,
+            "bypassesQueryFilters": false,
+            "isDetached": false,
+            "queryHasOwnerPredicate": false,
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 22,
+              "endLine": 22,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "guardIndices": [],
+            "validGuards": []
+          }
+        ],
+        "guards": [],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "Vulnerable",
+        "ruleIds": [
+          "SYM-08"
+        ],
+        "rationale": "SaveChanges on Order at src/BolaLab.Api/Controllers/OrdersController.cs:22: Order (owners: UserId (User), TenantId (Tenant)) is selected by client-controlled 'id' and changed with no valid owner guard or applicable query filter."
+      },
+      "semantic": {
+        "status": "Vulnerable",
+        "confidence": 0.9,
+        "reason": "The user is not allowed to rename the ticket. The request is only allowed to rename the ticket if the user is allowed to rename the ticket. The request is only allowed to rename the ticket if the user is allowed to rename the ticket. The OR",
+        "evidenceLineIds": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5",
+          "L6"
+        ],
+        "parseOk": true,
+        "modelId": "smollm2-135m-instruct-int4",
+        "latencyMs": 5515,
+        "rawOutput": "{\n\n\"status\":\"vulnerable\",\"confidence\":0.9,\"reason\":\"The user is not allowed to rename the ticket. The request is only allowed to rename the ticket if the user is allowed to rename the ticket. The request is only allowed to rename the ticket if the user is allowed to rename the ticket. The OR\"\n\n,\n\n\"evidence\":[\"L1\",\"L2\",\"L3\",\"L4\",\"L5\",\"L6\"]}",
+        "attempts": 1
+      },
+      "final": "Vulnerable",
+      "finalReason": "Symbolic and semantic agree.",
+      "slice": "L1  [ENDPOINT] PUT api/Orders/{id}/status -> OrdersController.UpdateStatus  (OrdersController.cs:16)\nL2  [POLICY] [Authorize]; fallback=authenticated-user; scheme=JwtBearer\nL3  [SCHEMA] Order owners: UserId(User), TenantId(Tenant); query filters: none\nL4  [SOURCE] id : int (route, client-controlled)  (OrdersController.cs:17)\nL5  [LOAD] var order = await db.Orders.FirstOrDefaultAsync(o => o.Id == id);   (loads Order selected by the client-controlled id)  (OrdersController.cs:19)\nL6  [CHECK] if (order is null) return NotFound();  (OrdersController.cs:20)\nL7  [MUTATE] order.Status = request.Status;  (OrdersController.cs:21)\nL8  [SINK] await db.SaveChangesAsync();   (state change: SaveChanges Order)  (OrdersController.cs:22)"
+    },
+    {
+      "findingId": "a3b2c78fe04d",
+      "path": {
+        "id": "90d2e39ad728",
+        "endpoint": {
+          "id": "PUT api/orders/{id}",
+          "verb": "Put",
+          "routeTemplate": "api/Orders/{id}",
+          "controller": "OrdersController",
+          "action": "Update",
+          "actionSymbol": "BolaLab.Api.Controllers.OrdersController.Update(int, BolaLab.Api.Contracts.UpdateOrderRequest)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            },
+            {
+              "name": "request",
+              "type": "UpdateOrderRequest",
+              "source": "Body",
+              "isIdLike": false
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+            "startLine": 26,
+            "endLine": 36,
+            "snippet": "OrdersController.Update"
+          }
+        },
+        "taintSource": {
+          "name": "id",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "id : int (route, client-controlled)",
+            "symbol": "int id",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 27,
+              "endLine": 27,
+              "snippet": "int id"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Load",
+            "description": "loads Order selected by the client-controlled id",
+            "symbol": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<BolaLab.Api.Domain.Order>(System.Linq.IQueryable<BolaLab.Api.Domain.Order>, System.Linq.Expressions.Expression<System.Func<BolaLab.Api.Domain.Order, bool>>, System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 29,
+              "endLine": 29,
+              "snippet": "var order = await db.Orders.FirstOrDefaultAsync(o => o.Id == id);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "condition",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 30,
+              "endLine": 30,
+              "snippet": "if (order is null) return NotFound();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "order.UserId (owner: User) vs currentUser.UserId (trusted identity: User)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 31,
+              "endLine": 31,
+              "snippet": "if (order.UserId != currentUser.UserId) return Forbid();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Mutation",
+            "description": "modifies order.Status",
+            "symbol": "BolaLab.Api.Domain.Order.Status",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 32,
+              "endLine": 32,
+              "snippet": "order.Status = request.Status;"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Mutation",
+            "description": "modifies order.Total",
+            "symbol": "BolaLab.Api.Domain.Order.Total",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 33,
+              "endLine": 33,
+              "snippet": "order.Total = request.Total;"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Commit",
+            "description": "commits tracked changes",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 34,
+              "endLine": 34,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Sink",
+            "description": "state change: SaveChanges Order",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 34,
+              "endLine": 34,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          }
+        ],
+        "sinks": [
+          {
+            "kind": "SaveChanges",
+            "entityType": "BolaLab.Api.Domain.Order",
+            "isStateChanging": true,
+            "bypassesQueryFilters": false,
+            "isDetached": false,
+            "queryHasOwnerPredicate": false,
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 34,
+              "endLine": 34,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "guardIndices": [
+              0
+            ],
+            "validGuards": [
+              0
+            ]
+          }
+        ],
+        "guards": [
+          {
+            "kind": "OwnerEquality",
+            "isValid": true,
+            "ownerProperty": "UserId",
+            "callerExpression": "currentUser.UserId",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 31,
+              "endLine": 31,
+              "snippet": "if (order.UserId != currentUser.UserId) return Forbid();"
+            },
+            "ownerKind": "User"
+          }
+        ],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "Protected",
+        "ruleIds": [
+          "SYM-03"
+        ],
+        "rationale": "SaveChanges on Order at src/BolaLab.Api/Controllers/OrdersController.cs:34 is protected: OwnerEquality binds Order.UserId to the caller (currentUser.UserId) at src/BolaLab.Api/Controllers/OrdersController.cs:31."
+      },
+      "final": "Protected",
+      "finalReason": "Symbolic verdict (not a semantic candidate)."
+    },
+    {
+      "findingId": "d97153abd618",
+      "path": {
+        "id": "1a73f7514c8b",
+        "endpoint": {
+          "id": "DELETE api/orders/{id}",
+          "verb": "Delete",
+          "routeTemplate": "api/Orders/{id}",
+          "controller": "OrdersController",
+          "action": "Delete",
+          "actionSymbol": "BolaLab.Api.Controllers.OrdersController.Delete(int, BolaLab.Api.Contracts.DeleteOrderRequest)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            },
+            {
+              "name": "request",
+              "type": "DeleteOrderRequest",
+              "source": "Body",
+              "isIdLike": true,
+              "idPropertyPath": "request.UserId"
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+            "startLine": 38,
+            "endLine": 47,
+            "snippet": "OrdersController.Delete"
+          }
+        },
+        "taintSource": {
+          "name": "id",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "id : int (route, client-controlled)",
+            "symbol": "int id",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 39,
+              "endLine": 39,
+              "snippet": "int id"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Load",
+            "description": "loads Order selected by the client-controlled id",
+            "symbol": "Microsoft.EntityFrameworkCore.DbSet<BolaLab.Api.Domain.Order>.FindAsync(params object?[]?)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 41,
+              "endLine": 41,
+              "snippet": "var order = await db.Orders.FindAsync(id);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "condition",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 42,
+              "endLine": 42,
+              "snippet": "if (order is null) return NotFound();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "order.UserId (owner: User) vs request.UserId (client-controlled)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 43,
+              "endLine": 43,
+              "snippet": "if (order.UserId != request.UserId) return Forbid();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Sink",
+            "description": "state change: Remove Order",
+            "symbol": "Microsoft.EntityFrameworkCore.DbSet<BolaLab.Api.Domain.Order>.Remove(BolaLab.Api.Domain.Order)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 44,
+              "endLine": 44,
+              "snippet": "db.Orders.Remove(order);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Commit",
+            "description": "commits tracked changes",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 45,
+              "endLine": 45,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          }
+        ],
+        "sinks": [
+          {
+            "kind": "Remove",
+            "entityType": "BolaLab.Api.Domain.Order",
+            "isStateChanging": true,
+            "bypassesQueryFilters": false,
+            "isDetached": false,
+            "queryHasOwnerPredicate": false,
+            "symbol": "Microsoft.EntityFrameworkCore.DbSet<BolaLab.Api.Domain.Order>.Remove(BolaLab.Api.Domain.Order)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 44,
+              "endLine": 44,
+              "snippet": "db.Orders.Remove(order);"
+            },
+            "guardIndices": [],
+            "validGuards": []
+          }
+        ],
+        "guards": [
+          {
+            "kind": "OwnerEquality",
+            "isValid": false,
+            "invalidReason": "comparand is client-controlled",
+            "ownerProperty": "UserId",
+            "callerExpression": "request.UserId",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 43,
+              "endLine": 43,
+              "snippet": "if (order.UserId != request.UserId) return Forbid();"
+            },
+            "ownerKind": "User"
+          }
+        ],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "Vulnerable",
+        "ruleIds": [
+          "SYM-08"
+        ],
+        "rationale": "Remove on Order at src/BolaLab.Api/Controllers/OrdersController.cs:44: Order (owners: UserId (User), TenantId (Tenant)) is selected by client-controlled 'id' and changed with no valid owner guard or applicable query filter. Rejected checks: comparand is client-controlled (src/BolaLab.Api/Controllers/OrdersController.cs:43)."
+      },
+      "semantic": {
+        "status": "Vulnerable",
+        "confidence": 0.9,
+        "reason": "Orders is tenant owned only by the ORDER owner and the ORDER query filter (L3) restricts the ORDER query to the ORDER ORDER query filter (L3) only if the ORDER ORDER query filter (L3) is not null and the ORDER ORDER query filter (L3) is not",
+        "evidenceLineIds": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5",
+          "L6"
+        ],
+        "parseOk": true,
+        "modelId": "smollm2-135m-instruct-int4",
+        "latencyMs": 5847,
+        "rawOutput": "{\n\n\"status\":\"vulnerable\",\"confidence\":0.9,\"reason\":\"Orders is tenant owned only by the ORDER owner and the ORDER query filter (L3) restricts the ORDER query to the ORDER ORDER query filter (L3) only if the ORDER ORDER query filter (L3) is not null and the ORDER ORDER query filter (L3) is not\"\n\n,\n\n\"evidence\":\n\n[\"L1\", \"L2\", \"L3\", \"L4\", \"L5\", \"L6\"]\n\n}",
+        "attempts": 1
+      },
+      "final": "Vulnerable",
+      "finalReason": "Symbolic and semantic agree.",
+      "slice": "L1  [ENDPOINT] DELETE api/Orders/{id} -> OrdersController.Delete  (OrdersController.cs:38)\nL2  [POLICY] [Authorize]; fallback=authenticated-user; scheme=JwtBearer\nL3  [SCHEMA] Order owners: UserId(User), TenantId(Tenant); query filters: none\nL4  [SOURCE] id : int (route, client-controlled)  (OrdersController.cs:39)\nL5  [LOAD] var order = await db.Orders.FindAsync(id);   (loads Order selected by the client-controlled id)  (OrdersController.cs:41)\nL6  [CHECK] if (order is null) return NotFound();  (OrdersController.cs:42)\nL7  [CHECK] if (order.UserId != request.UserId) return Forbid();   (order.UserId (owner: User) vs request.UserId (client-controlled))  (OrdersController.cs:43)\nL8  [SINK] db.Orders.Remove(order);   (state change: Remove Order)  (OrdersController.cs:44)\nL9  [COMMIT] await db.SaveChangesAsync();  (OrdersController.cs:45)"
+    },
+    {
+      "findingId": "d94f739b8e86",
+      "path": {
+        "id": "a36bc5bded3d",
+        "endpoint": {
+          "id": "DELETE api/orders/{id}",
+          "verb": "Delete",
+          "routeTemplate": "api/Orders/{id}",
+          "controller": "OrdersController",
+          "action": "Delete",
+          "actionSymbol": "BolaLab.Api.Controllers.OrdersController.Delete(int, BolaLab.Api.Contracts.DeleteOrderRequest)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            },
+            {
+              "name": "request",
+              "type": "DeleteOrderRequest",
+              "source": "Body",
+              "isIdLike": true,
+              "idPropertyPath": "request.UserId"
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+            "startLine": 38,
+            "endLine": 47,
+            "snippet": "OrdersController.Delete"
+          }
+        },
+        "taintSource": {
+          "name": "request",
+          "type": "DeleteOrderRequest",
+          "source": "Body",
+          "isIdLike": true,
+          "idPropertyPath": "request.UserId"
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "request : DeleteOrderRequest (body, client-controlled) — id-like members: request.UserId",
+            "symbol": "BolaLab.Api.Contracts.DeleteOrderRequest request",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 39,
+              "endLine": 39,
+              "snippet": "[FromBody] DeleteOrderRequest request"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Load",
+            "description": "loads Order",
+            "symbol": "Microsoft.EntityFrameworkCore.DbSet<BolaLab.Api.Domain.Order>.FindAsync(params object?[]?)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 41,
+              "endLine": 41,
+              "snippet": "var order = await db.Orders.FindAsync(id);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "condition",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 42,
+              "endLine": 42,
+              "snippet": "if (order is null) return NotFound();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "order.UserId (owner: User) vs request.UserId (client-controlled)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 43,
+              "endLine": 43,
+              "snippet": "if (order.UserId != request.UserId) return Forbid();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Commit",
+            "description": "commits tracked changes",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 45,
+              "endLine": 45,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          }
+        ],
+        "sinks": [],
+        "guards": [
+          {
+            "kind": "OwnerEquality",
+            "isValid": false,
+            "invalidReason": "comparand is client-controlled",
+            "ownerProperty": "UserId",
+            "callerExpression": "request.UserId",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 43,
+              "endLine": 43,
+              "snippet": "if (order.UserId != request.UserId) return Forbid();"
+            },
+            "ownerKind": "User"
+          }
+        ],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "OutOfScope",
+        "ruleIds": [
+          "SYM-01"
+        ],
+        "rationale": "'request' does not reach a state-changing EF Core operation."
+      },
+      "final": "OutOfScope",
+      "finalReason": "Symbolic verdict (not a semantic candidate)."
+    },
+    {
+      "findingId": "26a9096baa69",
+      "path": {
+        "id": "8df736ecf911",
+        "endpoint": {
+          "id": "POST api/orders/{id}/copy-status-to/{targetid}",
+          "verb": "Post",
+          "routeTemplate": "api/Orders/{id}/copy-status-to/{targetId}",
+          "controller": "OrdersController",
+          "action": "CopyStatus",
+          "actionSymbol": "BolaLab.Api.Controllers.OrdersController.CopyStatus(int, int)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            },
+            {
+              "name": "targetId",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+            "startLine": 49,
+            "endLine": 60,
+            "snippet": "OrdersController.CopyStatus"
+          }
+        },
+        "taintSource": {
+          "name": "id",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "id : int (route, client-controlled)",
+            "symbol": "int id",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 50,
+              "endLine": 50,
+              "snippet": "int id"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Load",
+            "description": "loads Order selected by the client-controlled id",
+            "symbol": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<BolaLab.Api.Domain.Order>(System.Linq.IQueryable<BolaLab.Api.Domain.Order>, System.Linq.Expressions.Expression<System.Func<BolaLab.Api.Domain.Order, bool>>, System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 52,
+              "endLine": 52,
+              "snippet": "var source = await db.Orders.FirstOrDefaultAsync(o => o.Id == id);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "condition",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 53,
+              "endLine": 53,
+              "snippet": "if (source is null) return NotFound();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "source.UserId (owner: User) vs currentUser.UserId (trusted identity: User)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 54,
+              "endLine": 54,
+              "snippet": "if (source.UserId != currentUser.UserId) return Forbid();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Load",
+            "description": "loads Order",
+            "symbol": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<BolaLab.Api.Domain.Order>(System.Linq.IQueryable<BolaLab.Api.Domain.Order>, System.Linq.Expressions.Expression<System.Func<BolaLab.Api.Domain.Order, bool>>, System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 55,
+              "endLine": 55,
+              "snippet": "var target = await db.Orders.FirstOrDefaultAsync(o => o.Id == targetId);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "condition",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 56,
+              "endLine": 56,
+              "snippet": "if (target is null) return NotFound();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Commit",
+            "description": "commits tracked changes",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 58,
+              "endLine": 58,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          }
+        ],
+        "sinks": [],
+        "guards": [
+          {
+            "kind": "OwnerEquality",
+            "isValid": true,
+            "ownerProperty": "UserId",
+            "callerExpression": "currentUser.UserId",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 54,
+              "endLine": 54,
+              "snippet": "if (source.UserId != currentUser.UserId) return Forbid();"
+            },
+            "ownerKind": "User"
+          }
+        ],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "OutOfScope",
+        "ruleIds": [
+          "SYM-01"
+        ],
+        "rationale": "'id' does not reach a state-changing EF Core operation."
+      },
+      "final": "OutOfScope",
+      "finalReason": "Symbolic verdict (not a semantic candidate)."
+    },
+    {
+      "findingId": "c6e5a56810f6",
+      "path": {
+        "id": "44dd4b243305",
+        "endpoint": {
+          "id": "POST api/orders/{id}/copy-status-to/{targetid}",
+          "verb": "Post",
+          "routeTemplate": "api/Orders/{id}/copy-status-to/{targetId}",
+          "controller": "OrdersController",
+          "action": "CopyStatus",
+          "actionSymbol": "BolaLab.Api.Controllers.OrdersController.CopyStatus(int, int)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            },
+            {
+              "name": "targetId",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+            "startLine": 49,
+            "endLine": 60,
+            "snippet": "OrdersController.CopyStatus"
+          }
+        },
+        "taintSource": {
+          "name": "targetId",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "targetId : int (route, client-controlled)",
+            "symbol": "int targetId",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 50,
+              "endLine": 50,
+              "snippet": "int targetId"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Load",
+            "description": "loads Order",
+            "symbol": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<BolaLab.Api.Domain.Order>(System.Linq.IQueryable<BolaLab.Api.Domain.Order>, System.Linq.Expressions.Expression<System.Func<BolaLab.Api.Domain.Order, bool>>, System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 52,
+              "endLine": 52,
+              "snippet": "var source = await db.Orders.FirstOrDefaultAsync(o => o.Id == id);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "condition",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 53,
+              "endLine": 53,
+              "snippet": "if (source is null) return NotFound();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "source.UserId (owner: User) vs currentUser.UserId (trusted identity: User)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 54,
+              "endLine": 54,
+              "snippet": "if (source.UserId != currentUser.UserId) return Forbid();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Load",
+            "description": "loads Order selected by the client-controlled id",
+            "symbol": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<BolaLab.Api.Domain.Order>(System.Linq.IQueryable<BolaLab.Api.Domain.Order>, System.Linq.Expressions.Expression<System.Func<BolaLab.Api.Domain.Order, bool>>, System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 55,
+              "endLine": 55,
+              "snippet": "var target = await db.Orders.FirstOrDefaultAsync(o => o.Id == targetId);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "condition",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 56,
+              "endLine": 56,
+              "snippet": "if (target is null) return NotFound();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Mutation",
+            "description": "modifies target.Status",
+            "symbol": "BolaLab.Api.Domain.Order.Status",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 57,
+              "endLine": 57,
+              "snippet": "target.Status = source.Status;"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Commit",
+            "description": "commits tracked changes",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 58,
+              "endLine": 58,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Sink",
+            "description": "state change: SaveChanges Order",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 58,
+              "endLine": 58,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          }
+        ],
+        "sinks": [
+          {
+            "kind": "SaveChanges",
+            "entityType": "BolaLab.Api.Domain.Order",
+            "isStateChanging": true,
+            "bypassesQueryFilters": false,
+            "isDetached": false,
+            "queryHasOwnerPredicate": false,
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 58,
+              "endLine": 58,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "guardIndices": [],
+            "validGuards": []
+          }
+        ],
+        "guards": [
+          {
+            "kind": "OwnerEquality",
+            "isValid": false,
+            "invalidReason": "guard checks a different object",
+            "ownerProperty": "UserId",
+            "callerExpression": "currentUser.UserId",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 54,
+              "endLine": 54,
+              "snippet": "if (source.UserId != currentUser.UserId) return Forbid();"
+            },
+            "ownerKind": "User"
+          }
+        ],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "Vulnerable",
+        "ruleIds": [
+          "SYM-08"
+        ],
+        "rationale": "SaveChanges on Order at src/BolaLab.Api/Controllers/OrdersController.cs:58: Order (owners: UserId (User), TenantId (Tenant)) is selected by client-controlled 'targetId' and changed with no valid owner guard or applicable query filter. Rejected checks: guard checks a different object (src/BolaLab.Api/Controllers/OrdersController.cs:54)."
+      },
+      "semantic": {
+        "status": "Vulnerable",
+        "confidence": 0.9,
+        "reason": "The request is submitted by the client-controlled object and the request is submitted by the tenant object.",
+        "evidenceLineIds": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5",
+          "L6"
+        ],
+        "parseOk": true,
+        "modelId": "smollm2-135m-instruct-int4",
+        "latencyMs": 5010,
+        "rawOutput": "{\n\n\"status\":\"vulnerable\",\"confidence\":0.9,\"reason\":\"The request is submitted by the client-controlled object and the request is submitted by the tenant object.\",\n\"evidence\":[\"L1\",\"L2\",\"L3\",\"L4\",\"L5\",\"L6\"]}",
+        "attempts": 1
+      },
+      "final": "Vulnerable",
+      "finalReason": "Symbolic and semantic agree.",
+      "slice": "L1  [ENDPOINT] POST api/Orders/{id}/copy-status-to/{targetId} -> OrdersController.CopyStatus  (OrdersController.cs:49)\nL2  [POLICY] [Authorize]; fallback=authenticated-user; scheme=JwtBearer\nL3  [SCHEMA] Order owners: UserId(User), TenantId(Tenant); query filters: none\nL4  [SOURCE] targetId : int (route, client-controlled)  (OrdersController.cs:50)\nL5  [LOAD] var source = await db.Orders.FirstOrDefaultAsync(o => o.Id == id);   (loads Order)  (OrdersController.cs:52)\nL6  [CHECK] if (source is null) return NotFound();  (OrdersController.cs:53)\nL7  [CHECK] if (source.UserId != currentUser.UserId) return Forbid();   (source.UserId (owner: User) vs currentUser.UserId (trusted identity: User))  (OrdersController.cs:54)\nL8  [LOAD] var target = await db.Orders.FirstOrDefaultAsync(o => o.Id == targetId);   (loads Order selected by the client-controlled id)  (OrdersController.cs:55)\nL9  [CHECK] if (target is null) return NotFound();  (OrdersController.cs:56)\nL10 [MUTATE] target.Status = source.Status;  (OrdersController.cs:57)\nL11 [SINK] await db.SaveChangesAsync();   (state change: SaveChanges Order)  (OrdersController.cs:58)"
+    },
+    {
+      "findingId": "ebbf575c5bd7",
+      "path": {
+        "id": "b4cadbd320c5",
+        "endpoint": {
+          "id": "PUT api/orders/{id}/total",
+          "verb": "Put",
+          "routeTemplate": "api/Orders/{id}/total",
+          "controller": "OrdersController",
+          "action": "UpdateTotal",
+          "actionSymbol": "BolaLab.Api.Controllers.OrdersController.UpdateTotal(int, BolaLab.Api.Contracts.UpdateTotalRequest)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            },
+            {
+              "name": "request",
+              "type": "UpdateTotalRequest",
+              "source": "Body",
+              "isIdLike": false
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+            "startLine": 62,
+            "endLine": 71,
+            "snippet": "OrdersController.UpdateTotal"
+          }
+        },
+        "taintSource": {
+          "name": "id",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "id : int (route, client-controlled)",
+            "symbol": "int id",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 63,
+              "endLine": 63,
+              "snippet": "int id"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Load",
+            "description": "loads Order selected by the client-controlled id",
+            "symbol": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<BolaLab.Api.Domain.Order>(System.Linq.IQueryable<BolaLab.Api.Domain.Order>, System.Linq.Expressions.Expression<System.Func<BolaLab.Api.Domain.Order, bool>>, System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 65,
+              "endLine": 65,
+              "snippet": "var order = await db.Orders.FirstOrDefaultAsync(o => o.Id == id);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "condition",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 66,
+              "endLine": 66,
+              "snippet": "if (order is null) return NotFound();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Mutation",
+            "description": "modifies order.Total",
+            "symbol": "BolaLab.Api.Domain.Order.Total",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 67,
+              "endLine": 67,
+              "snippet": "order.Total = request.Total;"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Commit",
+            "description": "commits tracked changes",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 68,
+              "endLine": 68,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Sink",
+            "description": "state change: SaveChanges Order",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 68,
+              "endLine": 68,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "order.UserId (owner: User) vs currentUser.UserId (trusted identity: User)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 69,
+              "endLine": 69,
+              "snippet": "if (order.UserId != currentUser.UserId) return Forbid();"
+            },
+            "depth": 0
+          }
+        ],
+        "sinks": [
+          {
+            "kind": "SaveChanges",
+            "entityType": "BolaLab.Api.Domain.Order",
+            "isStateChanging": true,
+            "bypassesQueryFilters": false,
+            "isDetached": false,
+            "queryHasOwnerPredicate": false,
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 68,
+              "endLine": 68,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "guardIndices": [],
+            "validGuards": []
+          }
+        ],
+        "guards": [
+          {
+            "kind": "OwnerEquality",
+            "isValid": false,
+            "invalidReason": "guard does not precede the state change",
+            "ownerProperty": "UserId",
+            "callerExpression": "currentUser.UserId",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 69,
+              "endLine": 69,
+              "snippet": "if (order.UserId != currentUser.UserId) return Forbid();"
+            },
+            "ownerKind": "User"
+          }
+        ],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "Vulnerable",
+        "ruleIds": [
+          "SYM-08"
+        ],
+        "rationale": "SaveChanges on Order at src/BolaLab.Api/Controllers/OrdersController.cs:68: Order (owners: UserId (User), TenantId (Tenant)) is selected by client-controlled 'id' and changed with no valid owner guard or applicable query filter. Rejected checks: guard does not precede the state change (src/BolaLab.Api/Controllers/OrdersController.cs:69)."
+      },
+      "semantic": {
+        "status": "Vulnerable",
+        "confidence": 0.9,
+        "reason": "The request is submitted by the tenant and the request is submitted by the tenant and the request is submitted by the tenant and the request is submitted by the tenant and the request is submitted by the tenant and the request is submitted.",
+        "evidenceLineIds": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5",
+          "L6"
+        ],
+        "parseOk": true,
+        "modelId": "smollm2-135m-instruct-int4",
+        "latencyMs": 4979,
+        "rawOutput": "{\n\n\"status\":\"vulnerable\",\"confidence\":0.9,\"reason\":\"The request is submitted by the tenant and the request is submitted by the tenant and the request is submitted by the tenant and the request is submitted by the tenant and the request is submitted by the tenant and the request is submitted.\",\"evidence\":[\"L1\",\"L2\",\"L3\",\"L4\",\"L5\",\"L6\"]}",
+        "attempts": 1
+      },
+      "final": "Vulnerable",
+      "finalReason": "Symbolic and semantic agree.",
+      "slice": "L1  [ENDPOINT] PUT api/Orders/{id}/total -> OrdersController.UpdateTotal  (OrdersController.cs:62)\nL2  [POLICY] [Authorize]; fallback=authenticated-user; scheme=JwtBearer\nL3  [SCHEMA] Order owners: UserId(User), TenantId(Tenant); query filters: none\nL4  [SOURCE] id : int (route, client-controlled)  (OrdersController.cs:63)\nL5  [LOAD] var order = await db.Orders.FirstOrDefaultAsync(o => o.Id == id);   (loads Order selected by the client-controlled id)  (OrdersController.cs:65)\nL6  [CHECK] if (order is null) return NotFound();  (OrdersController.cs:66)\nL7  [MUTATE] order.Total = request.Total;  (OrdersController.cs:67)\nL8  [SINK] await db.SaveChangesAsync();   (state change: SaveChanges Order)  (OrdersController.cs:68)\nL9  [CHECK] if (order.UserId != currentUser.UserId) return Forbid();   (order.UserId (owner: User) vs currentUser.UserId (trusted identity: User))  (OrdersController.cs:69)"
+    },
+    {
+      "findingId": "11d23fad265e",
+      "path": {
+        "id": "3405fa431114",
+        "endpoint": {
+          "id": "PUT api/orders/{id}/status-detached",
+          "verb": "Put",
+          "routeTemplate": "api/Orders/{id}/status-detached",
+          "controller": "OrdersController",
+          "action": "UpdateStatusDetached",
+          "actionSymbol": "BolaLab.Api.Controllers.OrdersController.UpdateStatusDetached(int, BolaLab.Api.Contracts.UpdateStatusRequest)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            },
+            {
+              "name": "request",
+              "type": "UpdateStatusRequest",
+              "source": "Body",
+              "isIdLike": false
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+            "startLine": 73,
+            "endLine": 81,
+            "snippet": "OrdersController.UpdateStatusDetached"
+          }
+        },
+        "taintSource": {
+          "name": "id",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "id : int (route, client-controlled)",
+            "symbol": "int id",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 74,
+              "endLine": 74,
+              "snippet": "int id"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Load",
+            "description": "constructs detached Order with client-controlled key",
+            "symbol": "BolaLab.Api.Domain.Order",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 76,
+              "endLine": 76,
+              "snippet": "var order = new Order { Id = id, Status = request.Status };"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Sink",
+            "description": "state change: Attach Order",
+            "symbol": "Microsoft.EntityFrameworkCore.DbSet<BolaLab.Api.Domain.Order>.Attach(BolaLab.Api.Domain.Order)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 77,
+              "endLine": 77,
+              "snippet": "db.Orders.Attach(order);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Mutation",
+            "description": "modifies order.IsModified",
+            "symbol": "Microsoft.EntityFrameworkCore.ChangeTracking.PropertyEntry.IsModified",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 78,
+              "endLine": 78,
+              "snippet": "db.Entry(order).Property(o => o.Status).IsModified = true;"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Commit",
+            "description": "commits tracked changes",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 79,
+              "endLine": 79,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Sink",
+            "description": "state change: SaveChanges Order",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 79,
+              "endLine": 79,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          }
+        ],
+        "sinks": [
+          {
+            "kind": "Attach",
+            "entityType": "BolaLab.Api.Domain.Order",
+            "isStateChanging": true,
+            "bypassesQueryFilters": false,
+            "isDetached": true,
+            "queryHasOwnerPredicate": false,
+            "symbol": "Microsoft.EntityFrameworkCore.DbSet<BolaLab.Api.Domain.Order>.Attach(BolaLab.Api.Domain.Order)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 77,
+              "endLine": 77,
+              "snippet": "db.Orders.Attach(order);"
+            },
+            "guardIndices": [],
+            "validGuards": []
+          },
+          {
+            "kind": "SaveChanges",
+            "entityType": "BolaLab.Api.Domain.Order",
+            "isStateChanging": true,
+            "bypassesQueryFilters": false,
+            "isDetached": true,
+            "queryHasOwnerPredicate": false,
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 79,
+              "endLine": 79,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "guardIndices": [],
+            "validGuards": []
+          }
+        ],
+        "guards": [],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "Vulnerable",
+        "ruleIds": [
+          "SYM-07"
+        ],
+        "rationale": "Attach on Order at src/BolaLab.Api/Controllers/OrdersController.cs:77: detached Order built from the client-controlled key is written without loading or checking ownership."
+      },
+      "semantic": {
+        "status": "Vulnerable",
+        "confidence": 0.9,
+        "reason": "Orders are selected only by the tenant owner and the tenant query filter is not allowed to modify the status of the order.",
+        "evidenceLineIds": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5",
+          "L6"
+        ],
+        "parseOk": true,
+        "modelId": "smollm2-135m-instruct-int4",
+        "latencyMs": 4839,
+        "rawOutput": "{\n\n\"status\":\"vulnerable\",\"confidence\":0.9,\"reason\":\"Orders are selected only by the tenant owner and the tenant query filter is not allowed to modify the status of the order.\",\"evidence\":[\"L1\",\"L2\",\"L3\",\"L4\",\"L5\",\"L6\"]}",
+        "attempts": 1
+      },
+      "final": "Vulnerable",
+      "finalReason": "Symbolic and semantic agree.",
+      "slice": "L1  [ENDPOINT] PUT api/Orders/{id}/status-detached -> OrdersController.UpdateStatusDetached  (OrdersController.cs:73)\nL2  [POLICY] [Authorize]; fallback=authenticated-user; scheme=JwtBearer\nL3  [SCHEMA] Order owners: UserId(User), TenantId(Tenant); query filters: none\nL4  [SOURCE] id : int (route, client-controlled)  (OrdersController.cs:74)\nL5  [LOAD] var order = new Order { Id = id, Status = request.Status };   (constructs detached Order with client-controlled key)  (OrdersController.cs:76)\nL6  [SINK] db.Orders.Attach(order);   (state change: Attach Order)  (OrdersController.cs:77)\nL7  [MUTATE] db.Entry(order).Property(o => o.Status).IsModified = true;  (OrdersController.cs:78)\nL8  [SINK] await db.SaveChangesAsync();   (state change: SaveChanges Order)  (OrdersController.cs:79)"
+    },
+    {
+      "findingId": "acd5bd36655f",
+      "path": {
+        "id": "12d43bc7e2a0",
+        "endpoint": {
+          "id": "POST api/orders/{id}/process",
+          "verb": "Post",
+          "routeTemplate": "api/Orders/{id}/process",
+          "controller": "OrdersController",
+          "action": "Process",
+          "actionSymbol": "BolaLab.Api.Controllers.OrdersController.Process(int, string)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            },
+            {
+              "name": "kind",
+              "type": "string",
+              "source": "Query",
+              "isIdLike": false
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+            "startLine": 83,
+            "endLine": 89,
+            "snippet": "OrdersController.Process"
+          }
+        },
+        "taintSource": {
+          "name": "id",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "id : int (route, client-controlled)",
+            "symbol": "int id",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 84,
+              "endLine": 84,
+              "snippet": "int id"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Unresolved",
+            "description": "ambiguous dispatch: 2 implementations of BolaLab.Api.Services.IOrderProcessor.ProcessAsync(int) (ExpressOrderProcessor, StandardOrderProcessor)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 87,
+              "endLine": 87,
+              "snippet": "await processor.ProcessAsync(id);"
+            },
+            "depth": 0
+          }
+        ],
+        "sinks": [],
+        "guards": [],
+        "unresolved": [
+          {
+            "reason": "ambiguous dispatch: 2 implementations of BolaLab.Api.Services.IOrderProcessor.ProcessAsync(int) (ExpressOrderProcessor, StandardOrderProcessor)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 87,
+              "endLine": 87,
+              "snippet": "await processor.ProcessAsync(id);"
+            }
+          }
+        ],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": true
+      },
+      "symbolic": {
+        "status": "Unknown",
+        "ruleIds": [
+          "SYM-02"
+        ],
+        "rationale": "No state change found, but 'id' entered unresolved code: ambiguous dispatch: 2 implementations of BolaLab.Api.Services.IOrderProcessor.ProcessAsync(int) (ExpressOrderProcessor, StandardOrderProcessor)."
+      },
+      "semantic": {
+        "status": "Vulnerable",
+        "confidence": 0.9,
+        "reason": "The ORM is not able to handle the ORM. The ORM is not able to handle the ORM. The ORM is able to handle the ORM. The ORM is able to handle the ORM. The ORM is able to handle the ORM. The ORM is able to handle the ORM. The ORM is able to use",
+        "evidenceLineIds": [
+          "L1",
+          "L2",
+          "L3",
+          "L4"
+        ],
+        "parseOk": true,
+        "modelId": "smollm2-135m-instruct-int4",
+        "latencyMs": 5213,
+        "rawOutput": "{\n\n\"status\":\"vulnerable\",\"confidence\":0.9,\"reason\":\"The ORM is not able to handle the ORM. The ORM is not able to handle the ORM. The ORM is able to handle the ORM. The ORM is able to handle the ORM. The ORM is able to handle the ORM. The ORM is able to handle the ORM. The ORM is able to use\",\n\n\"evidence\":[\"L1\",\"L2\",\"L3\",\"L4\",\"L5\",\"L6\"]\n}",
+        "attempts": 1
+      },
+      "final": "Vulnerable",
+      "finalReason": "Escalated by SLM (confidence 0.90): The ORM is not able to handle the ORM. The ORM is not able to handle the ORM. The ORM is able to handle the ORM. The ORM is able to handle the ORM. The ORM is able to handle the ORM. The ORM is able to handle the ORM. The ORM is able to use",
+      "slice": "L1  [ENDPOINT] POST api/Orders/{id}/process -> OrdersController.Process  (OrdersController.cs:83)\nL2  [POLICY] [Authorize]; fallback=authenticated-user; scheme=JwtBearer\nL3  [SOURCE] id : int (route, client-controlled)  (OrdersController.cs:84)\nL4  [UNRESOLVED] ambiguous dispatch: 2 implementations of BolaLab.Api.Services.IOrderProcessor.ProcessAsync(int) (ExpressOrderProcessor, StandardOrderProcessor)  (OrdersController.cs:87)"
+    },
+    {
+      "findingId": "348b6217e227",
+      "path": {
+        "id": "f8b49036af0d",
+        "endpoint": {
+          "id": "POST api/orders/{id}/archive",
+          "verb": "Post",
+          "routeTemplate": "api/Orders/{id}/archive",
+          "controller": "OrdersController",
+          "action": "Archive",
+          "actionSymbol": "BolaLab.Api.Controllers.OrdersController.Archive(int)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+            "startLine": 91,
+            "endLine": 98,
+            "snippet": "OrdersController.Archive"
+          }
+        },
+        "taintSource": {
+          "name": "id",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "id : int (route, client-controlled)",
+            "symbol": "int id",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 92,
+              "endLine": 92,
+              "snippet": "int id"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Sink",
+            "description": "state change: BulkUpdate Order",
+            "symbol": "Microsoft.EntityFrameworkCore.RelationalQueryableExtensions.ExecuteUpdateAsync<BolaLab.Api.Domain.Order>(System.Linq.IQueryable<BolaLab.Api.Domain.Order>, System.Linq.Expressions.Expression<System.Func<Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BolaLab.Api.Domain.Order>, Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BolaLab.Api.Domain.Order>>>, System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 94,
+              "endLine": 96,
+              "snippet": "var affected = await db.Orders .Where(o => o.Id == id && o.UserId == currentUser.UserId) .ExecuteUpdateAsync(s => s.SetProperty(o => o.Status, \"Archived\"));"
+            },
+            "depth": 0
+          }
+        ],
+        "sinks": [
+          {
+            "kind": "BulkUpdate",
+            "entityType": "BolaLab.Api.Domain.Order",
+            "isStateChanging": true,
+            "bypassesQueryFilters": false,
+            "isDetached": false,
+            "queryHasOwnerPredicate": true,
+            "symbol": "Microsoft.EntityFrameworkCore.RelationalQueryableExtensions.ExecuteUpdateAsync<BolaLab.Api.Domain.Order>(System.Linq.IQueryable<BolaLab.Api.Domain.Order>, System.Linq.Expressions.Expression<System.Func<Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BolaLab.Api.Domain.Order>, Microsoft.EntityFrameworkCore.Query.SetPropertyCalls<BolaLab.Api.Domain.Order>>>, System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 94,
+              "endLine": 96,
+              "snippet": "var affected = await db.Orders .Where(o => o.Id == id && o.UserId == currentUser.UserId) .ExecuteUpdateAsync(s => s.SetProperty(o => o.Status, \"Archived\"));"
+            },
+            "guardIndices": [
+              0
+            ],
+            "validGuards": [
+              0
+            ]
+          }
+        ],
+        "guards": [
+          {
+            "kind": "LinqOwnerPredicate",
+            "isValid": true,
+            "ownerProperty": "UserId",
+            "callerExpression": "currentUser.UserId",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 94,
+              "endLine": 96,
+              "snippet": "var affected = await db.Orders .Where(o => o.Id == id && o.UserId == currentUser.UserId) .ExecuteUpdateAsync(s => s.SetProperty(o => o.Status, \"Archived\"));"
+            },
+            "ownerKind": "User"
+          }
+        ],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "Protected",
+        "ruleIds": [
+          "SYM-03"
+        ],
+        "rationale": "BulkUpdate on Order at src/BolaLab.Api/Controllers/OrdersController.cs:94 is protected: LinqOwnerPredicate binds Order.UserId to the caller (currentUser.UserId) at src/BolaLab.Api/Controllers/OrdersController.cs:94."
+      },
+      "final": "Protected",
+      "finalReason": "Symbolic verdict (not a semantic candidate)."
+    },
+    {
+      "findingId": "7db73abf75c5",
+      "path": {
+        "id": "bf30ce43df17",
+        "endpoint": {
+          "id": "DELETE api/orders/{id}/hard",
+          "verb": "Delete",
+          "routeTemplate": "api/Orders/{id}/hard",
+          "controller": "OrdersController",
+          "action": "HardDelete",
+          "actionSymbol": "BolaLab.Api.Controllers.OrdersController.HardDelete(int)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+            "startLine": 100,
+            "endLine": 105,
+            "snippet": "OrdersController.HardDelete"
+          }
+        },
+        "taintSource": {
+          "name": "id",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "id : int (route, client-controlled)",
+            "symbol": "int id",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 101,
+              "endLine": 101,
+              "snippet": "int id"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Sink",
+            "description": "state change: BulkDelete Order",
+            "symbol": "Microsoft.EntityFrameworkCore.RelationalQueryableExtensions.ExecuteDeleteAsync<BolaLab.Api.Domain.Order>(System.Linq.IQueryable<BolaLab.Api.Domain.Order>, System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 103,
+              "endLine": 103,
+              "snippet": "await db.Orders.Where(o => o.Id == id).ExecuteDeleteAsync();"
+            },
+            "depth": 0
+          }
+        ],
+        "sinks": [
+          {
+            "kind": "BulkDelete",
+            "entityType": "BolaLab.Api.Domain.Order",
+            "isStateChanging": true,
+            "bypassesQueryFilters": false,
+            "isDetached": false,
+            "queryHasOwnerPredicate": false,
+            "symbol": "Microsoft.EntityFrameworkCore.RelationalQueryableExtensions.ExecuteDeleteAsync<BolaLab.Api.Domain.Order>(System.Linq.IQueryable<BolaLab.Api.Domain.Order>, System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 103,
+              "endLine": 103,
+              "snippet": "await db.Orders.Where(o => o.Id == id).ExecuteDeleteAsync();"
+            },
+            "guardIndices": [],
+            "validGuards": []
+          }
+        ],
+        "guards": [],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "Vulnerable",
+        "ruleIds": [
+          "SYM-07"
+        ],
+        "rationale": "BulkDelete on Order at src/BolaLab.Api/Controllers/OrdersController.cs:103: bulk write selected by the client-controlled id has no owner predicate."
+      },
+      "semantic": {
+        "status": "Vulnerable",
+        "confidence": 0.9,
+        "reason": "The user is not allowed to rename the Ticket. The Ticket owner is allowed to rename the Ticket. The Ticket owner is allowed to rename the Ticket. The Ticket owner is allowed to rename the Ticket. The Ticket owner is allowed to rename the T.",
+        "evidenceLineIds": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5"
+        ],
+        "parseOk": true,
+        "modelId": "smollm2-135m-instruct-int4",
+        "latencyMs": 5051,
+        "rawOutput": "{\n\n\"status\":\"vulnerable\",\"confidence\":0.9,\"reason\":\"The user is not allowed to rename the Ticket. The Ticket owner is allowed to rename the Ticket. The Ticket owner is allowed to rename the Ticket. The Ticket owner is allowed to rename the Ticket. The Ticket owner is allowed to rename the T.\",\"evidence\":[\"L1\",\"L2\",\"L3\",\"L4\",\"L5\",\"L6\"]}",
+        "attempts": 1
+      },
+      "final": "Vulnerable",
+      "finalReason": "Symbolic and semantic agree.",
+      "slice": "L1  [ENDPOINT] DELETE api/Orders/{id}/hard -> OrdersController.HardDelete  (OrdersController.cs:100)\nL2  [POLICY] [Authorize]; fallback=authenticated-user; scheme=JwtBearer\nL3  [SCHEMA] Order owners: UserId(User), TenantId(Tenant); query filters: none\nL4  [SOURCE] id : int (route, client-controlled)  (OrdersController.cs:101)\nL5  [SINK] await db.Orders.Where(o => o.Id == id).ExecuteDeleteAsync();   (state change: BulkDelete Order)  (OrdersController.cs:103)"
+    },
+    {
+      "findingId": "592b7cf405fd",
+      "path": {
+        "id": "3999c3b4875e",
+        "endpoint": {
+          "id": "PUT api/orders/{id}/adjust-total",
+          "verb": "Put",
+          "routeTemplate": "api/Orders/{id}/adjust-total",
+          "controller": "OrdersController",
+          "action": "AdjustTotal",
+          "actionSymbol": "BolaLab.Api.Controllers.OrdersController.AdjustTotal(int, BolaLab.Api.Contracts.UpdateTotalRequest)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            },
+            {
+              "name": "request",
+              "type": "UpdateTotalRequest",
+              "source": "Body",
+              "isIdLike": false
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+            "startLine": 107,
+            "endLine": 118,
+            "snippet": "OrdersController.AdjustTotal"
+          }
+        },
+        "taintSource": {
+          "name": "id",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "id : int (route, client-controlled)",
+            "symbol": "int id",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 108,
+              "endLine": 108,
+              "snippet": "int id"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Caller",
+            "description": "trusted identity (User): callerKey",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 110,
+              "endLine": 110,
+              "snippet": "var callerKey = currentUser.UserId;"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Load",
+            "description": "loads Order selected by the client-controlled id",
+            "symbol": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.SingleOrDefaultAsync<BolaLab.Api.Domain.Order>(System.Linq.IQueryable<BolaLab.Api.Domain.Order>, System.Linq.Expressions.Expression<System.Func<BolaLab.Api.Domain.Order, bool>>, System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 111,
+              "endLine": 111,
+              "snippet": "var o = await db.Orders.SingleOrDefaultAsync(x => x.Id == id);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "condition",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 112,
+              "endLine": 112,
+              "snippet": "if (o == null) return NotFound();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "o.UserId (owner: User) vs callerKey (trusted identity: User)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 114,
+              "endLine": 114,
+              "snippet": "if (!string.Equals(o.UserId, callerKey, StringComparison.Ordinal)) return Forbid();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Mutation",
+            "description": "modifies o.Total",
+            "symbol": "BolaLab.Api.Domain.Order.Total",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 115,
+              "endLine": 115,
+              "snippet": "o.Total = request.Total;"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Commit",
+            "description": "commits tracked changes",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 116,
+              "endLine": 116,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Sink",
+            "description": "state change: SaveChanges Order",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 116,
+              "endLine": 116,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          }
+        ],
+        "sinks": [
+          {
+            "kind": "SaveChanges",
+            "entityType": "BolaLab.Api.Domain.Order",
+            "isStateChanging": true,
+            "bypassesQueryFilters": false,
+            "isDetached": false,
+            "queryHasOwnerPredicate": false,
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 116,
+              "endLine": 116,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "guardIndices": [
+              0
+            ],
+            "validGuards": [
+              0
+            ]
+          }
+        ],
+        "guards": [
+          {
+            "kind": "OwnerEquality",
+            "isValid": true,
+            "ownerProperty": "UserId",
+            "callerExpression": "callerKey",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/OrdersController.cs",
+              "startLine": 114,
+              "endLine": 114,
+              "snippet": "if (!string.Equals(o.UserId, callerKey, StringComparison.Ordinal)) return Forbid();"
+            },
+            "ownerKind": "User"
+          }
+        ],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "Protected",
+        "ruleIds": [
+          "SYM-03"
+        ],
+        "rationale": "SaveChanges on Order at src/BolaLab.Api/Controllers/OrdersController.cs:116 is protected: OwnerEquality binds Order.UserId to the caller (callerKey) at src/BolaLab.Api/Controllers/OrdersController.cs:114."
+      },
+      "final": "Protected",
+      "finalReason": "Symbolic verdict (not a semantic candidate)."
+    },
+    {
+      "findingId": "82b4cad41fa3",
+      "path": {
+        "id": "330ab488b835",
+        "endpoint": {
+          "id": "PUT api/projects/{id}",
+          "verb": "Put",
+          "routeTemplate": "api/Projects/{id}",
+          "controller": "ProjectsController",
+          "action": "Rename",
+          "actionSymbol": "BolaLab.Api.Controllers.ProjectsController.Rename(int, BolaLab.Api.Contracts.RenameProjectRequest)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            },
+            {
+              "name": "request",
+              "type": "RenameProjectRequest",
+              "source": "Body",
+              "isIdLike": false
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/ProjectsController.cs",
+            "startLine": 13,
+            "endLine": 21,
+            "snippet": "ProjectsController.Rename"
+          }
+        },
+        "taintSource": {
+          "name": "id",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "id : int (route, client-controlled)",
+            "symbol": "int id",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/ProjectsController.cs",
+              "startLine": 14,
+              "endLine": 14,
+              "snippet": "int id"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Load",
+            "description": "loads Project selected by the client-controlled id",
+            "symbol": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<BolaLab.Api.Domain.Project>(System.Linq.IQueryable<BolaLab.Api.Domain.Project>, System.Linq.Expressions.Expression<System.Func<BolaLab.Api.Domain.Project, bool>>, System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/ProjectsController.cs",
+              "startLine": 16,
+              "endLine": 16,
+              "snippet": "var project = await db.Projects.FirstOrDefaultAsync(p => p.Id == id);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "condition",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/ProjectsController.cs",
+              "startLine": 17,
+              "endLine": 17,
+              "snippet": "if (project is null) return NotFound();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Mutation",
+            "description": "modifies project.Name",
+            "symbol": "BolaLab.Api.Domain.Project.Name",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/ProjectsController.cs",
+              "startLine": 18,
+              "endLine": 18,
+              "snippet": "project.Name = request.Name;"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Commit",
+            "description": "commits tracked changes",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/ProjectsController.cs",
+              "startLine": 19,
+              "endLine": 19,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Sink",
+            "description": "state change: SaveChanges Project",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/ProjectsController.cs",
+              "startLine": 19,
+              "endLine": 19,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          }
+        ],
+        "sinks": [
+          {
+            "kind": "SaveChanges",
+            "entityType": "BolaLab.Api.Domain.Project",
+            "isStateChanging": true,
+            "bypassesQueryFilters": false,
+            "isDetached": false,
+            "queryHasOwnerPredicate": false,
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/ProjectsController.cs",
+              "startLine": 19,
+              "endLine": 19,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "guardIndices": [
+              0
+            ],
+            "validGuards": [
+              0
+            ]
+          }
+        ],
+        "guards": [
+          {
+            "kind": "QueryFilter",
+            "isValid": true,
+            "ownerProperty": "TenantId",
+            "callerExpression": "p.TenantId == currentUser.TenantId",
+            "location": {
+              "filePath": "src/BolaLab.Api/Data/AppDbContext.cs",
+              "startLine": 17,
+              "endLine": 17
+            },
+            "ownerKind": "Tenant"
+          }
+        ],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "Protected",
+        "ruleIds": [
+          "SYM-04"
+        ],
+        "rationale": "SaveChanges on Project at src/BolaLab.Api/Controllers/ProjectsController.cs:19 is protected by the Tenant query filter 'p.TenantId == currentUser.TenantId'."
+      },
+      "final": "Protected",
+      "finalReason": "Symbolic verdict (not a semantic candidate)."
+    },
+    {
+      "findingId": "875dbdfb0f9b",
+      "path": {
+        "id": "166211b15087",
+        "endpoint": {
+          "id": "DELETE api/projects/{id}",
+          "verb": "Delete",
+          "routeTemplate": "api/Projects/{id}",
+          "controller": "ProjectsController",
+          "action": "Delete",
+          "actionSymbol": "BolaLab.Api.Controllers.ProjectsController.Delete(int)",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "int",
+              "source": "Route",
+              "isIdLike": true
+            }
+          ],
+          "authorization": {
+            "hasAuthorize": true,
+            "allowAnonymous": false,
+            "policies": [],
+            "roles": []
+          },
+          "location": {
+            "filePath": "src/BolaLab.Api/Controllers/ProjectsController.cs",
+            "startLine": 23,
+            "endLine": 31,
+            "snippet": "ProjectsController.Delete"
+          }
+        },
+        "taintSource": {
+          "name": "id",
+          "type": "int",
+          "source": "Route",
+          "isIdLike": true
+        },
+        "steps": [
+          {
+            "kind": "Source",
+            "description": "id : int (route, client-controlled)",
+            "symbol": "int id",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/ProjectsController.cs",
+              "startLine": 24,
+              "endLine": 24,
+              "snippet": "int id"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Load",
+            "description": "loads Project selected by the client-controlled id (IgnoreQueryFilters)",
+            "symbol": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<BolaLab.Api.Domain.Project>(System.Linq.IQueryable<BolaLab.Api.Domain.Project>, System.Linq.Expressions.Expression<System.Func<BolaLab.Api.Domain.Project, bool>>, System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/ProjectsController.cs",
+              "startLine": 26,
+              "endLine": 26,
+              "snippet": "var project = await db.Projects.IgnoreQueryFilters().FirstOrDefaultAsync(p => p.Id == id);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Check",
+            "description": "condition",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/ProjectsController.cs",
+              "startLine": 27,
+              "endLine": 27,
+              "snippet": "if (project is null) return NotFound();"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Sink",
+            "description": "state change: Remove Project",
+            "symbol": "Microsoft.EntityFrameworkCore.DbSet<BolaLab.Api.Domain.Project>.Remove(BolaLab.Api.Domain.Project)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/ProjectsController.cs",
+              "startLine": 28,
+              "endLine": 28,
+              "snippet": "db.Projects.Remove(project);"
+            },
+            "depth": 0
+          },
+          {
+            "kind": "Commit",
+            "description": "commits tracked changes",
+            "symbol": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/ProjectsController.cs",
+              "startLine": 29,
+              "endLine": 29,
+              "snippet": "await db.SaveChangesAsync();"
+            },
+            "depth": 0
+          }
+        ],
+        "sinks": [
+          {
+            "kind": "Remove",
+            "entityType": "BolaLab.Api.Domain.Project",
+            "isStateChanging": true,
+            "bypassesQueryFilters": true,
+            "isDetached": false,
+            "queryHasOwnerPredicate": false,
+            "symbol": "Microsoft.EntityFrameworkCore.DbSet<BolaLab.Api.Domain.Project>.Remove(BolaLab.Api.Domain.Project)",
+            "location": {
+              "filePath": "src/BolaLab.Api/Controllers/ProjectsController.cs",
+              "startLine": 28,
+              "endLine": 28,
+              "snippet": "db.Projects.Remove(project);"
+            },
+            "guardIndices": [],
+            "validGuards": []
+          }
+        ],
+        "guards": [
+          {
+            "kind": "QueryFilter",
+            "isValid": false,
+            "invalidReason": "query filter bypassed with IgnoreQueryFilters()",
+            "ownerProperty": "TenantId",
+            "callerExpression": "p.TenantId == currentUser.TenantId",
+            "location": {
+              "filePath": "src/BolaLab.Api/Data/AppDbContext.cs",
+              "startLine": 17,
+              "endLine": 17
+            },
+            "ownerKind": "Tenant"
+          }
+        ],
+        "unresolved": [],
+        "truncated": false,
+        "taintEnteredUnresolvedCall": false
+      },
+      "symbolic": {
+        "status": "Vulnerable",
+        "ruleIds": [
+          "SYM-06"
+        ],
+        "rationale": "Remove on Project at src/BolaLab.Api/Controllers/ProjectsController.cs:28: Project is loaded with IgnoreQueryFilters() and changed without a valid owner check."
+      },
+      "semantic": {
+        "status": "Vulnerable",
+        "confidence": 0.9,
+        "reason": "The user is allowed to rename the Ticket only if the Ticket owner is logged in.",
+        "evidenceLineIds": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5",
+          "L6"
+        ],
+        "parseOk": true,
+        "modelId": "smollm2-135m-instruct-int4",
+        "latencyMs": 5058,
+        "rawOutput": "{\n\n\"status\":\"vulnerable\",\"confidence\":0.9,\"reason\":\"The user is allowed to rename the Ticket only if the Ticket owner is logged in.\",\n\"evidence\":[\"L1\",\"L2\",\"L3\",\"L4\",\"L5\",\"L6\"]}",
+        "attempts": 1
+      },
+      "final": "Vulnerable",
+      "finalReason": "Symbolic and semantic agree.",
+      "slice": "L1  [ENDPOINT] DELETE api/Projects/{id} -> ProjectsController.Delete  (ProjectsController.cs:23)\nL2  [POLICY] [Authorize]; fallback=authenticated-user; scheme=JwtBearer\nL3  [SCHEMA] Project owners: TenantId(Tenant); query filters: p.TenantId == currentUser.TenantId [Tenant]\nL4  [SOURCE] id : int (route, client-controlled)  (ProjectsController.cs:24)\nL5  [LOAD] var project = await db.Projects.IgnoreQueryFilters().FirstOrDefaultAsync(p => p.Id == id);   (loads Project selected by the client-controlled id (IgnoreQueryFilters))  (ProjectsController.cs:26)\nL6  [CHECK] if (project is null) return NotFound();  (ProjectsController.cs:27)\nL7  [SINK] db.Projects.Remove(project);   (state change: Remove Project)  (ProjectsController.cs:28)\nL8  [COMMIT] await db.SaveChangesAsync();  (ProjectsController.cs:29)"
+    }
+  ],
+  "loadDiagnostics": []
+}
