@@ -96,14 +96,16 @@ def main():
                 if a.worksheets:
                     write_worksheet(c, variant, report)
                 continue
+            # patched commits of Dataset A cases are the Dataset C controls: reported separately
+            ds = "C (fixed commits of A)" if c["dataset"] == "A" and variant == "fixed" else c["dataset"]
             for l in labels:
                 k = unit_key(l["verb"], l["route"])
                 p = pred.get(k)
                 o = outcome(l["label"], p[0] if p else None)
-                totals.setdefault(c["dataset"], {}).setdefault(o, 0)
-                totals[c["dataset"]][o] += 1
+                totals.setdefault(ds, {}).setdefault(o, 0)
+                totals[ds][o] += 1
                 if l["label"] == "Vulnerable" and o in ("abstained", "no prediction"):
-                    totals[c["dataset"]]["missedVuln"] = totals[c["dataset"]].get("missedVuln", 0) + 1
+                    totals[ds]["missedVuln"] = totals[ds].get("missedVuln", 0) + 1
                 rows.append(f"| {c['caseId']} | {variant} | `{k}` | {l['label']} ({status}) | {p[0] if p else '—'} | {p[1] if p else ''} | {o} |")
                 pairs.setdefault((c["caseId"], k), {})[variant] = o
 
