@@ -58,6 +58,6 @@ Categories: **G** guard pattern not recognised · **P** permissive/incorrect gua
 | A-013 Kavita downloads (vuln) | Unknown SYM-09 ×4, OutOfScope ×3 | **S** | library-membership model: `Chapter` has no owner property, so the tool abstains (honest Unknown); the fixed commit uses `[ChapterAccess]` (now Protected, SYM-05) |
 | A-014 IoTSharp (vuln only) | FN ×3 | **S** | cross-**tenant** reads by GUID; restore failed (missing private feed packages) and reads are projections |
 
-**Reading for the dissertation:** precision on Dataset A stays 1.000 (no fixed endpoint wrongly passed as vulnerable-before-fix
-was flagged without cause), recall is bounded by the ownership model (horizontal, user-owned objects). Membership-, tenant- and
+**Reading for the dissertation:** precision on Dataset A is 1.000 (every endpoint flagged in a vulnerable commit is a true
+positive); recall is bounded by the ownership model (horizontal, user-owned objects). Membership-, tenant- and
 library-scoped authorization need a different "owner" relation (user ∈ library/organization) — candidate future work (S6+).

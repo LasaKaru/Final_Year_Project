@@ -66,20 +66,23 @@ UI screenshots for slides: `docs/ipd/screenshots/`. Playwright is preinstalled i
 ## Status (update at the end of every session)
 **Done (build-flow phases 0–23 + extras, as of 19 Nov 2026):** solution/CI; BolaLab TC01–TC16; full symbolic engine (MVC +
 Minimal APIs, MediatR dispatch, DI incl. library implementations, inter-procedural taint walker, entity tokens with same-row
-aliasing, helper/flag/OR owner checks, permissive-helper and request-body rejection, swallowed throws, rules SYM-01..10);
+aliasing, helper/flag/OR owner checks, permissive-helper and request-body rejection, swallowed throws, rules SYM-01..10; C# 14 preview parsing, inherited routes, getter identities, nested/list ids, owner-or-admin, custom access filters (ADR-014), preferred implementations);
 read mode (ADR-011); IR slices; ONNX validator (SmolLM2 committed, Phi-3-mini run), calibration gate, conservative fusion
 (ADR-012); eval harness (+ `--compare`, `--baseline-sarif` arm); SARIF 2.1.0 + reusable GitHub Action (self-tested in CI);
 robustness runner P1–P4; local web UI with SVG call graph + offline HTML; dataset framework (`eval/datasets/cases.json`,
 `scripts/run-case.sh`, `scripts/dataset-report.py`, `scripts/run-experiments.sh`), CodeQL baseline workflow (manual).
-**Findings so far:** BolaLab 16/16 (dev set). Dataset A (Oqtane, draft labels): TP 6 / FN 1 (A-003 field-level, expected);
-Dataset C (fixed commits): TN 4 / FP 2 (A-004 custom permission service); 3 of 6 vuln→fixed pairs discriminated.
-Robustness: P1–P3 stability 1.000 (BolaLab, Oqtane), P4 owner renames 0.313 / 0.891. Phi-3: gate 3/4, ~78 s/slice, only
-added FPs via escalation → escalation off by default. See `eval/results/summary-symbolic.md`, `error-analysis.md`.
+**Findings so far:** BolaLab 16/16 (dev set). Datasets (draft labels, `eval/results/summary-symbolic.md`): **14 A-cases**
+(Oqtane ×4, Kavita ×3, Jellyfin, Bitwarden ×5, IoTSharp; 25 vuln→fixed pairs) — Dataset A TP 11 / FN 13 / abstained 7
+(precision 1.000, recall 0.458); Dataset C TN 20 / FP 2 (FPR 0.091); 6/25 pairs discriminated (Kavita A-005 9/9 units).
+Misses = membership/tenant/library authorization and DTO-projection reads (`eval/results/error-analysis.md`).
+**13 B-repos** (Conduit, CleanArchitecture, Oqtane, TodoApi, Moonglade, Ombi, SimplCommerce, ErsatzTV, eShopOnWeb,
+fullstackhero, Kavita, Jellyfin, Bitwarden), ~4,300 endpoints, blind worksheets with 2,293 units. Robustness P1–P3 1.000.
+Phi-3: gate 3/4, ~78 s/slice, only added FPs via escalation → escalation off by default.
 **Owner actions (cannot be delegated):** ethics Part A; verify draft labels (`eval/labels/drafts`); blind-label Dataset B
 worksheets + 2nd-rater sample; read/explain every class (R6); supervisor sign-off of ADR-011..013; trigger the
 `baseline-codeql` workflow (Actions tab) and evaluate its SARIF.
 **Next (in order):**
-1. More Dataset A cases (Umbraco GHSA-fpvf/wx5h, FormCMS) and Dataset B repos (nopCommerce, SimplCommerce) via cases.json.
+1. Membership-based ownership (user ∈ library/organization/tenant) and DTO-projection read sinks — the two biggest recall gaps.
 2. Phi-3 / Qwen2.5-Coder hybrid ×3 on the 16 GB laptop for A/B/C (`MODES="symbolic hybrid" scripts/run-experiments.sh`).
 3. Permission-service modelling (A-004 FP), CFG dominance (S6), custom policy handlers (Oqtane `[Authorize(Policy=…)]`).
 4. IPD (S5): slides from `docs/ipd/*` (onion, Gantt + deviations, demo script, Q&A evidence map), rehearse, backup video.
