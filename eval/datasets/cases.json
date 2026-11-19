@@ -187,7 +187,7 @@
       "advisory": "CVE-2026-119414 (CWE-863; fix 9030c42b 'Add collection permission checks to create cipher endpoint')",
       "flaw": "org members could create ciphers in collections they cannot edit (only org membership was checked)",
       "scope": "state-changing",
-      "config": null,
+      "config": "eval/datasets/configs/bitwarden.json",
       "solution": "bitwarden-server.slnx",
       "variants": {
         "vuln": "608746dcab8da5dc98da764c2a38853c611556ab",
@@ -195,7 +195,8 @@
       },
       "units": [
         "POST ciphers/create"
-      ]
+      ],
+      "configNote": "Bitwarden registers Dapper (SQL Server) or Entity Framework repositories at deployment; the EF family is analysed (CVE-2026-119414 is EF-specific)"
     },
     {
       "caseId": "A-009",
@@ -205,7 +206,7 @@
       "advisory": "CVE-2026-43638 (CWE-862; fix ebbf6dd0 import validation)",
       "flaw": "importing into an organization with no collections skipped the permission check",
       "scope": "state-changing",
-      "config": null,
+      "config": "eval/datasets/configs/bitwarden.json",
       "solution": "bitwarden-server.slnx",
       "variants": {
         "vuln": "7c4fa752c77bb043689ca26991cf8411ca1ac773",
@@ -213,7 +214,8 @@
       },
       "units": [
         "POST ciphers/import-organization"
-      ]
+      ],
+      "configNote": "Bitwarden registers Dapper (SQL Server) or Entity Framework repositories at deployment; the EF family is analysed (CVE-2026-119414 is EF-specific)"
     },
     {
       "caseId": "A-010",
@@ -223,7 +225,7 @@
       "advisory": "CVE-2026-57521 (CWE-862; fix 0a3d9f9d 'Add authorization to PreviewInvoiceController org endpoints')",
       "flaw": "any authenticated user could preview billing of an arbitrary organization by id",
       "scope": "read",
-      "config": "eval/datasets/configs/read-mode.json",
+      "config": "eval/datasets/configs/bitwarden-read.json",
       "solution": "bitwarden-server.slnx",
       "variants": {
         "vuln": "9865fc3ad2d313a28751094d55d12358baee6d8a",
@@ -232,7 +234,8 @@
       "units": [
         "POST billing/preview-invoice/organizations/{organizationId}/subscription/plan-change",
         "PUT billing/preview-invoice/organizations/{organizationId}/subscription/update"
-      ]
+      ],
+      "configNote": "Bitwarden registers Dapper (SQL Server) or Entity Framework repositories at deployment; the EF family is analysed (CVE-2026-119414 is EF-specific)"
     },
     {
       "caseId": "A-011",
@@ -242,7 +245,7 @@
       "advisory": "CVE-2026-71959 (CWE-862; fix 2aa92a3c 'Require org membership before logging org audit events via /collect')",
       "flaw": "events were written for any organization id in the request body without checking membership",
       "scope": "state-changing",
-      "config": null,
+      "config": "eval/datasets/configs/bitwarden.json",
       "solution": "bitwarden-server.slnx",
       "variants": {
         "vuln": "264cda57e9798ac48ade4b9041541b0835cc8ac6",
@@ -250,7 +253,8 @@
       },
       "units": [
         "POST collect"
-      ]
+      ],
+      "configNote": "Bitwarden registers Dapper (SQL Server) or Entity Framework repositories at deployment; the EF family is analysed (CVE-2026-119414 is EF-specific)"
     },
     {
       "caseId": "A-012",
@@ -260,7 +264,7 @@
       "advisory": "CVE-2026-43639 (CWE-862; fix 0918bfdd 'Add checks and tests to provider controllers')",
       "flaw": "a provider user could attach an arbitrary organization (id from the body) to their provider",
       "scope": "state-changing",
-      "config": null,
+      "config": "eval/datasets/configs/bitwarden.json",
       "solution": "bitwarden-server.slnx",
       "variants": {
         "vuln": "1fac799e3daafbce101dd809d78c6c5fbe3e5690",
@@ -269,7 +273,8 @@
       "units": [
         "POST providers/{providerId}/clients/existing",
         "POST providers/{providerId}/organizations/add"
-      ]
+      ],
+      "configNote": "Bitwarden registers Dapper (SQL Server) or Entity Framework repositories at deployment; the EF family is analysed (CVE-2026-119414 is EF-specific)"
     },
     {
       "caseId": "B-004",
@@ -404,12 +409,13 @@
       "repo": "https://github.com/bitwarden/server.git",
       "advisory": null,
       "scope": "state-changing",
-      "config": null,
+      "config": "eval/datasets/configs/bitwarden.json",
       "solution": "bitwarden-server.slnx",
       "variants": {
         "v2026.11.0": "a77fa313a699c1e61485c2ee9e8257898eecc010"
       },
-      "note": "release v2026.11.0 (family of A-008..A-012); org/collection permissions via ICurrentContext"
+      "note": "release v2026.11.0 (family of A-008..A-012); org/collection permissions via ICurrentContext",
+      "configNote": "Bitwarden registers Dapper (SQL Server) or Entity Framework repositories at deployment; the EF family is analysed (CVE-2026-119414 is EF-specific)"
     },
     {
       "caseId": "A-013",

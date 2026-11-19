@@ -47,6 +47,11 @@ public sealed class AnalysisOptions
     /// without an owner check (read BOLA / IDOR). Off by default — the primary scope is state-changing BOLA.</summary>
     public bool IncludeReadOnlyPaths { get; init; }
 
+    /// <summary>When an interface call has several implementations (e.g. Bitwarden's Dapper and Entity Framework repositories,
+    /// chosen by deployment configuration), keep those whose type full name matches one of these regexes. Empty by default
+    /// (ambiguous dispatch → Unknown); set per target and record it with the run.</summary>
+    public IReadOnlyList<string> PreferredImplementations { get; init; } = [];
+
     /// <summary>Custom filter attributes of the analysed code (IAuthorizationFilter/IAsyncAuthorizationFilter/IActionFilter/
     /// IAsyncActionFilter) whose name matches one of these regexes are delegated authorization (SYM-05).</summary>
     public IReadOnlyList<string> AccessFilterPatterns { get; init; } = ["Access", "Authori[sz]", "Permission", "Owner"];

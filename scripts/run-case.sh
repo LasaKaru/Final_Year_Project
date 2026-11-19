@@ -66,15 +66,20 @@ for entry in "${variants[@]}"; do
     sdk_note="adapted to SDK $newest (original pinned an SDK that is not installed: git diff shows it)"
   fi
 
-  echo "== $case_id/$variant @ ${sha:0:8}: restore $solution"
+  # older commits may ship the .sln instead of the .slnx (or vice versa)
+  sol="$solution"
+  if [[ ! -f "$work/$sol" ]]; then
+    for alt in "${sol%.slnx}.sln" "${sol%.sln}.slnx"; do [[ -f "$work/$alt" ]] && sol="$alt" && break; done
+  fi
+  echo "== $case_id/$variant @ ${sha:0:8}: restore $sol"
   restore_log="$(mktemp)"
-  if ! (cd "$work" && dotnet restore "$solution" -nologo -v quiet -p:NuGetAudit=false >"$restore_log" 2>&1); then
+  if ! (cd "$work" && dotnet restore "$sol" -nologo -v quiet -p:NuGetAudit=false >"$restore_log" 2>&1); then
     echo "!! restore failed (scan continues; missing references appear as compile errors in the report)"; tail -5 "$restore_log"
   fi
 
   out="$ROOT/eval/runs/$DATE-$MODE-$case_id-$variant${RUN_SUFFIX:-}"
   mkdir -p "$out"
-  args=(scan "$work/$solution" --mode "$MODE" --out "$out/report.json" --no-fail)
+  args=(scan "$work/$sol" --mode "$MODE" --out "$out/report.json" --no-fail)
   [[ -n "$config" ]] && args+=(--config "$ROOT/$config")
   [[ -n "$MODEL" ]] && args+=(--model "$MODEL")
   start=$(date +%s)
@@ -95,7 +100,7 @@ for entry in "${variants[@]}"; do
   cat > "$out/env.md" <<EOF
 # Run environment — $case_id / $variant ($MODE)
 
-* Target: $repo @ \`$sha\` — \`$solution\`
+* Target: $repo @ \`$sha\` — \`$sol\`
 * global.json: $sdk_note
 * Config: ${config:-defaults (bolalens.json)}${MODEL:+ · model \`$MODEL\`}
 * Machine: $(uname -sm), $(nproc) logical cores; .NET SDKs: $(dotnet --list-sdks | cut -d' ' -f1 | paste -sd, -)

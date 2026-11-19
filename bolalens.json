@@ -36,6 +36,7 @@
       "LogManager$",
       "Telemetry"
     ],
+    "preferredImplementations": [],
     "accessFilterPatterns": [
       "Access",
       "Authori[sz]",

@@ -19,8 +19,11 @@ public sealed class ImplementationResolver
     private readonly Dictionary<string, IMethodSymbol> _libraryImpls = new(StringComparer.Ordinal);
     private readonly DiRegistrationMap _di;
 
+    private readonly List<System.Text.RegularExpressions.Regex> _preferred;
+
     public ImplementationResolver(AnalysisContext context, DiRegistrationMap di)
     {
+        _preferred = context.Config.Analysis.PreferredImplementations.Select(p => new System.Text.RegularExpressions.Regex(p)).ToList();
         _di = di;
         var handlerNames = context.Config.Analysis.HandlerMethods.ToHashSet(StringComparer.Ordinal);
         foreach (var pc in context.Compilations)
@@ -113,12 +116,20 @@ public sealed class ImplementationResolver
             }
         }
 
+        var preferred = false;
+        if (candidates.Count > 1 && _preferred.Count > 0)
+        {
+            var kept = candidates.Where(c => _preferred.Any(r => r.IsMatch(c.ContainingType.ToDisplayString()))).ToList();
+            if (kept.Count > 0 && kept.Count < candidates.Count) { candidates = kept; preferred = true; }
+        }
+
         if (candidates.Count == 0 && _libraryImpls.TryGetValue(Symbols.Key(target), out var lib))
             return new Resolution(ResolutionKind.LibraryImplementation, lib, 1, $"{Symbols.Display(target)} is implemented by library method {Symbols.Display(lib)}");
 
         return candidates.Count switch
         {
-            1 => new Resolution(ResolutionKind.Resolved, candidates[0], 1, $"resolved {Symbols.Display(target.ContainingType!)} → {candidates[0].ContainingType.Name}"),
+            1 => new Resolution(ResolutionKind.Resolved, candidates[0], 1, $"resolved {Symbols.Display(target.ContainingType!)} → {candidates[0].ContainingType.Name}"
+                                                                          + (preferred ? " (analysis.preferredImplementations)" : "")),
             0 when Symbols.IsInSource(target) => new Resolution(ResolutionKind.NoSourceImplementation, null, 0,
                 $"no source implementation of {Symbols.Display(target)}"),
             0 => new Resolution(ResolutionKind.External, null, 0, $"external dispatch {Symbols.Display(target)}"),

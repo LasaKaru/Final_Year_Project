@@ -372,4 +372,37 @@ public class RequestEntityPatternsTests
         g.Rationale.ShouldContain("[TagAccess]");
         r.VerdictOf("POST api/stream/audited/{id}").Status.ShouldBe(VerdictStatus.Vulnerable); // a non-access filter is not a guard
     }
+
+    [Fact]
+    public async Task Preferred_implementation_resolves_an_ambiguous_repository()
+    {
+        // Bitwarden: ICipherRepository has a Dapper and an Entity Framework implementation chosen at deployment
+        var iface = """
+            namespace S;
+            public interface ITagRepository { Task<Tag?> GetAsync(int id); Task SaveAsync(); }
+            """;
+        var dapper = """
+            namespace S.Dapper;
+            public class TagRepository : S.ITagRepository { public Task<S.Tag?> GetAsync(int id) => Task.FromResult<S.Tag?>(null); public Task SaveAsync() => Task.CompletedTask; }
+            """;
+        var ef = """
+            namespace S.EntityFramework;
+            public class TagRepository(S.Ctx db) : S.ITagRepository
+            {
+                public async Task<S.Tag?> GetAsync(int id) => await db.Tags.FirstOrDefaultAsync(t => t.Id == id);
+                public Task SaveAsync() => db.SaveChangesAsync();
+            }
+            """;
+        var ctl = StreamController("""
+            [HttpPost("ambiguous/{id}")]
+            public async Task<IActionResult> Rename(int id, string title, [FromServices] ITagRepository repo)
+            { var tag = await repo.GetAsync(id); tag!.Title = title; await repo.SaveAsync(); return Ok(); }
+            """);
+        var plain = await CompilationFactory.AnalyseAsync(StreamDomain, iface, dapper, ef, ctl);
+        plain.VerdictOf("POST api/stream/ambiguous/{id}").Status.ShouldBe(VerdictStatus.Unknown);
+
+        var config = new BolaLens.Core.Config.BolaLensConfig { Analysis = new() { PreferredImplementations = ["\\.EntityFramework\\."] } };
+        var preferred = await CompilationFactory.AnalyseAsync(config, StreamDomain, iface, dapper, ef, ctl);
+        preferred.VerdictOf("POST api/stream/ambiguous/{id}").Status.ShouldBe(VerdictStatus.Vulnerable);
+    }
 }
