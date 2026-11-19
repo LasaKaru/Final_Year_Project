@@ -20,15 +20,22 @@ jobs:
         run: |
           dotnet build fixtures/BolaLab/BolaLab.sln -c Release
           dotnet build fixtures/Calibration/Calibration.sln -c Release
-      - name: Test (model-dependent tests are skipped in CI)
-        run: dotnet test BolaLens.sln -c Release --no-build --filter "Category!=RequiresModel"
+      - name: Verify the committed tiny model (checksums)
+        run: scripts/ensure-model.sh
+      - name: Test (including the real-model test with the committed tiny model)
+        env:
+          BOLALENS_MODEL_PATH: ${{ github.workspace }}/models/smollm2-135m-instruct-int4
+        run: dotnet test BolaLens.sln -c Release --no-build
       - name: Symbolic scan of BolaLab (smoke)
         run: dotnet run --project src/BolaLens.Cli -c Release --no-build -- scan fixtures/BolaLab/BolaLab.sln --mode symbolic --out bolalab-report.json --no-fail
-      - name: Evaluate against expected labels
-        run: dotnet run --project src/BolaLens.Cli -c Release --no-build -- eval --report bolalab-report.json --labels fixtures/BolaLab/expected.json --out bolalab-metrics.md
+      - name: Hybrid scan of BolaLab with the local tiny model (smoke)
+        run: dotnet run --project src/BolaLens.Cli -c Release --no-build -- scan fixtures/BolaLab/BolaLab.sln --mode hybrid --out bolalab-hybrid-report.json --no-fail --quiet
+      - name: Evaluate against expected labels (symbolic vs hybrid)
+        run: dotnet run --project src/BolaLens.Cli -c Release --no-build -- eval --report bolalab-report.json --compare bolalab-hybrid-report.json --labels fixtures/BolaLab/expected.json --out bolalab-metrics.md
       - uses: actions/upload-artifact@v4
         with:
           name: bolalab-report
           path: |
             bolalab-report.json
+            bolalab-hybrid-report.json
             bolalab-metrics.md

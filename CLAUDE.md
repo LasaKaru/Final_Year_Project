@@ -39,13 +39,16 @@ dotnet run --project src/BolaLens.Cli -- scan fixtures/BolaLab/BolaLab.sln --mod
 dotnet run --project src/BolaLens.Cli -- scan fixtures/BolaLab/BolaLab.sln --mode hybrid --model models/smollm2-135m-instruct-int4
 dotnet run --project src/BolaLens.Cli -- eval --report a.json --compare b.json --labels fixtures/BolaLab/expected.json
 dotnet run --project src/BolaLens.Web        # UI on http://127.0.0.1:5057 (runs stored in .bolalens/runs)
-scripts/get-model-smollm2.sh                 # builds the 86 MB SmolLM2-135M int4 model (needs network once)
+scripts/ensure-model.sh                      # verifies the committed 86 MB SmolLM2 model; rebuilds it if missing
+scripts/get-model-smollm2.sh                 # (re)builds the SmolLM2-135M int4 model from Hugging Face (network once)
 ```
 Always rebuild before `--no-build` runs (a stale Release build once produced invalid recorded runs).
 UI screenshots for slides: `docs/ipd/screenshots/`. Playwright is preinstalled in cloud sessions for UI checks.
 
 ## Non-negotiable rules
-1. **Offline:** no network code in `src/`; UI has no CDN/external assets; models are local (git-ignored `models/`).
+1. **Offline:** no network code in `src/`; UI has no CDN/external assets; models are local. The tiny SmolLM2 model is
+   committed (`models/smollm2-135m-instruct-int4`, default `inference.modelPath`, checksums in `.sha256`); all other model
+   folders stay git-ignored (Phi-3 is too big for GitHub's 100 MB file limit).
 2. **No label leakage:** labels only in `expected.json` / `eval/labels`; slices strip comments; few-shot and gate probes come
    only from `fixtures/Calibration`; slices never contain verdicts or rule IDs (ADR-004/006).
 3. **Honest Unknowns:** unresolved evidence → Unknown with a reason, never "safe" (ADR-003). Undefined metrics print `n/a`.

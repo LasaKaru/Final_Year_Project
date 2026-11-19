@@ -19,12 +19,17 @@
     "userTypeNames": ["User", "ApplicationUser", "AppUser", "IdentityUser"]
   },
   "inference": {
-    "modelPath": "models/phi3-mini-4k/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
-    "modelId": "phi3-mini-4k-instruct-cpu-int4",
-    "maxLength": 3072,
+    "modelPath": "models/smollm2-135m-instruct-int4",
+    "modelId": "smollm2-135m-instruct-int4",
+    "maxLength": 4096,
+    "maxNewTokens": 160,
     "suppressThreshold": 0.80,
     "retryOnParseFailure": 1,
     "maxSliceTokens": 700,
-    "promptVersion": "v1"
+    "promptVersion": "v1",
+    "chatFormat": "auto",
+    "jsonGuidance": true,
+    "calibrationGate": true,
+    "gateMinCorrect": 3
   }
 }

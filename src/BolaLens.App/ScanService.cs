@@ -129,7 +129,7 @@ public sealed class ScanService(BolaLensConfig config, Func<BolaLensConfig, ISem
     {
         var dir = Path.GetFullPath(cfg.Inference.ModelPath);
         if (!ModelInfo.IsModelFolder(dir))
-            throw new FileNotFoundException($"No local model at '{cfg.Inference.ModelPath}' (folder with genai_config.json). See models/README.md or pass --model.");
+            throw new FileNotFoundException($"No local model at '{cfg.Inference.ModelPath}' (folder with genai_config.json). Run scripts/ensure-model.sh (or .ps1), see models/README.md, or pass --model.");
         var info = ModelInfo.Inspect(dir, cfg.Inference.ChatFormat);
         return new OnnxSemanticValidator(info, cfg.Inference.MaxNewTokens, cfg.Inference.MaxLength, cfg.Inference.RetryOnParseFailure, cfg.Inference.JsonGuidance);
     }

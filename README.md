@@ -29,11 +29,12 @@ dotnet run --project src/BolaLens.Cli -c Release -- eval --report report.json --
 dotnet test BolaLens.sln --filter "Category!=RequiresModel"
 ```
 
-Hybrid mode needs a local model. The tiny one (86 MB, SmolLM2-135M int4) is built with `scripts/get-model-smollm2.sh`
-(network needed once); see [`models/README.md`](models/README.md). Then:
+Hybrid mode uses a local model. The tiny one (SmolLM2-135M int4, 86 MB) is **committed** in `models/` and is the default, so
+after cloning it works offline straight away (`scripts/ensure-model.sh` / `.ps1` verifies it and rebuilds it if missing).
+Bigger models (Phi-3-mini) are passed with `--model`; see [`models/README.md`](models/README.md).
 
 ```bash
-dotnet run --project src/BolaLens.Cli -c Release -- scan fixtures/BolaLab/BolaLab.sln --mode hybrid --model models/smollm2-135m-instruct-int4
+dotnet run --project src/BolaLens.Cli -c Release -- scan fixtures/BolaLab/BolaLab.sln --mode hybrid
 ```
 
 ### Web UI (local, responsive, offline)
@@ -127,7 +128,8 @@ flowchart LR
 | `src/BolaLens.Web` | Local responsive web UI `bolalens-ui` (minimal API + vanilla JS, localhost only) |
 | `tests/*` | Unit tests on in-memory compilations, BolaLab golden/integration tests, inference/eval tests |
 | `fixtures/BolaLab`, `fixtures/Calibration` | Test API (own solution, never deployed); calibration code for few-shot examples and gate probes |
-| `scripts/` | Reproducible model provisioning (`get-model-smollm2.sh/.ps1`) |
+| `models/` | Committed tiny model `smollm2-135m-instruct-int4` (+ `.sha256` manifest); other models git-ignored |
+| `scripts/` | `ensure-model.sh/.ps1` (verify or rebuild the tiny model), `get-model-smollm2.sh/.ps1` (reproducible build) |
 | `eval/` | Dataset registry/search log, frozen labels, splits, recorded runs |
 | `docs/` | ADRs, requirements status, diagrams, known limitations, reproducibility, logs |
 

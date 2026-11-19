@@ -46,6 +46,14 @@ public class ContextOracleTests(BolaLabFixture fx)
     }
 
     [Fact]
+    public void Root_config_file_equals_the_compiled_defaults_and_points_to_the_committed_model()
+    {
+        var file = BolaLens.Core.Config.BolaLensConfig.Load(Path.Combine(BolaLabFixture.RepoRoot, "bolalens.json"));
+        file.Hash().ShouldBe(BolaLens.Core.Config.BolaLensConfig.Default.Hash());
+        File.Exists(Path.Combine(BolaLabFixture.RepoRoot, file.Inference.ModelPath, "genai_config.json")).ShouldBeTrue();
+    }
+
+    [Fact]
     public void Endpoint_inventory()
     {
         var eps = fx.Symbolic.Endpoints;

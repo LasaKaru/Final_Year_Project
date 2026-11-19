@@ -1,13 +1,20 @@
-# Local models (not committed)
+# Local models
 
-Model files are git-ignored. Provision them once, record their hashes here and in `docs/reproducibility.md`.
+Only the tiny SmolLM2 model is committed; every other model folder is git-ignored (Phi-3 is ~2.7 GB). Provision those once and
+record their hashes here and in `docs/reproducibility.md`.
 `bolalens models` lists what is installed; the UI offers the same list.
 
-## SmolLM2-135M-Instruct (ONNX Runtime GenAI, int4, CPU) — tiny model for plumbing / demo (86 MB)
+## SmolLM2-135M-Instruct (ONNX Runtime GenAI, int4, CPU) — tiny model for plumbing / demo (86 MB) — **committed**
+
+This model is **in the repository** (`models/smollm2-135m-instruct-int4/`, every file < 100 MB, so plain git — no LFS) and is
+the default `inference.modelPath`: after `git clone`, `scan --mode hybrid` works offline with no download.
+Its checksums are in `models/smollm2-135m-instruct-int4.sha256`.
 
 ```bash
-scripts/get-model-smollm2.sh          # Windows: scripts/get-model-smollm2.ps1
+scripts/ensure-model.sh               # Windows: scripts\ensure-model.ps1
 ```
+`ensure-model` uses the committed folder when the checksums match; if the folder is missing or modified it rebuilds the model
+with `scripts/get-model-smollm2.sh` / `.ps1` (needs network once):
 Downloads `HuggingFaceTB/SmolLM2-135M-Instruct` (Apache-2.0) and converts it with the ONNX Runtime GenAI 0.20 model builder
 (`-p int4 -e cpu`, `shared_embeddings=true op_types_to_quantize=MatMul/Gather accuracy_level=4`). The conversion is
 reproducible — a fresh run produced byte-identical files:

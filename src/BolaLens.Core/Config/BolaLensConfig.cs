@@ -76,10 +76,12 @@ public sealed class OwnershipOptions
 
 public sealed class InferenceOptions
 {
-    public string ModelPath { get; init; } = "models/phi3-mini-4k/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4";
+    /// <summary>Default: the tiny model committed to the repository (works offline from a fresh clone).
+    /// Research runs pass --model for Phi-3-mini or another provisioned model.</summary>
+    public string ModelPath { get; init; } = "models/smollm2-135m-instruct-int4";
 
-    /// <summary>Identifier written into reports; empty = the model folder name.</summary>
-    public string ModelId { get; init; } = "phi3-mini-4k-instruct-cpu-int4";
+    /// <summary>Identifier written into reports.</summary>
+    public string ModelId { get; init; } = "smollm2-135m-instruct-int4";
 
     /// <summary>Upper bound on prompt + output tokens (the model's usable context).</summary>
     public int MaxLength { get; init; } = 4096;
