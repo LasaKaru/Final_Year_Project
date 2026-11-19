@@ -147,7 +147,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-005-fixed/Kavita.sln
 │ GET api/person/roles                                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
 │ POST api/person/all                                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
 │ POST api/person/update                                                                            │ Unknown    │ Unknown    │ SYM-09 │ —        │
-│ POST api/person/fetch-cover                                                                       │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/person/fetch-cover                                                                       │ Protected  │ Protected  │ SYM-05 │ —        │
 │ GET api/person/series-known-for                                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
 │ GET api/person/chapters-by-role                                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
 │ POST api/person/merge                                                                             │ Unknown    │ Unknown    │ SYM-09 │ —        │
@@ -361,8 +361,8 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-005-fixed/Kavita.sln
 │ POST api/wanttoread/remove-series                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
 projects 13 (with errors 3) · endpoints 543 (with ids 353) · paths 423 (truncated 2) · unresolved calls 2555
-symbolic: 28 vulnerable · 29 protected · 34 unknown · 332 out of scope
-time 78.9s · peak memory 1968 MB
+symbolic: 28 vulnerable · 30 protected · 33 unknown · 332 out of scope
+time 83.9s · peak memory 1962 MB
 
 Unknown POST api/account/update via 'dto' (e463dae093be)
   SaveChanges on AppUser at Kavita.Database/DataContext.cs:713: AppUser has no owner candidate, so ownership cannot be checked.
@@ -451,10 +451,6 @@ Unknown GET api/metadata/series-detail-plus via 'seriesId' (7d3b6055698b)
   Symbolic only (semantic stage not run).
 
 Unknown POST api/person/update via 'dto' (b9df97976842)
-  Update on Person at Kavita.Database/Repositories/PersonRepository.cs:53: Person has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown POST api/person/fetch-cover via 'personId' (f2deddf2182e)
   Update on Person at Kavita.Database/Repositories/PersonRepository.cs:53: Person has no owner candidate, so ownership cannot be checked.
   Symbolic only (semantic stage not run).
 

@@ -4,7 +4,7 @@
 * global.json: unchanged
 * Config: eval/datasets/configs/oqtane.json
 * Machine: Linux x86_64, 4 logical cores; .NET SDKs: 8.0.134,10.0.115
-* BolaLens commit: `500390a`
-* Wall time (incl. load): 17 s · peak working set: 604 MB
+* BolaLens commit: `d69edcf` (+ uncommitted changes)
+* Wall time (incl. load): 25 s · peak working set: 607 MB
 * Labels: none yet
-* Recorded by `scripts/run-case.sh` on 2026-11-19T11:12:09Z.
+* Recorded by `scripts/run-case.sh` on 2026-11-19T13:44:40Z.

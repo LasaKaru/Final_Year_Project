@@ -14,7 +14,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-003-v10.3.2/Oqtane.slnx
 │ GET api/file/{id}                                                                           │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/file/name/{name}/{folderid}                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/file                                                                               │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
-│ PUT api/file/{id}                                                                           │ Vulnerable │ Vulnerable │ SYM-07,SYM-08 │ —        │
+│ PUT api/file/{id}                                                                           │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ PUT api/file/unzip/{id}                                                                     │ OutOfScope │ OutOfScope │ SYM-10        │ —        │
 │ DELETE api/file/{id}                                                                        │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ GET api/file/download/{id}                                                                  │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
@@ -41,11 +41,11 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-003-v10.3.2/Oqtane.slnx
 │ DELETE api/log                                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/module/{id}                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ POST api/module                                                                             │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
-│ PUT api/module/{id}                                                                         │ Vulnerable │ Vulnerable │ SYM-07,SYM-08 │ —        │
+│ PUT api/module/{id}                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ DELETE api/module/{id}                                                                      │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ GET api/moduledefinition/{id}                                                               │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/moduledefinition                                                                   │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
-│ PUT api/moduledefinition/{id}                                                               │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ PUT api/moduledefinition/{id}                                                               │ OutOfScope │ OutOfScope │ SYM-10        │ —        │
 │ DELETE api/moduledefinition/{id}                                                            │ OutOfScope │ OutOfScope │ SYM-10        │ —        │
 │ GET api/notification/{id}                                                                   │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/notification                                                                       │ Vulnerable │ Vulnerable │ SYM-08,SYM-07 │ —        │
@@ -56,13 +56,13 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-003-v10.3.2/Oqtane.slnx
 │ GET api/page/path/{siteid}                                                                  │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/page                                                                               │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ POST api/page/{id}                                                                          │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
-│ PUT api/page/{id}                                                                           │ Vulnerable │ Vulnerable │ SYM-07,SYM-08 │ —        │
+│ PUT api/page/{id}                                                                           │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ DELETE api/page/{id}                                                                        │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ POST api/page/{frompageid}/{topageid}/{usepagepermissions}                                  │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ GET api/pagemodule/{id}                                                                     │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/pagemodule/{pageid}/{moduleid}                                                      │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/pagemodule                                                                         │ Vulnerable │ Vulnerable │ SYM-07,SYM-08 │ —        │
-│ PUT api/pagemodule/{id}                                                                     │ Vulnerable │ Vulnerable │ SYM-08,SYM-07 │ —        │
+│ PUT api/pagemodule/{id}                                                                     │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ DELETE api/pagemodule/{id}                                                                  │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ GET api/profile/{id}                                                                        │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/profile                                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
@@ -89,7 +89,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-003-v10.3.2/Oqtane.slnx
 │ GET api/site/pages/{siteid}                                                                 │ Unknown    │ Unknown    │ SYM-02        │ —        │
 │ GET api/sitegroup/{id}                                                                      │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/sitegroup                                                                          │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
-│ PUT api/sitegroup/{id}                                                                      │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ PUT api/sitegroup/{id}                                                                      │ OutOfScope │ OutOfScope │ SYM-10        │ —        │
 │ DELETE api/sitegroup/{id}                                                                   │ OutOfScope │ OutOfScope │ SYM-10        │ —        │
 │ GET api/sitegroupmember/{id}                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/sitegroupmember                                                                    │ OutOfScope │ OutOfScope │ SYM-10        │ —        │
@@ -102,7 +102,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-003-v10.3.2/Oqtane.slnx
 │ GET api/system/{key}/{value}                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/tenant/{id}                                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/theme/{id}                                                                          │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
-│ PUT api/theme/{id}                                                                          │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ PUT api/theme/{id}                                                                          │ OutOfScope │ OutOfScope │ SYM-10        │ —        │
 │ DELETE api/theme/{id}                                                                       │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/theme                                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/urlmapping/{id}                                                                     │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
@@ -114,7 +114,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-003-v10.3.2/Oqtane.slnx
 │ GET api/user/username/{username}                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/user/search/{username}/{email}                                                      │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/user                                                                               │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
-│ PUT api/user/{id}                                                                           │ Vulnerable │ Vulnerable │ SYM-08,SYM-07 │ —        │
+│ PUT api/user/{id}                                                                           │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ DELETE api/user/{id}                                                                        │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ POST api/user/signin                                                                        │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
 │ POST api/user/logout                                                                        │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
@@ -145,9 +145,14 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-003-v10.3.2/Oqtane.slnx
 │ PUT api/htmltext                                                                            │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
 │ DELETE api/htmltext/{id}/{moduleid}                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴───────────────┴──────────╯
-projects 3 (with errors 2) · endpoints 204 (with ids 138) · paths 182 (truncated 1) · unresolved calls 2198
-symbolic: 33 vulnerable · 3 protected · 11 unknown · 135 out of scope
-time 16.5s · peak memory 604 MB
+projects 3 (with errors 2) · endpoints 204 (with ids 138) · paths 183 (truncated 1) · unresolved calls 2226
+symbolic: 38 vulnerable · 3 protected · 12 unknown · 130 out of scope
+time 24.2s · peak memory 607 MB
+
+Vulnerable PUT api/file/{id} via 'id' (d13d6def0dc3)
+  SaveChanges on File at Oqtane.Server/Repository/Context/TenantDBContext.cs:105: File (owners: CreatedBy (User)) is selected by client-controlled 'id' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
 
 Vulnerable PUT api/file/{id} via 'file' (dde3dbcd434f)
   SaveChanges on File at Oqtane.Server/Repository/Context/TenantDBContext.cs:105: detached File built from the client-controlled key is written without loading 
@@ -176,6 +181,11 @@ changed with no valid owner guard or applicable query filter.
 
 Vulnerable GET api/module/{id} via 'id' (76bda2779d95)
   SaveChanges on Module at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: Module (owners: CreatedBy (User)) is selected by client-controlled 'id' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable PUT api/module/{id} via 'id' (9a2e28605e95)
+  SaveChanges on Module at Oqtane.Server/Repository/Context/TenantDBContext.cs:105: Module (owners: CreatedBy (User)) is selected by client-controlled 'id' and 
 changed with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
@@ -211,6 +221,11 @@ Vulnerable POST api/page/{id} via 'id' (3ddac38d80e7)
 client-controlled 'id' and changed with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
+Vulnerable PUT api/page/{id} via 'id' (50d0640ab07b)
+  SaveChanges on Page at Oqtane.Server/Repository/Context/TenantDBContext.cs:105: Page (owners: CreatedBy (User), UserId (User)) is selected by 
+client-controlled 'id' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
 Vulnerable PUT api/page/{id} via 'page' (bc4f87e76b35)
   SaveChanges on Page at Oqtane.Server/Repository/Context/TenantDBContext.cs:105: detached Page built from the client-controlled key is written without loading 
 or checking ownership.
@@ -234,6 +249,11 @@ Vulnerable POST api/page/{frompageid}/{topageid}/{usepagepermissions} via 'toPag
 Vulnerable POST api/pagemodule via 'pageModule' (951a445ca1ed)
   SaveChanges on PageModule at Oqtane.Server/Repository/Context/TenantDBContext.cs:105: detached PageModule built from the client-controlled key is written 
 without loading or checking ownership.
+  Symbolic only (semantic stage not run).
+
+Vulnerable PUT api/pagemodule/{id} via 'id' (e04de3deed39)
+  SaveChanges on Page at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: Page (owners: CreatedBy (User), UserId (User)) is selected by client-controlled
+'id' and changed with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
 Vulnerable PUT api/pagemodule/{id} via 'pageModule' (f6f1ed78455b)
@@ -327,6 +347,12 @@ Vulnerable POST api/user via 'user' (d4a8494e257c)
 or checking ownership.
   Symbolic only (semantic stage not run).
 
+Vulnerable PUT api/user/{id} via 'id' (78da60e679be)
+  SaveChanges on File at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: File (owners: CreatedBy (User)) is selected by client-controlled 'id' and 
+changed with no valid owner guard or applicable query filter. Rejected checks: owner value comes from the request body, not from the stored object 
+(Oqtane.Server/Controllers/UserController.cs:206).
+  Symbolic only (semantic stage not run).
+
 Vulnerable PUT api/user/{id} via 'user' (2487874609b2)
   SaveChanges on File at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: File (owners: CreatedBy (User)) is selected by client-controlled 'user' and 
 changed with no valid owner guard or applicable query filter. Rejected checks: owner value comes from the request body, not from the stored object 
@@ -346,6 +372,14 @@ or checking ownership.
 Vulnerable POST api/userrole via 'userRole' (936fca8a6bef)
   SaveChanges on UserRole at Oqtane.Server/Repository/Context/TenantDBContext.cs:105: detached UserRole built from the client-controlled key is written without 
 loading or checking ownership.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/userrole/{id} via 'id' (f6d0352e2157)
+  No state change found, but 'id' entered unresolved code: max call depth (5) reached before Oqtane.Infrastructure.CacheManager.GetCache<T>(Oqtane.Models.Alias,
+string, System.Func<System.Threading.CancellationToken, T>); max call depth (5) reached before 
+Oqtane.Infrastructure.ICacheManager.GetCache<System.Collections.Generic.List<Oqtane.Models.Alias>>(string, System.Func<System.Threading.CancellationToken, 
+System.Collections.Generic.List<Oqtane.Models.Alias>>); external dispatch: ZiggyCreatures.Caching.Fusion.IFusionCache.Remove(string, 
+ZiggyCreatures.Caching.Fusion.FusionCacheEntryOptions?, System.Threading.CancellationToken) receives the tracked id.
   Symbolic only (semantic stage not run).
 
 Vulnerable PUT api/userrole/{id} via 'userRole' (eb31adea3ce2)

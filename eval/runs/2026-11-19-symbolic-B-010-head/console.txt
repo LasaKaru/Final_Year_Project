@@ -1,0 +1,259 @@
+[scan] Loading solution (MSBuildWorkspace)…
+[scan] Stage 1: endpoints, policy, schema, DI, taint paths, rules…
+[scan] Done.
+wrote /home/user/Final_Year_Project/eval/runs/2026-11-19-symbolic-B-010-head/report.json
+BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-010-head/src/FSH.Starter.slnx
+╭─────────────────────────────────────────────────────┬────────────┬────────────┬────────┬──────────╮
+│ Endpoint                                            │ Final      │ Symbolic   │ Rules  │ Semantic │
+├─────────────────────────────────────────────────────┼────────────┼────────────┼────────┼──────────┤
+│ GET api/v1/realtime/presence                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET {id}                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET by-correlation/{correlationid}                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET by-trace/{traceid}                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET summary                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET security                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET invoices/{invoiceid}                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET invoices/{invoiceid}/pdf                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET invoices                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST invoices/{invoiceid}/issue                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST invoices/{invoiceid}/pay                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST invoices/{invoiceid}/void                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST plans                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT plans/{planid}                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST subscriptions                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET subscriptions                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST usage/snapshots/capture                        │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET usage                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST wallet/topup-requests/{id}/approve             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET wallet/topup-requests                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST wallet/topup-requests/{id}/reject              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE brands/{brandid}                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET brands/{brandid}                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST brands/{brandid}/restore                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT brands/{brandid}                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST categories                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE categories/{categoryid}                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET categories/{categoryid}                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST categories/{categoryid}/restore                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET categories                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT categories/{categoryid}                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST products/{productid}/images                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PATCH products/{productid}/stock                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PATCH products/{productid}/price                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST products                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE products/{productid}                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET products/{productid}                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE products/{productid}/images/{imageid}        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT products/{productid}/images/order               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST products/{productid}/restore                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET products                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT products/{productid}/images/{imageid}/thumbnail │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT products/{productid}                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST channels/{id}/members                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE channels/{id}                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST dms                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET channels/{id}                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST channels/{id}/read                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE channels/{id}/members/{userid}               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST channels/{id}/restore                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT channels/{id}                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE messages/{id}                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT messages/{id}                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET channels/{id}/pinned                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET channels/{id}/messages                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET messages/{id}/replies                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST messages/{id}/pin                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST channels/{id}/messages                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE messages/{id}/pin                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST messages/{id}/reactions                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE messages/{id}/reactions/{emoji}              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET search                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PATCH {id}/visibility                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE {id}                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST {id}/finalize                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET {id}/url                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST upload-url                                     │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST {id}/restore                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST groups/{groupid}/members                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST groups                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE groups/{id}                                  │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ GET groups/{id}                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET groups/{groupid}/members                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE groups/{groupid}/members/{userid}            │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ PUT groups/{id}                                     │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ GET impersonation/grants                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST impersonation/grants/{id}/revoke               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST impersonation/start                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE roles/{id}                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET roles/{id}                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET {id}/permissions                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT {id}/permissions                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST roles                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST users/{userid}/sessions/revoke-all             │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ DELETE users/{userid}/sessions/{sessionid}          │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ GET users/{userid}/sessions                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST sessions/revoke-all                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE sessions/{sessionid}                         │ Protected  │ Protected  │ SYM-03 │ —        │
+│ POST users/{id}/confirm-email                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST users/{id}/roles                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET confirm-email                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE users/{id}                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET users/{id}                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET users/{userid}/groups                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET users/{id}/roles                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST users/{id}/resend-confirmation-email           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET users/search                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PATCH users/{id}                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT profile                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST {id}/adjust-validity                           │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST {id}/activation                                │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST                                                │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET {id}/status                                     │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST {id}/renew                                     │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET {tenantid}/provisioning                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST {tenantid}/provisioning/retry                  │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST {id}/read                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST tickets/{ticketid}/comments                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST tickets/{ticketid}/assign                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST tickets/{ticketid}/close                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST tickets                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE tickets/{ticketid}                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET tickets/{ticketid}                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET tickets/{ticketid}/comments                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST tickets/{ticketid}/reopen                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST tickets/{ticketid}/resolve                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST tickets/{ticketid}/restore                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET tickets                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT tickets/{ticketid}                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE subscriptions/{id}                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET subscriptions/{subscriptionid}/deliveries       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST subscriptions/{id}/test                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+╰─────────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
+projects 52 (with errors 9) · endpoints 179 (with ids 123) · paths 152 (truncated 0) · unresolved calls 147
+symbolic: 6 vulnerable · 1 protected · 11 unknown · 134 out of scope
+time 121.2s · peak memory 920 MB
+
+Unknown POST usage/snapshots/capture via 'command' (a1e630a70938)
+  No state change found, but 'command' entered unresolved code: external dispatch: 
+Finbuckle.MultiTenant.Abstractions.IMultiTenantStore<FSH.Framework.Shared.Multitenancy.AppTenantInfo>.GetAsync(string) receives the tracked id; ambiguous 
+dispatch: 3 implementations of FSH.Framework.Quota.IQuotaService.GetCurrentAsync(string, FSH.Framework.Shared.Quota.QuotaResource, 
+System.Threading.CancellationToken) (InMemoryQuotaService, NoopQuotaService, RedisQuotaService).
+  Symbolic only (semantic stage not run).
+
+Unknown POST upload-url via 'command' (762bf069863d)
+  No state change found, but 'command' entered unresolved code: ambiguous dispatch: 2 implementations of FSH.Framework.Core.Context.ICurrentUser.GetTenant() 
+(CurrentUserService, FixedCurrentUser); ambiguous dispatch: 2 implementations of FSH.Modules.Files.Contracts.IFileAccessPolicy.CanAttachAsync(System.Guid?, 
+string, System.Threading.CancellationToken) (ProductFileAccessPolicy, ChatChannelFileAccessPolicy); ambiguous dispatch: 3 implementations of 
+FSH.Framework.Quota.IQuotaService.CheckAsync(string, FSH.Framework.Shared.Quota.QuotaResource, long, System.Threading.CancellationToken) (InMemoryQuotaService, 
+NoopQuotaService, RedisQuotaService).
+  Symbolic only (semantic stage not run).
+
+Vulnerable DELETE groups/{id} via 'id' (8dfc96082df1)
+  SaveChanges on Group at Modules/Identity/Modules.Identity/Features/v1/Groups/DeleteGroup/DeleteGroupCommandHandler.cs:50: Group (owners: CreatedBy (User)) is 
+selected by client-controlled 'id' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable DELETE groups/{groupid}/members/{userid} via 'groupId' (0cab3e971440)
+  Remove on UserGroup at Modules/Identity/Modules.Identity/Features/v1/Groups/RemoveUserFromGroup/RemoveUserFromGroupCommandHandler.cs:44: UserGroup (owners: 
+UserId (User)) is selected by client-controlled 'groupId' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable DELETE groups/{groupid}/members/{userid} via 'userId' (aec23ab9625f)
+  Remove on UserGroup at Modules/Identity/Modules.Identity/Features/v1/Groups/RemoveUserFromGroup/RemoveUserFromGroupCommandHandler.cs:44: UserGroup (owners: 
+UserId (User)) is selected by client-controlled 'userId' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable PUT groups/{id} via 'id' (f1187f99d7fc)
+  SaveChanges on Group at Modules/Identity/Modules.Identity/Features/v1/Groups/UpdateGroup/UpdateGroupCommandHandler.cs:50: Group (owners: CreatedBy (User)) is 
+selected by client-controlled 'id' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST users/{userid}/sessions/revoke-all via 'userId' (cb0ce9d16d5d)
+  SaveChanges on UserSession at Modules/Identity/Modules.Identity/Services/SessionService.cs:287: UserSession (owners: UserId (User)) is selected by 
+client-controlled 'userId' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable DELETE users/{userid}/sessions/{sessionid} via 'sessionId' (c1d9a6860532)
+  SaveChanges on UserSession at Modules/Identity/Modules.Identity/Services/SessionService.cs:317: UserSession (owners: UserId (User)) is selected by 
+client-controlled 'sessionId' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Unknown POST {id}/adjust-validity via 'id' (54d850f74f5e)
+  No state change found, but 'id' entered unresolved code: external dispatch: 
+Finbuckle.MultiTenant.Abstractions.IMultiTenantStore<FSH.Framework.Shared.Multitenancy.AppTenantInfo>.GetAsync(string) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST {id}/adjust-validity via 'command' (41c1ff516fc3)
+  No state change found, but 'command' entered unresolved code: external dispatch: 
+Finbuckle.MultiTenant.Abstractions.IMultiTenantStore<FSH.Framework.Shared.Multitenancy.AppTenantInfo>.GetAsync(string) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST {id}/activation via 'id' (9178e0d481aa)
+  No state change found, but 'id' entered unresolved code: external dispatch: 
+Finbuckle.MultiTenant.Abstractions.IMultiTenantStore<FSH.Framework.Shared.Multitenancy.AppTenantInfo>.GetAsync(string) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST {id}/activation via 'command' (1acfb7779884)
+  No state change found, but 'command' entered unresolved code: external dispatch: 
+Finbuckle.MultiTenant.Abstractions.IMultiTenantStore<FSH.Framework.Shared.Multitenancy.AppTenantInfo>.GetAsync(string) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST  via 'command' (e028fa3be7bf)
+  No state change found, but 'command' entered unresolved code: external dispatch: 
+Finbuckle.MultiTenant.Abstractions.IMultiTenantStore<FSH.Framework.Shared.Multitenancy.AppTenantInfo>.AddAsync(FSH.Framework.Shared.Multitenancy.AppTenantInfo) 
+receives the tracked id; external dispatch: 
+Finbuckle.MultiTenant.Abstractions.IMultiTenantStore<FSH.Framework.Shared.Multitenancy.AppTenantInfo>.UpdateAsync(FSH.Framework.Shared.Multitenancy.AppTenantInf
+o) receives the tracked id; max call depth (5) reached before FSH.Modules.Multitenancy.Provisioning.TenantProvisioningService.RequireAsync(string, string, 
+System.Threading.CancellationToken); max call depth (5) reached before FSH.Modules.Multitenancy.Provisioning.TenantProvisioning.MarkRunning(string); max call 
+depth (5) reached before FSH.Modules.Multitenancy.Provisioning.TenantProvisioningStep.MarkRunning(); max call depth (5) reached before 
+FSH.Modules.Multitenancy.Provisioning.TenantProvisioningStep.MarkCompleted(); ambiguous dispatch: 9 implementations of 
+FSH.Framework.Persistence.IDbInitializer.MigrateAsync(System.Threading.CancellationToken) (AuditDbInitializer, BillingDbInitializer, CatalogDbInitializer, 
+ChatDbInitializer, FilesDbInitializer, IdentityDbInitializer, NotificationsDbInitializer, TicketsDbInitializer, WebhookDbInitializer); ambiguous dispatch: 9 
+implementations of FSH.Framework.Persistence.IDbInitializer.SeedAsync(System.Threading.CancellationToken) (AuditDbInitializer, BillingDbInitializer, 
+CatalogDbInitializer, ChatDbInitializer, FilesDbInitializer, IdentityDbInitializer, NotificationsDbInitializer, TicketsDbInitializer, WebhookDbInitializer); max
+call depth (5) reached before FSH.Modules.Multitenancy.Provisioning.TenantProvisioning.MarkCompleted(); max call depth (5) reached before 
+FSH.Modules.Multitenancy.Provisioning.TenantProvisioning.MarkFailed(string, string); max call depth (5) reached before 
+FSH.Modules.Multitenancy.Provisioning.TenantProvisioningStep.MarkFailed(string); ambiguous dispatch: 2 implementations of 
+FSH.Framework.Jobs.Services.IJobService.Enqueue<FSH.Modules.Multitenancy.Provisioning.TenantProvisioningJob>(System.Linq.Expressions.Expression<System.Func<FSH.
+Modules.Multitenancy.Provisioning.TenantProvisioningJob, System.Threading.Tasks.Task>>) (HangfireService, NoOpJobService); ambiguous dispatch: 2 implementations
+of FSH.Framework.Eventing.Abstractions.IOutboxWriter.AddAsync(FSH.Framework.Eventing.Abstractions.IIntegrationEvent, System.Threading.CancellationToken) 
+(EfCoreOutboxStore, ThrowingOutboxWriter).
+  Symbolic only (semantic stage not run).
+
+Unknown GET {id}/status via 'id' (ccea38a8c81a)
+  No state change found, but 'id' entered unresolved code: external dispatch: 
+Finbuckle.MultiTenant.Abstractions.IMultiTenantStore<FSH.Framework.Shared.Multitenancy.AppTenantInfo>.GetAsync(string) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST {id}/renew via 'id' (dab2882650eb)
+  No state change found, but 'id' entered unresolved code: external dispatch: 
+Finbuckle.MultiTenant.Abstractions.IMultiTenantStore<FSH.Framework.Shared.Multitenancy.AppTenantInfo>.GetAsync(string) receives the tracked id; ambiguous 
+dispatch: 2 implementations of FSH.Framework.Eventing.Abstractions.IOutboxWriter.AddAsync(FSH.Framework.Eventing.Abstractions.IIntegrationEvent, 
+System.Threading.CancellationToken) (EfCoreOutboxStore, ThrowingOutboxWriter).
+  Symbolic only (semantic stage not run).
+
+Unknown POST {id}/renew via 'command' (20ee59e987b1)
+  No state change found, but 'command' entered unresolved code: external dispatch: 
+Finbuckle.MultiTenant.Abstractions.IMultiTenantStore<FSH.Framework.Shared.Multitenancy.AppTenantInfo>.GetAsync(string) receives the tracked id; ambiguous 
+dispatch: 2 implementations of FSH.Framework.Eventing.Abstractions.IOutboxWriter.AddAsync(FSH.Framework.Eventing.Abstractions.IIntegrationEvent, 
+System.Threading.CancellationToken) (EfCoreOutboxStore, ThrowingOutboxWriter).
+  Symbolic only (semantic stage not run).
+
+Unknown POST {tenantid}/provisioning/retry via 'tenantId' (8d79213aecd3)
+  No state change found, but 'tenantId' entered unresolved code: external dispatch: 
+Finbuckle.MultiTenant.Abstractions.IMultiTenantStore<FSH.Framework.Shared.Multitenancy.AppTenantInfo>.GetAsync(string) receives the tracked id; max call depth 
+(5) reached before FSH.Framework.Core.Exceptions.CustomException.Localized<FSH.Modules.Multitenancy.Localization.MultitenancyResources>(string, params 
+object[]); max call depth (5) reached before FSH.Modules.Multitenancy.Provisioning.ITenantProvisioningService.MarkRunningAsync(string, string, 
+FSH.Modules.Multitenancy.Provisioning.TenantProvisioningStepName, System.Threading.CancellationToken); max call depth (5) reached before 
+FSH.Modules.Multitenancy.Provisioning.ITenantProvisioningService.MarkStepCompletedAsync(string, string, 
+FSH.Modules.Multitenancy.Provisioning.TenantProvisioningStepName, System.Threading.CancellationToken); max call depth (5) reached before 
+FSH.Modules.Multitenancy.Contracts.ITenantService.MigrateTenantAsync(FSH.Framework.Shared.Multitenancy.AppTenantInfo, System.Threading.CancellationToken); max 
+call depth (5) reached before FSH.Modules.Multitenancy.Contracts.ITenantService.SeedTenantAsync(FSH.Framework.Shared.Multitenancy.AppTenantInfo, 
+System.Threading.CancellationToken); max call depth (5) reached before 
+FSH.Modules.Multitenancy.Provisioning.ITenantProvisioningService.MarkCompletedAsync(string, string, System.Threading.CancellationToken); max call depth (5) 
+reached before FSH.Modules.Multitenancy.Provisioning.ITenantProvisioningService.MarkFailedAsync(string, string, 
+FSH.Modules.Multitenancy.Provisioning.TenantProvisioningStepName, string, System.Threading.CancellationToken); ambiguous dispatch: 2 implementations of 
+FSH.Framework.Jobs.Services.IJobService.Enqueue<FSH.Modules.Multitenancy.Provisioning.TenantProvisioningJob>(System.Linq.Expressions.Expression<System.Func<FSH.
+Modules.Multitenancy.Provisioning.TenantProvisioningJob, System.Threading.Tasks.Task>>) (HangfireService, NoOpJobService).
+  Symbolic only (semantic stage not run).

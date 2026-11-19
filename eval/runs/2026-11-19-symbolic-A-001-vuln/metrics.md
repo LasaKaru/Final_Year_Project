@@ -8,4 +8,4 @@ Units labelled Unknown/OutOfScope (excluded from the matrix): 0; correctly absta
 
 | Unit | TC | Label | Expected rule | Predicted | Rules | Match |
 |---|---|---|---|---|---|---|
-| `PUT api/notification/{id}` | A-001/PUT | Vulnerable |  | Vulnerable | SYM-07,SYM-08 | ✅ |
+| `PUT api/notification/{id}` | A-001/PUT | Vulnerable |  | Vulnerable | SYM-08 | ✅ |

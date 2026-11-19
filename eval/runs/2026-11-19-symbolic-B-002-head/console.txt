@@ -12,15 +12,26 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-002-head/CleanArchitect
 │ DELETE todoitems/{id}             │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
 │ PUT todolists/{id}                │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
 │ DELETE todolists/{id}             │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST users/logout                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
 ╰───────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
-projects 13 (with errors 1) · endpoints 10 (with ids 6) · paths 9 (truncated 0) · unresolved calls 0
-symbolic: 5 vulnerable · 0 protected · 0 unknown · 4 out of scope
+projects 13 (with errors 1) · endpoints 10 (with ids 7) · paths 10 (truncated 0) · unresolved calls 0
+symbolic: 8 vulnerable · 0 protected · 0 unknown · 2 out of scope
 5 Minimal-API endpoints were not analysed (unsupported endpoint style).
-time 13.7s · peak memory 395 MB
+time 17.3s · peak memory 397 MB
+
+Vulnerable PUT todoitems/{id} via 'id' (86cdca4490b8)
+  SaveChanges on TodoItem at src/Application/TodoItems/Commands/UpdateTodoItem/UpdateTodoItem.cs:33: TodoItem (owners: CreatedBy (User)) is selected by 
+client-controlled 'id' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
 
 Vulnerable PUT todoitems/{id} via 'command' (65b9d830d6c4)
   SaveChanges on TodoItem at src/Application/TodoItems/Commands/UpdateTodoItem/UpdateTodoItem.cs:33: TodoItem (owners: CreatedBy (User)) is selected by 
 client-controlled 'command' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable PATCH todoitems/updatedetail/{id} via 'id' (834868923ec9)
+  SaveChanges on TodoItem at src/Application/TodoItems/Commands/UpdateTodoItemDetail/UpdateTodoItemDetail.cs:37: TodoItem (owners: CreatedBy (User)) is selected
+by client-controlled 'id' and changed with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
 Vulnerable PATCH todoitems/updatedetail/{id} via 'command' (5a83a71b050b)
@@ -30,6 +41,11 @@ by client-controlled 'command' and changed with no valid owner guard or applicab
 
 Vulnerable DELETE todoitems/{id} via 'id' (e6afa8d5cde7)
   Remove on TodoItem at src/Application/TodoItems/Commands/DeleteTodoItem/DeleteTodoItem.cs:23: TodoItem (owners: CreatedBy (User)) is selected by 
+client-controlled 'id' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable PUT todolists/{id} via 'id' (03be1e80770e)
+  SaveChanges on TodoList at src/Application/TodoLists/Commands/UpdateTodoList/UpdateTodoList.cs:38: TodoList (owners: CreatedBy (User)) is selected by 
 client-controlled 'id' and changed with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 

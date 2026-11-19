@@ -1,0 +1,584 @@
+[scan] Loading solution (MSBuildWorkspace)…
+[scan] Stage 1: endpoints, policy, schema, DI, taint paths, rules…
+[scan] Done.
+wrote /home/user/Final_Year_Project/eval/runs/2026-11-19-symbolic-B-007-head/report.json
+BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-007-head/SimplCommerce.sln
+╭───────────────────────────────────────────────────────────────┬────────────┬────────────┬────────┬──────────╮
+│ Endpoint                                                      │ Final      │ Symbolic   │ Rules  │ Semantic │
+├───────────────────────────────────────────────────────────────┼────────────┼────────────┼────────┼──────────┤
+│ GET                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/appsettings                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/countries/{id}                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/countries/{id}                                        │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/countries                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/countries/{id}                                     │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/customergroups/{id}                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/customergroups                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/customergroups/{id}                                   │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/customergroups/{id}                                │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/states-provinces/{stateorprovinceid}/districts        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/entities                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET home/errorwithcode/{statuscode}                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST                                                          │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ GET api/countries/{countryid}/states-provinces                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/states-provinces/grid                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/states-provinces/{id}                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/states-provinces/{id}                                 │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/states-provinces                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/states-provinces/{id}                              │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/online-themes/{name}                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/online-themes/{name}/install                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/themes/{themename}                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/themes/{themename}/download                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/country-states-provinces/{countryid}                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST user/address/create                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST user/address/edit/{id}                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/users/{id}                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/users                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/users/{id}                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/users/{id}                                         │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/widget-instances/{id}                              │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/brands/{id}                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/brands/{id}                                           │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/brands/{id}                                        │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/categories/{id}                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/categories                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/categories/{id}                                       │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/categories/{id}                                    │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/categories/{id}/products                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/categories/update-product/{id}                        │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/category-translations/{id}                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/category-translations/{id}                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/category-widgets/{id}                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/category-widgets                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/category-widgets/{id}                                 │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/products/{id}                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/products                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/products/{id}                                         │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/products/change-status/{id}                          │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/products/{id}                                      │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/product-attributes/{id}                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/product-attributes                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/product-attributes/{id}                               │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/product-attributes/{id}                            │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/product-attribute-groups/{id}                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/product-attribute-groups                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/product-attribute-groups/{id}                         │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/product-attribute-groups/{id}                      │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/product-clone/{id}                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/product-clone                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET product/product-overview                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/product-options/{id}                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/product-options                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/product-options/{id}                                  │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/product-options/{id}                               │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ PUT api/product-prices                                        │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/product-templates/{id}                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/product-templates                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/product-templates/{id}                                │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/product-templates/{id}                             │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/product-translations/{id}                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/product-translations/{id}                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/product-widgets/{id}                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/product-widgets                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/product-widgets/{id}                                  │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/simple-product-widgets/{id}                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/simple-product-widgets                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/simple-product-widgets/{id}                           │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/checkout/{checkoutid}/update-tax-and-shipping-prices │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/checkout/{checkoutid}/order                          │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/users/{userid}/addresses                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/invoices/print/{id}                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/orders/{id}                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/orders/change-order-status/{id}                      │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ GET user/orders/{orderid}                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/orders/{orderid}/history                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/carousel-widgets/{id}                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/carousel-widgets                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/carousel-widgets/{id}                                 │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/html-widgets/{id}                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/html-widgets                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/html-widgets/{id}                                     │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/menus/{id}                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/menus/{id}/add-items                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/menus/delete-item/{id}                             │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/menus                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/menus/{id}                                            │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/menus/{id}                                         │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/pages/{id}                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/pages                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/pages/{id}                                            │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/pages/{id}                                         │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/page-translations/{id}                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/page-translations/{id}                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/spacebar-widgets/{id}                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/spacebar-widgets/{id}                                 │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/localization/get-resources                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/localization/update-resources                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/review-replies/change-status/{id}                    │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/reviews/change-status/{id}                           │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/activitylog/most-viewed-entities/{entitytypeid}       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/vendors/{id}                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/vendors                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/vendors/{id}                                          │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/vendors/{id}                                       │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/news-categories/{id}                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/news-categories                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/news-categories/{id}                                  │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/news-categories/{id}                               │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/news-items/{id}                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/news-items                                           │ Vulnerable │ Vulnerable │ SYM-07 │ —        │
+│ PUT api/news-items/{id}                                       │ Vulnerable │ Vulnerable │ SYM-07 │ —        │
+│ DELETE api/news-items/{id}                                    │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST comparing-product/addto-comparison                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE comparing-product/remove                               │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/contacts/{id}                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/contacts/{id}                                      │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/contact-area/{id}                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/contact-area                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/contact-area/{id}                                     │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/contact-area/{id}                                  │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/contact-area-translations/{id}                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/contact-area-translations/{id}                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST contact                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/recently-viewed-widgets/{id}                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/recently-viewed-widgets                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/recently-viewed-widgets/{id}                          │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/cart-rules/{id}                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/cart-rules                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/cart-rules/{id}                                       │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/cart-rules/{id}                                    │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/tax-classes/{id}                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/tax-classes                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/tax-classes/{id}                                      │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/tax-classes/{id}                                   │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/tax-rates/{id}                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/tax-rates                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/tax-rates/{id}                                        │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/tax-rates/{id}                                     │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/shipping-providers/{id}/enable                       │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/shipping-providers/{id}/disable                      │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/shippings/table-rate/price-destinations/{id}          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/shippings/table-rate/price-destinations              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/shippings/table-rate/price-destinations/{id}          │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/shippings/table-rate/price-destinations/{id}       │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/stocks/grid                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/stocks                                                │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/stocks/history                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/stocks/back-in-stock                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/warehouses/{id}                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/warehouses                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/warehouses/{id}                                       │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/warehouses/{id}                                    │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/warehouses/{warehouseid}/products                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/warehouses/{warehouseid}/add-products                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/warehouses/{warehouseid}/add-all-products            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST cart/add-item                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET cart/add-item-result                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST cart/update-item-quantity                                │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST cart/remove-item                                         │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/orders/{orderid}/items-to-ship                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/orders/{orderid}/shipments                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/shipments/{id}                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/shipments                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET checkout/{checkoutid}/payment                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/orders/{orderid}/payments                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/payments-providers/{id}/enable                       │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/payments-providers/{id}/disable                      │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ PUT api/paypal-express/config                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST paypalexpress/createpayment                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST paypalexpress/executepayment                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/stripe/config                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST wishlist/add-item                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE wishlist/remove-item                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PATCH wishlist/update-item                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/comments/change-status/{id}                          │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST comments                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/braintree/config                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/momo/config                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET momo/result                                               │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST momo/notify                                              │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ PUT api/ngan-luong/config                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/cashfree/config                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET checkout/{checkoutid}/shipping                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST checkout/{checkoutid}/shipping                           │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST checkout/{checkoutid}/update-tax-and-shipping-prices     │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET checkout/success                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET checkout/error                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+╰───────────────────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
+projects 49 (with errors 0) · endpoints 327 (with ids 207) · paths 249 (truncated 0) · unresolved calls 118
+symbolic: 7 vulnerable · 0 protected · 70 unknown · 172 out of scope
+time 38.9s · peak memory 751 MB
+
+Unknown PUT api/countries/{id} via 'id' (4dbd3bbf877b)
+  SaveChanges on Country at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Country has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/countries/{id} via 'id' (385e60022f8c)
+  Remove on Country at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: Country has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/customergroups/{id} via 'id' (aefc0dcbc8b3)
+  SaveChanges on CustomerGroup at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: CustomerGroup has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/customergroups/{id} via 'id' (4ebe5d7c414a)
+  SaveChanges on CustomerGroup at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: CustomerGroup has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/states-provinces/{id} via 'id' (64706bcf6d1c)
+  SaveChanges on StateOrProvince at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: StateOrProvince has no owner candidate, so ownership
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/states-provinces/{id} via 'id' (32ea3de3038b)
+  Remove on StateOrProvince at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: StateOrProvince has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST  via 'id' (f9dc949cf5ea)
+  Remove on UserAddress at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: UserAddress (owners: UserId (User)) is selected by 
+client-controlled 'id' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/users/{id} via 'id' (f87bb5b819c9)
+  SaveChanges on User at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: User has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/widget-instances/{id} via 'id' (2d5fc235e301)
+  Remove on WidgetInstance at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: WidgetInstance has no owner candidate, so ownership cannot
+be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/brands/{id} via 'id' (e2d99853d97f)
+  SaveChanges on Brand at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Brand has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/brands/{id} via 'id' (8c3194c24944)
+  SaveChanges on Brand at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: Brand has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/categories/{id} via 'id' (5e93450c03d7)
+  SaveChanges on Category at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Category has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/categories/{id} via 'id' (a50498217edb)
+  SaveChanges on Category at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: Category has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/categories/update-product/{id} via 'id' (239d28945b1e)
+  SaveChanges on ProductCategory at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: ProductCategory has no owner candidate, so ownership
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/category-widgets/{id} via 'id' (d274fc7a2c06)
+  SaveChanges on WidgetInstance at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: WidgetInstance has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/products/{id} via 'id' (713816a9e88f)
+  SaveChanges on Product at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: Product has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/products/change-status/{id} via 'id' (c74eb1d1b382)
+  SaveChanges on Product at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Product has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/products/{id} via 'id' (e5cf629375e8)
+  SaveChanges on Product at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: Product has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/product-attributes/{id} via 'id' (7233b186d847)
+  SaveChanges on ProductAttribute at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: ProductAttribute has no owner candidate, so 
+ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/product-attributes/{id} via 'id' (9d35c6eb8a65)
+  Remove on ProductAttribute at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: ProductAttribute has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/product-attribute-groups/{id} via 'id' (b4a59f624df5)
+  SaveChanges on ProductAttributeGroup at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: ProductAttributeGroup has no owner candidate, 
+so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/product-attribute-groups/{id} via 'id' (b7f552e9fc51)
+  Remove on ProductAttributeGroup at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: ProductAttributeGroup has no owner candidate, so 
+ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/product-options/{id} via 'id' (66f7a90053d8)
+  SaveChanges on ProductOption at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: ProductOption has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/product-options/{id} via 'id' (7a52b40dcbf1)
+  Remove on ProductOption at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: ProductOption has no owner candidate, so ownership cannot 
+be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/product-prices via 'productPriceItemForms' (6ca9cdd67633)
+  SaveChanges on Product at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Product has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/product-templates/{id} via 'id' (bfa68f6d75ac)
+  SaveChanges on ProductTemplate at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: ProductTemplate has no owner candidate, so ownership
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/product-templates/{id} via 'id' (2ae1ce2629fd)
+  Remove on ProductTemplate at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: ProductTemplate has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/product-widgets/{id} via 'id' (24fe254ea157)
+  SaveChanges on WidgetInstance at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: WidgetInstance has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/simple-product-widgets/{id} via 'id' (5880e98d0d09)
+  SaveChanges on WidgetInstance at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: WidgetInstance has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/checkout/{checkoutid}/order via 'checkoutId' (e6e6717f96b6)
+  SaveChanges on Checkout at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: Checkout has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/orders/change-order-status/{id} via 'id' (34716750e8ff)
+  SaveChanges on Order at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Order (owners: CreatedBy (User), CreatedById (User), 
+CustomerId (User), LatestUpdatedById (User)) is selected by client-controlled 'id' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/carousel-widgets/{id} via 'id' (ff5125d16425)
+  SaveChanges on WidgetInstance at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: WidgetInstance has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/html-widgets/{id} via 'id' (8377c72d9183)
+  SaveChanges on WidgetInstance at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: WidgetInstance has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/menus/delete-item/{id} via 'id' (7d62f3fbd3c6)
+  Remove on MenuItem at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: MenuItem has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/menus/{id} via 'id' (3616dca13579)
+  SaveChanges on Menu at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Menu has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/menus/{id} via 'id' (037ae7b5d742)
+  Remove on Menu at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: Menu has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/pages/{id} via 'id' (84bc3ee71c01)
+  SaveChanges on Page at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Page has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/pages/{id} via 'id' (b714935f3e06)
+  Remove on Page at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: Page has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/spacebar-widgets/{id} via 'id' (6bc6cc3b2311)
+  SaveChanges on WidgetInstance at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: WidgetInstance has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/review-replies/change-status/{id} via 'id' (353070345ef6)
+  SaveChanges on Reply at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Reply has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/reviews/change-status/{id} via 'id' (cc107cb1841f)
+  SaveChanges on Review at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: Review has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/vendors/{id} via 'id' (25cac527af39)
+  SaveChanges on Vendor at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Vendor has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/vendors/{id} via 'id' (0f9120f7fc0c)
+  SaveChanges on Vendor at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: Vendor has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/news-categories/{id} via 'id' (275dc676b294)
+  SaveChanges on NewsCategory at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: NewsCategory has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/news-categories/{id} via 'id' (d9efc1c9c5ef)
+  SaveChanges on NewsCategory at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: NewsCategory has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/news-items via 'model' (5d184ad5534d)
+  SaveChanges on NewsItemCategory at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: detached NewsItemCategory built from the 
+client-controlled key is written without loading or checking ownership.
+  Symbolic only (semantic stage not run).
+
+Vulnerable PUT api/news-items/{id} via 'id' (9390b338627f)
+  SaveChanges on NewsItemCategory at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: detached NewsItemCategory built from the 
+client-controlled key is written without loading or checking ownership. Rejected checks: existence check does not bind the caller identity 
+(src/Modules/SimplCommerce.Module.News/Areas/News/Controllers/NewsItemApiController.cs:236).
+  Symbolic only (semantic stage not run).
+
+Vulnerable PUT api/news-items/{id} via 'model' (24be748775a4)
+  SaveChanges on NewsItemCategory at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: detached NewsItemCategory built from the 
+client-controlled key is written without loading or checking ownership. Rejected checks: existence check does not bind the caller identity 
+(src/Modules/SimplCommerce.Module.News/Areas/News/Controllers/NewsItemApiController.cs:236).
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/news-items/{id} via 'id' (0490540369bd)
+  SaveChanges on NewsItem at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: NewsItem has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE comparing-product/remove via 'id' (5097027f6208)
+  Remove on ComparingProduct at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: ComparingProduct has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/contacts/{id} via 'id' (9a9729fc3439)
+  SaveChanges on Contact at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: Contact has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/contact-area/{id} via 'id' (2dd78766c72e)
+  SaveChanges on ContactArea at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: ContactArea has no owner candidate, so ownership cannot 
+be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/contact-area/{id} via 'id' (3933135ab18a)
+  SaveChanges on ContactArea at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: ContactArea has no owner candidate, so ownership cannot 
+be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/recently-viewed-widgets/{id} via 'id' (4f9f5674fbcc)
+  SaveChanges on WidgetInstance at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: WidgetInstance has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/cart-rules/{id} via 'id' (d071ada11aa3)
+  SaveChanges on CartRule at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: CartRule has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/cart-rules/{id} via 'id' (e274bbfb2579)
+  Remove on CartRule at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: CartRule has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/tax-classes/{id} via 'id' (8dba6be64c49)
+  SaveChanges on TaxClass at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: TaxClass has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/tax-classes/{id} via 'id' (ec5f34d89a4e)
+  Remove on TaxClass at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: TaxClass has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/tax-rates/{id} via 'id' (50014ba3799b)
+  SaveChanges on TaxRate at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: TaxRate has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/tax-rates/{id} via 'id' (b7b9f3b0c752)
+  Remove on TaxRate at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: TaxRate has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/shipping-providers/{id}/enable via 'id' (09befe7b4c9e)
+  SaveChanges on ShippingProvider at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: ShippingProvider has no owner candidate, so 
+ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/shipping-providers/{id}/disable via 'id' (55b8d6bb62a7)
+  SaveChanges on ShippingProvider at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: ShippingProvider has no owner candidate, so 
+ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/shippings/table-rate/price-destinations/{id} via 'id' (4083a35650f8)
+  SaveChanges on PriceAndDestination at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: PriceAndDestination has no owner candidate, so 
+ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/shippings/table-rate/price-destinations/{id} via 'id' (7190984a1d50)
+  Remove on PriceAndDestination at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: PriceAndDestination has no owner candidate, so 
+ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/stocks via 'warehouseId' (66faa35f15ee)
+  SaveChanges on Product at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Product has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/stocks via 'stockVms' (f41646dd8021)
+  SaveChanges on Product at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Product has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/warehouses/{id} via 'id' (872ad09d2551)
+  SaveChanges on Warehouse at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Warehouse has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/warehouses/{id} via 'id' (e5bcb13d44c1)
+  Remove on Warehouse at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: Warehouse has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST cart/update-item-quantity via 'model' (c6e1ab4220d3)
+  SaveChanges on CartItem at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: CartItem has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST cart/remove-item via 'itemId' (2adaa768c4ed)
+  Remove on CartItem at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: CartItem has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/payments-providers/{id}/enable via 'id' (52561c21adfe)
+  SaveChanges on PaymentProvider at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: PaymentProvider has no owner candidate, so ownership
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/payments-providers/{id}/disable via 'id' (2b9582f5d79e)
+  SaveChanges on PaymentProvider at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: PaymentProvider has no owner candidate, so ownership
+cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/comments/change-status/{id} via 'id' (6684a9c983f0)
+  SaveChanges on Comment at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:40: Comment has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Vulnerable GET momo/result via 'result' (893a664ecd3d)
+  SaveChanges on Order at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Order (owners: CreatedBy (User), CreatedById (User), 
+CustomerId (User), LatestUpdatedById (User)) is selected by client-controlled 'result' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST momo/notify via 'result' (b0a5871b52de)
+  SaveChanges on Order at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Order (owners: CreatedBy (User), CreatedById (User), 
+CustomerId (User), LatestUpdatedById (User)) is selected by client-controlled 'result' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Unknown POST checkout/{checkoutid}/shipping via 'checkoutId' (114a79c9f624)
+  SaveChanges on Checkout at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Checkout has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST checkout/{checkoutid}/update-tax-and-shipping-prices via 'checkoutId' (94fcfc8f0d01)
+  SaveChanges on Checkout at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Checkout has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).

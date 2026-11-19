@@ -20,10 +20,10 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-006-fixed/Kavita.sln
 │ POST api/annotation/update                                                                        │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ DELETE api/annotation                                                                             │ Protected  │ Protected  │ SYM-03        │ —        │
 │ POST api/annotation/export-filter                                                                 │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
-│ GET api/book/{chapterid}/book-info                                                                │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ GET api/book/{chapterid}/book-resources                                                           │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ GET api/book/{chapterid}/chapters                                                                 │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ GET api/book/{chapterid}/book-page                                                                │ Unknown    │ Unknown    │ SYM-09        │ —        │
+│ GET api/book/{chapterid}/book-info                                                                │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/book/{chapterid}/book-resources                                                           │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/book/{chapterid}/chapters                                                                 │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/book/{chapterid}/book-page                                                                │ Protected  │ Protected  │ SYM-05        │ —        │
 │ POST api/cbl/sync                                                                                 │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/cbl/remap-rules                                                                          │ Unknown    │ Unknown    │ SYM-09        │ —        │
 │ POST api/cbl/remap-rules/{id}/promote                                                             │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
@@ -61,9 +61,9 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-006-fixed/Kavita.sln
 │ GET api/download/readinglist-size                                                                 │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/download/bulk-readinglist-size                                                           │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/download/bulk-series-size                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
-│ GET api/download/volume                                                                           │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ GET api/download/chapter                                                                          │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ GET api/download/series                                                                           │ Unknown    │ Unknown    │ SYM-09        │ —        │
+│ GET api/download/volume                                                                           │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/download/chapter                                                                          │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/download/series                                                                           │ Protected  │ Protected  │ SYM-05        │ —        │
 │ POST api/filter/update/series                                                                     │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/filter/update/reading-list                                                               │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/filter/update/person                                                                     │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
@@ -85,13 +85,13 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-006-fixed/Kavita.sln
 │ GET api/image/bookmark                                                                            │ Protected  │ Protected  │ SYM-03        │ —        │
 │ GET api/image/person-cover                                                                        │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/image/user-cover                                                                          │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
-│ GET api/image/external/series                                                                     │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ GET api/image/external/volume                                                                     │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ GET api/image/external/chapter                                                                    │ Unknown    │ Unknown    │ SYM-09        │ —        │
+│ GET api/image/external/series                                                                     │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/image/external/volume                                                                     │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/image/external/chapter                                                                    │ Protected  │ Protected  │ SYM-05        │ —        │
 │ POST api/kavita-plus-audit/entries                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/kavitaplusaudit/entries                                                                  │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
-│ GET api/kavita-plus-audit/entries/series/{seriesid}                                               │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ GET api/kavitaplusaudit/entries/series/{seriesid}                                                 │ Unknown    │ Unknown    │ SYM-09        │ —        │
+│ GET api/kavita-plus-audit/entries/series/{seriesid}                                               │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/kavitaplusaudit/entries/series/{seriesid}                                                 │ Protected  │ Protected  │ SYM-05        │ —        │
 │ POST api/kavita-plus-audit/my-activity                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/kavitaplusaudit/my-activity                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/koreader/{apikey}/users/auth                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
@@ -139,15 +139,15 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-006-fixed/Kavita.sln
 │ GET api/opds/{apikey}/series/{seriesid}                                                           │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}/chapter/{chapterid}                     │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
-│ GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}/chapter/{chapterid}/download/{filename} │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ GET api/opds/{apikey}/image                                                                       │ Unknown    │ Unknown    │ SYM-09        │ —        │
+│ GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}/chapter/{chapterid}/download/{filename} │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/opds/{apikey}/image                                                                       │ Protected  │ Protected  │ SYM-05,SYM-03 │ —        │
 │ GET api/opds/{apikey}/favicon                                                                     │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/panels/save-progress                                                                     │ Unknown    │ Unknown    │ SYM-09        │ —        │
 │ GET api/panels/get-progress                                                                       │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/person/roles                                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/person/all                                                                               │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/person/update                                                                            │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ POST api/person/fetch-cover                                                                       │ Unknown    │ Unknown    │ SYM-09        │ —        │
+│ POST api/person/fetch-cover                                                                       │ Protected  │ Protected  │ SYM-05        │ —        │
 │ GET api/person/series-known-for                                                                   │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/person/chapters-by-role                                                                   │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/person/merge                                                                             │ Unknown    │ Unknown    │ SYM-09        │ —        │
@@ -156,15 +156,15 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-006-fixed/Kavita.sln
 │ GET api/plugin/version                                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/rating/series                                                                            │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ POST api/rating/chapter                                                                           │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
-│ GET api/rating/overall-series                                                                     │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
-│ GET api/rating/overall-chapter                                                                    │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
-│ GET api/reader/pdf                                                                                │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ GET api/reader/image                                                                              │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ GET api/reader/thumbnail                                                                          │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ GET api/reader/bookmark-image                                                                     │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
-│ GET api/reader/file-dimensions                                                                    │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ GET api/reader/chapter-info                                                                       │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ GET api/reader/bookmark-info                                                                      │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/rating/overall-series                                                                     │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/rating/overall-chapter                                                                    │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/reader/pdf                                                                                │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/reader/image                                                                              │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/reader/thumbnail                                                                          │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/reader/bookmark-image                                                                     │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/reader/file-dimensions                                                                    │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/reader/chapter-info                                                                       │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/reader/bookmark-info                                                                      │ Protected  │ Protected  │ SYM-05        │ —        │
 │ POST api/reader/mark-chapter-read                                                                 │ Unknown    │ Unknown    │ SYM-09        │ —        │
 │ POST api/reader/mark-read                                                                         │ Unknown    │ Unknown    │ SYM-09        │ —        │
 │ POST api/reader/mark-unread                                                                       │ Unknown    │ Unknown    │ SYM-09        │ —        │
@@ -214,12 +214,12 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-006-fixed/Kavita.sln
 │ POST api/readinglist/update-by-chapter                                                            │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ GET api/readinglist/people                                                                        │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/readinglist/all-people                                                                    │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
-│ GET api/readinglist/next-chapter                                                                  │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ GET api/readinglist/prev-chapter                                                                  │ Unknown    │ Unknown    │ SYM-09        │ —        │
+│ GET api/readinglist/next-chapter                                                                  │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/readinglist/prev-chapter                                                                  │ Protected  │ Protected  │ SYM-05        │ —        │
 │ POST api/readinglist/promote-multiple                                                             │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ POST api/readinglist/delete-multiple                                                              │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ GET api/readinglist/info                                                                          │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
-│ POST api/readinglist/export-as-cbl                                                                │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/readinglist/export-as-cbl                                                                │ Protected  │ Protected  │ SYM-05        │ —        │
 │ POST api/readinglist/regenerate-cover                                                             │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/reading-profile/{libraryid}/{seriesid}                                                    │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/readingprofile/{libraryid}/{seriesid}                                                     │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
@@ -231,8 +231,8 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-006-fixed/Kavita.sln
 │ POST api/readingprofile/create                                                                    │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/reading-profile/promote                                                                  │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/readingprofile/promote                                                                   │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
-│ POST api/reading-profile/series                                                                   │ Unknown    │ Unknown    │ SYM-09        │ —        │
-│ POST api/readingprofile/series                                                                    │ Unknown    │ Unknown    │ SYM-09        │ —        │
+│ POST api/reading-profile/series                                                                   │ Protected  │ Protected  │ SYM-05        │ —        │
+│ POST api/readingprofile/series                                                                    │ Protected  │ Protected  │ SYM-05        │ —        │
 │ POST api/reading-profile/update-parent                                                            │ Protected  │ Protected  │ SYM-03        │ —        │
 │ POST api/readingprofile/update-parent                                                             │ Protected  │ Protected  │ SYM-03        │ —        │
 │ POST api/reading-profile                                                                          │ Protected  │ Protected  │ SYM-03        │ —        │
@@ -290,7 +290,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-006-fixed/Kavita.sln
 │ GET api/series/all-related                                                                        │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/series/update-related                                                                    │ Unknown    │ Unknown    │ SYM-09        │ —        │
 │ GET api/series/external-series-detail                                                             │ Unknown    │ Unknown    │ SYM-02        │ —        │
-│ GET api/series/next-expected                                                                      │ Unknown    │ Unknown    │ SYM-09        │ —        │
+│ GET api/series/next-expected                                                                      │ Protected  │ Protected  │ SYM-05        │ —        │
 │ POST api/series/match                                                                             │ Unknown    │ Unknown    │ SYM-09        │ —        │
 │ POST api/series/update-match                                                                      │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/series/dont-match                                                                        │ Unknown    │ Unknown    │ SYM-09        │ —        │
@@ -361,8 +361,8 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-006-fixed/Kavita.sln
 │ POST api/wanttoread/remove-series                                                                 │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴───────────────┴──────────╯
 projects 13 (with errors 3) · endpoints 543 (with ids 353) · paths 423 (truncated 2) · unresolved calls 2555
-symbolic: 52 vulnerable · 32 protected · 90 unknown · 249 out of scope
-time 79.9s · peak memory 1986 MB
+symbolic: 47 vulnerable · 64 protected · 63 unknown · 249 out of scope
+time 94.3s · peak memory 1991 MB
 
 Unknown POST api/account/update via 'dto' (e463dae093be)
   Read on AppUser at Kavita.Database/Repositories/UserRepository.cs:136: AppUser has no owner candidate, so ownership cannot be checked.
@@ -384,22 +384,6 @@ Vulnerable POST api/annotation/update via 'dto' (e817eb91c8eb)
   Read on AppUserAnnotation at Kavita.Database/Repositories/AnnotationRepository.cs:56: AppUserAnnotation (owners: AppUserId (User)) is selected by 
 client-controlled 'dto' and changed with no valid owner guard or applicable query filter. Rejected checks: guard does not precede the state change 
 (Kavita.Services/AnnotationService.cs:118).
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/book/{chapterid}/book-info via 'chapterId' (04bf2b08e10d)
-  Read on MangaFile at Kavita.Database/Repositories/ChapterRepository.cs:136: MangaFile has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/book/{chapterid}/book-resources via 'chapterId' (3eb7eaa27743)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/book/{chapterid}/chapters via 'chapterId' (7080dbfb8cea)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/book/{chapterid}/book-page via 'chapterId' (96467f57b5c0)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter has no owner candidate, so ownership cannot be checked.
   Symbolic only (semantic stage not run).
 
 Unknown POST api/cbl/remap-rules via 'dto' (f99ff6546037)
@@ -482,18 +466,6 @@ Vulnerable POST api/device/send-series-to via 'dto' (a13b42af7219)
 with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
-Unknown GET api/download/volume via 'volumeId' (06225a8e3888)
-  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:165: Volume has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/download/chapter via 'chapterId' (8cf6448cbb4a)
-  Read on MangaFile at Kavita.Database/Repositories/ChapterRepository.cs:136: MangaFile has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/download/series via 'seriesId' (ec8d254d09a2)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
 Vulnerable POST api/filter/rename via 'filterId' (efecbf6edaec)
   Read on AppUserSmartFilter at Kavita.Server/Controllers/FilterController.cs:286: AppUserSmartFilter (owners: AppUserId (User)) is selected by 
 client-controlled 'filterId' and changed with no valid owner guard or applicable query filter.
@@ -517,30 +489,6 @@ Vulnerable GET api/image/readinglist-cover via 'readingListId' (b09187e53ef2)
   Read on ReadingList at Kavita.Database/Repositories/ReadingListRepository.cs:302: ReadingList (owners: AppUserId (User)) is selected by client-controlled 
 'readingListId' and changed with no valid owner guard or applicable query filter. Rejected checks: check is combined with other conditions and does not always 
 stop the request (Kavita.Server/Controllers/ImageController.cs:115).
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/image/external/series via 'seriesId' (61dbac96c129)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/image/external/volume via 'seriesId' (f2318e37d542)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/image/external/volume via 'volumeId' (45709be5ce81)
-  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:165: Volume has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/image/external/chapter via 'seriesId' (fd77a1d356ab)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/kavita-plus-audit/entries/series/{seriesid} via 'seriesId' (781989bee6de)
-  Read on Series at Kavita.Database/Repositories/KavitaPlusAuditRepository.cs:132: Series has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/kavitaplusaudit/entries/series/{seriesid} via 'seriesId' (63ef46da869f)
-  Read on Series at Kavita.Database/Repositories/KavitaPlusAuditRepository.cs:132: Series has no owner candidate, so ownership cannot be checked.
   Symbolic only (semantic stage not run).
 
 Unknown GET api/koreader/{apikey}/syncs/progress/{ebookhash} via 'ebookHash' (fa7e27454bf6)
@@ -586,18 +534,6 @@ client-controlled 'collectionId' and changed with no valid owner guard or applic
 does not always stop the request (Kavita.Services/OpdsService.cs:440).
   Symbolic only (semantic stage not run).
 
-Unknown GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}/chapter/{chapterid}/download/{filename} via 'seriesId' (7e8e4ef4d053)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}/chapter/{chapterid}/download/{filename} via 'chapterId' (76bf49eaadab)
-  Read on MangaFile at Kavita.Database/Repositories/ChapterRepository.cs:136: MangaFile has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/opds/{apikey}/image via 'chapterId' (53513a98a87d)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
 Unknown POST api/panels/save-progress via 'dto' (521c8d25ee17)
   Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter has no owner candidate, so ownership cannot be checked.
   Symbolic only (semantic stage not run).
@@ -607,10 +543,6 @@ Unknown POST api/panels/save-progress via 'apiKey' (e615a774ca25)
   Symbolic only (semantic stage not run).
 
 Unknown POST api/person/update via 'dto' (b9df97976842)
-  Read on Person at Kavita.Database/Repositories/PersonRepository.cs:206: Person has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown POST api/person/fetch-cover via 'personId' (f2deddf2182e)
   Read on Person at Kavita.Database/Repositories/PersonRepository.cs:206: Person has no owner candidate, so ownership cannot be checked.
   Symbolic only (semantic stage not run).
 
@@ -630,46 +562,6 @@ Vulnerable POST api/rating/series via 'updateRating' (8e7433086a40)
 Vulnerable POST api/rating/chapter via 'updateRating' (088ffd4ab76f)
   Read on AppUserChapterRating at Kavita.Database/Repositories/UserRepository.cs:675: AppUserChapterRating (owners: AppUserId (User)) is selected by 
 client-controlled 'updateRating' and changed with no valid owner guard or applicable query filter.
-  Symbolic only (semantic stage not run).
-
-Vulnerable GET api/rating/overall-series via 'seriesId' (a66edcaa7536)
-  Read on AppUserRating at Kavita.Database/Repositories/SeriesRepository.cs:1776: AppUserRating (owners: AppUserId (User)) is selected by client-controlled 
-'seriesId' and changed with no valid owner guard or applicable query filter.
-  Symbolic only (semantic stage not run).
-
-Vulnerable GET api/rating/overall-chapter via 'chapterId' (7774fa75a058)
-  Read on AppUserChapterRating at Kavita.Database/Repositories/ChapterRepository.cs:287: AppUserChapterRating (owners: AppUserId (User)) is selected by 
-client-controlled 'chapterId' and changed with no valid owner guard or applicable query filter.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/reader/pdf via 'chapterId' (e8414db4b35f)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/reader/image via 'chapterId' (1458e8dab2ae)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/reader/thumbnail via 'chapterId' (37fb05a3e50b)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Vulnerable GET api/reader/bookmark-image via 'seriesId' (62474434ef81)
-  Read on AppUserBookmark at Kavita.Database/Repositories/UserRepository.cs:184: AppUserBookmark (owners: AppUserId (User)) is selected by client-controlled 
-'seriesId' and changed with no valid owner guard or applicable query filter.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/reader/file-dimensions via 'chapterId' (ad99b2609cbe)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/reader/chapter-info via 'chapterId' (0b6ae3fed46b)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Vulnerable GET api/reader/bookmark-info via 'seriesId' (65433f145f6c)
-  Read on AppUserBookmark at Kavita.Database/Repositories/UserRepository.cs:184: AppUserBookmark (owners: AppUserId (User)) is selected by client-controlled 
-'seriesId' and changed with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
 Unknown POST api/reader/mark-chapter-read via 'dto' (b326a2c8cf50)
@@ -769,14 +661,6 @@ Vulnerable POST api/readinglist/update-by-chapter via 'dto' (f54479af3a9d)
 and changed with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
-Unknown GET api/readinglist/next-chapter via 'readingListId' (a4923d000217)
-  Read on ReadingListItem at Kavita.Database/Repositories/ReadingListRepository.cs:512: ReadingListItem has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/readinglist/prev-chapter via 'readingListId' (e68d8cdc1583)
-  Read on ReadingListItem at Kavita.Database/Repositories/ReadingListRepository.cs:512: ReadingListItem has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
 Vulnerable POST api/readinglist/promote-multiple via 'dto' (46376f8333d1)
   Read on ReadingList at Kavita.Database/Repositories/ReadingListRepository.cs:193: ReadingList (owners: AppUserId (User)) is selected by client-controlled 
 'dto' and changed with no valid owner guard or applicable query filter. Rejected checks: guard does not precede the state change 
@@ -786,19 +670,6 @@ Vulnerable POST api/readinglist/promote-multiple via 'dto' (46376f8333d1)
 Vulnerable POST api/readinglist/delete-multiple via 'dto' (d9f891df70d8)
   Read on ReadingList at Kavita.Server/Controllers/ReadingListController.cs:640: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' 
 and changed with no valid owner guard or applicable query filter.
-  Symbolic only (semantic stage not run).
-
-Vulnerable POST api/readinglist/export-as-cbl via 'readingListId' (bb3ce12e4b54)
-  Read on ReadingList at Kavita.Services/ReadingLists/CblExportService.cs:45: ReadingList (owners: AppUserId (User)) is selected by client-controlled 
-'readingListId' and changed with no valid owner guard or applicable query filter.
-  Symbolic only (semantic stage not run).
-
-Unknown POST api/reading-profile/series via 'seriesId' (191be6ccac14)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown POST api/readingprofile/series via 'seriesId' (b1207107e005)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series has no owner candidate, so ownership cannot be checked.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/review/series via 'dto' (757b26cc84fd)
@@ -880,10 +751,6 @@ Kavita.Models.DTOs.KavitaPlus.Metadata.ExternalSeriesDetailDto?, System.TimeSpan
   Symbolic only (semantic stage not run).
 
 Unknown GET api/series/external-series-detail via 'seriesId' (9c6721216467)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series has no owner candidate, so ownership cannot be checked.
-  Symbolic only (semantic stage not run).
-
-Unknown GET api/series/next-expected via 'seriesId' (6ba56ddd41bd)
   Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series has no owner candidate, so ownership cannot be checked.
   Symbolic only (semantic stage not run).
 

@@ -1,0 +1,191 @@
+[scan] Loading solution (MSBuildWorkspace)…
+[scan] Stage 1: endpoints, policy, schema, DI, taint paths, rules…
+[scan] Done.
+wrote /home/user/Final_Year_Project/eval/runs/2026-11-19-symbolic-B-005-head/report.json
+BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-005-head/src/Moonglade.slnx
+╭──────────────────────────────────────────────┬────────────┬────────────┬────────┬──────────╮
+│ Endpoint                                     │ Final      │ Symbolic   │ Rules  │ Semantic │
+├──────────────────────────────────────────────┼────────────┼────────────┼────────┼──────────┤
+│ GET api/activitylog/{id}/metadata            │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ UNKNOWN {filename}                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET {filename}                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/category/{id}                        │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ PUT api/category/{id}                        │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/category/{id}                     │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/comment/{postid}                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/comment/{commentid}/approval/toggle  │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/comment/{commentid}/reply           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/dataporting/export/{type}            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET image/{filename}                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN image/{filename}                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/page/{id}                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/page/{id}                         │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/page/{id}                            │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST api/post/createoredit                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/post/{postid}/recycle             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/post/{postid}/publish                │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ PUT api/post/{postid}/unpublish              │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/post/{id}                            │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST api/postview                            │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/post/{postid}/restore               │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/post/{postid}/destroy             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/post/page/{pageid}/restore          │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/post/page/{pageid}/destroy        │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ PUT api/schedule/cancel/{postid}             │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ PUT api/schedule/postpone/{postid}           │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/settings/appearance                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PATCH api/settings/{group}                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/site-verification-files/{id}         │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ PUT api/site-verification-files/{id}         │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/site-verification-files/{id}/toggle │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/site-verification-files/{id}      │ Vulnerable │ Vulnerable │ SYM-07 │ —        │
+│ GET rss/{slug}                               │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET atom/{slug}                              │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ PUT api/tags/{id}                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/tags/{id}                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/theme/{id}                        │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/widgets/{id}                         │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ PUT api/widgets/{id}                         │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/widgets/{id}                      │ Unknown    │ Unknown    │ SYM-09 │ —        │
+╰──────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
+projects 35 (with errors 4) · endpoints 106 (with ids 41) · paths 42 (truncated 0) · unresolved calls 120
+symbolic: 1 vulnerable · 0 protected · 26 unknown · 15 out of scope
+7 Minimal-API endpoints were not analysed (unsupported endpoint style).
+time 54.8s · peak memory 554 MB
+
+Unknown GET api/activitylog/{id}/metadata via 'id' (dfcf2af157f8)
+  No state change found, but 'id' entered unresolved code: external dispatch: 
+LiteBus.Queries.Abstractions.IQueryMediator.QueryAsync<Moonglade.ActivityLog.ActivityLogItem?>(LiteBus.Queries.Abstractions.IQuery<Moonglade.ActivityLog.Activit
+yLogItem?>, LiteBus.Queries.Abstractions.QueryMediationSettings?, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/category/{id} via 'id' (ab79baa1c097)
+  No state change found, but 'id' entered unresolved code: external dispatch: 
+LiteBus.Queries.Abstractions.IQueryMediator.QueryAsync<Moonglade.Data.Entities.CategoryEntity>(LiteBus.Queries.Abstractions.IQuery<Moonglade.Data.Entities.Categ
+oryEntity>, LiteBus.Queries.Abstractions.QueryMediationSettings?, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/category/{id} via 'id' (bd93e56d17bc)
+  SaveChanges on CategoryEntity at Moonglade.Features/Category/UpdateCategoryCommand.cs:27: CategoryEntity has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/category/{id} via 'command' (aaa92a5e3c4a)
+  SaveChanges on CategoryEntity at Moonglade.Features/Category/UpdateCategoryCommand.cs:27: CategoryEntity has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/category/{id} via 'id' (d5f07d364a2f)
+  Remove on CategoryEntity at Moonglade.Features/Category/DeleteCategoryCommand.cs:21: CategoryEntity has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/comment/{commentid}/approval/toggle via 'commentId' (0df4d7c18953)
+  SaveChanges on CommentEntity at Moonglade.Features/Comment/ToggleApprovalCommand.cs:23: CommentEntity has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/page/{id} via 'id' (58cf33e7cd0e)
+  SaveChanges on PageEntity at Moonglade.Features/Page/DeleteStyleSheetCommand.cs:22: PageEntity has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/page/{id} via 'id' (f39b4884eaf0)
+  No state change found, but 'id' entered unresolved code: external dispatch: 
+LiteBus.Queries.Abstractions.IQueryMediator.QueryAsync<Moonglade.Data.Entities.PageEntity>(LiteBus.Queries.Abstractions.IQuery<Moonglade.Data.Entities.PageEntit
+y>, LiteBus.Queries.Abstractions.QueryMediationSettings?, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/post/{postid}/publish via 'postId' (59f209fe0919)
+  SaveChanges on PostEntity at Moonglade.Features/Post/PublishPostCommand.cs:25: PostEntity has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/post/{postid}/unpublish via 'postId' (e5db326caa8c)
+  SaveChanges on PostEntity at Moonglade.Features/Post/UnpublishPostCommand.cs:23: PostEntity has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/post/{id} via 'id' (9efa1969848e)
+  No state change found, but 'id' entered unresolved code: external dispatch: 
+LiteBus.Queries.Abstractions.IQueryMediator.QueryAsync<Moonglade.Data.Entities.PostEntity>(LiteBus.Queries.Abstractions.IQuery<Moonglade.Data.Entities.PostEntit
+y>, LiteBus.Queries.Abstractions.QueryMediationSettings?, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/postview via 'request' (fae0313f009e)
+  SaveChanges on PostViewEntity at Moonglade.Features/Post/AddViewCountCommand.cs:27: PostViewEntity has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/post/{postid}/restore via 'postId' (e904f0a0434a)
+  SaveChanges on PostEntity at Moonglade.Features/Post/RestorePostCommand.cs:20: PostEntity has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/post/page/{pageid}/restore via 'pageId' (5add2e2a35a0)
+  SaveChanges on PageEntity at Moonglade.Features/Page/RestorePageCommand.cs:18: PageEntity has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/post/page/{pageid}/destroy via 'pageId' (44ab9f12bcfc)
+  SaveChanges on PageEntity at Moonglade.Features/Page/DeleteStyleSheetCommand.cs:22: PageEntity has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/schedule/cancel/{postid} via 'postId' (5c3123b66f53)
+  SaveChanges on PostEntity at Moonglade.Features/Post/CancelScheduleCommand.cs:29: PostEntity has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/schedule/postpone/{postid} via 'postId' (a61cf3bdd2e8)
+  SaveChanges on PostEntity at Moonglade.Features/Post/PostponePostCommand.cs:26: PostEntity has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/site-verification-files/{id} via 'id' (64c683dfcf82)
+  No state change found, but 'id' entered unresolved code: external dispatch: 
+LiteBus.Queries.Abstractions.IQueryMediator.QueryAsync<Moonglade.Features.SiteVerification.SiteVerificationFileDetail>(LiteBus.Queries.Abstractions.IQuery<Moong
+lade.Features.SiteVerification.SiteVerificationFileDetail>, LiteBus.Queries.Abstractions.QueryMediationSettings?, System.Threading.CancellationToken) receives 
+the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/site-verification-files/{id} via 'id' (505332ab6710)
+  SaveChanges on SiteVerificationFileEntity at Moonglade.Features/SiteVerification/UpdateSiteVerificationFileCommand.cs:40: SiteVerificationFileEntity has no 
+owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/site-verification-files/{id}/toggle via 'id' (15f3e6fae1b1)
+  SaveChanges on SiteVerificationFileEntity at Moonglade.Features/SiteVerification/ToggleSiteVerificationFileCommand.cs:21: SiteVerificationFileEntity has no 
+owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Vulnerable DELETE api/site-verification-files/{id} via 'id' (64022ad57aab)
+  BulkDelete on SiteVerificationFileEntity at Moonglade.Features/SiteVerification/DeleteSiteVerificationFileCommand.cs:20: bulk write selected by the 
+client-controlled id has no owner predicate. Rejected checks: existence check does not bind the caller identity 
+(Moonglade.Features/SiteVerification/DeleteSiteVerificationFileCommand.cs:15).
+  Symbolic only (semantic stage not run).
+
+Unknown GET rss/{slug} via 'slug' (1d70f66632c3)
+  No state change found, but 'slug' entered unresolved code: ambiguous dispatch: 2 implementations of Moonglade.Configuration.IBlogConfig.Capture() (BlogConfig,
+CountingReader); ambiguous dispatch: 3 implementations of Moonglade.Auth.IOwnerProfileReader.ReadProfileAsync(System.Threading.CancellationToken) 
+(OwnerAccountStore, ProfileReader, TestOwnerProfileReader); ambiguous dispatch: 3 implementations of 
+Moonglade.Auth.IOwnerProfileReader.ReadPresentationAsync(System.Threading.CancellationToken) (OwnerAccountStore, ProfileReader, TestOwnerProfileReader); 
+external dispatch: Edi.CacheAside.InMemory.ICacheAside.GetOrCreateAsync<Microsoft.AspNetCore.Mvc.IActionResult>(string, string, 
+System.Func<System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult>>, System.TimeSpan?) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown GET atom/{slug} via 'slug' (87981245a89f)
+  No state change found, but 'slug' entered unresolved code: ambiguous dispatch: 2 implementations of Moonglade.Configuration.IBlogConfig.Capture() (BlogConfig,
+CountingReader); ambiguous dispatch: 3 implementations of Moonglade.Auth.IOwnerProfileReader.ReadProfileAsync(System.Threading.CancellationToken) 
+(OwnerAccountStore, ProfileReader, TestOwnerProfileReader); ambiguous dispatch: 3 implementations of 
+Moonglade.Auth.IOwnerProfileReader.ReadPresentationAsync(System.Threading.CancellationToken) (OwnerAccountStore, ProfileReader, TestOwnerProfileReader); 
+external dispatch: Edi.CacheAside.InMemory.ICacheAside.GetOrCreateAsync<Microsoft.AspNetCore.Mvc.IActionResult>(string, string, 
+System.Func<System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult>>, System.TimeSpan?) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/theme/{id} via 'id' (a6333bfab5ff)
+  Remove on BlogThemeEntity at Moonglade.Theme/DeleteThemeCommand.cs:17: BlogThemeEntity has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/widgets/{id} via 'id' (e10d36c48861)
+  No state change found, but 'id' entered unresolved code: external dispatch: 
+LiteBus.Queries.Abstractions.IQueryMediator.QueryAsync<Moonglade.Data.Entities.WidgetEntity>(LiteBus.Queries.Abstractions.IQuery<Moonglade.Data.Entities.WidgetE
+ntity>, LiteBus.Queries.Abstractions.QueryMediationSettings?, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/widgets/{id} via 'id' (0c974299c067)
+  SaveChanges on WidgetEntity at Moonglade.Widgets/UpdateWidgetCommand.cs:26: WidgetEntity has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/widgets/{id} via 'id' (be7a8b3d01f2)
+  Remove on WidgetEntity at Moonglade.Widgets/DeleteWidgetCommand.cs:18: WidgetEntity has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
