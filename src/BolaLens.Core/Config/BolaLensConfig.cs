@@ -15,6 +15,14 @@ public sealed class BolaLensConfig
 
     public static BolaLensConfig Default { get; } = new();
 
+    /// <summary>Same configuration with another inference model.</summary>
+    public BolaLensConfig WithModel(string modelPath) =>
+        new() { Analysis = Analysis, Identity = Identity, Ownership = Ownership, Inference = Inference.WithModel(modelPath) };
+
+    /// <summary>Same configuration with the calibration gate switched on/off.</summary>
+    public BolaLensConfig WithGate(bool enabled) =>
+        new() { Analysis = Analysis, Identity = Identity, Ownership = Ownership, Inference = Inference.WithGate(enabled) };
+
     /// <summary>Loads a config file (or the defaults if <paramref name="path"/> is null).</summary>
     public static BolaLensConfig Load(string? path)
     {
@@ -69,10 +77,48 @@ public sealed class OwnershipOptions
 public sealed class InferenceOptions
 {
     public string ModelPath { get; init; } = "models/phi3-mini-4k/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4";
+
+    /// <summary>Identifier written into reports; empty = the model folder name.</summary>
     public string ModelId { get; init; } = "phi3-mini-4k-instruct-cpu-int4";
-    public int MaxLength { get; init; } = 3072;
+
+    /// <summary>Upper bound on prompt + output tokens (the model's usable context).</summary>
+    public int MaxLength { get; init; } = 4096;
+
+    /// <summary>Output budget per answer (the JSON verdict is short).</summary>
+    public int MaxNewTokens { get; init; } = 160;
+
     public double SuppressThreshold { get; init; } = 0.80;
     public int RetryOnParseFailure { get; init; } = 1;
     public int MaxSliceTokens { get; init; } = 700;
     public string PromptVersion { get; init; } = "v1";
+
+    /// <summary>"auto" (from genai_config.json / chat template), "phi3" or "chatml".</summary>
+    public string ChatFormat { get; init; } = "auto";
+
+    /// <summary>Constrain decoding to the verdict JSON schema (ONNX Runtime GenAI guidance). Recommended for small models.</summary>
+    public bool JsonGuidance { get; init; } = true;
+
+    /// <summary>Test the model on labelled calibration probes first; below <see cref="GateMinCorrect"/> it is advisory only.</summary>
+    public bool CalibrationGate { get; init; } = true;
+
+    /// <summary>Probes (of 4: 2 vulnerable, 2 protected) a model must answer correctly; a constant answer scores 2.</summary>
+    public int GateMinCorrect { get; init; } = 3;
+
+    /// <summary>Copy with another model folder; the model id becomes the folder name.</summary>
+    public InferenceOptions WithModel(string modelPath) => new()
+    {
+        ModelPath = modelPath,
+        ModelId = Path.GetFileName(Path.TrimEndingDirectorySeparator(Path.GetFullPath(modelPath))),
+        MaxLength = MaxLength, MaxNewTokens = MaxNewTokens, SuppressThreshold = SuppressThreshold,
+        RetryOnParseFailure = RetryOnParseFailure, MaxSliceTokens = MaxSliceTokens, PromptVersion = PromptVersion,
+        ChatFormat = ChatFormat, JsonGuidance = JsonGuidance, CalibrationGate = CalibrationGate, GateMinCorrect = GateMinCorrect,
+    };
+
+    /// <summary>Copy with the calibration gate switched on/off.</summary>
+    public InferenceOptions WithGate(bool enabled) => new()
+    {
+        ModelPath = ModelPath, ModelId = ModelId, MaxLength = MaxLength, MaxNewTokens = MaxNewTokens, SuppressThreshold = SuppressThreshold,
+        RetryOnParseFailure = RetryOnParseFailure, MaxSliceTokens = MaxSliceTokens, PromptVersion = PromptVersion,
+        ChatFormat = ChatFormat, JsonGuidance = JsonGuidance, CalibrationGate = enabled, GateMinCorrect = GateMinCorrect,
+    };
 }

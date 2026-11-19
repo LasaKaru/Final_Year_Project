@@ -1,0 +1,5 @@
+L1  [ENDPOINT] DELETE api/recipes/{recipeId} -> RecipesController.Remove  (Probes.cs:71)
+L2  [POLICY] [Authorize]; fallback=none; scheme=Cookies
+L3  [SCHEMA] Recipe owners: AuthorId(User); query filters: none
+L4  [SOURCE] recipeId : long (route, client-controlled)  (Probes.cs:72)
+L5  [SINK] var n = await db.Recipes.Where(r => r.Id == recipeId && r.AuthorId == session.UserId).ExecuteDeleteAsync();   (state change: BulkDelete Recipe)  (Probes.cs:74)

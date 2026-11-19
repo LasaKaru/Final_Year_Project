@@ -18,5 +18,6 @@
     <ProjectReference Include="..\BolaLens.Inference\BolaLens.Inference.csproj" />
     <ProjectReference Include="..\BolaLens.Reporting\BolaLens.Reporting.csproj" />
     <ProjectReference Include="..\BolaLens.Eval\BolaLens.Eval.csproj" />
+    <ProjectReference Include="..\BolaLens.App\BolaLens.App.csproj" />
   </ItemGroup>
 </Project>

@@ -1,13 +1,13 @@
 using System.CommandLine;
-using BolaLens.Cli.Scanning;
+using BolaLens.App;
 using BolaLens.Core.Config;
 using BolaLens.Core.Model;
 using BolaLens.Reporting;
 
 namespace BolaLens.Cli.Commands;
 
-/// <summary>`bolalens scan &lt;path&gt; --mode symbolic|hybrid [--config] [--out] [--model]` — full pipeline →
-/// report.json + console summary. Exit code 1 if any final verdict is Vulnerable (CI gating, FR15).</summary>
+/// <summary>`bolalens scan &lt;path&gt; --mode symbolic|hybrid [--config] [--out] [--model] [--save]` — full
+/// pipeline → report.json + console summary. Exit code 1 if any final verdict is Vulnerable (CI gating, FR15).</summary>
 public static class ScanCommand
 {
     public static Command Create()
@@ -18,11 +18,13 @@ public static class ScanCommand
         var output = Common.OutOption();
         output.Description = "Write report JSON here";
         var config = Common.ConfigOption();
-        var model = new Option<string?>("--model") { Description = "Override inference.modelPath (folder with genai_config.json)" };
+        var model = new Option<string?>("--model") { Description = "Model folder (with genai_config.json); overrides inference.modelPath" };
+        var save = new Option<string?>("--save") { Description = "Also store the run (report + context) in this runs folder, e.g. .bolalens/runs (viewable in `bolalens ui`)" };
         var quiet = new Option<bool>("--quiet", "-q") { Description = "Only print the endpoint table, not the explanations" };
+        var noGate = new Option<bool>("--no-gate") { Description = "Fuse the model's verdicts even if it fails the calibration gate (for experiments)" };
         var noFail = new Option<bool>("--no-fail") { Description = "Always exit 0 when the scan completes (do not gate on findings)" };
 
-        var cmd = new Command("scan", "Run the full pipeline and write a JSON report") { path, mode, output, config, model, quiet, noFail };
+        var cmd = new Command("scan", "Run the full pipeline and write a JSON report") { path, mode, output, config, model, save, quiet, noGate, noFail };
         cmd.SetAction(async (r, ct) =>
         {
             BolaLensConfig cfg;
@@ -35,14 +37,15 @@ public static class ScanCommand
                 Common.Error(ex.Message);
                 return Common.LoadError;
             }
-            if (r.GetValue(model) is { } m)
-                cfg = new BolaLensConfig { Analysis = cfg.Analysis, Identity = cfg.Identity, Ownership = cfg.Ownership, Inference = CopyWithModel(cfg.Inference, m) };
+            if (r.GetValue(model) is { } m) cfg = cfg.WithModel(m);
+            if (r.GetValue(noGate)) cfg = cfg.WithGate(false);
 
             var scanMode = r.GetValue(mode) == "hybrid" ? ScanMode.Hybrid : ScanMode.Symbolic;
-            ScanReport report;
+            ScanResult result;
             try
             {
-                (report, _) = await new ScanService(cfg).ScanAsync(r.GetValue(path)!, scanMode, ct);
+                var progress = new Progress<string>(msg => Console.Error.WriteLine($"[scan] {msg}"));
+                result = await new ScanService(cfg).ScanAsync(r.GetValue(path)!, scanMode, ct, r.GetValue(quiet) ? null : progress);
             }
             catch (Exception ex) when (ex is FileNotFoundException or NotSupportedException or InvalidOperationException or IOException or DllNotFoundException or TypeInitializationException)
             {
@@ -50,10 +53,16 @@ public static class ScanCommand
                 return Common.LoadError;
             }
 
+            var report = result.Report;
             if (r.GetValue(output) is { } outPath)
             {
                 await JsonReportWriter.WriteFileAsync(report, outPath, ct);
                 Console.Error.WriteLine($"wrote {outPath}");
+            }
+            if (r.GetValue(save) is { } runs)
+            {
+                var id = await new RunStore(runs).SaveAsync(result, ct);
+                Console.Error.WriteLine($"saved run {id} in {runs}");
             }
             new ConsoleSummaryRenderer(Common.CreateConsole()).Render(report, details: !r.GetValue(quiet));
             if (r.GetValue(noFail)) return Common.Ok;
@@ -61,10 +70,4 @@ public static class ScanCommand
         });
         return cmd;
     }
-
-    private static InferenceOptions CopyWithModel(InferenceOptions o, string modelPath) => new()
-    {
-        ModelPath = modelPath, ModelId = o.ModelId, MaxLength = o.MaxLength, SuppressThreshold = o.SuppressThreshold,
-        RetryOnParseFailure = o.RetryOnParseFailure, MaxSliceTokens = o.MaxSliceTokens, PromptVersion = o.PromptVersion,
-    };
 }

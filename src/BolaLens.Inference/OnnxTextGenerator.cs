@@ -4,8 +4,8 @@ using Microsoft.ML.OnnxRuntimeGenAI;
 namespace BolaLens.Inference;
 
 /// <summary>Runs a local ONNX small language model (ONNX Runtime GenAI) over a prompt and returns the
-/// raw text. Greedy decoding for repeatability; stops early when the first JSON object is complete.
-/// Input: model folder (genai_config.json + *.onnx). Limitation: CPU build; one generation at a time.</summary>
+/// raw text. Greedy decoding for repeatability; optional JSON-schema guidance; stops early when the first
+/// JSON object is complete. Input: model folder (genai_config.json + *.onnx). Limitation: CPU build; one generation at a time.</summary>
 public sealed class OnnxTextGenerator : IDisposable
 {
     private readonly OgaHandle _oga = new();
@@ -20,12 +20,18 @@ public sealed class OnnxTextGenerator : IDisposable
         _tokenizer = new Tokenizer(_model);
     }
 
-    public (string Text, int PromptTokens, int OutputTokens) Generate(string prompt, int maxLength, CancellationToken ct)
+    /// <summary>Greedy generation of at most <paramref name="maxNewTokens"/> tokens (bounded by <paramref name="maxLength"/>
+    /// prompt+output tokens). With <paramref name="jsonSchema"/> decoding is constrained to that schema.</summary>
+    public (string Text, int PromptTokens, int OutputTokens) Generate(string prompt, int maxNewTokens, int maxLength, string? jsonSchema, CancellationToken ct)
     {
         using var sequences = _tokenizer.Encode(prompt);
+        var promptTokens = sequences[0].Length;
+        if (promptTokens >= maxLength)
+            throw new InvalidOperationException($"prompt has {promptTokens} tokens, more than inference.maxLength={maxLength}");
         using var gp = new GeneratorParams(_model);
-        gp.SetSearchOption("max_length", maxLength);
+        gp.SetSearchOption("max_length", Math.Min(maxLength, promptTokens + maxNewTokens));
         gp.SetSearchOption("do_sample", false);
+        if (jsonSchema is not null) gp.SetGuidance("json_schema", jsonSchema);
         using var generator = new Generator(_model, gp);
         generator.AppendTokenSequences(sequences);
 
@@ -56,7 +62,7 @@ public sealed class OnnxTextGenerator : IDisposable
             }
             if (started && depth <= 0) break;
         }
-        return (sb.ToString(), sequences[0].Length, outTokens);
+        return (sb.ToString(), promptTokens, outTokens);
     }
 
     public void Dispose()

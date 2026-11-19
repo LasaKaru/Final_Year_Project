@@ -1,0 +1,9 @@
+L1  [ENDPOINT] PUT api/gardens/{gardenId}/size -> GardensController.Resize  (Probes.cs:100)
+L2  [POLICY] [Authorize]; fallback=none; scheme=Cookies
+L3  [SCHEMA] Garden owners: OwnerId(User); query filters: none
+L4  [SOURCE] gardenId : long (route, client-controlled)  (Probes.cs:101)
+L5  [CALLER] var me = User.FindFirstValue(ClaimTypes.NameIdentifier);   (trusted identity (User): me)  (Probes.cs:103)
+L6  [LOAD] var garden = await db.Gardens.SingleAsync(g => g.Id == gardenId);   (loads Garden selected by the client-controlled id)  (Probes.cs:104)
+L7  [CHECK] if (garden.OwnerId != me) return Forbid();   (garden.OwnerId (owner: User) vs me (trusted identity: User))  (Probes.cs:105)
+L8  [MUTATE] garden.Size = change.Size;  (Probes.cs:106)
+L9  [SINK] await db.SaveChangesAsync();   (state change: SaveChanges Garden)  (Probes.cs:107)

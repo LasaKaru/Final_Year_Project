@@ -1,4 +1,5 @@
 using System.CommandLine;
+using BolaLens.Inference;
 using BolaLens.Slicing;
 using BolaLens.Slicing.Prompting;
 
@@ -14,7 +15,8 @@ public static class SliceCommand
         var endpoint = Common.EndpointOption();
         var prompt = new Option<bool>("--prompt") { Description = "Print the complete SLM prompt instead of only the slice" };
         var config = Common.ConfigOption();
-        var cmd = new Command("slice", "Print the IR slice (and optionally the prompt) for an endpoint") { path, endpoint, prompt, config };
+        var model = new Option<string?>("--model") { Description = "Model folder: selects the chat format of the printed prompt" };
+        var cmd = new Command("slice", "Print the IR slice (and optionally the prompt) for an endpoint") { path, endpoint, prompt, config, model };
         cmd.SetAction(async (r, ct) =>
         {
             var cfg = Common.LoadConfig(r.GetValue(config));
@@ -26,7 +28,10 @@ public static class SliceCommand
                 return Common.LoadError;
             }
             var slicer = new IrSliceGenerator(result.Policy, result.Schema, cfg.Inference.MaxSliceTokens);
-            var builder = new PromptBuilder(cfg.Inference.PromptVersion);
+            var format = r.GetValue(model) is { } m && ModelInfo.IsModelFolder(m)
+                ? ModelInfo.Inspect(m, cfg.Inference.ChatFormat).ChatFormat
+                : cfg.Inference.ChatFormat == ChatFormat.ChatMl ? ChatFormat.ChatMl : ChatFormat.Phi3;
+            var builder = new PromptBuilder(cfg.Inference.PromptVersion, chatFormat: format);
             foreach (var (p, _) in result.Paths)
             {
                 var slice = slicer.Generate(p);

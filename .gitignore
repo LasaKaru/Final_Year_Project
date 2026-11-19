@@ -493,3 +493,7 @@ eval/runs/**/raw/
 *.db
 *.db-shm
 *.db-wal
+
+# local model build workspace
+.model-work/
+.bolalens/

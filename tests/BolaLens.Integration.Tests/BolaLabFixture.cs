@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using BolaLens.Analysis.Loading;
 using BolaLens.Analysis.Pipeline;
-using BolaLens.Cli.Scanning;
+using BolaLens.App;
 using BolaLens.Core.Config;
 using BolaLens.Core.Model;
 

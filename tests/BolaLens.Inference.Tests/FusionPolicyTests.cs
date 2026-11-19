@@ -49,6 +49,16 @@ public class FusionPolicyTests
     }
 
     [Fact]
+    public void Advisory_mode_never_changes_the_symbolic_verdict()
+    {
+        Fusion.Fuse(Sym(VerdictStatus.Vulnerable), Sem(VerdictStatus.Protected, 0.99), advisory: true).Final.ShouldBe(VerdictStatus.Vulnerable);
+        Fusion.Fuse(Sym(VerdictStatus.Unknown, "SYM-02"), Sem(VerdictStatus.Vulnerable, 0.99), advisory: true).Final.ShouldBe(VerdictStatus.Unknown);
+        var (final, reason) = Fusion.Fuse(Sym(VerdictStatus.Protected, "SYM-05"), Sem(VerdictStatus.Vulnerable, 0.99), advisory: true);
+        final.ShouldBe(VerdictStatus.Protected);
+        reason.ShouldContain("calibration gate");
+    }
+
+    [Fact]
     public void Without_semantic_verdict_final_equals_symbolic() =>
         Fusion.Fuse(Sym(VerdictStatus.Vulnerable), null).Final.ShouldBe(VerdictStatus.Vulnerable);
 }

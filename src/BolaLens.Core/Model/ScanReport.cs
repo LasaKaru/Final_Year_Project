@@ -14,6 +14,7 @@ public sealed record RunInfo(
     string ConfigHash, string? ModelId, string? ModelSha256, string? PromptVersion,
     DateTimeOffset StartedUtc, double TotalSeconds, double? ModelLoadSeconds,
     long PeakWorkingSetBytes, string Machine,
-    IReadOnlyDictionary<string, double>? PhaseSeconds = null);
+    IReadOnlyDictionary<string, double>? PhaseSeconds = null,
+    ModelGateResult? ModelGate = null);
 
 public sealed record ScanReport(RunInfo Run, CoverageManifest Coverage, IReadOnlyList<Finding> Findings, IReadOnlyList<UnresolvedItem> LoadDiagnostics);

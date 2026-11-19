@@ -15,4 +15,6 @@ root.Subcommands.Add(ContextCommands.Paths());
 root.Subcommands.Add(SliceCommand.Create());
 root.Subcommands.Add(ScanCommand.Create());
 root.Subcommands.Add(EvalCommand.Create());
+root.Subcommands.Add(ModelsCommand.Create());
+root.Subcommands.Add(HtmlCommand.Create());
 return await root.Parse(args).InvokeAsync();

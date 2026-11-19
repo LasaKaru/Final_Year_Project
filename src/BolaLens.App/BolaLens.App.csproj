@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <DisableMSBuildAssemblyCopyCheck>true</DisableMSBuildAssemblyCopyCheck>
+  </PropertyGroup>
+  <!-- Application services shared by the two composition roots (CLI and local web UI). -->
+  <ItemGroup>
+    <ProjectReference Include="..\BolaLens.Core\BolaLens.Core.csproj" />
+    <ProjectReference Include="..\BolaLens.Analysis\BolaLens.Analysis.csproj" />
+    <ProjectReference Include="..\BolaLens.Slicing\BolaLens.Slicing.csproj" />
+    <ProjectReference Include="..\BolaLens.Inference\BolaLens.Inference.csproj" />
+    <ProjectReference Include="..\BolaLens.Reporting\BolaLens.Reporting.csproj" />
+    <ProjectReference Include="..\BolaLens.Eval\BolaLens.Eval.csproj" />
+  </ItemGroup>
+</Project>

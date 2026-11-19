@@ -1,3 +1,4 @@
+using BolaLens.Core.Abstractions;
 using BolaLens.Core.Model;
 using BolaLens.Inference;
 using BolaLens.Slicing;
@@ -12,19 +13,19 @@ public class ValidatorAndPromptTests
     {
         var prompts = new List<string>();
         var answers = new Queue<string>(["I think it is fine.", """{"status":"vulnerable","confidence":0.7,"reason":"r","evidence":["L2"]}"""]);
-        using var v = new OnnxSemanticValidator((p, _, _) => { prompts.Add(p); return (answers.Dequeue(), 1, 1); }, "fake");
-        var verdict = await v.ValidateAsync(SemanticResponseParserTests.Slice, "PROMPT", TestContext.Current.CancellationToken);
+        using var v = new OnnxSemanticValidator((p, _) => { prompts.Add(p); return (answers.Dequeue(), 1, 1); }, "fake");
+        var verdict = await v.ValidateAsync(SemanticResponseParserTests.Slice, new SemanticPrompt("PROMPT", "RETRY"), TestContext.Current.CancellationToken);
         verdict.ParseOk.ShouldBeTrue();
         verdict.Attempts.ShouldBe(2);
         verdict.Status.ShouldBe(VerdictStatus.Vulnerable);
-        prompts[1].ShouldEndWith(OnnxSemanticValidator.RetrySuffix);
+        prompts.ShouldBe(["PROMPT", "RETRY"]);
     }
 
     [Fact]
     public async Task Two_parse_failures_give_unknown_with_parse_ok_false()
     {
-        using var v = new OnnxSemanticValidator((_, _, _) => ("nope", 1, 1), "fake");
-        var verdict = await v.ValidateAsync(SemanticResponseParserTests.Slice, "PROMPT", TestContext.Current.CancellationToken);
+        using var v = new OnnxSemanticValidator((_, _) => ("nope", 1, 1), "fake");
+        var verdict = await v.ValidateAsync(SemanticResponseParserTests.Slice, new SemanticPrompt("PROMPT", "RETRY"), TestContext.Current.CancellationToken);
         verdict.ParseOk.ShouldBeFalse();
         verdict.Status.ShouldBe(VerdictStatus.Unknown);
         verdict.Reason.ShouldContain("parse failure after 2 attempt(s)");
@@ -42,6 +43,9 @@ public class ValidatorAndPromptTests
         prompt.ShouldContain("var x = await db.Xs.FindAsync(id);");
         prompt.ShouldStartWith("<|user|>");
         prompt.TrimEnd().ShouldEndWith("<|assistant|>");
+        var pair = builder.BuildPair(SemanticResponseParserTests.Slice);
+        pair.Primary.ShouldBe(prompt);
+        pair.Retry.ShouldContain(PromptBuilder.RetrySuffix + "\n<|end|>");
         prompt.ShouldNotContain("{{");
         prompt.ShouldNotContain("SYM-");
         // Few-shot examples must not reuse BolaLab entities (leakage, ADR-006)
@@ -73,16 +77,49 @@ public class ValidatorAndPromptTests
         full.Lines.Count(l => l.Tag == "CHECK").ShouldBe(60);
     }
 
-    /// <summary>Runs only when a real model folder is provided: BOLALENS_MODEL_PATH=models/phi3-mini-4k/...</summary>
+    [Fact]
+    public void ChatMl_wrapping_and_hash_depends_on_format()
+    {
+        var phi = new PromptBuilder();
+        var chatml = new PromptBuilder(chatFormat: ChatFormat.ChatMl);
+        var p = chatml.Build(SemanticResponseParserTests.Slice);
+        p.ShouldStartWith("<|im_start|>system");
+        p.ShouldEndWith("<|im_start|>assistant\n");
+        p.ShouldNotContain("<|user|>");
+        chatml.BuildPair(SemanticResponseParserTests.Slice).Retry.ShouldContain(PromptBuilder.RetrySuffix + "<|im_end|>");
+        chatml.Hash.ShouldNotBe(phi.Hash);
+        phi.Content(SemanticResponseParserTests.Slice).ShouldBe(chatml.Content(SemanticResponseParserTests.Slice));
+    }
+
+    [Fact]
+    public void Calibration_probes_are_balanced_and_disjoint_from_few_shot()
+    {
+        var probes = CalibrationProbes.Load();
+        probes.Count.ShouldBe(4);
+        probes.Count(p => p.Expected == VerdictStatus.Vulnerable).ShouldBe(2);
+        probes.Count(p => p.Expected == VerdictStatus.Protected).ShouldBe(2);
+        var fewShot = string.Join("\n", FewShotExamples.Load());
+        foreach (var p in probes)
+        {
+            p.Slice.Lines[0].Tag.ShouldBe("ENDPOINT");
+            p.Slice.HasLine("L4").ShouldBeTrue();
+            fewShot.ShouldNotContain(p.Slice.Lines[0].Text);
+        }
+    }
+
+    /// <summary>Runs only with a real model folder: BOLALENS_MODEL_PATH=models/smollm2-135m-instruct-int4 (or Phi-3).</summary>
     [Fact]
     [Trait("Category", "RequiresModel")]
-    public async Task Real_onnx_model_returns_parsable_json()
+    public async Task Real_onnx_model_returns_schema_valid_json_with_guidance()
     {
         var dir = Environment.GetEnvironmentVariable("BOLALENS_MODEL_PATH");
-        if (string.IsNullOrWhiteSpace(dir) || !Directory.Exists(dir)) Assert.Skip("BOLALENS_MODEL_PATH not set");
-        using var v = new OnnxSemanticValidator(dir, "local");
-        var verdict = await v.ValidateAsync(SemanticResponseParserTests.Slice, new PromptBuilder().Build(SemanticResponseParserTests.Slice), TestContext.Current.CancellationToken);
-        verdict.RawOutput.ShouldNotBeNullOrWhiteSpace();
+        if (string.IsNullOrWhiteSpace(dir) || !ModelInfo.IsModelFolder(dir)) Assert.Skip("BOLALENS_MODEL_PATH not set to a model folder");
+        var info = ModelInfo.Inspect(dir);
+        using var v = new OnnxSemanticValidator(info, maxNewTokens: 120);
+        var probe = CalibrationProbes.Load()[0];
+        var verdict = await v.ValidateAsync(probe.Slice, new PromptBuilder(chatFormat: info.ChatFormat).BuildPair(probe.Slice), TestContext.Current.CancellationToken);
+        verdict.ParseOk.ShouldBeTrue(verdict.RawOutput);
+        verdict.Attempts.ShouldBe(1);
         v.ModelLoadSeconds.ShouldNotBeNull();
     }
 }

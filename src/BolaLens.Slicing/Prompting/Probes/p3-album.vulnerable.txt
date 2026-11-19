@@ -1,0 +1,8 @@
+L1  [ENDPOINT] PUT api/albums/{albumId} -> AlbumsController.Rename  (Probes.cs:84)
+L2  [POLICY] [Authorize]; fallback=none; scheme=Cookies
+L3  [SCHEMA] Album owners: OwnerId(User); query filters: none
+L4  [SOURCE] albumId : long (route, client-controlled)  (Probes.cs:85)
+L5  [LOAD] var album = await db.Albums.FindAsync(albumId);   (loads Album selected by the client-controlled id)  (Probes.cs:87)
+L6  [CHECK] if (album is null || album.OwnerId != change.OwnerId) return Forbid();   (album.OwnerId (owner: User) vs change.OwnerId (client-controlled))  (Probes.cs:88)
+L7  [MUTATE] album.Name = change.Name;  (Probes.cs:89)
+L8  [SINK] await db.SaveChangesAsync();   (state change: SaveChanges Album)  (Probes.cs:90)

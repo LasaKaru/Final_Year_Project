@@ -4,45 +4,45 @@ using BolaLens.Core.Model;
 
 namespace BolaLens.Inference;
 
-/// <summary>Stage 2 validator backed by a local ONNX SLM: prompt → greedy generation → parse/ground →
-/// retry once with "Return only the JSON object." → else Unknown (ADR-007). The model is loaded once per
-/// scan; cold-load time is reported separately. Input: slice + prompt. Limitation: uncalibrated scores.</summary>
+/// <summary>Delegate for a text generator: (prompt, ct) → (raw text, prompt tokens, output tokens).</summary>
+public delegate (string Text, int PromptTokens, int OutputTokens) TextGenerator(string prompt, CancellationToken ct);
+
+/// <summary>Stage 2 validator backed by a local ONNX SLM: prompt → greedy (optionally schema-guided)
+/// generation → parse/ground → one retry with "Return only the JSON object." → else Unknown (ADR-007).
+/// The model is loaded once per scan; cold-load time is reported separately. Limitation: uncalibrated scores.</summary>
 public sealed class OnnxSemanticValidator : ISemanticValidator
 {
-    /// <summary>Appended to the prompt on the single retry after a parse failure.</summary>
-    public const string RetrySuffix = "Return only the JSON object.";
-
-    private readonly Func<string, int, CancellationToken, (string Text, int PromptTokens, int OutputTokens)> _generate;
+    private readonly TextGenerator _generate;
     private readonly IDisposable? _owned;
-    private readonly int _maxLength;
     private readonly int _retries;
 
-    public OnnxSemanticValidator(string modelDir, string modelId, int maxLength = 3072, int retries = 1)
+    public OnnxSemanticValidator(ModelInfo model, int maxNewTokens = 160, int maxLength = 4096, int retries = 1, bool jsonGuidance = true)
     {
         var sw = Stopwatch.StartNew();
-        var generator = new OnnxTextGenerator(modelDir);
+        var generator = new OnnxTextGenerator(model.Path);
         ModelLoadSeconds = sw.Elapsed.TotalSeconds;
         _owned = generator;
-        _generate = generator.Generate;
-        ModelId = modelId;
-        _maxLength = maxLength;
+        var schema = jsonGuidance ? VerdictSchema.Json : null;
+        _generate = (p, ct) => generator.Generate(p, maxNewTokens, maxLength, schema, ct);
+        ModelId = model.Id;
+        Model = model;
         _retries = retries;
     }
 
     /// <summary>Test seam: any text generator (e.g. a scripted fake) instead of ONNX Runtime.</summary>
-    public OnnxSemanticValidator(Func<string, int, CancellationToken, (string, int, int)> generate, string modelId, int maxLength = 3072, int retries = 1)
+    public OnnxSemanticValidator(TextGenerator generate, string modelId, int retries = 1)
     {
         _generate = generate;
         ModelId = modelId;
-        _maxLength = maxLength;
         _retries = retries;
     }
 
     public bool IsEnabled => true;
     public string ModelId { get; }
+    public ModelInfo? Model { get; }
     public double? ModelLoadSeconds { get; }
 
-    public Task<SemanticVerdict> ValidateAsync(IrSlice slice, string prompt, CancellationToken ct)
+    public Task<SemanticVerdict> ValidateAsync(IrSlice slice, SemanticPrompt prompt, CancellationToken ct)
     {
         var sw = Stopwatch.StartNew();
         string raw = "";
@@ -51,9 +51,16 @@ public sealed class OnnxSemanticValidator : ISemanticValidator
         for (var attempt = 0; attempt <= _retries; attempt++)
         {
             attempts++;
-            var p = attempt == 0 ? prompt : prompt.TrimEnd() + "\n" + RetrySuffix;
-            raw = _generate(p, _maxLength, ct).Item1;
-            parsed = SemanticResponseParser.Parse(raw, slice);
+            try
+            {
+                raw = _generate(attempt == 0 ? prompt.Primary : prompt.Retry, ct).Text;
+                parsed = SemanticResponseParser.Parse(raw, slice);
+            }
+            catch (InvalidOperationException ex)
+            {
+                parsed = new ParsedResponse(false, VerdictStatus.Unknown, null, ex.Message, [], ex.Message);
+                break; // e.g. prompt longer than the context: retrying cannot help
+            }
             if (parsed.Ok) break;
         }
 

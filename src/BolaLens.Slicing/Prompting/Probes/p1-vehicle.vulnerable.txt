@@ -1,0 +1,8 @@
+L1  [ENDPOINT] PUT api/vehicles/{vehicleId}/plate -> VehiclesController.ChangePlate  (Probes.cs:55)
+L2  [POLICY] [Authorize]; fallback=none; scheme=Cookies
+L3  [SCHEMA] Vehicle owners: OwnerId(User); query filters: none
+L4  [SOURCE] vehicleId : long (route, client-controlled)  (Probes.cs:56)
+L5  [LOAD] var vehicle = await db.Vehicles.FirstOrDefaultAsync(v => v.Id == vehicleId);   (loads Vehicle selected by the client-controlled id)  (Probes.cs:58)
+L6  [CHECK] if (vehicle is null) return NotFound();  (Probes.cs:59)
+L7  [MUTATE] vehicle.Plate = change.Plate;  (Probes.cs:60)
+L8  [SINK] await db.SaveChangesAsync();   (state change: SaveChanges Vehicle)  (Probes.cs:61)

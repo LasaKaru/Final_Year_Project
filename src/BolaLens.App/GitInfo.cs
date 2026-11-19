@@ -1,4 +1,4 @@
-namespace BolaLens.Cli.Scanning;
+namespace BolaLens.App;
 
 /// <summary>Reads the HEAD commit of the repository that contains the target, without running git
 /// (no process execution, no network). Returns null when the target is not in a git work tree.</summary>

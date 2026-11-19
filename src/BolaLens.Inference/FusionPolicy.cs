@@ -15,10 +15,13 @@ public sealed class FusionPolicy(double threshold = 0.80)
         s.Status is VerdictStatus.Vulnerable or VerdictStatus.Unknown
         || (s.Status == VerdictStatus.Protected && s.RuleIds.Contains("SYM-05"));
 
-    public (VerdictStatus Final, string Reason) Fuse(SymbolicVerdict symbolic, SemanticVerdict? semantic)
+    /// <param name="advisory">True when the model failed the calibration gate: its verdict is recorded, never applied.</param>
+    public (VerdictStatus Final, string Reason) Fuse(SymbolicVerdict symbolic, SemanticVerdict? semantic, bool advisory = false)
     {
         if (semantic is null)
             return (symbolic.Status, IsCandidate(symbolic) ? "Symbolic only (semantic stage not run)." : "Symbolic verdict (not a semantic candidate).");
+        if (advisory)
+            return (symbolic.Status, $"Symbolic verdict kept: the model failed the calibration gate, so its answer ({semantic.Status}) is advisory only.");
 
         var confident = semantic.ParseOk && semantic.Confidence >= Threshold && semantic.EvidenceLineIds.Count > 0;
         switch (symbolic.Status)
