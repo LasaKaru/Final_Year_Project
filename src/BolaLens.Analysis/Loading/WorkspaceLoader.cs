@@ -34,7 +34,15 @@ public sealed class WorkspaceLoader
         if (ext is not (".csproj" or ".sln" or ".slnx"))
             throw new NotSupportedException($"Unsupported input '{ext}' (expected .sln, .slnx or .csproj)");
 
-        var workspace = MSBuildWorkspace.Create();
+        // Only design-time evaluation is needed: NuGet audit warnings and warnings-as-errors in the target must not
+        // make projects fail to load (real repos often pin packages with advisories).
+        var workspace = MSBuildWorkspace.Create(new Dictionary<string, string>
+        {
+            ["NuGetAudit"] = "false",
+            ["TreatWarningsAsErrors"] = "false",
+            ["WarningsAsErrors"] = "",
+            ["RunAnalyzers"] = "false",
+        });
         var diags = new List<UnresolvedItem>();
         workspace.WorkspaceFailed += (_, e) =>
         {

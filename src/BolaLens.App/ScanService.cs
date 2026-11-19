@@ -41,7 +41,7 @@ public sealed class ScanService(BolaLensConfig config, Func<BolaLensConfig, ISem
 
         sw.Restart();
         var slicer = new IrSliceGenerator(symbolic.Policy, symbolic.Schema, config.Inference.MaxSliceTokens);
-        var fusion = new FusionPolicy(config.Inference.SuppressThreshold);
+        var fusion = new FusionPolicy(config.Inference.SuppressThreshold, config.Inference.AllowEscalation);
         if (mode == ScanMode.Hybrid) progress?.Report($"Loading local model {config.Inference.ModelPath}…");
         using var validator = mode == ScanMode.Hybrid
             ? (validatorFactory ?? DefaultValidator)(config)

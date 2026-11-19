@@ -5,7 +5,7 @@ namespace BolaLens.Analysis.Guards;
 
 /// <summary>An equality-like comparison (or an AuthorizationResult.Succeeded test) inside a condition,
 /// with its polarity: <see cref="TrueOnMismatch"/> = the whole condition is true when the two sides differ.</summary>
-public sealed record Comparison(IOperation Left, IOperation? Right, bool TrueOnMismatch, bool InConjunction, bool InDisjunction, bool IsResourceCheck, bool IsExistsCheck = false);
+public sealed record Comparison(IOperation Left, IOperation? Right, bool TrueOnMismatch, bool InConjunction, bool InDisjunction, bool IsResourceCheck, bool IsExistsCheck = false, bool IsHelperCheck = false);
 
 public enum ExitKind { None, Return, Throw }
 
@@ -58,6 +58,11 @@ public static class GuardDetector
             // (or a bool local holding that result) — true when the object is the caller's, so negation = mismatch
             case IInvocationOperation { TargetMethod.Name: var n } inv when n.StartsWith("Any", StringComparison.Ordinal):
                 list.Add(new Comparison(inv, null, negated, inAnd, inOr, false, IsExistsCheck: true));
+                break;
+            // a boolean helper in the analysed code, e.g. if (IsAuthorized(notification.FromUserId)) — summarised by the walker
+            case IInvocationOperation { TargetMethod: { ReturnType.SpecialType: SpecialType.System_Boolean } hm } hinv
+                when hm.Locations.Any(l => l.IsInSource) && hm.Name != "Equals":
+                list.Add(new Comparison(hinv, null, negated, inAnd, inOr, false, IsHelperCheck: true));
                 break;
             case ILocalReferenceOperation or IParameterReferenceOperation when op.Type?.SpecialType == SpecialType.System_Boolean:
                 list.Add(new Comparison(op, null, negated, inAnd, inOr, false, IsExistsCheck: true));

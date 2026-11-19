@@ -31,13 +31,16 @@ public sealed class GuardRecord
     public string? StructuralProblem { get; init; }
     public bool AuthForCaller { get; init; } = true;
 
+    /// <summary>The owner value checked belongs to an object built from the request, so the client chose it.</summary>
+    public bool OwnerFromRequest { get; init; }
+
     public bool Covers(int seq) => seq >= ActiveFrom && seq <= ActiveUntil;
 
     public bool IsActivated => ActiveFrom != int.MaxValue;
 
     /// <summary>Does this guard concern the object of the sink?</summary>
     public bool Concerns(EntityToken token) =>
-        Token is not null ? ReferenceEquals(Token, token) : EntityType == token.EntityType && token.TaintSelected;
+        Token is not null ? Token.SameObject(token) : EntityType == token.EntityType && token.TaintSelected;
 }
 
 /// <summary>Mutable state of one path walk (one endpoint × one tainted parameter).</summary>

@@ -6,7 +6,8 @@ namespace BolaLens.Inference.Tests;
 /// <summary>The fusion table of guide 05 §16, row by row.</summary>
 public class FusionPolicyTests
 {
-    private static readonly FusionPolicy Fusion = new(0.80);
+    private static readonly FusionPolicy Fusion = new(0.80, allowEscalation: true);
+    private static readonly FusionPolicy Conservative = new(0.80);
 
     private static SymbolicVerdict Sym(VerdictStatus s, string rule = "SYM-08") => new(s, [rule], "r");
 
@@ -56,6 +57,14 @@ public class FusionPolicyTests
         var (final, reason) = Fusion.Fuse(Sym(VerdictStatus.Protected, "SYM-05"), Sem(VerdictStatus.Vulnerable, 0.99), advisory: true);
         final.ShouldBe(VerdictStatus.Protected);
         reason.ShouldContain("calibration gate");
+    }
+
+    [Fact]
+    public void Conservative_default_only_suppresses()
+    {
+        Conservative.Fuse(Sym(VerdictStatus.Vulnerable), Sem(VerdictStatus.Protected, 0.9)).Final.ShouldBe(VerdictStatus.Protected);
+        Conservative.Fuse(Sym(VerdictStatus.Unknown, "SYM-02"), Sem(VerdictStatus.Vulnerable, 0.99)).Final.ShouldBe(VerdictStatus.Unknown);
+        Conservative.Fuse(Sym(VerdictStatus.Protected, "SYM-05"), Sem(VerdictStatus.Vulnerable, 0.99)).Final.ShouldBe(VerdictStatus.Protected);
     }
 
     [Fact]

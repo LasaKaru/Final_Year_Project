@@ -63,7 +63,23 @@ public sealed class PathWalker
             var p = action.Parameters[i];
             var info = endpoint.Info.Parameters.FirstOrDefault(x => x.Name == p.Name);
             var fromRequest = info is not null && info.Source is not (BindingSource.Service or BindingSource.Unknown);
-            args[i] = new AbstractValue { ClientControlled = fromRequest, Tainted = p.Name == source.Name };
+            args[i] = new AbstractValue
+            {
+                ClientControlled = fromRequest,
+                Tainted = p.Name == source.Name,
+                Tags = fromRequest ? new HashSet<string>(StringComparer.Ordinal) { $"param:{p.Name}" } : null,
+            };
+            // an entity type bound from the request body is an object the client built (detached)
+            if (info?.Source == BindingSource.Body && _schema.Find(p.Type.OriginalDefinition.ToDisplayString()) is { } bodyEntity)
+            {
+                var where0 = p.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax(ct) is { } ps0 ? _context.Ref(ps0, snippet: true) : endpoint.Info.Location;
+                var bodyToken = new EntityToken(bodyEntity.EntityType, "request body", where0)
+                {
+                    TaintSelected = p.Name == source.Name, Detached = true, FromRequest = true, VariableName = p.Name,
+                };
+                _ctx.Tokens.Add(bodyToken);
+                args[i] = args[i] with { Entity = bodyToken };
+            }
             if (p.Name == source.Name)
             {
                 var where = p.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax(ct) is { } ps ? _context.Ref(ps, snippet: true) : endpoint.Info.Location;
@@ -237,26 +253,36 @@ public sealed class PathWalker
         }
     }
 
+    private readonly Stack<GuardRecord> _openRegions = new();
+
     private void HandleIf(IConditionalOperation c, MethodFrame f)
     {
         Eval(c.Condition, f);
+        LinkSameRow(c.Condition, f);
         var stepIndex = Step(StepKind.Check, "condition", null, c, f);
         var start = _ctx.Seq;
         var comparisons = GuardDetector.Collect(c.Condition);
         var trueExit = GuardDetector.Exit(c.WhenTrue);
         var falseExit = GuardDetector.Exit(c.WhenFalse);
 
+        // guards are built before the branches are walked so that flags set inside a guarded branch
+        // (update = true) can inherit them
+        var facts = new List<string>();
+        var records = new List<(Comparison Cmp, GuardRecord Record)>();
+        foreach (var cmp in comparisons)
+            foreach (var record in BuildGuards(cmp, c, f, facts))
+                records.Add((cmp, record));
+        var regionGuards = records.Where(r => !r.Cmp.TrueOnMismatch && !r.Cmp.InDisjunction && falseExit == ExitKind.None).Select(r => r.Record).ToList();
+
+        foreach (var g in regionGuards) _openRegions.Push(g);
         WalkStatement(c.WhenTrue, f);
+        foreach (var _ in regionGuards) _openRegions.Pop();
         var afterTrue = _ctx.NextSeq();
         WalkStatement(c.WhenFalse, f);
         var afterFalse = _ctx.NextSeq();
 
-        var facts = new List<string>();
-        foreach (var cmp in comparisons)
+        foreach (var (cmp, record) in records)
         {
-            var record = BuildGuard(cmp, c, f, facts);
-            if (record is null) continue;
-
             if (cmp.TrueOnMismatch)
             {
                 if (trueExit != ExitKind.None && !cmp.InConjunction)
@@ -278,6 +304,29 @@ public sealed class PathWalker
             _ctx.Steps[stepIndex] = _ctx.Steps[stepIndex] with { Description = string.Join("; ", facts) };
     }
 
+    /// <summary>Guard records for one comparison: normally one; a guard flag (if (update)) yields a copy of every
+    /// check that set the flag.</summary>
+    private IEnumerable<GuardRecord> BuildGuards(Comparison cmp, IConditionalOperation c, MethodFrame f, List<string> facts)
+    {
+        if (cmp.IsExistsCheck && ValueOf(cmp.Left, f).GuardFlags is { Count: > 0 } flags && !cmp.TrueOnMismatch)
+        {
+            var exitKind = GuardDetector.Exit(c.WhenFalse);
+            facts.Add($"flag set by {flags.Count} earlier owner check(s)");
+            foreach (var g in flags)
+            {
+                yield return new GuardRecord
+                {
+                    Kind = g.Kind, Token = g.Token, EntityType = g.EntityType, OwnerProperty = g.OwnerProperty, OwnerKind = g.OwnerKind,
+                    Comparand = g.Comparand, IdentityKind = g.IdentityKind, CallerExpression = g.CallerExpression,
+                    Location = _context.StatementRef(c.Syntax), Frame = f, UntilFrameEnd = exitKind == ExitKind.Return,
+                    StructuralProblem = g.StructuralProblem, AuthForCaller = g.AuthForCaller, OwnerFromRequest = g.OwnerFromRequest,
+                };
+            }
+            yield break;
+        }
+        if (BuildGuard(cmp, c, f, facts) is { } single) yield return single;
+    }
+
     private static void Activate(GuardRecord g, int from, ExitKind exit, MethodFrame f)
     {
         g.ActiveFrom = from;
@@ -291,6 +340,9 @@ public sealed class PathWalker
         var exitKind = cmp.TrueOnMismatch ? GuardDetector.Exit(c.WhenTrue) : GuardDetector.Exit(c.WhenFalse);
         var problem = (cmp.TrueOnMismatch && cmp.InConjunction) || (!cmp.TrueOnMismatch && cmp.InDisjunction)
             ? "check is combined with other conditions and does not always stop the request" : null;
+
+        if (cmp.IsHelperCheck)
+            return cmp.Left is IInvocationOperation hinv ? BuildHelperGuard(hinv, cmp, c, f, facts, problem) : null;
 
         if (cmp.IsExistsCheck)
         {
@@ -321,6 +373,9 @@ public sealed class PathWalker
             };
         }
 
+        // comparisons with null or a constant are existence/state checks, never owner checks
+        if (cmp.Right is not null && (GuardDetector.Unwrap(cmp.Right).ConstantValue.HasValue || GuardDetector.Unwrap(cmp.Left).ConstantValue.HasValue))
+            return null;
         var left = ValueOf(cmp.Left, f);
         var right = cmp.Right is null ? AbstractValue.None : ValueOf(cmp.Right, f);
         var (owner, other, otherOp) = left.Owner is not null ? (left.Owner, right, cmp.Right) : (right.Owner, left, cmp.Left);
@@ -337,7 +392,78 @@ public sealed class PathWalker
             Kind = GuardKind.OwnerEquality, Token = owner.Token, OwnerProperty = owner.Property, OwnerKind = owner.Kind,
             Comparand = comparand, IdentityKind = other.Identity, CallerExpression = otherText, Location = location,
             Frame = f, UntilFrameEnd = exitKind == ExitKind.Return, StructuralProblem = problem,
+            OwnerFromRequest = owner.Token.FromRequest,
         };
+    }
+
+    // ------------------------------------------------------------------ boolean helper guards
+
+    private readonly Dictionary<string, (int Ordinal, OwnerKind Kind)?> _helperSummaries = new(StringComparer.Ordinal);
+
+    /// <summary>Summary of a bool helper: does its body compare parameter #k with the caller identity?
+    /// (e.g. IsAuthorized(int? userid) =&gt; GetUser(User).UserId == userid). Cached per method.</summary>
+    private (int Ordinal, OwnerKind Kind)? HelperSummary(IMethodSymbol helper)
+    {
+        var key = Symbols.Key(helper);
+        if (_helperSummaries.TryGetValue(key, out var cached)) return cached;
+        _helperSummaries[key] = null;
+        var syntax = helper.DeclaringSyntaxReferences.Select(r => r.GetSyntax(_ct)).FirstOrDefault(HasBody);
+        var model = syntax is null ? null : _context.GetModel(syntax.SyntaxTree);
+        if (model?.GetOperation(syntax!, _ct) is not { } body) return null;
+        var frame = new MethodFrame(helper, 0);
+        foreach (var cmp in body.Descendants().OfType<IBinaryOperation>()
+                     .Where(b => b.OperatorKind is BinaryOperatorKind.Equals or BinaryOperatorKind.NotEquals))
+        {
+            foreach (var (x, y) in new[] { (cmp.LeftOperand, cmp.RightOperand), (cmp.RightOperand, cmp.LeftOperand) })
+            {
+                if (GuardDetector.Unwrap(x) is IParameterReferenceOperation pref && Peek(GuardDetector.Unwrap(y), frame).Identity is { } kind)
+                {
+                    _helperSummaries[key] = (pref.Parameter.Ordinal, kind);
+                    return _helperSummaries[key];
+                }
+            }
+        }
+        return null;
+    }
+
+    private GuardRecord? BuildHelperGuard(IInvocationOperation inv, Comparison cmp, IConditionalOperation c, MethodFrame f, List<string> facts, string? problem)
+    {
+        if (HelperSummary(inv.TargetMethod) is not { } summary) return null;
+        var arg = inv.Arguments.FirstOrDefault(a => a.Parameter?.Ordinal == summary.Ordinal);
+        if (arg is null || ValueOf(arg.Value, f).Owner is not { } owner) return null;
+        var exitKind = cmp.TrueOnMismatch ? GuardDetector.Exit(c.WhenTrue) : GuardDetector.Exit(c.WhenFalse);
+        facts.Add($"{inv.TargetMethod.Name}({owner.Token.VariableName ?? owner.Token.ShortName}.{owner.Property}) compares it with the trusted identity ({summary.Kind})"
+                  + (owner.Token.FromRequest ? " — value taken from the request body" : ""));
+        return new GuardRecord
+        {
+            Kind = GuardKind.OwnerEquality, Token = owner.Token, OwnerProperty = owner.Property, OwnerKind = owner.Kind,
+            Comparand = ComparandClass.Identity, IdentityKind = summary.Kind, CallerExpression = $"{inv.TargetMethod.Name}(…)",
+            Location = _context.StatementRef(c.Syntax), Frame = f, UntilFrameEnd = exitKind == ExitKind.Return,
+            StructuralProblem = problem, OwnerFromRequest = owner.Token.FromRequest,
+        };
+    }
+
+    /// <summary>body.Id == id where the stored object was loaded by id: both tokens are the same row.</summary>
+    private void LinkSameRow(IOperation condition, MethodFrame f)
+    {
+        foreach (var cmp in GuardDetector.Collect(condition).Where(c => !c.IsResourceCheck && !c.IsExistsCheck && !c.IsHelperCheck && c.Right is not null))
+        {
+            var l = ValueOf(cmp.Left, f);
+            var r = ValueOf(cmp.Right!, f);
+            foreach (var (a, b) in new[] { (l, r), (r, l) })
+            {
+                if (a.KeyOf is not { } keyed) continue;
+                foreach (var other in _ctx.Tokens.Where(t => !ReferenceEquals(t, keyed) && t.EntityType == keyed.EntityType))
+                {
+                    var sameRow = (b.KeyOf is { } k2 && ReferenceEquals(k2, other))
+                                  || (b.Tags is { Count: > 0 } tags && other.SelectorTags.Overlaps(tags));
+                    if (!sameRow) continue;
+                    keyed.Aliases.Add(other);
+                    other.Aliases.Add(keyed);
+                    if (keyed.TaintSelected || other.TaintSelected) keyed.TaintSelected = other.TaintSelected = true;
+                }
+            }
+        }
     }
 
     private static string Describe(AbstractValue v) =>
@@ -551,6 +677,8 @@ public sealed class PathWalker
                 return new AbstractValue { Query = new QueryValue(child.EntityType, false, token.BypassedFilters, null, null, null, null) };
             if (OwnerKindOf(token.EntityType, name) is { } kind)
                 result = result.Merge(new AbstractValue { Owner = new OwnerValue(token, name, kind) });
+            if (_schema.Find(token.EntityType) is { } em && IsKey(em, name))
+                result = result.Merge(new AbstractValue { KeyOf = token });
             if (Symbols.InNamespace(pr.Property.ContainingType, "Microsoft.EntityFrameworkCore"))
                 result = result.Merge(new AbstractValue { Entity = token }); // entry.CurrentValues etc.
         }
@@ -558,10 +686,11 @@ public sealed class PathWalker
             result = result.Merge(new AbstractValue { AuthResultFor = inst.AuthResultFor, AuthForCaller = inst.AuthForCaller });
 
         var simpleInstance = pr.Instance?.Type is { } it && Symbols.IsSimple(it);
+        var tags = inst.Tags?.Select(t => $"{t}.{name}").ToHashSet(StringComparer.Ordinal);
         if (inst.Tainted && (simpleInstance || _context.IsIdLike(name)))
-            result = result.Merge(new AbstractValue { Tainted = true, ClientControlled = true });
+            result = result.Merge(new AbstractValue { Tainted = true, ClientControlled = true, Tags = tags });
         else if (inst.ClientControlled || inst.Tainted)
-            result = result.Merge(new AbstractValue { ClientControlled = true });
+            result = result.Merge(new AbstractValue { ClientControlled = true, Tags = tags });
 
         return result;
     }
@@ -571,6 +700,11 @@ public sealed class PathWalker
         var v = Eval(a.Value, f);
         switch (a.Target)
         {
+            case ILocalReferenceOperation l when a.Value.ConstantValue is { HasValue: true, Value: true } && _openRegions.Count > 0:
+                // update = true inside a guarded branch: remember which checks the flag stands for (merged across branches)
+                var prior = Get(f, l.Local).GuardFlags ?? [];
+                f.Values[l.Local] = new AbstractValue { GuardFlags = [.. prior, .. _openRegions] };
+                break;
             case ILocalReferenceOperation l:
                 f.Values[l.Local] = a is ISimpleAssignmentOperation ? v : Get(f, l.Local).Merge(v);
                 if (v.Entity is { } t) t.VariableName ??= l.Local.Name;
@@ -749,6 +883,16 @@ public sealed class PathWalker
         return null;
     }
 
+    private System.Text.RegularExpressions.Regex[]? _skip;
+
+    /// <summary>Infrastructure callees (loggers, telemetry…) configured in analysis.skipCalleeTypes are not followed.</summary>
+    private bool IsSkipped(INamedTypeSymbol? type)
+    {
+        if (type is null) return false;
+        _skip ??= _context.Config.Analysis.SkipCalleeTypes.Select(p => new System.Text.RegularExpressions.Regex(p)).ToArray();
+        return _skip.Any(r => r.IsMatch(type.Name)) || type.AllInterfaces.Any(i => _skip.Any(r => r.IsMatch(i.Name)));
+    }
+
     private static bool IsTracked(AbstractValue v) => v.Tainted || v.Entity?.TaintSelected == true;
 
     private static bool IsFramework(IMethodSymbol m) =>
@@ -777,6 +921,7 @@ public sealed class PathWalker
     {
         var relevant = args.Any(a => a.IsRelevant) || recv.Entity is not null;
         var tracked = args.Any(IsTracked) || IsTracked(recv);
+        if (IsSkipped(m.ContainingType)) return AbstractValue.None;
         var resolution = _resolver.Resolve(m);
         if (resolution is { Kind: ResolutionKind.LibraryImplementation, Target: { } lib })
         {
@@ -870,7 +1015,11 @@ public sealed class PathWalker
                 if (q is null) return recv.Entity is { IsCollection: true } coll ? new AbstractValue { Entity = coll } : AbstractValue.None;
 
                 if (m.Name.StartsWith("Find", StringComparison.Ordinal))
-                    q = q with { KeyTainted = q.KeyTainted || args.Skip(first).Any(a => a.Tainted) };
+                    q = q with
+                    {
+                        KeyTainted = q.KeyTainted || args.Skip(first).Any(a => a.Tainted),
+                        SelectorTags = Union(q.SelectorTags, args.Skip(first).Select(a => a.Tags)),
+                    };
                 else
                     q = ApplyPredicates(q, inv, first, f);
                 var token = TokenFrom(q, "load", inv, collection: false);
@@ -958,8 +1107,16 @@ public sealed class PathWalker
             OwnerPredicateLocation = q.PredicateLocation,
             IsCollection = collection,
         };
+        if (q.SelectorTags is not null) token.SelectorTags.UnionWith(q.SelectorTags);
         _ctx.Tokens.Add(token);
         return token;
+    }
+
+    private static IReadOnlySet<string>? Union(IReadOnlySet<string>? a, IEnumerable<IReadOnlySet<string>?> more)
+    {
+        var set = a is null ? new HashSet<string>(StringComparer.Ordinal) : new HashSet<string>(a, StringComparer.Ordinal);
+        foreach (var m in more) if (m is not null) set.UnionWith(m);
+        return set.Count == 0 ? null : set;
     }
 
     private void AddSink(SinkKind kind, EntityToken token, IOperation op, MethodFrame f)
@@ -988,6 +1145,7 @@ public sealed class PathWalker
                     if (RootedMember(GuardDetector.Unwrap(x), parameter) is not { } chain) continue;
                     var yv = Peek(GuardDetector.Unwrap(y), f);
                     if (yv.Tainted) q = q with { KeyTainted = true };
+                    if (yv.Tags is { Count: > 0 }) q = q with { SelectorTags = Union(q.SelectorTags, [yv.Tags]) };
                     if (!cmp.InDisjunction && yv.Identity is { } idKind && OwnerKindOf(q.EntityType, chain.Top) is { } ownerKind
                         && idKind == ownerKind && (q.OwnerPredicateKind is null || ownerKind == OwnerKind.User))
                     {

@@ -13,7 +13,8 @@ public sealed record QueryValue(
     OwnerKind? OwnerPredicateKind,
     string? OwnerPredicateProperty,
     string? OwnerPredicateCaller,
-    SourceRef? PredicateLocation);
+    SourceRef? PredicateLocation,
+    IReadOnlySet<string>? SelectorTags = null);
 
 /// <summary>An existence check such as AnyAsync(x =&gt; x.Id == id &amp;&amp; x.OwnerId == uid): "is this object the caller's?".</summary>
 public sealed record ExistsCheck(string EntityType, bool KeyTainted, OwnerKind? OwnerKind, string? OwnerProperty, string? Caller);
@@ -52,6 +53,17 @@ public sealed record AbstractValue
 
     public ExistsCheck? Exists { get; init; }
 
+    /// <summary>Provenance: which request inputs this value came from ("param:id", "param:dto.Id"). Used to prove that
+    /// two objects are the same row (body.Id == id, and the stored object was loaded by id).</summary>
+    public IReadOnlySet<string>? Tags { get; init; }
+
+    /// <summary>This value is the key property of the given entity instance (e.g. notification.NotificationId).</summary>
+    public EntityToken? KeyOf { get; init; }
+
+    /// <summary>A bool flag set to true inside the guarded branch of these checks (update = true): a later
+    /// if (update) { … } is protected by the same checks.</summary>
+    public IReadOnlyList<GuardRecord>? GuardFlags { get; init; }
+
     public bool IsRelevant => Tainted || ClientControlled || Identity is not null || IsPrincipal || Entity is not null || Query is not null;
 
     public AbstractValue Merge(AbstractValue other)
@@ -72,13 +84,16 @@ public sealed record AbstractValue
             AuthForCaller = AuthForCaller || other.AuthForCaller,
             Fields = MergeFields(Fields, other.Fields),
             Exists = Exists ?? other.Exists,
+            Tags = Tags is null ? other.Tags : other.Tags is null ? Tags : Tags.Union(other.Tags).ToHashSet(),
+            KeyOf = KeyOf ?? other.KeyOf,
+            GuardFlags = GuardFlags is null ? other.GuardFlags : other.GuardFlags is null ? GuardFlags : [.. GuardFlags, .. other.GuardFlags],
         };
     }
 
     /// <summary>Data-only part (taint/client/identity/fields), used when a value flows through an opaque operation.</summary>
     public AbstractValue DataOnly() =>
-        Tainted || ClientControlled || Identity is not null || Fields is not null
-            ? new AbstractValue { Tainted = Tainted, ClientControlled = ClientControlled, Identity = Identity, IdentityExpression = IdentityExpression, Fields = Fields }
+        Tainted || ClientControlled || Identity is not null || Fields is not null || Tags is not null
+            ? new AbstractValue { Tainted = Tainted, ClientControlled = ClientControlled, Identity = Identity, IdentityExpression = IdentityExpression, Fields = Fields, Tags = Tags }
             : None;
 
     private static IReadOnlyDictionary<string, AbstractValue>? MergeFields(IReadOnlyDictionary<string, AbstractValue>? a, IReadOnlyDictionary<string, AbstractValue>? b)

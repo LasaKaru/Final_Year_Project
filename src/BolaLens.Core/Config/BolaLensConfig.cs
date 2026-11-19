@@ -54,6 +54,9 @@ public sealed class AnalysisOptions
     /// <see cref="HandlerMethods"/> method takes the command type as its first parameter.</summary>
     public IReadOnlyList<string> DispatchMethods { get; init; } = ["Send", "SendAsync", "Publish", "PublishAsync", "Dispatch", "DispatchAsync"];
     public IReadOnlyList<string> HandlerMethods { get; init; } = ["Handle", "HandleAsync", "Consume", "ConsumeAsync"];
+
+    /// <summary>Callee types not followed by the walker (infrastructure such as logging), as regexes on the type name.</summary>
+    public IReadOnlyList<string> SkipCalleeTypes { get; init; } = ["Logger$", "LogManager$", "Telemetry"];
     public IReadOnlyList<string> IdParameterPatterns { get; init; } = ["^id$", "Id$", "Key$"];
     public IReadOnlyList<string> ParseLikeMethods { get; init; } = ["Parse", "TryParse", "ToInt32", "ToInt64", "ToString", "ToGuid"];
 }
@@ -91,7 +94,7 @@ public sealed class CurrentUserType
 public sealed class OwnershipOptions
 {
     public IReadOnlyList<string> UserOwnerPatterns { get; init; } =
-        ["^UserId$", "^OwnerId$", "^OwnerUserId$", "^CreatedBy(Id)?$", "^AuthorId$", "^CustomerId$"];
+        ["UserId$", "^OwnerId$", "^CreatedBy(Id)?$", "^AuthorId$", "^CustomerId$"];
     public IReadOnlyList<string> TenantOwnerPatterns { get; init; } =
         ["^TenantId$", "^OrganisationId$", "^OrganizationId$", "^CompanyId$"];
     public IReadOnlyList<string> UserTypeNames { get; init; } = ["User", "ApplicationUser", "AppUser", "IdentityUser", "Person"];
@@ -116,6 +119,9 @@ public sealed class InferenceOptions
     public int MaxNewTokens { get; init; } = 160;
 
     public double SuppressThreshold { get; init; } = 0.80;
+
+    /// <summary>Let the SLM turn Unknown into Vulnerable and dispute delegated (SYM-05) protection. Off by default (ADR-012).</summary>
+    public bool AllowEscalation { get; init; }
     public int RetryOnParseFailure { get; init; } = 1;
     public int MaxSliceTokens { get; init; } = 700;
     public string PromptVersion { get; init; } = "v1";
@@ -139,7 +145,7 @@ public sealed class InferenceOptions
         ModelId = Path.GetFileName(Path.TrimEndingDirectorySeparator(Path.GetFullPath(modelPath))),
         MaxLength = MaxLength, MaxNewTokens = MaxNewTokens, SuppressThreshold = SuppressThreshold,
         RetryOnParseFailure = RetryOnParseFailure, MaxSliceTokens = MaxSliceTokens, PromptVersion = PromptVersion,
-        ChatFormat = ChatFormat, JsonGuidance = JsonGuidance, CalibrationGate = CalibrationGate, GateMinCorrect = GateMinCorrect,
+        ChatFormat = ChatFormat, JsonGuidance = JsonGuidance, CalibrationGate = CalibrationGate, GateMinCorrect = GateMinCorrect, AllowEscalation = AllowEscalation,
     };
 
     /// <summary>Copy with the calibration gate switched on/off.</summary>
@@ -147,6 +153,6 @@ public sealed class InferenceOptions
     {
         ModelPath = ModelPath, ModelId = ModelId, MaxLength = MaxLength, MaxNewTokens = MaxNewTokens, SuppressThreshold = SuppressThreshold,
         RetryOnParseFailure = RetryOnParseFailure, MaxSliceTokens = MaxSliceTokens, PromptVersion = PromptVersion,
-        ChatFormat = ChatFormat, JsonGuidance = JsonGuidance, CalibrationGate = enabled, GateMinCorrect = GateMinCorrect,
+        ChatFormat = ChatFormat, JsonGuidance = JsonGuidance, CalibrationGate = enabled, GateMinCorrect = GateMinCorrect, AllowEscalation = AllowEscalation,
     };
 }

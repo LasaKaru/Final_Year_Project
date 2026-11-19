@@ -24,7 +24,7 @@ public sealed class EntityToken
     public SourceRef LoadedAt { get; }
 
     /// <summary>The object was selected by the tracked client-controlled id (key predicate / Find / detached key).</summary>
-    public bool TaintSelected { get; init; }
+    public bool TaintSelected { get; set; }
     public bool Detached { get; init; }
     public bool BypassedFilters { get; init; }
     public bool IsCollection { get; init; }
@@ -32,6 +32,17 @@ public sealed class EntityToken
     public string? OwnerPredicateProperty { get; init; }
     public string? OwnerPredicateCaller { get; init; }
     public SourceRef? OwnerPredicateLocation { get; init; }
+
+    /// <summary>Provenance tags of the values used to select this object (key in Find / predicate).</summary>
+    public HashSet<string> SelectorTags { get; } = new(StringComparer.Ordinal);
+
+    /// <summary>Other tokens proven to be the same row (key equality with the value that loaded them).</summary>
+    public HashSet<EntityToken> Aliases { get; } = [];
+
+    /// <summary>Built from request data (body parameter / new T { Id = … }), not loaded from the database.</summary>
+    public bool FromRequest { get; init; }
+
+    public bool SameObject(EntityToken other) => ReferenceEquals(this, other) || Aliases.Contains(other);
 
     /// <summary>A property of the tracked entity was modified and not yet committed by SaveChanges.</summary>
     public bool Dirty { get; set; }

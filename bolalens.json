@@ -29,6 +29,11 @@
       "HandleAsync",
       "Consume",
       "ConsumeAsync"
+    ],
+    "skipCalleeTypes": [
+      "Logger$",
+      "LogManager$",
+      "Telemetry"
     ]
   },
   "identity": {
@@ -213,9 +218,8 @@
   },
   "ownership": {
     "userOwnerPatterns": [
-      "^UserId$",
+      "UserId$",
       "^OwnerId$",
-      "^OwnerUserId$",
       "^CreatedBy(Id)?$",
       "^AuthorId$",
       "^CustomerId$"
@@ -246,6 +250,7 @@
     "maxLength": 4096,
     "maxNewTokens": 160,
     "suppressThreshold": 0.8,
+    "allowEscalation": false,
     "retryOnParseFailure": 1,
     "maxSliceTokens": 700,
     "promptVersion": "v1",

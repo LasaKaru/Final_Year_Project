@@ -9,3 +9,114 @@
 [scan] Stage 2: SLM 4/11 — PUT api/orders/{id}/status
 [scan] Stage 2: SLM 5/11 — DELETE api/orders/{id}
 [scan] Stage 2: SLM 6/11 — POST api/orders/{id}/copy-status-to/{targetid}
+[scan] Stage 2: SLM 7/11 — PUT api/orders/{id}/total
+[scan] Stage 2: SLM 8/11 — PUT api/orders/{id}/status-detached
+[scan] Stage 2: SLM 9/11 — POST api/orders/{id}/process
+[scan] Stage 2: SLM 10/11 — DELETE api/orders/{id}/hard
+[scan] Stage 2: SLM 11/11 — DELETE api/projects/{id}
+[scan] Done.
+wrote eval/runs/2026-11-19-hybrid-bolalab-phi3mini/report.json
+BolaLens 0.1.0 · mode hybrid · fixtures/BolaLab/BolaLab.sln
+model cpu-int4-rtn-block-32-acc-level-4 · prompt v1/phi3 (2cb6f06902429b28)
+calibration gate passed 3/4
+╭────────────────────────────────────────────────┬────────────┬────────────┬────────┬───────────────────╮
+│ Endpoint                                       │ Final      │ Symbolic   │ Rules  │ Semantic          │
+├────────────────────────────────────────────────┼────────────┼────────────┼────────┼───────────────────┤
+│ PUT api/documents/{id}                         │ Vulnerable │ Protected  │ SYM-05 │ Vulnerable (0.95) │
+│ DELETE api/invoices/{id}                       │ Vulnerable │ Vulnerable │ SYM-08 │ Vulnerable (0.95) │
+│ PUT api/invoices/{id}/amount                   │ Protected  │ Protected  │ SYM-03 │ —                 │
+│ PUT api/notes/{id}                             │ Vulnerable │ Vulnerable │ SYM-08 │ Vulnerable (0.95) │
+│ PUT api/orders/{id}/status                     │ Vulnerable │ Vulnerable │ SYM-08 │ Vulnerable (0.95) │
+│ PUT api/orders/{id}                            │ Protected  │ Protected  │ SYM-03 │ —                 │
+│ DELETE api/orders/{id}                         │ Vulnerable │ Vulnerable │ SYM-08 │ Vulnerable (0.95) │
+│ POST api/orders/{id}/copy-status-to/{targetid} │ Vulnerable │ Vulnerable │ SYM-08 │ Vulnerable (0.95) │
+│ PUT api/orders/{id}/total                      │ Vulnerable │ Vulnerable │ SYM-08 │ Vulnerable (0.95) │
+│ PUT api/orders/{id}/status-detached            │ Vulnerable │ Vulnerable │ SYM-07 │ Vulnerable (0.95) │
+│ POST api/orders/{id}/process                   │ Vulnerable │ Unknown    │ SYM-02 │ Vulnerable (0.95) │
+│ POST api/orders/{id}/archive                   │ Protected  │ Protected  │ SYM-03 │ —                 │
+│ DELETE api/orders/{id}/hard                    │ Vulnerable │ Vulnerable │ SYM-07 │ Vulnerable (0.95) │
+│ PUT api/orders/{id}/adjust-total               │ Protected  │ Protected  │ SYM-03 │ —                 │
+│ PUT api/projects/{id}                          │ Protected  │ Protected  │ SYM-04 │ —                 │
+│ DELETE api/projects/{id}                       │ Vulnerable │ Vulnerable │ SYM-06 │ Vulnerable (0.95) │
+╰────────────────────────────────────────────────┴────────────┴────────────┴────────┴───────────────────╯
+projects 1 (with errors 0) · endpoints 16 (with ids 16) · paths 18 (truncated 0) · unresolved calls 1
+symbolic: 9 vulnerable · 6 protected · 1 unknown · 2 out of scope · SLM calls 11 (parse failures 0)
+time 1165.0s · peak memory 6040 MB
+
+Vulnerable PUT api/documents/{id} via 'id' (0133493fc377)
+  SaveChanges on Document at src/BolaLab.Api/Controllers/DocumentsController.cs:21 is gated by resource-based authorization at 
+src/BolaLab.Api/Controllers/DocumentsController.cs:19 (delegated to an authorization handler).
+  SLM: Client-controlled id selects the document (L4), but authorization (L7) and ownership check (L3) are not directly tied to the change (L9).
+  SLM disputes the delegated authorization check: Client-controlled id selects the document (L4), but authorization (L7) and ownership check (L3) are not 
+directly tied to the change (L9).
+
+Vulnerable DELETE api/invoices/{id} via 'id' (441f63a1deae)
+  SaveChanges on Invoice at src/BolaLab.Api/Services/Invoices.cs:14: Invoice (owners: CustomerId (User)) is selected by client-controlled 'id' and changed with 
+no valid owner guard or applicable query filter.
+  SLM: Client-controlled id selects the Invoice, but no owner check is performed before the change (L7).
+  Symbolic and semantic agree.
+
+Vulnerable PUT api/notes/{id} via 'id' (d1e4c0c35aee)
+  SaveChanges on Note at src/BolaLab.Api/Controllers/NotesController.cs:19: Note (owners: OwnerUserId (User), TenantId (Tenant)) is selected by 
+client-controlled 'id' and changed with no valid owner guard or applicable query filter. Query filter not sufficient: tenant-level check but object has a user 
+owner.
+  SLM: Client-controlled id selects the Note, and TenantId is not compared with the trusted identity (L3) before the change (L7), allowing unauthorized changes 
+(L8).
+  Symbolic and semantic agree.
+
+Vulnerable PUT api/orders/{id}/status via 'id' (727c78c6572c)
+  SaveChanges on Order at src/BolaLab.Api/Controllers/OrdersController.cs:22: Order (owners: UserId (User), TenantId (Tenant)) is selected by client-controlled 
+'id' and changed with no valid owner guard or applicable query filter.
+  SLM: Client-controlled id selects the Order (L5), and the change (L7) is applied without a binding to the owner's identity (L3).
+  Symbolic and semantic agree.
+
+Vulnerable DELETE api/orders/{id} via 'id' (d97153abd618)
+  Remove on Order at src/BolaLab.Api/Controllers/OrdersController.cs:44: Order (owners: UserId (User), TenantId (Tenant)) is selected by client-controlled 'id' 
+and changed with no valid owner guard or applicable query filter. Rejected checks: comparand is client-controlled 
+(src/BolaLab.Api/Controllers/OrdersController.cs:43).
+  SLM: Client-controlled id selects the object (L5), but the owner check (L7) is not sufficient to protect the object, as it only compares UserId, not TenantId 
+(L3).
+  Symbolic and semantic agree.
+
+Vulnerable POST api/orders/{id}/copy-status-to/{targetid} via 'targetId' (c6e5a56810f6)
+  SaveChanges on Order at src/BolaLab.Api/Controllers/OrdersController.cs:58: Order (owners: UserId (User), TenantId (Tenant)) is selected by client-controlled 
+'targetId' and changed with no valid owner guard or applicable query filter. Rejected checks: guard checks a different object 
+(src/BolaLab.Api/Controllers/OrdersController.cs:54).
+  SLM: Client-controlled targetId is used to select the object, but the change is only checked against the trusted currentUser.UserId (L7), not the source's 
+owner (L3).
+  Symbolic and semantic agree.
+
+Vulnerable PUT api/orders/{id}/total via 'id' (ebbf575c5bd7)
+  SaveChanges on Order at src/BolaLab.Api/Controllers/OrdersController.cs:68: Order (owners: UserId (User), TenantId (Tenant)) is selected by client-controlled 
+'id' and changed with no valid owner guard or applicable query filter. Rejected checks: guard does not precede the state change 
+(src/BolaLab.Api/Controllers/OrdersController.cs:69).
+  SLM: The client-controlled id selects the object (L5), and the change is applied without a binding to the owner's identity (L7), only a client-side check (L9)
+is performed (L9).
+  Symbolic and semantic agree.
+
+Vulnerable PUT api/orders/{id}/status-detached via 'id' (11d23fad265e)
+  Attach on Order at src/BolaLab.Api/Controllers/OrdersController.cs:77: detached Order built from the client-controlled key is written without loading or 
+checking ownership.
+  SLM: Client-controlled id selects the object (L5), and the change is applied without binding the caller's identity to the same object (L7).
+  Symbolic and semantic agree.
+
+Vulnerable POST api/orders/{id}/process via 'id' (acd5bd36655f)
+  No state change found, but 'id' entered unresolved code: ambiguous dispatch: 2 implementations of BolaLab.Api.Services.IOrderProcessor.ProcessAsync(int) 
+(ExpressOrderProcessor, StandardOrderProcessor).
+  SLM: Client-controlled id selects the object and it is processed without binding to the owner's identity (L4).
+  Escalated by SLM (confidence 0.95): Client-controlled id selects the object and it is processed without binding to the owner's identity (L4).
+
+Vulnerable DELETE api/orders/{id}/hard via 'id' (7db73abf75c5)
+  BulkDelete on Order at src/BolaLab.Api/Controllers/OrdersController.cs:103: bulk write selected by the client-controlled id has no owner predicate.
+  SLM: Client-controlled id selects the object and it is deleted without a binding to the owner's identity (L4). Owner check is missing (L3).
+  Symbolic and semantic agree.
+
+Vulnerable DELETE api/projects/{id} via 'id' (875dbdfb0f9b)
+  Remove on Project at src/BolaLab.Api/Controllers/ProjectsController.cs:28: Project is loaded with IgnoreQueryFilters() and changed without a valid owner 
+check.
+  SLM: Project is selected by the client-controlled id (L5) and deleted without tenant-check (L6), no owner-check before deletion (L7).
+  Symbolic and semantic agree.
+
+real	19m25.616s
+user	37m31.334s
+sys	0m10.198s

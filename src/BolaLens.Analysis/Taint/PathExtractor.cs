@@ -114,6 +114,8 @@ public sealed class PathExtractor(AnalysisContext context, OwnershipSchema schem
 
     private string? StaticReason(GuardRecord g)
     {
+        if (g.OwnerFromRequest)
+            return "owner value comes from the request body, not from the stored object";
         if (g.StructuralProblem is not null) return g.StructuralProblem;
         if (g.Kind == Core.Model.GuardKind.ExistenceCheck && g.Comparand == ComparandClass.Other)
             return "existence check does not bind the caller identity";
