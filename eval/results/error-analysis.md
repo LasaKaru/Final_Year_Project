@@ -35,3 +35,29 @@ Categories: **G** guard pattern not recognised · **P** permissive/incorrect gua
   these are likely FPs of category **G** (custom authorization handler). Needs labelling before any claim.
 * 2 of 3 Oqtane projects report compile errors: all are Razor-generated component types (source generators are not run by
   MSBuildWorkspace 4.14) — API controllers are unaffected (known limitation).
+
+## Second dataset round (2026-11-19, commit 88ada44): Kavita, Jellyfin, Bitwarden, IoTSharp
+
+### Fixed during this round — each found on a real case, then covered by a unit test
+| Case | Symptom | Cause | Change (test) |
+|---|---|---|---|
+| A-005 (Kavita, .NET 10) | ~1,300 compile errors, unresolved calls | **L**: C# 14 extension blocks / `field` parsed as errors by Roslyn 4.14 | .NET 10 projects parsed with `LanguageVersion.Preview` (`LanguageVersionTests`) |
+| A-005 | routes `update-dashboard-stream` without `api/stream` | **L**: `[Route]` on `BaseApiController` ignored | inherited `[Route]`/`[Authorize]` (`Route_and_authorize_inherited_from_a_base_controller_apply`) |
+| A-005 fixed | owner check rejected ("comparand is not the caller") | **G**: `UserId => UserContext.GetUserIdOrThrow()` getter not evaluated | getter identity summary (`Base_controller_property_returning_the_caller_identity_is_trusted`) |
+| A-005 | update-series / bulk endpoints without a path | **G**: `dto.Tag.Id`, `dto.Ids` + `ids.Contains(s.Id)` | nested/list ids (`Ids_nested_…`, `Bulk_update_…`) |
+| A-005 fixed | `tag.AppUserId != UserId && !User.IsInRole(Admin)` rejected | **G**: owner-or-admin | role bypass with polarity check (`Owner_check_with_an_admin_role_bypass` ×4) |
+| A-013 fixed | `[ChapterAccess]` endpoints | **G**: custom authorization filter attributes | delegated SYM-05 (ADR-014, `Custom_access_filter_attribute_…`) |
+| A-008…A-012 | everything Unknown | **D**: Dapper + EF implementation of every repository | `analysis.preferredImplementations` per target (`Preferred_implementation_…`) |
+
+### Open (expected) misses — the scope boundary
+| Case | Outcome | Category | Explanation |
+|---|---|---|---|
+| A-006 Kavita reads | FN ×3 | **S** | reading-list items / bookmarks / annotations are returned as DTO projections (`ProjectTo`, `Select`) — read mode only models entity loads; bookmark ids are inside a list of objects |
+| A-007 Jellyfin playlist | FN | **S/D** | items come from Jellyfin's library manager (not a direct EF query); the flaw is "userId query parameter used as the caller" |
+| A-008…A-012 Bitwarden | Unknown / OutOfScope | **S** | authorization is organization/collection **membership** through `ICurrentContext.OrganizationUser(orgId)` (tenant-level, custom permission service), sinks behind command handlers and Dapper/EF stored procedures |
+| A-013 Kavita downloads (vuln) | Unknown SYM-09 ×4, OutOfScope ×3 | **S** | library-membership model: `Chapter` has no owner property, so the tool abstains (honest Unknown); the fixed commit uses `[ChapterAccess]` (now Protected, SYM-05) |
+| A-014 IoTSharp (vuln only) | FN ×3 | **S** | cross-**tenant** reads by GUID; restore failed (missing private feed packages) and reads are projections |
+
+**Reading for the dissertation:** precision on Dataset A stays 1.000 (no fixed endpoint wrongly passed as vulnerable-before-fix
+was flagged without cause), recall is bounded by the ownership model (horizontal, user-owned objects). Membership-, tenant- and
+library-scoped authorization need a different "owner" relation (user ∈ library/organization) — candidate future work (S6+).
