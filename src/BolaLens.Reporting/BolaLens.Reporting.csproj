@@ -1,5 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
+    <!-- The UI assets are shared by the local web UI (BolaLens.Web) and the offline HTML export. -->
+    <EmbeddedResource Include="Html\index.html" LogicalName="BolaLens.Html.index.html" />
+    <EmbeddedResource Include="Html\app.css" LogicalName="BolaLens.Html.app.css" />
+    <EmbeddedResource Include="Html\app.js" LogicalName="BolaLens.Html.app.js" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Spectre.Console" />
   </ItemGroup>
   <ItemGroup>

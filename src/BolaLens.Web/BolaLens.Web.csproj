@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <AssemblyName>bolalens-ui</AssemblyName>
+    <RootNamespace>BolaLens.Web</RootNamespace>
+    <DisableMSBuildAssemblyCopyCheck>true</DisableMSBuildAssemblyCopyCheck>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BolaLens.App\BolaLens.App.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="BolaLens.Web.Tests" />
+  </ItemGroup>
+</Project>

@@ -11,7 +11,11 @@ public sealed class ConsoleSummaryRenderer(IAnsiConsole console)
     {
         var run = report.Run;
         console.MarkupLine($"[bold]BolaLens {Markup.Escape(run.ToolVersion)}[/] · mode [aqua]{run.Mode}[/] · {Markup.Escape(run.TargetPath)}");
-        if (run.ModelId is not null) console.MarkupLine($"model {Markup.Escape(run.ModelId)} · prompt {run.PromptVersion}");
+        if (run.ModelId is not null) console.MarkupLine($"model {Markup.Escape(run.ModelId)} · prompt {Markup.Escape(run.PromptVersion ?? "")}");
+        if (run.ModelGate is { } gate)
+            console.MarkupLine(gate.Passed
+                ? $"calibration gate [green]passed[/] {gate.Correct}/{gate.Total}"
+                : $"calibration gate [red]failed[/] {gate.Correct}/{gate.Total} (needs {gate.MinCorrect}) — model verdicts are [yellow]advisory only[/]");
 
         var table = new Table().Border(TableBorder.Rounded)
             .AddColumn("Endpoint").AddColumn("Final").AddColumn("Symbolic").AddColumn("Rules").AddColumn("Semantic");
