@@ -67,6 +67,8 @@ ONNX validator with JSON-schema guidance; parser + grounding + retry; fusion; **
 `--compare`; offline HTML export; **local responsive web UI**; tiny local model SmolLM2-135M int4 (86 MB) end to end.
 **Findings so far:** symbolic 16/16 on BolaLab (dev set). SmolLM2-135M answers "vulnerable" for every slice → fails the gate
 2/4 → advisory only; without the gate it adds 1 FP (TC09) and wrongly escalates TC10 (see eval/runs/*smollm2*).
+**Overall:** prototype ≈ IPD-ready; research evaluation (datasets A/B/C, baseline SAST, RQ1–RQ4) and dissertation not
+started — full gap analysis, dataset plan, methodology and revised timeline in `docs/project-status-and-roadmap.md`.
 **Next (in order):**
 1. Phase 23: scan ≥ 1 real open-source ASP.NET Core + EF Core repo (pinned SHA), record coverage/Unknowns/runtime; exploratory labels.
 2. Run Phi-3-mini (or Qwen2.5-Coder-0.5B/1.5B) on the 16 GB laptop: hybrid ×3, gate result, timings → eval/runs.
