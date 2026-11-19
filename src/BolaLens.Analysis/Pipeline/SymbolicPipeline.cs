@@ -54,7 +54,7 @@ public sealed class SymbolicPipeline(BolaLensConfig config)
         var paths = new PathExtractor(context, schema, resolver).Extract(endpoints, ct);
         phases["paths"] = Lap(sw);
 
-        var classifier = new SymbolicClassifier(schema, config.Analysis.IncludeReadOnlyPaths);
+        var classifier = new SymbolicClassifier(schema, config.Analysis.IncludeReadOnlyPaths, config.Analysis.PrivilegedRoles);
         var verdicts = paths.Select(p => (p, classifier.Classify(p))).ToList();
         phases["verdict"] = Lap(sw);
 

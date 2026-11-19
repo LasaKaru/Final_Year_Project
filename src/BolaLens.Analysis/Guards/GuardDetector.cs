@@ -4,8 +4,20 @@ using Microsoft.CodeAnalysis.Operations;
 namespace BolaLens.Analysis.Guards;
 
 /// <summary>An equality-like comparison (or an AuthorizationResult.Succeeded test) inside a condition,
-/// with its polarity: <see cref="TrueOnMismatch"/> = the whole condition is true when the two sides differ.</summary>
-public sealed record Comparison(IOperation Left, IOperation? Right, bool TrueOnMismatch, bool InConjunction, bool InDisjunction, bool IsResourceCheck, bool IsExistsCheck = false, bool IsHelperCheck = false);
+/// with its polarity: <see cref="TrueOnMismatch"/> = the whole condition is true when the two sides differ.
+/// <see cref="OuterAnd"/>/<see cref="OuterOr"/> are the outermost effective &amp;&amp;/|| nodes above it (De Morgan applied):
+/// the group a combined check belongs to (e.g. <c>IsOwner(a.From) || IsOwner(a.To)</c>).</summary>
+public sealed record Comparison(IOperation Left, IOperation? Right, bool TrueOnMismatch, bool InConjunction, bool InDisjunction, bool IsResourceCheck, bool IsExistsCheck = false, bool IsHelperCheck = false)
+{
+    public IOperation? OuterAnd { get; init; }
+    public IOperation? OuterOr { get; init; }
+
+    /// <summary>The check does not stop the request on its own: it is OR-ed (match polarity) or AND-ed (mismatch polarity).</summary>
+    public bool IsCombined => (TrueOnMismatch && InConjunction) || (!TrueOnMismatch && InDisjunction);
+
+    /// <summary>The node whose other operands can let the request through without this check.</summary>
+    public IOperation? CombinationGroup => TrueOnMismatch ? OuterAnd : OuterOr;
+}
 
 public enum ExitKind { None, Return, Throw }
 
@@ -18,56 +30,72 @@ public static class GuardDetector
     public static List<Comparison> Collect(IOperation condition)
     {
         var list = new List<Comparison>();
-        Walk(condition, negated: false, inAnd: false, inOr: false, list);
+        Walk(condition, negated: false, inAnd: false, inOr: false, null, null, list);
         return list;
     }
 
-    private static void Walk(IOperation op, bool negated, bool inAnd, bool inOr, List<Comparison> list)
+    private static void Walk(IOperation op, bool negated, bool inAnd, bool inOr, IOperation? outerAnd, IOperation? outerOr, List<Comparison> list)
     {
+        void Add(Comparison c) => list.Add(c with { OuterAnd = outerAnd, OuterOr = outerOr });
         op = Unwrap(op);
         switch (op)
         {
             case IUnaryOperation { OperatorKind: UnaryOperatorKind.Not } u:
-                Walk(u.Operand, !negated, inAnd, inOr, list);
+                Walk(u.Operand, !negated, inAnd, inOr, outerAnd, outerOr, list);
                 break;
 
             case IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr } b:
                 // De Morgan: under negation && behaves as || and vice versa
                 var isAnd = (b.OperatorKind == BinaryOperatorKind.ConditionalAnd) ^ negated;
-                Walk(b.LeftOperand, negated, inAnd || isAnd, inOr || !isAnd, list);
-                Walk(b.RightOperand, negated, inAnd || isAnd, inOr || !isAnd, list);
+                var oa = outerAnd ?? (isAnd ? b : null);
+                var oo = outerOr ?? (isAnd ? null : b);
+                Walk(b.LeftOperand, negated, inAnd || isAnd, inOr || !isAnd, oa, oo, list);
+                Walk(b.RightOperand, negated, inAnd || isAnd, inOr || !isAnd, oa, oo, list);
                 break;
 
             case IBinaryOperation { OperatorKind: BinaryOperatorKind.Equals or BinaryOperatorKind.NotEquals } eq:
-                list.Add(new Comparison(eq.LeftOperand, eq.RightOperand, (eq.OperatorKind == BinaryOperatorKind.NotEquals) ^ negated, inAnd, inOr, false));
+                Add(new Comparison(eq.LeftOperand, eq.RightOperand, (eq.OperatorKind == BinaryOperatorKind.NotEquals) ^ negated, inAnd, inOr, false));
                 break;
 
             case IInvocationOperation { TargetMethod.Name: "Equals" } inv when inv.Instance is null && inv.Arguments.Length >= 2:
-                list.Add(new Comparison(inv.Arguments[0].Value, inv.Arguments[1].Value, negated, inAnd, inOr, false));
+                Add(new Comparison(inv.Arguments[0].Value, inv.Arguments[1].Value, negated, inAnd, inOr, false));
                 break;
 
             case IInvocationOperation { TargetMethod.Name: "Equals" } inv when inv.Instance is not null && inv.Arguments.Length >= 1:
-                list.Add(new Comparison(inv.Instance, inv.Arguments[0].Value, negated, inAnd, inOr, false));
+                Add(new Comparison(inv.Instance, inv.Arguments[0].Value, negated, inAnd, inOr, false));
                 break;
 
             case IPropertyReferenceOperation { Property.Name: "Succeeded" } pr:
-                list.Add(new Comparison(pr, null, negated, inAnd, inOr, true));
+                Add(new Comparison(pr, null, negated, inAnd, inOr, true));
                 break;
 
             // existence checks: if (!await db.Orders.AnyAsync(o => o.Id == id && o.UserId == uid)) return Forbid();
             // (or a bool local holding that result) — true when the object is the caller's, so negation = mismatch
             case IInvocationOperation { TargetMethod.Name: var n } inv when n.StartsWith("Any", StringComparison.Ordinal):
-                list.Add(new Comparison(inv, null, negated, inAnd, inOr, false, IsExistsCheck: true));
+                Add(new Comparison(inv, null, negated, inAnd, inOr, false, IsExistsCheck: true));
                 break;
             // a boolean helper in the analysed code, e.g. if (IsAuthorized(notification.FromUserId)) — summarised by the walker
             case IInvocationOperation { TargetMethod: { ReturnType.SpecialType: SpecialType.System_Boolean } hm } hinv
                 when hm.Locations.Any(l => l.IsInSource) && hm.Name != "Equals":
-                list.Add(new Comparison(hinv, null, negated, inAnd, inOr, false, IsHelperCheck: true));
+                Add(new Comparison(hinv, null, negated, inAnd, inOr, false, IsHelperCheck: true));
                 break;
             case ILocalReferenceOperation or IParameterReferenceOperation when op.Type?.SpecialType == SpecialType.System_Boolean:
-                list.Add(new Comparison(op, null, negated, inAnd, inOr, false, IsExistsCheck: true));
+                Add(new Comparison(op, null, negated, inAnd, inOr, false, IsExistsCheck: true));
                 break;
         }
+    }
+
+    /// <summary>Number of operands of a &amp;&amp;/|| tree (negations and parentheses are looked through).</summary>
+    public static int CountLeaves(IOperation op)
+    {
+        op = Unwrap(op);
+        return op switch
+        {
+            IUnaryOperation { OperatorKind: UnaryOperatorKind.Not } u => CountLeaves(u.Operand),
+            IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr } b =>
+                CountLeaves(b.LeftOperand) + CountLeaves(b.RightOperand),
+            _ => 1,
+        };
     }
 
     public static IOperation Unwrap(IOperation op)

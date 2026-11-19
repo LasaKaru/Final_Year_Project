@@ -5,11 +5,17 @@ namespace BolaLens.Analysis.Verdict;
 /// <summary>Turns an annotated execution path into a three-state symbolic verdict with rule IDs.
 /// Input: ExecutionPath + OwnershipSchema (pure C#, no Roslyn). Limitation: it trusts the guard binding
 /// computed by the path extractor; a sink's verdict is the first matching rule, the path's is the worst sink.</summary>
-public sealed class SymbolicClassifier(OwnershipSchema schema, bool includeReadOnlyPaths = false)
+public sealed class SymbolicClassifier(OwnershipSchema schema, bool includeReadOnlyPaths = false, IReadOnlyList<string>? privilegedRoles = null)
 {
+    private readonly HashSet<string> _privileged = new(privilegedRoles ?? [], StringComparer.OrdinalIgnoreCase);
+
     public SymbolicVerdict Classify(ExecutionPath path)
     {
         var sinks = path.Sinks.Where(s => s.IsStateChanging || (includeReadOnlyPaths && s.Kind == SinkKind.Read)).ToList();
+        var roles = path.Endpoint.Authorization.Roles;
+        if (sinks.Count > 0 && _privileged.Count > 0 && roles.Count > 0 && roles.All(_privileged.Contains) && !path.Endpoint.Authorization.AllowAnonymous)
+            return new SymbolicVerdict(VerdictStatus.OutOfScope, [SymbolicRules.PrivilegedOnly],
+                $"Only privileged roles ({string.Join(", ", roles)}) reach this endpoint, so there is no peer user to attack (vertical, not horizontal, authorization).");
         if (sinks.Count == 0)
         {
             return path.TaintEnteredUnresolvedCall || path.Truncated

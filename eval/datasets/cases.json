@@ -1,0 +1,61 @@
+{
+  "comment": "Dataset cases (guide 07). Third-party code is never copied into this repo: scripts/run-case.sh clones each repo at the pinned SHA into $BOLALENS_DATASETS (default ../datasets). Draft labels live in eval/labels/drafts and must be verified by the project owner before the label freeze (21 Mar 2027).",
+  "cases": [
+    {
+      "caseId": "A-001", "dataset": "A", "family": "oqtane",
+      "repo": "https://github.com/oqtane/oqtane.framework.git",
+      "advisory": "none published — vendor commit 0192d6e4 'resolve security issue with Notification PUT method' (2026-07-31)",
+      "flaw": "PUT checked the owner on the request-body notification (FromUserId/ToUserId sent by the client), not on the stored row",
+      "scope": "state-changing", "config": null, "solution": "Oqtane.slnx",
+      "variants": { "vuln": "24e7de71ade8336d5f2efe5252b0e0bad4c76b85", "fixed": "0192d6e4609cc4179abb0d6b1662e6300d3b6edc" },
+      "units": ["PUT api/Notification/{id}"]
+    },
+    {
+      "caseId": "A-002", "dataset": "A", "family": "oqtane",
+      "repo": "https://github.com/oqtane/oqtane.framework.git",
+      "advisory": "CVE-2024-55186 / GHSA-2hr5-cvwp-jr5w (fix: PR #4876, merge e83399ac)",
+      "flaw": "IsAuthorized(int? userid) returned true for a null user id, so any user passed the owner check on system notifications (FromUserId = null)",
+      "scope": "state-changing + read", "config": "eval/datasets/configs/read-mode.json", "solution": "Oqtane.sln",
+      "variants": { "vuln": "f71a3a1ce3b899962a60d3c58f4b8a644f0d18e7", "fixed": "e83399acb19da9c29726a966e3898116e00d6f6a" },
+      "units": ["GET api/Notification/{id}", "PUT api/Notification/{id}", "DELETE api/Notification/{id}"]
+    },
+    {
+      "caseId": "A-003", "dataset": "A", "family": "oqtane",
+      "repo": "https://github.com/oqtane/oqtane.framework.git",
+      "advisory": "CVE-2024-55471 / GHSA-hhcw-wwxv-g95c (fix: PR #4880, merge 497b2552)",
+      "flaw": "GET user returned another user's private settings (field-level exposure inside an otherwise filtered object)",
+      "scope": "read (field-level)", "config": "eval/datasets/configs/read-mode.json", "solution": "Oqtane.sln",
+      "variants": { "vuln": "2441647d7579204ad9d0cbe2be3b29d2eb5a3a6a", "fixed": "497b255216d2e9004f22ee0625560efec7458cd8" },
+      "units": ["GET api/User/{id}"],
+      "expectedLimitation": "field-level exposure is out of the model (ADR-011) — an expected miss"
+    },
+    {
+      "caseId": "A-004", "dataset": "A", "family": "oqtane",
+      "repo": "https://github.com/oqtane/oqtane.framework.git",
+      "advisory": "CVE-2024-55470 / GHSA-995c-qww8-64fj (fix: PR #4878, merge cdd03bf3)",
+      "flaw": "settings of entity 'User' were readable by any user (View permission returned true); only Edit compared the caller with entityId",
+      "scope": "read", "config": "eval/datasets/configs/read-mode.json", "solution": "Oqtane.sln",
+      "variants": { "vuln": "e83399acb19da9c29726a966e3898116e00d6f6a", "fixed": "cdd03bf3d4a5a4eb20e8b1f22f358eab02f5367a" },
+      "units": ["GET api/Setting", "GET api/Setting/{id}/{entityName}"]
+    },
+    {
+      "caseId": "B-001", "dataset": "B", "family": "conduit",
+      "repo": "https://github.com/gothinkster/aspnetcore-realworld-example-app.git",
+      "advisory": null, "scope": "state-changing", "config": null, "solution": "Conduit.slnx",
+      "variants": { "head": "6fe67a53892213d264dc8fa244e3aaaf55f50390" }
+    },
+    {
+      "caseId": "B-002", "dataset": "B", "family": "cleanarchitecture",
+      "repo": "https://github.com/jasontaylordev/CleanArchitecture.git",
+      "advisory": null, "scope": "state-changing", "config": null, "solution": "CleanArchitecture.slnx",
+      "variants": { "head": "9e1042be109b6b73488695bcd6840c8ea78db5f0" }
+    },
+    {
+      "caseId": "B-003", "dataset": "B", "family": "oqtane",
+      "repo": "https://github.com/oqtane/oqtane.framework.git",
+      "advisory": null, "scope": "state-changing", "config": "eval/datasets/configs/oqtane.json", "solution": "Oqtane.slnx",
+      "variants": { "v10.3.2": "f3ecec579117ad27d2c22014f1b834797923fa16" },
+      "note": "release tag v10.3.2 (last net10 release; main moved to net11, which no installed SDK can build). Same family as A-001..A-004 — never put B-003 and an A-case of oqtane on different sides of the calibration split"
+    }
+  ]
+}

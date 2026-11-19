@@ -28,7 +28,7 @@ public sealed class GuardRecord
     public int ActiveUntil { get; set; } = int.MinValue;
     public bool UntilFrameEnd { get; init; }
     public object? Frame { get; init; }
-    public string? StructuralProblem { get; init; }
+    public string? StructuralProblem { get; set; }
     public bool AuthForCaller { get; init; } = true;
 
     /// <summary>The owner value checked belongs to an object built from the request, so the client chose it.</summary>

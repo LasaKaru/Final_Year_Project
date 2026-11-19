@@ -1,0 +1,10 @@
+[
+  {
+    "tc": "A-003/GET",
+    "verb": "GET",
+    "route": "api/User/{id}",
+    "entity": "User",
+    "label": "Vulnerable",
+    "expectedRule": null
+  }
+]

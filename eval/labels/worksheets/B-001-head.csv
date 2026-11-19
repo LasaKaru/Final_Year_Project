@@ -1,0 +1,12 @@
+unit,action,file,authorize,roles,policies,id_parameters,q1_client_id_selects_object,q2_cross_user_effect,q3_owner_check_before_effect,label,notes,rater,date
+DELETE articles/{slug},ArticlesController.Delete,src/Conduit/Features/Articles/ArticlesController.cs:58,yes,,,slug,,,,,,,
+DELETE articles/{slug}/comments/{id},CommentsController.Delete,src/Conduit/Features/Comments/CommentsController.cs:30,yes,,,slug;id,,,,,,,
+DELETE articles/{slug}/favorite,FavoritesController.FavoriteDelete,src/Conduit/Features/Favorites/FavoritesController.cs:21,yes,,,slug,,,,,,,
+DELETE profiles/{username}/follow,FollowersController.Unfollow,src/Conduit/Features/Followers/FollowersController.cs:21,yes,,,username,,,,,,,
+GET articles/{slug},ArticlesController.Get,src/Conduit/Features/Articles/ArticlesController.cs:39,no/global,,,slug,,,,,,,
+GET articles/{slug}/comments,CommentsController.Get,src/Conduit/Features/Comments/CommentsController.cs:26,no/global,,,slug,,,,,,,
+GET profiles/{username},ProfilesController.Get,src/Conduit/Features/Profiles/ProfilesController.cs:11,no/global,,,username,,,,,,,
+POST articles/{slug}/comments,CommentsController.Create,src/Conduit/Features/Comments/CommentsController.cs:14,yes,,,slug,,,,,,,
+POST articles/{slug}/favorite,FavoritesController.FavoriteAdd,src/Conduit/Features/Favorites/FavoritesController.cs:14,yes,,,slug,,,,,,,
+POST profiles/{username}/follow,FollowersController.Follow,src/Conduit/Features/Followers/FollowersController.cs:14,yes,,,username,,,,,,,
+PUT articles/{slug},ArticlesController.Edit,src/Conduit/Features/Articles/ArticlesController.cs:50,yes,,,slug,,,,,,,

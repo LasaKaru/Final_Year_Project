@@ -14,7 +14,8 @@ public sealed record QueryValue(
     string? OwnerPredicateProperty,
     string? OwnerPredicateCaller,
     SourceRef? PredicateLocation,
-    IReadOnlySet<string>? SelectorTags = null);
+    IReadOnlySet<string>? SelectorTags = null,
+    IReadOnlySet<string>? KeyTags = null);
 
 /// <summary>An existence check such as AnyAsync(x =&gt; x.Id == id &amp;&amp; x.OwnerId == uid): "is this object the caller's?".</summary>
 public sealed record ExistsCheck(string EntityType, bool KeyTainted, OwnerKind? OwnerKind, string? OwnerProperty, string? Caller);

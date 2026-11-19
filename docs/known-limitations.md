@@ -39,3 +39,17 @@
 ## Evaluation
 16. BolaLab is the **development set**: rules were written while looking at it, so 16/16 there is not evidence of generalisation.
 17. Unit = endpoint (worst path). Endpoints with several distinct sinks are not split per sink yet.
+
+## Real-repository findings (Datasets A/B, 2026-11-19)
+19. **Field-level exposure** (a returned object filters private fields for other users, CVE-2024-55471) is outside the model:
+    expected miss (ADR-011).
+20. **Custom permission services and string-dispatched helpers** (`IUserPermissions.IsAuthorized(User, site, entityName, id,
+    perm)`, `switch (entityName)`) are not interpreted: such endpoints are reported Vulnerable in both the vulnerable and the
+    fixed commit (A-004). Custom `[Authorize(Policy = …)]` handlers are likewise not interpreted.
+21. A boolean helper counts as an owner check when its body compares a parameter with the caller identity; it is rejected
+    when it can return the literal `true` (directly or via the returned local) — other permissive shapes are not detected.
+22. Two single objects loaded by the same key value on one path are treated as one row (key-tag aliasing). This assumes the
+    id is not reassigned between the loads.
+23. Razor/Blazor components (source-generated partials) show up as compile errors in Oqtane-style solutions; API controllers
+    are unaffected, but `projectsFailed` overstates real load problems.
+24. Which roles are privileged (SYM-10) is configured per target; a wrong list hides findings (ADR-013).

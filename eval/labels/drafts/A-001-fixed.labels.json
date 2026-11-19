@@ -1,0 +1,10 @@
+[
+  {
+    "tc": "A-001/PUT",
+    "verb": "PUT",
+    "route": "api/Notification/{id}",
+    "entity": "Notification",
+    "label": "Protected",
+    "expectedRule": null
+  }
+]

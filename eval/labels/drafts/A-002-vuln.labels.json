@@ -1,0 +1,26 @@
+[
+  {
+    "tc": "A-002/GET",
+    "verb": "GET",
+    "route": "api/Notification/{id}",
+    "entity": "Notification",
+    "label": "Vulnerable",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-002/PUT",
+    "verb": "PUT",
+    "route": "api/Notification/{id}",
+    "entity": "Notification",
+    "label": "Vulnerable",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-002/DELETE",
+    "verb": "DELETE",
+    "route": "api/Notification/{id}",
+    "entity": "Notification",
+    "label": "Vulnerable",
+    "expectedRule": null
+  }
+]

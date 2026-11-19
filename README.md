@@ -79,6 +79,7 @@ All heuristics (identity sources, owner-name patterns, depth, model settings) ar
 | 6 | SYM-07 | detached write from a client key, or bulk write without owner predicate/filter | Vulnerable |
 | 7 | SYM-04 | applicable query filter at the required owner level | Protected |
 | 8 | SYM-09 | changed entity has no owner candidate | Unknown |
+| 0 | SYM-10 | only configured privileged roles (`analysis.privilegedRoles`, empty by default) can call the endpoint | OutOfScope |
 | 9 | SYM-08 | owned entity selected by client id is changed with no valid guard or filter | Vulnerable |
 
 ## Preliminary results (development set — not a research result)

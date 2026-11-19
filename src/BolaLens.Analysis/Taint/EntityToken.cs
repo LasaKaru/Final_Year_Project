@@ -36,6 +36,10 @@ public sealed class EntityToken
     /// <summary>Provenance tags of the values used to select this object (key in Find / predicate).</summary>
     public HashSet<string> SelectorTags { get; } = new(StringComparer.Ordinal);
 
+    /// <summary>Provenance tags of the values compared with the primary key (Find / x.Id == id): two single objects
+    /// loaded by the same key value are the same row.</summary>
+    public HashSet<string> KeyTags { get; } = new(StringComparer.Ordinal);
+
     /// <summary>Other tokens proven to be the same row (key equality with the value that loaded them).</summary>
     public HashSet<EntityToken> Aliases { get; } = [];
 

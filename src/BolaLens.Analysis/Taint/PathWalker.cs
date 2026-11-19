@@ -171,7 +171,17 @@ public sealed class PathWalker
                 break;
 
             case IReturnOperation r:
-                if (r.ReturnedValue is not null) f.Return = f.Return.Merge(Eval(r.ReturnedValue, f));
+                if (r.ReturnedValue is not null)
+                {
+                    var rv = Eval(r.ReturnedValue, f);
+                    // if (tracking) return Find(id); else return AsNoTracking().First(…): the caller gets one object
+                    if (f.Return.Entity is { } a && rv.Entity is { } b && !ReferenceEquals(a, b) && a.EntityType == b.EntityType)
+                    {
+                        a.Aliases.Add(b);
+                        b.Aliases.Add(a);
+                    }
+                    f.Return = f.Return.Merge(rv);
+                }
                 break;
 
             case IConditionalOperation c:
@@ -272,7 +282,9 @@ public sealed class PathWalker
         foreach (var cmp in comparisons)
             foreach (var record in BuildGuards(cmp, c, f, facts))
                 records.Add((cmp, record));
-        var regionGuards = records.Where(r => !r.Cmp.TrueOnMismatch && !r.Cmp.InDisjunction && falseExit == ExitKind.None).Select(r => r.Record).ToList();
+        var grouped = AcceptOwnerDisjunctions(records, facts);
+        bool Alone(Comparison cmp) => !cmp.IsCombined || grouped.Contains(cmp);
+        var regionGuards = records.Where(r => !r.Cmp.TrueOnMismatch && Alone(r.Cmp) && falseExit == ExitKind.None).Select(r => r.Record).ToList();
 
         foreach (var g in regionGuards) _openRegions.Push(g);
         WalkStatement(c.WhenTrue, f);
@@ -285,16 +297,16 @@ public sealed class PathWalker
         {
             if (cmp.TrueOnMismatch)
             {
-                if (trueExit != ExitKind.None && !cmp.InConjunction)
+                if (trueExit != ExitKind.None && Alone(cmp))
                     Activate(record, afterTrue, trueExit, f);
-                else if (trueExit == ExitKind.None && c.WhenFalse is not null && !cmp.InConjunction)
+                else if (trueExit == ExitKind.None && c.WhenFalse is not null && Alone(cmp))
                     (record.ActiveFrom, record.ActiveUntil) = (afterTrue, afterFalse);
             }
             else
             {
-                if (falseExit != ExitKind.None && !cmp.InDisjunction)
+                if (falseExit != ExitKind.None && Alone(cmp))
                     Activate(record, start, falseExit, f);
-                else if (!cmp.InDisjunction)
+                else if (Alone(cmp))
                     (record.ActiveFrom, record.ActiveUntil) = (start, afterTrue);
             }
             _ctx.Guards.Add(record);
@@ -303,6 +315,32 @@ public sealed class PathWalker
         if (facts.Count > 0 && stepIndex >= 0 && stepIndex < _ctx.Steps.Count)
             _ctx.Steps[stepIndex] = _ctx.Steps[stepIndex] with { Description = string.Join("; ", facts) };
     }
+
+    private const string CombinedProblem = "check is combined with other conditions and does not always stop the request";
+
+    /// <summary>A disjunction whose every operand is a valid owner check on the same object (the caller is the sender
+    /// OR the recipient) is one owner check: no operand lets a non-owner through. Conservative: an operand that is not
+    /// such a check (a role test, a flag, a constant) keeps the whole group rejected.</summary>
+    private static HashSet<Comparison> AcceptOwnerDisjunctions(List<(Comparison Cmp, GuardRecord Record)> records, List<string> facts)
+    {
+        var accepted = new HashSet<Comparison>();
+        foreach (var group in records.Where(r => r.Cmp.IsCombined && r.Cmp.CombinationGroup is not null).GroupBy(r => r.Cmp.CombinationGroup!))
+        {
+            var members = group.ToList();
+            if (members.Select(m => m.Cmp).Distinct().Count() != members.Count) continue;         // one record per operand
+            if (members.Count != GuardDetector.CountLeaves(group.Key)) continue;                  // every operand is a check
+            var token = members[0].Record.Token;
+            if (token is null || !members.All(m => IsPlainOwnerCheck(m.Record) && m.Record.Token is { } t && (ReferenceEquals(t, token) || t.SameObject(token))))
+                continue;
+            foreach (var m in members) { m.Record.StructuralProblem = null; accepted.Add(m.Cmp); }
+            facts.Add($"{members.Count} owner checks on {token.VariableName ?? token.ShortName} joined by OR — each one binds the caller");
+        }
+        return accepted;
+    }
+
+    private static bool IsPlainOwnerCheck(GuardRecord g) =>
+        g.Kind == GuardKind.OwnerEquality && g.StructuralProblem == CombinedProblem && !g.OwnerFromRequest
+        && g.Comparand == ComparandClass.Identity && g.OwnerKind is not null && (g.IdentityKind is null || g.IdentityKind == g.OwnerKind);
 
     /// <summary>Guard records for one comparison: normally one; a guard flag (if (update)) yields a copy of every
     /// check that set the flag.</summary>
@@ -338,8 +376,7 @@ public sealed class PathWalker
     {
         var location = _context.StatementRef(c.Syntax);
         var exitKind = cmp.TrueOnMismatch ? GuardDetector.Exit(c.WhenTrue) : GuardDetector.Exit(c.WhenFalse);
-        var problem = (cmp.TrueOnMismatch && cmp.InConjunction) || (!cmp.TrueOnMismatch && cmp.InDisjunction)
-            ? "check is combined with other conditions and does not always stop the request" : null;
+        var problem = cmp.IsCombined ? CombinedProblem : null;
 
         if (cmp.IsHelperCheck)
             return cmp.Left is IInvocationOperation hinv ? BuildHelperGuard(hinv, cmp, c, f, facts, problem) : null;
@@ -398,11 +435,13 @@ public sealed class PathWalker
 
     // ------------------------------------------------------------------ boolean helper guards
 
-    private readonly Dictionary<string, (int Ordinal, OwnerKind Kind)?> _helperSummaries = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, (int Ordinal, OwnerKind Kind, bool Permissive)?> _helperSummaries = new(StringComparer.Ordinal);
 
     /// <summary>Summary of a bool helper: does its body compare parameter #k with the caller identity?
-    /// (e.g. IsAuthorized(int? userid) =&gt; GetUser(User).UserId == userid). Cached per method.</summary>
-    private (int Ordinal, OwnerKind Kind)? HelperSummary(IMethodSymbol helper)
+    /// (e.g. IsAuthorized(int? userid) =&gt; GetUser(User).UserId == userid). Cached per method.
+    /// <c>Permissive</c>: the helper can return true without that comparison (bool ok = true; … return ok; or return true;),
+    /// the flaw of CVE-2024-55186 where a null user id was always authorised.</summary>
+    private (int Ordinal, OwnerKind Kind, bool Permissive)? HelperSummary(IMethodSymbol helper)
     {
         var key = Symbols.Key(helper);
         if (_helperSummaries.TryGetValue(key, out var cached)) return cached;
@@ -418,12 +457,22 @@ public sealed class PathWalker
             {
                 if (GuardDetector.Unwrap(x) is IParameterReferenceOperation pref && Peek(GuardDetector.Unwrap(y), frame).Identity is { } kind)
                 {
-                    _helperSummaries[key] = (pref.Parameter.Ordinal, kind);
+                    _helperSummaries[key] = (pref.Parameter.Ordinal, kind, CanReturnTrueWithoutCheck(body));
                     return _helperSummaries[key];
                 }
             }
         }
         return null;
+    }
+
+    private static bool CanReturnTrueWithoutCheck(IOperation body)
+    {
+        static bool IsTrue(IOperation? v) => v is not null && GuardDetector.Unwrap(v) is ILiteralOperation { ConstantValue: { HasValue: true, Value: true } };
+        var returned = body.Descendants().OfType<IReturnOperation>().Select(r => r.ReturnedValue).Where(v => v is not null).ToList();
+        if (returned.Any(IsTrue)) return true;
+        var returnedLocals = returned.Select(v => GuardDetector.Unwrap(v!)).OfType<ILocalReferenceOperation>().Select(l => l.Local).ToHashSet(SymbolEqualityComparer.Default);
+        return body.Descendants().OfType<IVariableDeclaratorOperation>().Any(d => returnedLocals.Contains(d.Symbol) && IsTrue(d.Initializer?.Value))
+               || body.Descendants().OfType<ISimpleAssignmentOperation>().Any(a => a.Target is ILocalReferenceOperation l && returnedLocals.Contains(l.Local) && IsTrue(a.Value));
     }
 
     private GuardRecord? BuildHelperGuard(IInvocationOperation inv, Comparison cmp, IConditionalOperation c, MethodFrame f, List<string> facts, string? problem)
@@ -439,7 +488,9 @@ public sealed class PathWalker
             Kind = GuardKind.OwnerEquality, Token = owner.Token, OwnerProperty = owner.Property, OwnerKind = owner.Kind,
             Comparand = ComparandClass.Identity, IdentityKind = summary.Kind, CallerExpression = $"{inv.TargetMethod.Name}(…)",
             Location = _context.StatementRef(c.Syntax), Frame = f, UntilFrameEnd = exitKind == ExitKind.Return,
-            StructuralProblem = problem, OwnerFromRequest = owner.Token.FromRequest,
+            StructuralProblem = summary.Permissive
+                ? $"{inv.TargetMethod.Name} can return true without comparing the caller identity (e.g. for a null id)" : problem,
+            OwnerFromRequest = owner.Token.FromRequest,
         };
     }
 
@@ -1019,6 +1070,7 @@ public sealed class PathWalker
                     {
                         KeyTainted = q.KeyTainted || args.Skip(first).Any(a => a.Tainted),
                         SelectorTags = Union(q.SelectorTags, args.Skip(first).Select(a => a.Tags)),
+                        KeyTags = Union(q.KeyTags, args.Skip(first).Select(a => a.Tags)),
                     };
                 else
                     q = ApplyPredicates(q, inv, first, f);
@@ -1108,6 +1160,16 @@ public sealed class PathWalker
             IsCollection = collection,
         };
         if (q.SelectorTags is not null) token.SelectorTags.UnionWith(q.SelectorTags);
+        if (q.KeyTags is not null && !collection)
+        {
+            // Get(id) for the check, then Delete(id) → Find(id) + Remove: both loads return the same row
+            token.KeyTags.UnionWith(q.KeyTags);
+            foreach (var other in _ctx.Tokens.Where(t => t.EntityType == token.EntityType && !t.IsCollection && !t.FromRequest && t.KeyTags.Overlaps(token.KeyTags)))
+            {
+                other.Aliases.Add(token);
+                token.Aliases.Add(other);
+            }
+        }
         _ctx.Tokens.Add(token);
         return token;
     }
@@ -1145,7 +1207,12 @@ public sealed class PathWalker
                     if (RootedMember(GuardDetector.Unwrap(x), parameter) is not { } chain) continue;
                     var yv = Peek(GuardDetector.Unwrap(y), f);
                     if (yv.Tainted) q = q with { KeyTainted = true };
-                    if (yv.Tags is { Count: > 0 }) q = q with { SelectorTags = Union(q.SelectorTags, [yv.Tags]) };
+                    if (yv.Tags is { Count: > 0 })
+                    {
+                        q = q with { SelectorTags = Union(q.SelectorTags, [yv.Tags]) };
+                        if (!cmp.InDisjunction && chain.Path == chain.Top && _schema.Find(q.EntityType) is { } em && IsKey(em, chain.Top))
+                            q = q with { KeyTags = Union(q.KeyTags, [yv.Tags]) };
+                    }
                     if (!cmp.InDisjunction && yv.Identity is { } idKind && OwnerKindOf(q.EntityType, chain.Top) is { } ownerKind
                         && idKind == ownerKind && (q.OwnerPredicateKind is null || ownerKind == OwnerKind.User))
                     {

@@ -1,0 +1,7 @@
+unit,action,file,authorize,roles,policies,id_parameters,q1_client_id_selects_object,q2_cross_user_effect,q3_owner_check_before_effect,label,notes,rater,date
+DELETE todoitems/{id},TodoItems.DeleteTodoItem,src/Web/Endpoints/TodoItems.cs:18,yes,,,id,,,,,,,
+DELETE todolists/{id},TodoLists.DeleteTodoList,src/Web/Endpoints/TodoLists.cs:18,yes,,,id,,,,,,,
+PATCH todoitems/updatedetail/{id},TodoItems.UpdateTodoItemDetail,src/Web/Endpoints/TodoItems.cs:17,yes,,,id;command,,,,,,,
+POST todoitems,TodoItems.CreateTodoItem,src/Web/Endpoints/TodoItems.cs:15,yes,,,command,,,,,,,
+PUT todoitems/{id},TodoItems.UpdateTodoItem,src/Web/Endpoints/TodoItems.cs:16,yes,,,id;command,,,,,,,
+PUT todolists/{id},TodoLists.UpdateTodoList,src/Web/Endpoints/TodoLists.cs:17,yes,,,id;command,,,,,,,

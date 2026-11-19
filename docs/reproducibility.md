@@ -18,7 +18,7 @@
 | BolaLab: Microsoft.EntityFrameworkCore.Sqlite, Microsoft.AspNetCore.Authentication.JwtBearer | 8.0.34 |
 
 * Models: SmolLM2-135M-Instruct int4 (built reproducibly by `scripts/get-model-smollm2.sh`; per-file SHA-256 in `models/README.md`);
-  Phi-3-mini-4k-instruct cpu-int4 (pending) · each report stores `run.modelId` and a manifest hash
+  Phi-3-mini-4k-instruct cpu-int4 (`microsoft/Phi-3-mini-4k-instruct-onnx`, folder `cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4`, 2.6 GB, not committed) · each report stores `run.modelId` and a manifest hash
 * Python tooling for model conversion only: onnxruntime-genai 0.20.0, torch 2.15.0+cpu, transformers 5.23.0, onnxruntime 1.32.0
 * Prompt: `v1` — the report records `promptVersion` = `v1/<chat format> (<sha-256 prefix of format + template + few-shot examples>)`; JSON-schema guidance on; calibration gate result in `run.modelGate`
 * Config: every report records `run.configHash` (SHA-256 prefix of the effective configuration)
@@ -33,3 +33,15 @@ dotnet run --project src/BolaLens.Cli -c Release -- eval --report eval/runs/<id>
 ```
 Measurement protocol (S4-05): record hardware in `eval/runs/<id>/env.md`; cold vs warm runs; three repetitions;
 peak RAM from `run.peakWorkingSetBytes` and `/usr/bin/time -v` (Linux) or Task Manager (Windows).
+
+## Dataset cases (A/B/C)
+Cases, commits and per-target configs are in `eval/datasets/cases.json`. Third-party code is cloned outside the repo
+(`$BOLALENS_DATASETS`, default `../datasets`); analysed code is never executed, only restored (NuGet) and type-checked.
+Targets need the .NET 10 SDK (installed next to .NET 8); a `global.json` pinning an SDK that is not installed is adapted to
+the newest installed SDK and this is written into the run's `env.md`.
+```bash
+scripts/run-case.sh A-001                      # vuln + fixed → eval/runs/<date>-symbolic-A-001-{vuln,fixed}
+MODE=hybrid MODEL=models/phi3-mini scripts/run-case.sh A-002 vuln
+python3 scripts/dataset-report.py --worksheets # → eval/results/summary-symbolic.md (+ blind worksheets for unlabelled cases)
+```
+

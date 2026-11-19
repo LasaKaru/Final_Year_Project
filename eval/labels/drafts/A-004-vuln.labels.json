@@ -1,0 +1,18 @@
+[
+  {
+    "tc": "A-004/GET",
+    "verb": "GET",
+    "route": "api/Setting",
+    "entity": "Setting",
+    "label": "Vulnerable",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-004/GET",
+    "verb": "GET",
+    "route": "api/Setting/{id}/{entityName}",
+    "entity": "Setting",
+    "label": "Vulnerable",
+    "expectedRule": null
+  }
+]

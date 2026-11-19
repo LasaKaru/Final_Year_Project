@@ -34,7 +34,8 @@
       "Logger$",
       "LogManager$",
       "Telemetry"
-    ]
+    ],
+    "privilegedRoles": []
   },
   "identity": {
     "claimsPrincipalMembers": [

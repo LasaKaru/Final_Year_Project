@@ -47,6 +47,10 @@ public sealed class AnalysisOptions
     /// without an owner check (read BOLA / IDOR). Off by default — the primary scope is state-changing BOLA.</summary>
     public bool IncludeReadOnlyPaths { get; init; }
 
+    /// <summary>Roles whose members administer every object (e.g. a host or system administrator role). An endpoint that only
+    /// these roles can call is OutOfScope (SYM-10): horizontal BOLA needs peer users. Empty by default — set per target.</summary>
+    public IReadOnlyList<string> PrivilegedRoles { get; init; } = [];
+
     /// <summary>Every route-template parameter identifies a resource ({slug}, {username}, {id}…), not only *Id names.</summary>
     public bool RouteParametersAreSelectors { get; init; } = true;
 
