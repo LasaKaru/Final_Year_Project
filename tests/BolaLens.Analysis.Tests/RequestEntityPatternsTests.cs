@@ -340,4 +340,36 @@ public class RequestEntityPatternsTests
             """));
         r.VerdictOf("POST api/stream/rename/{id}").Status.ShouldBe(expected);
     }
+
+    [Fact]
+    public async Task Custom_access_filter_attribute_is_delegated_authorization()
+    {
+        // Kavita 0.9.0: [ChapterAccess] : AccessAttribute : IAsyncAuthorizationFilter checks the route id against the user
+        var filter = """
+            namespace S;
+            public abstract class AccessAttribute(string idKey) : Attribute, Microsoft.AspNetCore.Mvc.Filters.IAsyncAuthorizationFilter
+            {
+                public Task OnAuthorizationAsync(Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext context) => Task.CompletedTask;
+            }
+            public sealed class TagAccessAttribute() : AccessAttribute("id") { }
+            public sealed class AuditAttribute : Attribute, Microsoft.AspNetCore.Mvc.Filters.IActionFilter
+            {
+                public void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext c) { }
+                public void OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext c) { }
+            }
+            """;
+        var r = await CompilationFactory.AnalyseAsync(StreamDomain, filter, StreamController("""
+            [TagAccess, HttpPost("guarded/{id}")]
+            public async Task<IActionResult> Guarded(int id, string title)
+            { var tag = await db.Tags.FirstAsync(t => t.Id == id); tag.Title = title; await db.SaveChangesAsync(); return Ok(); }
+            [Audit, HttpPost("audited/{id}")]
+            public async Task<IActionResult> Audited(int id, string title)
+            { var tag = await db.Tags.FirstAsync(t => t.Id == id); tag.Title = title; await db.SaveChangesAsync(); return Ok(); }
+            """));
+        var g = r.VerdictOf("POST api/stream/guarded/{id}");
+        g.Status.ShouldBe(VerdictStatus.Protected);
+        g.RuleIds.ShouldBe(["SYM-05"]);
+        g.Rationale.ShouldContain("[TagAccess]");
+        r.VerdictOf("POST api/stream/audited/{id}").Status.ShouldBe(VerdictStatus.Vulnerable); // a non-access filter is not a guard
+    }
 }

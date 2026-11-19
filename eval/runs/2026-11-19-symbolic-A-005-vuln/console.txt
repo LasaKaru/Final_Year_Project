@@ -1,0 +1,653 @@
+[scan] Loading solution (MSBuildWorkspace)…
+[scan] Stage 1: endpoints, policy, schema, DI, taint paths, rules…
+[scan] Done.
+wrote /home/user/Final_Year_Project/eval/runs/2026-11-19-symbolic-A-005-vuln/report.json
+BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-005-vuln/Kavita.sln
+╭───────────────────────────────────────────────────────────────────────────────────────────────────┬────────────┬────────────┬────────┬──────────╮
+│ Endpoint                                                                                          │ Final      │ Symbolic   │ Rules  │ Semantic │
+├───────────────────────────────────────────────────────────────────────────────────────────────────┼────────────┼────────────┼────────┼──────────┤
+│ POST api/account/login                                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/account/update                                                                           │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/account/invite-url                                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/account/resend-confirmation-email                                                        │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/account/rotate-auth-key                                                                  │ Protected  │ Protected  │ SYM-03 │ —        │
+│ DELETE api/account/auth-key                                                                       │ Protected  │ Protected  │ SYM-03 │ —        │
+│ POST api/annotation/all-filtered                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/annotation/all                                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/annotation/all-for-series                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/annotation/{annotationid}                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/annotation/create                                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/annotation/update                                                                        │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ DELETE api/annotation                                                                             │ Protected  │ Protected  │ SYM-03 │ —        │
+│ POST api/annotation/export-filter                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/book/{chapterid}/book-info                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/book/{chapterid}/book-resources                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/book/{chapterid}/chapters                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/book/{chapterid}/book-page                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/cbl/sync                                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/cbl/remap-rules                                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/cbl/remap-rules/{id}/promote                                                             │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/cbl/remap-rules/{id}/demote                                                              │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/cbl/remap-rules/{id}                                                                     │ Protected  │ Protected  │ SYM-03 │ —        │
+│ DELETE api/cbl/remap-rules/{id}                                                                   │ Protected  │ Protected  │ SYM-03 │ —        │
+│ GET api/chapter                                                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/chapter                                                                                │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/chapter/delete-multiple                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/chapter/update                                                                           │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/chapter/chapter-detail-plus                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/collection/single                                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/collection/all-series                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/collection/update                                                                        │ Protected  │ Protected  │ SYM-03 │ —        │
+│ POST api/collection/promote-multiple                                                              │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/collection/delete-multiple                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/collection/update-for-series                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/collection/update-series                                                                 │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ DELETE api/collection                                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/collection/import-stack                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/colorscape/series                                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/colorscape/volume                                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/colorscape/chapter                                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/device/update                                                                            │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ DELETE api/device                                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/device/send-to                                                                           │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/device/send-series-to                                                                    │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ DELETE api/device/client/device                                                                   │ Protected  │ Protected  │ SYM-03 │ —        │
+│ POST api/device/client/update-name                                                                │ Protected  │ Protected  │ SYM-03 │ —        │
+│ GET api/download/volume-size                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/download/bulk-volume-size                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/download/chapter-size                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/download/bulk-chapter-size                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/download/series-size                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/download/readinglist-size                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/download/bulk-readinglist-size                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/download/bulk-series-size                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/download/volume                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/download/chapter                                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/download/series                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/filter/update/series                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/filter/update/reading-list                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/filter/update/person                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/filter/update/annotation                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/filter                                                                                 │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/filter/encode/series                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/filter/encode/reading-list                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/filter/encode/person                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/filter/encode/annotation                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/filter/rename                                                                            │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ GET api/font                                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/font                                                                                   │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/font/in-use                                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/image/chapter-cover                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/image/library-cover                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/image/volume-cover                                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/image/series-cover                                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/image/collection-cover                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/image/readinglist-cover                                                                   │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ GET api/image/bookmark                                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/image/web-link                                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/image/publisher                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/image/person-cover                                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/image/user-cover                                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/image/cover-upload                                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/koreader/{apikey}/users/auth                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/koreader/{apikey}/syncs/progress                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/koreader/{apikey}/syncs/progress/{ebookhash}                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/library/create                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/library                                                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/library/user-libraries                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/library/jump-bar                                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/library/scan                                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/library/scan-multiple                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/library/refresh-metadata                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/library/refresh-metadata-multiple                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/library/copy-settings-from                                                               │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/library/scan-folder                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/library/delete                                                                         │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/library/update                                                                           │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/library/type                                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/license/reset                                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/license                                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/metadata/genres                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/metadata/people                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/metadata/tags                                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/metadata/age-ratings                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/metadata/publication-status                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/metadata/languages                                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/metadata/series-detail-plus                                                               │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/opds/{apikey}                                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}                                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/smart-filters/{filterid}                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/smart-filters                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/libraries                                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/want-to-read                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/collections                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/collections/{collectionid}                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/reading-list                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/reading-list/{readinglistid}                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/libraries/{libraryid}                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/recently-added                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/recently-updated                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/on-deck                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/series                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/search                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/series/{seriesid}                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}/chapter/{chapterid}                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}/chapter/{chapterid}/download/{filename} │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/image                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/opds/{apikey}/favicon                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/panels/save-progress                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/panels/get-progress                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/person/roles                                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/person/all                                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/person/update                                                                            │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/person/fetch-cover                                                                       │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/person/series-known-for                                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/person/chapters-by-role                                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/person/merge                                                                             │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/person/valid-alias                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/plugin/authenticate                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/plugin/version                                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/rating/series                                                                            │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/rating/chapter                                                                           │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ GET api/rating/overall-series                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/rating/overall-chapter                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/pdf                                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/image                                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/thumbnail                                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/bookmark-image                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/file-dimensions                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/chapter-info                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/bookmark-info                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reader/mark-chapter-read                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reader/mark-read                                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reader/mark-unread                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reader/mark-volume-unread                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reader/mark-volume-read                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reader/mark-multiple-read                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reader/mark-multiple-unread                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reader/mark-multiple-series-read                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reader/mark-multiple-series-unread                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/get-progress                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reader/progress                                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/continue-point                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/has-progress                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/chapter-bookmarks                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reader/all-bookmarks                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reader/remove-bookmarks                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reader/bulk-remove-bookmarks                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/volume-bookmarks                                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/series-bookmarks                                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reader/bookmark                                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reader/unbookmark                                                                        │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ GET api/reader/next-chapter                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/prev-chapter                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/time-left                                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/time-left-for-chapter                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/ptoc                                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/reader/ptoc                                                                            │ Protected  │ Protected  │ SYM-03 │ —        │
+│ POST api/reader/create-ptoc                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/prompt-reread/series                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/prompt-reread/volume                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/prompt-reread/chapter                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reader/first-progress-date                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/readinglist                                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/readinglist/all                                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/readinglist/lists-for-series                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/readinglist/lists-for-chapter                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/readinglist/items                                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/readinglist/update-position                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/readinglist/delete-item                                                                  │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/readinglist/remove-read                                                                  │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ DELETE api/readinglist                                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/readinglist/update                                                                       │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/readinglist/update-by-series                                                             │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/readinglist/update-by-multiple                                                           │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/readinglist/update-by-multiple-series                                                    │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/readinglist/update-by-volume                                                             │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/readinglist/update-by-chapter                                                            │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ GET api/readinglist/people                                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/readinglist/all-people                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/readinglist/next-chapter                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/readinglist/prev-chapter                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/readinglist/promote-multiple                                                             │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/readinglist/delete-multiple                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/readinglist/info                                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/readinglist/export-as-cbl                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/readinglist/regenerate-cover                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reading-profile/{libraryid}/{seriesid}                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/readingprofile/{libraryid}/{seriesid}                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reading-profile/series                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/readingprofile/series                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/reading-profile/library                                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/readingprofile/library                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reading-profile/create                                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/readingprofile/create                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reading-profile/promote                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/readingprofile/promote                                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reading-profile/series                                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/readingprofile/series                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reading-profile/update-parent                                                            │ Protected  │ Protected  │ SYM-03 │ —        │
+│ POST api/readingprofile/update-parent                                                             │ Protected  │ Protected  │ SYM-03 │ —        │
+│ POST api/reading-profile                                                                          │ Protected  │ Protected  │ SYM-03 │ —        │
+│ POST api/readingprofile                                                                           │ Protected  │ Protected  │ SYM-03 │ —        │
+│ DELETE api/reading-profile                                                                        │ Protected  │ Protected  │ SYM-03 │ —        │
+│ DELETE api/readingprofile                                                                         │ Protected  │ Protected  │ SYM-03 │ —        │
+│ POST api/reading-profile/series/{seriesid}                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/readingprofile/series/{seriesid}                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/reading-profile/series/{seriesid}                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/readingprofile/series/{seriesid}                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reading-profile/library/{libraryid}                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/readingprofile/library/{libraryid}                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/reading-profile/library/{libraryid}                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/readingprofile/library/{libraryid}                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reading-profile/bulk                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/readingprofile/bulk                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/reading-profile/set-devices                                                              │ Protected  │ Protected  │ SYM-03 │ —        │
+│ POST api/readingprofile/set-devices                                                               │ Protected  │ Protected  │ SYM-03 │ —        │
+│ POST api/review/series                                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/review/chapter                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/review/series                                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/review/chapter                                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/review/all                                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/scrobbling/has-hold                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/scrobbling/library-allows-scrobbling                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scrobbling/add-hold                                                                      │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ DELETE api/scrobbling/remove-hold                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/search/series-for-mangafile                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/search/series-for-chapter                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/search/chapters-by-series                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/series/v2                                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/series/{seriesid}                                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/series/{seriesid}                                                                      │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/series/delete-multiple                                                                   │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/series/volumes                                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/series/volume                                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/series/chapter                                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/series/update                                                                            │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/series/recently-added-v2                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/series/all-v2                                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/series/on-deck                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/series/remove-from-on-deck                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/series/currently-reading                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/series/refresh-metadata                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/series/scan                                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/series/analyze                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/series/metadata                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/series/metadata                                                                          │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/series/series-by-collection                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/series/series-by-ids                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/series/series-detail                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/series/related                                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/series/all-related                                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/series/update-related                                                                    │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/series/external-series-detail                                                             │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET api/series/next-expected                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/series/match                                                                             │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST api/series/update-match                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/series/dont-match                                                                        │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/settings                                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/reading-counts                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/day-breakdown                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/pages-per-year                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/words-per-year                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/reading-activity                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/reading-pace                                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/genre-breakdown                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/tag-breakdown                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/page-spread                                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/word-spread                                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/favorite-authors                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/avg-time-by-hour                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/reads-by-month                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/total-reads                                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/user-stats                                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/user-read                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/stats/reading-history/series/{seriesid}                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/stream/create-external-source                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/stream/update-external-source                                                            │ Protected  │ Protected  │ SYM-03 │ —        │
+│ POST api/stream/external-source-exists                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/stream/delete-external-source                                                          │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/stream/add-dashboard-stream                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/stream/update-dashboard-stream                                                           │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/stream/update-dashboard-position                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/stream/add-sidenav-stream                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/stream/add-sidenav-stream-from-external-source                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/stream/update-sidenav-stream                                                             │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/stream/update-sidenav-position                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/stream/bulk-sidenav-stream-visibility                                                    │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ DELETE api/stream/smart-filter-side-nav-stream                                                    │ Protected  │ Protected  │ SYM-03 │ —        │
+│ DELETE api/stream/smart-filter-dashboard-stream                                                   │ Protected  │ Protected  │ SYM-03 │ —        │
+│ GET api/tachiyomi/latest-chapter                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/tachiyomi/mark-chapter-until-as-read                                                     │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/theme/update-default                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/theme/download-content                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/theme                                                                                  │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/upload/series                                                                            │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/upload/collection                                                                        │ Protected  │ Protected  │ SYM-03 │ —        │
+│ POST api/upload/reading-list                                                                      │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/upload/chapter                                                                           │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/upload/volume                                                                            │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/upload/library                                                                           │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/upload/person                                                                            │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/upload/user                                                                              │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET api/users/profile-info                                                                        │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET api/users/has-profile-shared                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/users/has-reading-progress                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/users/has-library-access                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/users/update-preferences                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/volume                                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/volume/update                                                                            │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/volume                                                                                 │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ POST api/want-to-read/v2                                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/wanttoread/v2                                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/want-to-read                                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/wanttoread                                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/want-to-read/add-series                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/wanttoread/add-series                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/want-to-read/remove-series                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/wanttoread/remove-series                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
+projects 12 (with errors 3) · endpoints 505 (with ids 341) · paths 419 (truncated 1) · unresolved calls 1967
+symbolic: 29 vulnerable · 27 protected · 33 unknown · 330 out of scope
+time 69.9s · peak memory 1644 MB
+
+Unknown POST api/account/update via 'dto' (7732bb9a3614)
+  SaveChanges on AppUser at Kavita.Database/DataContext.cs:617: AppUser has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/account/resend-confirmation-email via 'userId' (5426bed3ed20)
+  SaveChanges on AppUser at Kavita.Database/DataContext.cs:617: AppUser has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/annotation/update via 'dto' (cef5dd3f5d7a)
+  SaveChanges on AppUserAnnotation at Kavita.Database/DataContext.cs:617: AppUserAnnotation (owners: AppUserId (User)) is selected by client-controlled 'dto' 
+and changed with no valid owner guard or applicable query filter. Rejected checks: guard does not precede the state change 
+(Kavita.Services/AnnotationService.cs:118).
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/cbl/remap-rules/{id}/promote via 'id' (b92869fdd215)
+  SaveChanges on ReadingListRemapRule at Kavita.Database/DataContext.cs:617: ReadingListRemapRule (owners: AppUserId (User)) is selected by client-controlled 
+'id' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/cbl/remap-rules/{id}/demote via 'id' (72f53dbf1e5f)
+  SaveChanges on ReadingListRemapRule at Kavita.Database/DataContext.cs:617: ReadingListRemapRule (owners: AppUserId (User)) is selected by client-controlled 
+'id' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/chapter via 'chapterId' (409c1ca69f91)
+  Remove on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:33: Chapter has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/chapter/update via 'dto' (ece9bf8eba62)
+  SaveChanges on Chapter at Kavita.Database/DataContext.cs:617: Chapter has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/collection/promote-multiple via 'dto' (8be1306959cc)
+  SaveChanges on AppUserCollection at Kavita.Database/DataContext.cs:617: AppUserCollection (owners: AppUserId (User)) is selected by client-controlled 'dto' 
+and changed with no valid owner guard or applicable query filter. Rejected checks: guard does not precede the state change 
+(Kavita.Server/Controllers/CollectionController.cs:139).
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/collection/update-series via 'updateSeriesForTagDto' (6217670483d0)
+  Remove on AppUserCollection at Kavita.Database/Repositories/CollectionTagRepository.cs:27: AppUserCollection (owners: AppUserId (User)) is selected by 
+client-controlled 'updateSeriesForTagDto' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/device/update via 'dto' (327a835cfe41)
+  SaveChanges on Device at Kavita.Database/DataContext.cs:617: Device (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed with no 
+valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/device/send-to via 'dto' (4dde22b6136a)
+  SaveChanges on Device at Kavita.Database/DataContext.cs:617: Device (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed with no 
+valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/device/send-series-to via 'dto' (59923a15b1c5)
+  SaveChanges on Device at Kavita.Database/DataContext.cs:617: Device (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed with no 
+valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable DELETE api/filter via 'filterId' (905e5fde892b)
+  Remove on AppUserSmartFilter at Kavita.Database/Repositories/AppUserSmartFilterRepository.cs:30: AppUserSmartFilter (owners: AppUserId (User)) is selected by 
+client-controlled 'filterId' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/filter/rename via 'filterId' (324d27bcb1c3)
+  SaveChanges on AppUserSmartFilter at Kavita.Database/DataContext.cs:617: AppUserSmartFilter (owners: AppUserId (User)) is selected by client-controlled 
+'filterId' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/font via 'fontId' (004bbc62b6ed)
+  Remove on EpubFont at Kavita.Database/Repositories/EpubFontRepository.cs:26: EpubFont has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Vulnerable GET api/image/readinglist-cover via 'readingListId' (120bf4db95fd)
+  SaveChanges on ReadingList at Kavita.Database/DataContext.cs:617: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'readingListId' and 
+changed with no valid owner guard or applicable query filter. Rejected checks: check is combined with other conditions and does not always stop the request 
+(Kavita.Server/Controllers/ImageController.cs:118).
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/library/copy-settings-from via 'dto' (06b16a752a1f)
+  SaveChanges on Library at Kavita.Database/DataContext.cs:617: Library has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/library/delete via 'libraryId' (edbffb3937ae)
+  Remove on Library at Kavita.Database/Repositories/LibraryRepository.cs:40: Library has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/library/update via 'dto' (77622413c25f)
+  SaveChanges on Library at Kavita.Database/DataContext.cs:617: Library has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/metadata/series-detail-plus via 'seriesId' (da4b73983d29)
+  SaveChanges on Series at Kavita.Database/DataContext.cs:617: Series has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/person/update via 'dto' (b9df97976842)
+  Update on Person at Kavita.Database/Repositories/PersonRepository.cs:53: Person has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/person/fetch-cover via 'personId' (f2deddf2182e)
+  Update on Person at Kavita.Database/Repositories/PersonRepository.cs:53: Person has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/person/merge via 'dto' (51a4e1cb766a)
+  Remove on Person at Kavita.Database/Repositories/PersonRepository.cs:42: Person has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/rating/series via 'updateRating' (3a3f81302cfc)
+  SaveChanges on AppUserRating at Kavita.Database/DataContext.cs:617: AppUserRating (owners: AppUserId (User)) is selected by client-controlled 'updateRating' 
+and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/rating/chapter via 'updateRating' (098488e3c82f)
+  SaveChanges on AppUserChapterRating at Kavita.Database/DataContext.cs:617: AppUserChapterRating (owners: AppUserId (User)) is selected by client-controlled 
+'updateRating' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/reader/unbookmark via 'bookmarkDto' (d93be3ba3cbb)
+  Remove on AppUserBookmark at Kavita.Database/Repositories/UserRepository.cs:88: AppUserBookmark (owners: AppUserId (User)) is selected by client-controlled 
+'bookmarkDto' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/readinglist/delete-item via 'dto' (8d33052fa7a4)
+  SaveChanges on ReadingList at Kavita.Database/DataContext.cs:617: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed 
+with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/readinglist/remove-read via 'readingListId' (e6b9ce3f6c00)
+  SaveChanges on ReadingList at Kavita.Database/DataContext.cs:617: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'readingListId' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/readinglist/update via 'dto' (f61d7f0cf3e2)
+  SaveChanges on ReadingList at Kavita.Database/DataContext.cs:617: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed 
+with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/readinglist/update-by-series via 'dto' (71e1f425c5de)
+  SaveChanges on ReadingList at Kavita.Database/DataContext.cs:617: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed 
+with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/readinglist/update-by-multiple via 'dto' (e11b42c28ee5)
+  SaveChanges on ReadingList at Kavita.Database/DataContext.cs:617: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed 
+with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/readinglist/update-by-multiple-series via 'dto' (62c2689e01a5)
+  SaveChanges on ReadingList at Kavita.Database/DataContext.cs:617: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed 
+with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/readinglist/update-by-volume via 'dto' (3cf08abcc087)
+  SaveChanges on ReadingList at Kavita.Database/DataContext.cs:617: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed 
+with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/readinglist/update-by-chapter via 'dto' (fc06bd730efc)
+  SaveChanges on ReadingList at Kavita.Database/DataContext.cs:617: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed 
+with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/readinglist/promote-multiple via 'dto' (47d6083443dd)
+  SaveChanges on ReadingList at Kavita.Database/DataContext.cs:617: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed 
+with no valid owner guard or applicable query filter. Rejected checks: guard does not precede the state change 
+(Kavita.Server/Controllers/ReadingListController.cs:612).
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/scrobbling/add-hold via 'seriesId' (13fd321769cd)
+  Remove on ScrobbleEvent at Kavita.Database/Repositories/ScrobbleEventRepository.cs:39: ScrobbleEvent (owners: AppUserId (User)) is selected by 
+client-controlled 'seriesId' and changed with no valid owner guard or applicable query filter. Rejected checks: existence check does not bind the caller 
+identity (Kavita.Server/Controllers/ScrobblingController.cs:212).
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/series/{seriesid} via 'seriesId' (1043024df084)
+  Remove on Series at Kavita.Database/Repositories/SeriesRepository.cs:82: Series has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/series/delete-multiple via 'dto' (42f8559e3244)
+  Remove on Series at Kavita.Database/Repositories/SeriesRepository.cs:82: Series has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/series/update via 'updateSeries' (23f9f161169a)
+  SaveChanges on Series at Kavita.Database/DataContext.cs:617: Series has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/series/metadata via 'updateSeriesMetadataDto' (68f64bd22c7c)
+  SaveChanges on Series at Kavita.Database/DataContext.cs:617: Series has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/series/update-related via 'dto' (1180db017dc2)
+  SaveChanges on Series at Kavita.Database/DataContext.cs:617: Series has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/series/external-series-detail via 'aniListId' (1599c971791b)
+  No state change found, but 'aniListId' entered unresolved code: external dispatch: 
+EasyCaching.Core.IEasyCachingProviderBase.GetAsync<Kavita.Models.DTOs.Recommendation.ExternalSeriesDto>(string, System.Threading.CancellationToken) receives the
+tracked id; max call depth (5) reached before Kavita.Common.HashUtil.AnonymousToken(); external dispatch: 
+EasyCaching.Core.IEasyCachingProviderBase.SetAsync<Kavita.Models.DTOs.KavitaPlus.Metadata.ExternalSeriesDetailDto?>(string, 
+Kavita.Models.DTOs.KavitaPlus.Metadata.ExternalSeriesDetailDto?, System.TimeSpan, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/series/external-series-detail via 'malId' (c8c9945085c7)
+  No state change found, but 'malId' entered unresolved code: external dispatch: 
+EasyCaching.Core.IEasyCachingProviderBase.GetAsync<Kavita.Models.DTOs.Recommendation.ExternalSeriesDto>(string, System.Threading.CancellationToken) receives the
+tracked id; max call depth (5) reached before Kavita.Common.HashUtil.AnonymousToken(); external dispatch: 
+EasyCaching.Core.IEasyCachingProviderBase.SetAsync<Kavita.Models.DTOs.KavitaPlus.Metadata.ExternalSeriesDetailDto?>(string, 
+Kavita.Models.DTOs.KavitaPlus.Metadata.ExternalSeriesDetailDto?, System.TimeSpan, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/series/external-series-detail via 'seriesId' (1103fe8fa345)
+  No state change found, but 'seriesId' entered unresolved code: external dispatch: 
+EasyCaching.Core.IEasyCachingProviderBase.GetAsync<Kavita.Models.DTOs.Recommendation.ExternalSeriesDto>(string, System.Threading.CancellationToken) receives the
+tracked id; max call depth (5) reached before Kavita.Common.HashUtil.AnonymousToken(); external dispatch: 
+EasyCaching.Core.IEasyCachingProviderBase.SetAsync<Kavita.Models.DTOs.KavitaPlus.Metadata.ExternalSeriesDetailDto?>(string, 
+Kavita.Models.DTOs.KavitaPlus.Metadata.ExternalSeriesDetailDto?, System.TimeSpan, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/series/match via 'dto' (d424370adf61)
+  No state change found, but 'dto' entered unresolved code: external dispatch: 
+EasyCaching.Core.IEasyCachingProviderBase.GetAsync<System.Collections.Generic.IList<Kavita.Models.DTOs.Metadata.Matching.ExternalSeriesMatchDto>>(string, 
+System.Threading.CancellationToken) receives the tracked id; max call depth (5) reached before Kavita.Common.HashUtil.CalculateCrc(string); external dispatch: 
+EasyCaching.Core.IEasyCachingProviderBase.SetAsync<System.Collections.Generic.IList<Kavita.Models.DTOs.Metadata.Matching.ExternalSeriesMatchDto>>(string, 
+System.Collections.Generic.IList<Kavita.Models.DTOs.Metadata.Matching.ExternalSeriesMatchDto>, System.TimeSpan, System.Threading.CancellationToken) receives the
+tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/series/dont-match via 'seriesId' (445cf8538df8)
+  SaveChanges on Series at Kavita.Database/DataContext.cs:617: Series has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Vulnerable DELETE api/stream/delete-external-source via 'externalSourceId' (169d8625c339)
+  Remove on AppUserSideNavStream at Kavita.Database/Repositories/UserRepository.cs:103: AppUserSideNavStream (owners: AppUserId (User)) is selected by 
+client-controlled 'externalSourceId' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/stream/update-dashboard-stream via 'dto' (49e9083a1bb0)
+  SaveChanges on AppUserDashboardStream at Kavita.Database/DataContext.cs:617: AppUserDashboardStream (owners: AppUserId (User)) is selected by 
+client-controlled 'dto' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/stream/update-sidenav-stream via 'dto' (c244c0130d7c)
+  SaveChanges on AppUserSideNavStream at Kavita.Database/DataContext.cs:617: AppUserSideNavStream (owners: AppUserId (User)) is selected by client-controlled 
+'dto' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/stream/bulk-sidenav-stream-visibility via 'dto' (8489b0ec748b)
+  SaveChanges on AppUserSideNavStream at Kavita.Database/DataContext.cs:617: AppUserSideNavStream (owners: AppUserId (User)) is selected by client-controlled 
+'dto' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/tachiyomi/mark-chapter-until-as-read via 'seriesId' (704ba4191442)
+  SaveChanges on Volume at Kavita.Database/DataContext.cs:617: Volume has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/theme via 'themeId' (b4a19a35733f)
+  Remove on SiteTheme at Kavita.Database/Repositories/SiteThemeRepository.cs:22: SiteTheme has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/upload/series via 'uploadCoverFileDto' (a597c720cc8f)
+  SaveChanges on Series at Kavita.Database/DataContext.cs:617: Series has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/upload/reading-list via 'uploadCoverFileDto' (e33361c76918)
+  SaveChanges on ReadingList at Kavita.Database/DataContext.cs:617: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'uploadCoverFileDto'
+and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/upload/chapter via 'uploadCoverFileDto' (aabf04b481a9)
+  SaveChanges on Chapter at Kavita.Database/DataContext.cs:617: Chapter has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/upload/volume via 'uploadCoverFileDto' (2e86a91ff461)
+  SaveChanges on Volume at Kavita.Database/DataContext.cs:617: Volume has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/upload/library via 'uploadCoverFileDto' (a654fa3bdd17)
+  SaveChanges on Library at Kavita.Database/DataContext.cs:617: Library has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/upload/person via 'uploadCoverFileDto' (2698a85768f2)
+  Update on Person at Kavita.Database/Repositories/PersonRepository.cs:53: Person has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/upload/user via 'uploadCoverFileDto' (21f822ef20ce)
+  SaveChanges on AppUser at Kavita.Database/DataContext.cs:617: AppUser has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/users/profile-info via 'userId' (8648c27d6499)
+  No state change found, but 'userId' entered unresolved code: external dispatch: AutoMapper.IMapperBase.Map<Kavita.Models.DTOs.Account.MemberInfoDto>(object) 
+receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/volume/update via 'dto' (b83120d3bd87)
+  SaveChanges on Volume at Kavita.Database/DataContext.cs:617: Volume has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/volume via 'volumeId' (062ec0a8549a)
+  Remove on Volume at Kavita.Database/Repositories/VolumeRepository.cs:30: Volume has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).

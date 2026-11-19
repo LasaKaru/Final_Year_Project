@@ -1,0 +1,58 @@
+[
+  {
+    "tc": "A-013/GET volume-size",
+    "verb": "GET",
+    "route": "api/download/volume-size",
+    "entity": null,
+    "label": "Vulnerable",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-013/GET chapter-size",
+    "verb": "GET",
+    "route": "api/download/chapter-size",
+    "entity": null,
+    "label": "Vulnerable",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-013/GET series-size",
+    "verb": "GET",
+    "route": "api/download/series-size",
+    "entity": null,
+    "label": "Vulnerable",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-013/GET volume",
+    "verb": "GET",
+    "route": "api/download/volume",
+    "entity": null,
+    "label": "Vulnerable",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-013/GET chapter",
+    "verb": "GET",
+    "route": "api/download/chapter",
+    "entity": null,
+    "label": "Vulnerable",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-013/GET series",
+    "verb": "GET",
+    "route": "api/download/series",
+    "entity": null,
+    "label": "Vulnerable",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-013/GET chapter",
+    "verb": "GET",
+    "route": "api/chapter",
+    "entity": null,
+    "label": "Vulnerable",
+    "expectedRule": null
+  }
+]

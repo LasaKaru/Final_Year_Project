@@ -1,0 +1,26 @@
+[
+  {
+    "tc": "A-014/GET {id}",
+    "verb": "GET",
+    "route": "api/customers/{id}",
+    "entity": null,
+    "label": "Vulnerable",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-014/POST all",
+    "verb": "POST",
+    "route": "api/customers/tenant/{tenantId}/all",
+    "entity": null,
+    "label": "Vulnerable",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-014/GET attributelatest",
+    "verb": "GET",
+    "route": "api/devices/{deviceId}/attributelatest",
+    "entity": null,
+    "label": "Vulnerable",
+    "expectedRule": null
+  }
+]

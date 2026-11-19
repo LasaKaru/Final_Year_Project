@@ -14,3 +14,18 @@ eshop,B,eshop,https://github.com/dotnet/eShop,134625b29e4663f535c55a656c954a1e37
 umbraco-fpvf,A,umbraco,https://github.com/umbraco/Umbraco-CMS,,,GHSA-fpvf-fvp5-996r (CWE-639),MIT,,,,quarantined,screen: fix commit not linked; node permissions rather than owner properties (likely SYM-09),2026-11-19
 umbraco-wx5h,A,umbraco,https://github.com/umbraco/Umbraco-CMS,,,GHSA-wx5h-wqfq-v698,MIT,,,,quarantined,screen: delete media without start-node permission; very large solution,2026-11-19
 formcms-6cwx,A,formcms,https://github.com/FormCMS/FormCMS,,,GHSA-6cwx-42hw-w69c,,,,,quarantined,screen: read endpoint /api/schemas/history/{schemaId}; fix commit to find,2026-11-19
+A-005..A-006,A/C,kavita,https://github.com/Kareadita/Kavita,6bcd5689385d0e96824982d843c54f15ce784ddc,289bc39b3e08f26cc14b8a8fd67b815ad9aaa15f,GHSA-fpjf-pxrq-4xv7; GHSA-8qw5-fgxm-ppjj; GHSA-jhw9-5hj3-mvp4; GHSA-6cpx-c6v4-4g79; GHSA-x67v-89v8-mf3v; GHSA-gjx7-m655-3grw,GPL-3.0,net10.0,EF Core 10,yes (C# 14 → preview parse),admitted,v0.9.0.2 vs v0.9.1.0 (release diff),2026-11-19
+A-007,A/C,jellyfin,https://github.com/jellyfin/jellyfin,971be1b658ad0e5e1f06fdc652f9c5e3fc067c9b,911ac3769cdcce50a8f6e0b3c0739d509bd9a23f,GHSA-9x85-gx46-6522,GPL-2.0,net10.0,EF Core 10,yes,admitted,one-line fix commit,2026-11-19
+A-008..A-012,A/C,bitwarden,https://github.com/bitwarden/server,see cases.json,see cases.json,CVE-2026-119414; CVE-2026-43638; CVE-2026-57521; CVE-2026-71959; CVE-2026-43639,Bitwarden License / AGPL-3.0,net8.0+,EF Core + Dapper,yes,admitted,org/collection membership via ICurrentContext,2026-11-19
+A-013,A/C,kavita,https://github.com/Kareadita/Kavita,v0.8.9.1,v0.9.0,CVE-2026-44776 / GHSA-x3jq-95xw-gwvr,GPL-3.0,net9/10,EF Core,yes,admitted,library access via filter attributes,2026-11-19
+A-014,A,iotsharp,https://github.com/IoTSharp/IoTSharp,2d27d28999f1dddc7fdd00fb948a0fcf9d2ff1d5,,CVE-2026-111629,MIT,net10.0,EF Core,yes,admitted,vulnerable only (no fix published); cross-tenant,2026-11-19
+B-004..B-013,B,various,see cases.json,see cases.json,,,MIT/GPL/AGPL (per repo),net8–10,EF Core,yes,admitted,TodoApi Moonglade Ombi SimplCommerce ErsatzTV eShopOnWeb fullstackhero Kavita Jellyfin Bitwarden,2026-11-19
+umbraco-*,A,umbraco,https://github.com/umbraco/Umbraco-CMS,,,CVE-2026-31832; CVE-2026-130068; CVE-2025-27602 …,MIT,net9/10,NPoco (not EF Core),,rejected,data layer is NPoco — outside the EF Core scope,2026-11-19
+abp-next-admin-blob,A,abp-next-admin,https://github.com/colinin/abp-next-admin,19058fcd3c,fc5e6d5a8a,CVE-2026-119708,MIT,net10,EF Core (blob store by name),,quarantined,cross-tenant blob download via ABP app services and blob providers — not an EF-selected entity,2026-11-19
+zr-admin-net,A,zr.admin.net,https://github.com/izhaorui/Zr.Admin.NET,,,CVE-2026-129454/129455/129465/129466,MIT,net8+,SqlSugar,,rejected,ORM is SqlSugar,2026-11-19
+zhontai-admin-core,A,admin.core,https://github.com/zhontai/Admin.Core,,,CVE-2026-111355,MIT,net8+,FreeSql,,rejected,ORM is FreeSql,2026-11-19
+coreshop,A,coreshop,https://github.com/CoreUnion/CoreShop,,,CVE-2026-108696,Apache-2.0,net6+,SqlSugar,,rejected,ORM is SqlSugar,2026-11-19
+nopcommerce-admin,A,nopcommerce,https://github.com/nopSolutions/nopCommerce,,fbdbe18d43,CVE-2026-117605,GPL-3.0,net9,linq2db,,rejected,admin (vertical) and linq2db,2026-11-19
+dnn,A,dnn,https://github.com/dnnsoftware/Dnn.Platform,,,CVE-2026-40305 …,MIT,net48,,,rejected,.NET Framework (not ASP.NET Core),2026-11-19
+orchardcore-2022,A,orchardcore,https://github.com/OrchardCMS/OrchardCore,,62eed89890,CVE-2022-0821,BSD-3,net6,YesSql,,rejected,YesSql document DB,2026-11-19
+kavita-ghsl-2022,A,kavita,https://github.com/Kareadita/Kavita,,f8db37d,CVE-2022-3993 / CVE-2023-0919,GPL-3.0,net6,EF Core,,rejected,authentication issues (not BOLA),2026-11-19

@@ -36,6 +36,12 @@
       "LogManager$",
       "Telemetry"
     ],
+    "accessFilterPatterns": [
+      "Access",
+      "Authori[sz]",
+      "Permission",
+      "Owner"
+    ],
     "privilegedRoles": []
   },
   "identity": {

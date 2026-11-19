@@ -270,6 +270,190 @@
         "POST providers/{providerId}/clients/existing",
         "POST providers/{providerId}/organizations/add"
       ]
+    },
+    {
+      "caseId": "B-004",
+      "dataset": "B",
+      "family": "todoapi",
+      "repo": "https://github.com/davidfowl/TodoApi.git",
+      "advisory": null,
+      "scope": "state-changing",
+      "config": null,
+      "solution": "TodoApp.sln",
+      "variants": {
+        "head": "307a1eadbbd77a3004c318f2377e4818bc400af6"
+      },
+      "note": "Minimal APIs, per-user todos (owner predicates) — expected mostly Protected"
+    },
+    {
+      "caseId": "B-005",
+      "dataset": "B",
+      "family": "moonglade",
+      "repo": "https://github.com/EdiWang/Moonglade.git",
+      "advisory": null,
+      "scope": "state-changing",
+      "config": null,
+      "solution": "src/Moonglade.slnx",
+      "variants": {
+        "head": "fd9cf771416ff7b5c81c7373f60f045889faec0f"
+      },
+      "note": "blog engine, single admin — expect OutOfScope/privileged"
+    },
+    {
+      "caseId": "B-006",
+      "dataset": "B",
+      "family": "ombi",
+      "repo": "https://github.com/Ombi-app/Ombi.git",
+      "advisory": null,
+      "scope": "state-changing",
+      "config": null,
+      "solution": "src/Ombi.sln",
+      "variants": {
+        "head": "3855cacf0bc00785da32276632620cdecd78419d"
+      },
+      "note": "media requests per user (requests, issues, votes)"
+    },
+    {
+      "caseId": "B-007",
+      "dataset": "B",
+      "family": "simplcommerce",
+      "repo": "https://github.com/simplcommerce/SimplCommerce.git",
+      "advisory": null,
+      "scope": "state-changing",
+      "config": null,
+      "solution": "SimplCommerce.sln",
+      "variants": {
+        "head": "3472ba02a6f2d9b6bdca7f7fb84957176aa799dc"
+      },
+      "note": "e-commerce: carts, orders, addresses, reviews per customer"
+    },
+    {
+      "caseId": "B-008",
+      "dataset": "B",
+      "family": "ersatztv",
+      "repo": "https://github.com/ErsatzTV/ErsatzTV.git",
+      "advisory": null,
+      "scope": "state-changing",
+      "config": null,
+      "solution": "ErsatzTV.sln",
+      "variants": {
+        "head": "ba4323299211bd43b88f4f60a053124fab46ab7e"
+      },
+      "note": "single-user media server (no per-user ownership) — negative control for noise"
+    },
+    {
+      "caseId": "B-009",
+      "dataset": "B",
+      "family": "eshoponweb",
+      "repo": "https://github.com/dotnet-architecture/eShopOnWeb.git",
+      "advisory": null,
+      "scope": "state-changing",
+      "config": null,
+      "solution": "eShopOnWeb.sln",
+      "variants": {
+        "head": "4da8212117e87d808d4bbc7da6286fd2147ce606"
+      },
+      "note": "reference app: baskets/orders per buyer; PublicApi uses Ardalis.ApiEndpoints"
+    },
+    {
+      "caseId": "B-010",
+      "dataset": "B",
+      "family": "fullstackhero",
+      "repo": "https://github.com/fullstackhero/dotnet-starter-kit.git",
+      "advisory": null,
+      "scope": "state-changing",
+      "config": null,
+      "solution": "src/FSH.Starter.slnx",
+      "variants": {
+        "head": "2f5989b243d702e0e2f089bd0258117da05f32e7"
+      },
+      "note": "multi-tenant starter (Finbuckle), Minimal APIs + MediatR"
+    },
+    {
+      "caseId": "B-011",
+      "dataset": "B",
+      "family": "kavita",
+      "repo": "https://github.com/Kareadita/Kavita.git",
+      "advisory": null,
+      "scope": "state-changing",
+      "config": null,
+      "solution": "Kavita.sln",
+      "variants": {
+        "v0.9.1.4": "879b8b73eb41d66f88dde8eb874cc99a3397eb11"
+      },
+      "note": "release v0.9.1.4 (family of A-005/A-006)"
+    },
+    {
+      "caseId": "B-012",
+      "dataset": "B",
+      "family": "jellyfin",
+      "repo": "https://github.com/jellyfin/jellyfin.git",
+      "advisory": null,
+      "scope": "state-changing",
+      "config": null,
+      "solution": "Jellyfin.slnx",
+      "variants": {
+        "v12.4": "83d0d0e7f76e23e2e085c8ff67d28b772d35967d"
+      },
+      "note": "release v12.4 (family of A-007); userId query parameters everywhere"
+    },
+    {
+      "caseId": "B-013",
+      "dataset": "B",
+      "family": "bitwarden",
+      "repo": "https://github.com/bitwarden/server.git",
+      "advisory": null,
+      "scope": "state-changing",
+      "config": null,
+      "solution": "bitwarden-server.slnx",
+      "variants": {
+        "v2026.11.0": "a77fa313a699c1e61485c2ee9e8257898eecc010"
+      },
+      "note": "release v2026.11.0 (family of A-008..A-012); org/collection permissions via ICurrentContext"
+    },
+    {
+      "caseId": "A-013",
+      "dataset": "A",
+      "family": "kavita",
+      "repo": "https://github.com/Kareadita/Kavita.git",
+      "advisory": "CVE-2026-44776 / GHSA-x3jq-95xw-gwvr (GHSL-2026-033), CWE-639, fixed in 0.9.0",
+      "flaw": "download, size and chapter endpoints returned content selected by chapter/volume/series id without library-access checks",
+      "scope": "read",
+      "config": "eval/datasets/configs/read-mode.json",
+      "solution": "Kavita.sln",
+      "variants": {
+        "vuln": "8c686df2dbc2d0a83120e8b3f8c1269107bb815d",
+        "fixed": "b7ebf49b1189acc01fb7365ee669418c5d8808bd"
+      },
+      "units": [
+        "GET api/download/volume-size",
+        "GET api/download/chapter-size",
+        "GET api/download/series-size",
+        "GET api/download/volume",
+        "GET api/download/chapter",
+        "GET api/download/series",
+        "GET api/chapter"
+      ],
+      "note": "fix adds [VolumeAccess]/[ChapterAccess]/[SeriesAccess] authorization filter attributes"
+    },
+    {
+      "caseId": "A-014",
+      "dataset": "A",
+      "family": "iotsharp",
+      "repo": "https://github.com/IoTSharp/IoTSharp.git",
+      "advisory": "CVE-2026-111629 (CWE-639), IoTSharp through 3.6.1 — no fix published (vulnerable commit only)",
+      "flaw": "customers/devices handlers do not scope queries to the caller's tenant (cross-tenant read by GUID)",
+      "scope": "read",
+      "config": "eval/datasets/configs/read-mode.json",
+      "solution": "IoTSharp.slnx",
+      "variants": {
+        "vuln": "2d27d28999f1dddc7fdd00fb948a0fcf9d2ff1d5"
+      },
+      "units": [
+        "GET api/customers/{id}",
+        "POST api/customers/tenant/{tenantId}/all",
+        "GET api/devices/{deviceId}/attributelatest"
+      ]
     }
   ]
 }

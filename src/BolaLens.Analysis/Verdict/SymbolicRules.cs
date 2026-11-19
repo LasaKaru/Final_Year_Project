@@ -21,7 +21,7 @@ public static class SymbolicRules
         [UnresolvedFlow] = "No state change found, but the tracked id entered unresolved/ambiguous/too-deep code.",
         [OwnerGuard] = "A valid owner check (caller identity == owner property of the same object) precedes the change.",
         [QueryFilter] = "An EF Core global query filter at the required owner level applies to the object.",
-        [ResourceAuthz] = "Resource-based authorization (IAuthorizationService.AuthorizeAsync) gates the change.",
+        [ResourceAuthz] = "Resource-based authorization (IAuthorizationService.AuthorizeAsync) or a custom access filter attribute gates the change (delegated).",
         [FilterBypass] = "The object is loaded with IgnoreQueryFilters() and changed without a valid guard.",
         [DetachedOrBulk] = "Detached update by a client-controlled key, or bulk write without an owner predicate.",
         [MissingGuard] = "A client-controlled id selects an owned object that is changed without a valid guard or filter.",

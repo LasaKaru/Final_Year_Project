@@ -120,7 +120,7 @@ public sealed class EndpointEnumerator(AnalysisContext context)
         attrs.Where(a => a.AttributeClass?.Name == "RouteAttribute")
              .Select(a => a.ConstructorArguments.FirstOrDefault().Value as string);
 
-    private static AuthorizeInfo Authorization(INamedTypeSymbol controller, IMethodSymbol method)
+    private AuthorizeInfo Authorization(INamedTypeSymbol controller, IMethodSymbol method)
     {
         static (bool auth, bool anon, List<string> policies, List<string> roles) Read(IEnumerable<AttributeData> attrs)
         {
@@ -145,8 +145,21 @@ public sealed class EndpointEnumerator(AnalysisContext context)
         var c = Read(InheritedAttributes(controller));
         var m = Read(method.GetAttributes());
         var allowAnonymous = m.anon || (c.anon && !m.auth);
-        return new AuthorizeInfo(c.auth || m.auth, allowAnonymous, [.. c.policies, .. m.policies], [.. c.roles, .. m.roles]);
+        var filters = InheritedAttributes(controller).Concat(method.GetAttributes())
+            .Select(a => a.AttributeClass).OfType<INamedTypeSymbol>()
+            .Where(IsAccessFilter).Select(t => t.Name).Distinct().ToList();
+        return new AuthorizeInfo(c.auth || m.auth, allowAnonymous, [.. c.policies, .. m.policies], [.. c.roles, .. m.roles],
+            filters.Count > 0 ? filters : null);
     }
+
+    private static readonly string[] FilterInterfaces = ["IAuthorizationFilter", "IAsyncAuthorizationFilter", "IActionFilter", "IAsyncActionFilter"];
+
+    /// <summary>A filter attribute declared in the analysed code, implementing an MVC authorization/action filter interface,
+    /// whose name says it checks access (configurable patterns).</summary>
+    private bool IsAccessFilter(INamedTypeSymbol attribute) =>
+        attribute.Locations.Any(l => l.IsInSource)
+        && attribute.AllInterfaces.Any(i => FilterInterfaces.Contains(i.Name) && Symbols.InNamespace(i, "Microsoft.AspNetCore.Mvc.Filters"))
+        && context.Config.Analysis.AccessFilterPatterns.Any(p => System.Text.RegularExpressions.Regex.IsMatch(attribute.Name, p));
 
     private static HttpVerb VerbOf(INamedTypeSymbol attrClass) => attrClass.Name switch
     {

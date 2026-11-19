@@ -48,6 +48,10 @@ public sealed class SymbolicClassifier(OwnershipSchema schema, bool includeReadO
             return new(VerdictStatus.Protected, [SymbolicRules.ResourceAuthz],
                 $"{where} is gated by resource-based authorization at {resource.Location} (delegated to an authorization handler).");
 
+        if (path.Endpoint.Authorization.AccessFilters is { Count: > 0 } accessFilters)
+            return new(VerdictStatus.Protected, [SymbolicRules.ResourceAuthz],
+                $"{where} is gated by the custom authorization filter [{string.Join("], [", accessFilters.Select(f => f.EndsWith("Attribute") ? f[..^9] : f))}] (delegated; its check is not traced).");
+
         var invalid = path.Guards.Where(g => !g.IsValid && g.Kind != GuardKind.QueryFilter).Select(g => $"{g.InvalidReason} ({g.Location})").Distinct().ToList();
         var invalidText = invalid.Count > 0 ? $" Rejected checks: {string.Join("; ", invalid)}." : "";
 

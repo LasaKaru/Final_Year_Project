@@ -8,8 +8,11 @@ public enum BindingSource { Route, Body, Query, Header, Service, Unknown }
 /// client-controlled object selectors; for body DTOs <see cref="IdPropertyPath"/> lists the id-like members.</summary>
 public sealed record ParameterInfo(string Name, string Type, BindingSource Source, bool IsIdLike, string? IdPropertyPath = null);
 
-/// <summary>Endpoint-level authorization attributes ([Authorize]/[AllowAnonymous]); method wins over class.</summary>
-public sealed record AuthorizeInfo(bool HasAuthorize, bool AllowAnonymous, IReadOnlyList<string> Policies, IReadOnlyList<string> Roles);
+/// <summary>Endpoint-level authorization attributes ([Authorize]/[AllowAnonymous]); method wins over class.
+/// <see cref="AccessFilters"/>: custom authorization/action filter attributes of the analysed code on the action or controller
+/// (e.g. Kavita's [ChapterAccess]) — authorization delegated to code outside the traced path.</summary>
+public sealed record AuthorizeInfo(bool HasAuthorize, bool AllowAnonymous, IReadOnlyList<string> Policies, IReadOnlyList<string> Roles,
+    IReadOnlyList<string>? AccessFilters = null);
 
 /// <summary>One HTTP endpoint (MVC controller action). <see cref="Id"/> is "VERB normalised-route",
 /// the unit key used by the evaluation harness.</summary>
