@@ -43,8 +43,10 @@ if [[ ! -d "$mirror/.git" ]]; then
   git clone --quiet --filter=blob:none "$repo" "$mirror"
 fi
 
-echo "== building BolaLens (Release) — never scan with a stale build"
-dotnet build "$ROOT/BolaLens.sln" -c Release -v quiet -nologo -clp:ErrorsOnly >/dev/null
+if [[ "${SKIP_BUILD:-}" != "1" ]]; then
+  echo "== building BolaLens (Release) — never scan with a stale build"
+  dotnet build "$ROOT/BolaLens.sln" -c Release -v quiet -nologo -clp:ErrorsOnly >/dev/null
+fi  # SKIP_BUILD=1 only when the caller has just built (parallel runs must not rebuild under each other)
 
 for entry in "${variants[@]}"; do
   variant="${entry%%:*}"; sha="${entry#*:}"
