@@ -45,7 +45,9 @@ public sealed class PathExtractor(AnalysisContext context, OwnershipSchema schem
     {
         var guards = new List<GuardEvidence>();
         var sinkGuards = raw.Sinks.Select(_ => new List<int>()).ToList();
-        var stateSinks = raw.Sinks.Where(s => s.IsStateChanging).ToList();
+        var readMode = context.Config.Analysis.IncludeReadOnlyPaths;
+        bool Relevant(SinkRecord s) => s.IsStateChanging || (readMode && s.Kind == SinkKind.Read);
+        var stateSinks = raw.Sinks.Where(Relevant).ToList();
 
         // 1. explicit guards (owner equality, resource authorization)
         foreach (var g in raw.Guards)
@@ -55,11 +57,13 @@ public sealed class PathExtractor(AnalysisContext context, OwnershipSchema schem
             for (var i = 0; i < raw.Sinks.Count; i++)
             {
                 var s = raw.Sinks[i];
-                if (s.IsStateChanging && ReferenceEquals(s.Token, g.Token) && g.Covers(s.Seq)) covered.Add(i);
+                // reads are exposed when the response is sent, so any executed check on the object protects them
+                var inWindow = s.Kind == SinkKind.Read ? g.IsActivated : g.Covers(s.Seq);
+                if (Relevant(s) && g.Concerns(s.Token) && inWindow) covered.Add(i);
             }
             if (reason is null && stateSinks.Count > 0 && covered.Count == 0)
             {
-                reason = stateSinks.Any(s => ReferenceEquals(s.Token, g.Token))
+                reason = stateSinks.Any(s => g.Concerns(s.Token))
                     ? "guard does not precede the state change"
                     : "guard checks a different object";
             }
@@ -111,6 +115,8 @@ public sealed class PathExtractor(AnalysisContext context, OwnershipSchema schem
     private string? StaticReason(GuardRecord g)
     {
         if (g.StructuralProblem is not null) return g.StructuralProblem;
+        if (g.Kind == Core.Model.GuardKind.ExistenceCheck && g.Comparand == ComparandClass.Other)
+            return "existence check does not bind the caller identity";
         if (g.Kind == Core.Model.GuardKind.ResourceAuthorization)
             return g.AuthForCaller ? null : "authorization evaluated for a principal other than the caller";
         switch (g.Comparand)
@@ -120,7 +126,8 @@ public sealed class PathExtractor(AnalysisContext context, OwnershipSchema schem
         }
         if (g.IdentityKind is { } ik && g.OwnerKind is { } ok && ik != ok)
             return $"{ik.ToString().ToLowerInvariant()} identity compared with a {ok.ToString().ToLowerInvariant()} owner property";
-        var required = g.Token is null ? null : schema.Find(g.Token.EntityType)?.RequiredOwnerKind;
+        var entityType = g.Token?.EntityType ?? g.EntityType;
+        var required = entityType is null ? null : schema.Find(entityType)?.RequiredOwnerKind;
         if (required == OwnerKind.User && g.OwnerKind != OwnerKind.User)
             return "tenant-level check but object has a user owner";
         return null;

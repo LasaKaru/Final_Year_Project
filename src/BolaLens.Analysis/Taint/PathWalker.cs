@@ -95,7 +95,9 @@ public sealed class PathWalker
         if (!_ctx.CallStack.Add(key)) return AbstractValue.None; // recursion
         _ctx.MethodsAnalysed++;
 
-        var declared = model.GetDeclaredSymbol(syntax, _ct) as IMethodSymbol ?? method;
+        var declared = model.GetDeclaredSymbol(syntax, _ct) as IMethodSymbol
+                       ?? model.GetSymbolInfo(syntax, _ct).Symbol as IMethodSymbol
+                       ?? method;
         var frame = new MethodFrame(declared, depth) { This = receiver };
         for (var i = 0; i < declared.Parameters.Length && i < args.Length; i++)
             frame.Values[declared.Parameters[i]] = args[i] ?? AbstractValue.None;
@@ -106,6 +108,8 @@ public sealed class PathWalker
         {
             IMethodBodyBaseOperation mb => (IOperation?)mb.BlockBody ?? mb.ExpressionBody,
             ILocalFunctionOperation lf => lf.Body,
+            IAnonymousFunctionOperation af => af.Body,
+            IDelegateCreationOperation { Target: IAnonymousFunctionOperation af2 } => af2.Body,
             var other => other,
         };
         if (body is not null) WalkStatement(body, frame);
@@ -122,6 +126,7 @@ public sealed class PathWalker
         BaseMethodDeclarationSyntax m => m.Body is not null || m.ExpressionBody is not null,
         LocalFunctionStatementSyntax l => l.Body is not null || l.ExpressionBody is not null,
         AccessorDeclarationSyntax a => a.Body is not null || a.ExpressionBody is not null,
+        AnonymousFunctionExpressionSyntax => true, // Minimal-API lambda handlers
         _ => false,
     };
 
@@ -286,6 +291,21 @@ public sealed class PathWalker
         var exitKind = cmp.TrueOnMismatch ? GuardDetector.Exit(c.WhenTrue) : GuardDetector.Exit(c.WhenFalse);
         var problem = (cmp.TrueOnMismatch && cmp.InConjunction) || (!cmp.TrueOnMismatch && cmp.InDisjunction)
             ? "check is combined with other conditions and does not always stop the request" : null;
+
+        if (cmp.IsExistsCheck)
+        {
+            var ev = ValueOf(cmp.Left, f).Exists;
+            if (ev is not { KeyTainted: true }) return null;
+            facts.Add($"existence check on {ev.EntityType[(ev.EntityType.LastIndexOf('.') + 1)..]} by the client-controlled id"
+                      + (ev.OwnerKind is { } ok ? $" and {ev.OwnerProperty} (owner: {ok}) == {ev.Caller} (trusted identity)" : " without an owner condition"));
+            return new GuardRecord
+            {
+                Kind = GuardKind.ExistenceCheck, Token = null, EntityType = ev.EntityType, Location = location, Frame = f,
+                OwnerProperty = ev.OwnerProperty, OwnerKind = ev.OwnerKind, IdentityKind = ev.OwnerKind,
+                Comparand = ev.OwnerKind is null ? ComparandClass.Other : ComparandClass.Identity,
+                CallerExpression = ev.Caller, UntilFrameEnd = exitKind == ExitKind.Return, StructuralProblem = problem,
+            };
+        }
 
         if (cmp.IsResourceCheck)
         {
@@ -512,8 +532,23 @@ public sealed class PathWalker
         var name = pr.Property.Name;
         var result = AbstractValue.None;
 
+        // a member of an object created in analysed code: exact per-member value
+        if (inst.Fields is { } fields)
+        {
+            var fv = fields.TryGetValue(name, out var v) ? v : AbstractValue.None;
+            return inst.ClientControlled && !fv.ClientControlled ? fv with { ClientControlled = true } : fv;
+        }
+
+        // owner reached through a navigation: article.Author.PersonId / article.Author?.Username
+        if (inst.Owner is { } nav && (name.EndsWith("Id", StringComparison.Ordinal) || name is "Username" or "UserName" or "Email" or "Name"))
+            return new AbstractValue { Owner = nav with { Property = $"{nav.Property}.{name}" } };
+
         if (inst.Entity is { } token)
         {
+            // collection navigation of a loaded entity (article.Comments): in-memory LINQ on it selects child entities
+            if (pr.Type is INamedTypeSymbol { IsGenericType: true } coll && coll.AllInterfaces.Any(i => i.Name == "IEnumerable")
+                && coll.TypeArguments.Length == 1 && _schema.Find(EntityName(coll.TypeArguments[0], f)) is { } child)
+                return new AbstractValue { Query = new QueryValue(child.EntityType, false, token.BypassedFilters, null, null, null, null) };
             if (OwnerKindOf(token.EntityType, name) is { } kind)
                 result = result.Merge(new AbstractValue { Owner = new OwnerValue(token, name, kind) });
             if (Symbols.InNamespace(pr.Property.ContainingType, "Microsoft.EntityFrameworkCore"))
@@ -586,7 +621,9 @@ public sealed class PathWalker
         var entity = entityName is null ? null : _schema.Find(entityName);
 
         var keyTainted = false;
-        var data = MergeAll(args).DataOnly();
+        var fields = new Dictionary<string, AbstractValue>(StringComparer.OrdinalIgnoreCase);
+        for (var i = 0; i < oc.Arguments.Length; i++)
+            if (oc.Arguments[i].Parameter?.Name is { } pn && args[i].IsRelevant) fields[pn] = args[i].DataOnly(); // positional records: ctor param = property
         if (oc.Initializer is not null)
         {
             foreach (var init in oc.Initializer.Initializers)
@@ -594,17 +631,21 @@ public sealed class PathWalker
                 if (init is ISimpleAssignmentOperation { Target: IPropertyReferenceOperation tp } sa)
                 {
                     var v = Eval(sa.Value, f);
-                    data = data.Merge(v.DataOnly());
+                    if (v.IsRelevant) fields[tp.Property.Name] = v.DataOnly();
                     if (v.Tainted && entity is not null && IsKey(entity, tp.Property.Name)) keyTainted = true;
                 }
                 else
                 {
-                    data = data.Merge(Eval(init, f).DataOnly());
+                    Eval(init, f);
                 }
             }
         }
 
-        if (entity is null) return data;
+        if (entity is null)
+        {
+            var data = MergeAll(fields.Values);
+            return new AbstractValue { Tainted = data.Tainted, ClientControlled = data.ClientControlled, Fields = fields };
+        }
 
         keyTainted |= args.Any(a => a.Tainted);
         var token = new EntityToken(entity.EntityType, "new", _context.StatementRef(oc.Syntax))
@@ -639,7 +680,7 @@ public sealed class PathWalker
         if (isExtensionCall) recv = args[0];
 
         var category = EfOperationClassifier.Classify(m);
-        if (category != EfCategory.None)
+        if (category != EfCategory.None && (!EfOperationClassifier.IsEnumerable(m) || recv.Query is not null))
             return EvalEf(inv, category, recv, args, isExtensionCall, f);
 
         if (m.Name == "AuthorizeAsync" && (m.ContainingType.Name is "IAuthorizationService" or "AuthorizationServiceExtensions"))
@@ -647,6 +688,9 @@ public sealed class PathWalker
 
         if (_identity.FromInvocation(inv, recv, args) is { } identity)
             return identity;
+
+        if (_context.Config.Analysis.DispatchMethods.Contains(m.Name) && TryDispatch(inv, args, isExtensionCall, f) is { } dispatched)
+            return dispatched;
 
         var sourceTarget = Symbols.IsInSource(m.ReducedFrom ?? m) || m.MethodKind == MethodKind.LocalFunction
             || (m.ContainingType is { } ct && Symbols.IsInSource(ct));
@@ -671,6 +715,38 @@ public sealed class PathWalker
             RecordUnresolved($"external dispatch: {Symbols.Display(m)} receives the tracked id", inv, f, tainted: true);
         }
         return AbstractValue.None;
+    }
+
+    /// <summary>Mediator/CQRS dispatch: sender.Send(command) → the source handler whose Handle method takes the
+    /// command's type. Null when no argument has a source type with handlers (falls through to normal handling).</summary>
+    private AbstractValue? TryDispatch(IInvocationOperation inv, AbstractValue[] args, bool extensionCall, MethodFrame f)
+    {
+        for (var i = extensionCall ? 1 : 0; i < inv.Arguments.Length; i++)
+        {
+            var raw = inv.Arguments[i].Value;
+            while (raw is IConversionOperation c) raw = c.Operand;
+            if (raw.Type is not INamedTypeSymbol t || !Symbols.IsInSource(t)) continue;
+            var handlers = _resolver.FindHandlers(t);
+            if (handlers.Count == 0) continue;
+            var tracked = IsTracked(args[i]) || args[i].Fields?.Values.Any(IsTracked) == true;
+            if (handlers.Count > 1)
+            {
+                RecordUnresolved($"ambiguous dispatch: {handlers.Count} handlers for {t.Name} ({string.Join(", ", handlers.Select(h => h.ContainingType.Name))})", inv, f, tracked);
+                return AbstractValue.None;
+            }
+            var target = handlers[0];
+            if (f.Depth + 1 > _maxDepth)
+            {
+                if (tracked) _ctx.Truncated = true;
+                RecordUnresolved($"max call depth ({_maxDepth}) reached before {target.ContainingType.Name}.{target.Name}", inv, f, tracked);
+                return AbstractValue.None;
+            }
+            Step(StepKind.Call, $"dispatches {t.Name} to {target.ContainingType.Name}.{target.Name}", Symbols.Display(target), inv, f);
+            var mapped = Enumerable.Repeat(AbstractValue.None, Math.Max(target.Parameters.Length, 1)).ToArray();
+            mapped[0] = args[i];
+            return AnalyseMethod(target, mapped, AbstractValue.None, typeArgs: null, f.Depth + 1);
+        }
+        return null;
     }
 
     private static bool IsTracked(AbstractValue v) => v.Tainted || v.Entity?.TaintSelected == true;
@@ -702,6 +778,14 @@ public sealed class PathWalker
         var relevant = args.Any(a => a.IsRelevant) || recv.Entity is not null;
         var tracked = args.Any(IsTracked) || IsTracked(recv);
         var resolution = _resolver.Resolve(m);
+        if (resolution is { Kind: ResolutionKind.LibraryImplementation, Target: { } lib })
+        {
+            // an application interface implemented by EF Core itself (IApplicationDbContext.SaveChangesAsync, .Set<T>() …)
+            var libCategory = EfOperationClassifier.Classify(lib);
+            return libCategory != EfCategory.None
+                ? EvalEf(inv, libCategory, recv, args, inv.Instance is null && m.IsExtensionMethod, f)
+                : AbstractValue.None;
+        }
         if (resolution.Kind != ResolutionKind.Resolved || resolution.Target is null)
         {
             if (relevant || resolution.Kind == ResolutionKind.Ambiguous)
@@ -793,6 +877,7 @@ public sealed class PathWalker
                 var how = token.TaintSelected ? " selected by the client-controlled id" : "";
                 var bypass = token.BypassedFilters ? " (IgnoreQueryFilters)" : "";
                 Step(StepKind.Load, $"loads {token.ShortName}{how}{bypass}", Symbols.Display(m), inv, f);
+                if (token.TaintSelected && _context.Config.Analysis.IncludeReadOnlyPaths) AddSink(SinkKind.Read, token, inv, f);
                 return new AbstractValue { Entity = token };
             }
 
@@ -801,11 +886,16 @@ public sealed class PathWalker
                 if (recv.Query is null) return recv;
                 var token = TokenFrom(recv.Query, "list", inv, collection: true);
                 Step(StepKind.Load, $"loads {token.ShortName} list{(token.TaintSelected ? " selected by the client-controlled id" : "")}", Symbols.Display(m), inv, f);
+                if (token.TaintSelected && _context.Config.Analysis.IncludeReadOnlyPaths) AddSink(SinkKind.Read, token, inv, f);
                 return new AbstractValue { Entity = token };
             }
 
             case EfCategory.Exists:
-                return AbstractValue.None;
+            {
+                if (recv.Query is null || !m.Name.StartsWith("Any", StringComparison.Ordinal)) return AbstractValue.None;
+                var q = ApplyPredicates(recv.Query, inv, first, f);
+                return new AbstractValue { Exists = new ExistsCheck(q.EntityType, q.KeyTainted, q.OwnerPredicateKind, q.OwnerPredicateProperty, q.OwnerPredicateCaller) };
+            }
 
             case EfCategory.Write:
             {
@@ -895,17 +985,16 @@ public sealed class PathWalker
                 if (cmp.IsResourceCheck || cmp.Right is null || cmp.TrueOnMismatch) continue;
                 foreach (var (x, y) in new[] { (cmp.Left, cmp.Right), (cmp.Right, cmp.Left) })
                 {
-                    if (GuardDetector.Unwrap(x) is not IPropertyReferenceOperation { Instance: IParameterReferenceOperation pref } px
-                        || !SymbolEqualityComparer.Default.Equals(pref.Parameter, parameter)) continue;
+                    if (RootedMember(GuardDetector.Unwrap(x), parameter) is not { } chain) continue;
                     var yv = Peek(GuardDetector.Unwrap(y), f);
                     if (yv.Tainted) q = q with { KeyTainted = true };
-                    if (!cmp.InDisjunction && yv.Identity is { } idKind && OwnerKindOf(q.EntityType, px.Property.Name) is { } ownerKind
+                    if (!cmp.InDisjunction && yv.Identity is { } idKind && OwnerKindOf(q.EntityType, chain.Top) is { } ownerKind
                         && idKind == ownerKind && (q.OwnerPredicateKind is null || ownerKind == OwnerKind.User))
                     {
                         q = q with
                         {
                             OwnerPredicateKind = ownerKind,
-                            OwnerPredicateProperty = px.Property.Name,
+                            OwnerPredicateProperty = chain.Path,
                             OwnerPredicateCaller = SourceRefs.Snippet(y.Syntax),
                             PredicateLocation = _context.StatementRef(inv.Syntax),
                         };
@@ -914,6 +1003,28 @@ public sealed class PathWalker
             }
         }
         return q;
+    }
+
+    /// <summary>For x.A or x.A.B (x = the lambda parameter): the top-level property A and the dotted path.</summary>
+    private static (string Top, string Path)? RootedMember(IOperation op, IParameterSymbol parameter)
+    {
+        var names = new List<string>();
+        for (var cur = op; ;)
+        {
+            switch (cur)
+            {
+                case IPropertyReferenceOperation pr:
+                    names.Insert(0, pr.Property.Name);
+                    cur = pr.Instance!;
+                    continue;
+                case IConditionalAccessInstanceOperation:
+                    return null;
+                case IParameterReferenceOperation p when SymbolEqualityComparer.Default.Equals(p.Parameter, parameter) && names.Count > 0:
+                    return (names[0], string.Join(".", names));
+                default:
+                    return null;
+            }
+        }
     }
 
     private static IOperation LambdaExpression(IAnonymousFunctionOperation lambda) =>
@@ -931,7 +1042,8 @@ public sealed class PathWalker
     {
         var entity = _schema.Find(entityType);
         if (entity is not null)
-            return entity.OwnerCandidates.FirstOrDefault(c => c.Property == property)?.Kind;
+            return entity.OwnerCandidates.FirstOrDefault(c => c.Property == property)?.Kind
+                   ?? entity.OwnerCandidates.FirstOrDefault(c => c.Property == property + "Id")?.Kind; // navigation of an owner FK (Author ↔ AuthorId)
         return _owners.KindOfName(property);
     }
 

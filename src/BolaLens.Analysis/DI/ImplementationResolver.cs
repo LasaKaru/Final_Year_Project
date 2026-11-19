@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis;
 
 namespace BolaLens.Analysis.DI;
 
-public enum ResolutionKind { Resolved, Ambiguous, NoSourceImplementation, External }
+public enum ResolutionKind { Resolved, Ambiguous, NoSourceImplementation, External, LibraryImplementation }
 
 /// <summary>Result of resolving a call target to analysable source.</summary>
 public sealed record Resolution(ResolutionKind Kind, IMethodSymbol? Target, int Candidates, string Reason);
@@ -15,22 +15,32 @@ public sealed record Resolution(ResolutionKind Kind, IMethodSymbol? Target, int 
 public sealed class ImplementationResolver
 {
     private readonly Dictionary<string, List<IMethodSymbol>> _impls = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, List<IMethodSymbol>> _handlers = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, IMethodSymbol> _libraryImpls = new(StringComparer.Ordinal);
     private readonly DiRegistrationMap _di;
 
     public ImplementationResolver(AnalysisContext context, DiRegistrationMap di)
     {
         _di = di;
+        var handlerNames = context.Config.Analysis.HandlerMethods.ToHashSet(StringComparer.Ordinal);
         foreach (var pc in context.Compilations)
         {
             foreach (var type in Symbols.SourceTypes(pc.Compilation.Assembly.GlobalNamespace))
             {
                 if (type.TypeKind != TypeKind.Class || type.IsAbstract) continue;
+                foreach (var h in type.GetMembers().OfType<IMethodSymbol>().Where(m => handlerNames.Contains(m.Name) && m.Parameters.Length >= 1 && !m.IsStatic))
+                {
+                    var key = Symbols.Key(h.Parameters[0].Type);
+                    if (!_handlers.TryGetValue(key, out var hl)) _handlers[key] = hl = [];
+                    hl.Add(h);
+                }
                 foreach (var iface in type.AllInterfaces)
                 {
                     foreach (var member in iface.GetMembers().OfType<IMethodSymbol>())
                     {
-                        if (type.FindImplementationForInterfaceMember(member) is IMethodSymbol impl && Symbols.IsInSource(impl))
-                            Add(Symbols.Key(member), impl);
+                        if (type.FindImplementationForInterfaceMember(member) is not IMethodSymbol impl) continue;
+                        if (Symbols.IsInSource(impl)) Add(Symbols.Key(member), impl);
+                        else _libraryImpls.TryAdd(Symbols.Key(member), impl); // e.g. IAppDbContext.SaveChangesAsync → DbContext.SaveChangesAsync
                     }
                 }
                 for (var t = type; t is not null; t = t.BaseType)
@@ -67,6 +77,11 @@ public sealed class ImplementationResolver
         if (!list.Any(x => Symbols.Key(x) == Symbols.Key(impl))) list.Add(impl);
     }
 
+    /// <summary>Source handler methods (Handle/HandleAsync/Consume…) whose first parameter is <paramref name="requestType"/>:
+    /// the targets of mediator dispatch such as sender.Send(new DeleteCommand(id)).</summary>
+    public IReadOnlyList<IMethodSymbol> FindHandlers(ITypeSymbol requestType) =>
+        _handlers.TryGetValue(Symbols.Key(requestType), out var l) ? l : [];
+
     public static bool HasBody(IMethodSymbol m) =>
         !m.IsAbstract && !m.IsExtern && m.DeclaringSyntaxReferences.Length > 0
         && (m.PartialImplementationPart is null || m.PartialImplementationPart.DeclaringSyntaxReferences.Length > 0);
@@ -97,6 +112,9 @@ public sealed class ImplementationResolver
                 if (narrowed.Count > 0) candidates = narrowed;
             }
         }
+
+        if (candidates.Count == 0 && _libraryImpls.TryGetValue(Symbols.Key(target), out var lib))
+            return new Resolution(ResolutionKind.LibraryImplementation, lib, 1, $"{Symbols.Display(target)} is implemented by library method {Symbols.Display(lib)}");
 
         return candidates.Count switch
         {

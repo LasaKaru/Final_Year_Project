@@ -5,11 +5,11 @@ namespace BolaLens.Analysis.Verdict;
 /// <summary>Turns an annotated execution path into a three-state symbolic verdict with rule IDs.
 /// Input: ExecutionPath + OwnershipSchema (pure C#, no Roslyn). Limitation: it trusts the guard binding
 /// computed by the path extractor; a sink's verdict is the first matching rule, the path's is the worst sink.</summary>
-public sealed class SymbolicClassifier(OwnershipSchema schema)
+public sealed class SymbolicClassifier(OwnershipSchema schema, bool includeReadOnlyPaths = false)
 {
     public SymbolicVerdict Classify(ExecutionPath path)
     {
-        var sinks = path.Sinks.Where(s => s.IsStateChanging).ToList();
+        var sinks = path.Sinks.Where(s => s.IsStateChanging || (includeReadOnlyPaths && s.Kind == SinkKind.Read)).ToList();
         if (sinks.Count == 0)
         {
             return path.TaintEnteredUnresolvedCall || path.Truncated
@@ -32,7 +32,7 @@ public sealed class SymbolicClassifier(OwnershipSchema schema)
         var valid = sink.ValidGuards.Select(i => path.Guards[i]).ToList();
         var where = $"{sink.Kind} on {name} at {sink.Location}";
 
-        var owner = valid.FirstOrDefault(g => g.Kind is GuardKind.OwnerEquality or GuardKind.LinqOwnerPredicate);
+        var owner = valid.FirstOrDefault(g => g.Kind is GuardKind.OwnerEquality or GuardKind.LinqOwnerPredicate or GuardKind.ExistenceCheck);
         if (owner is not null)
             return new(VerdictStatus.Protected, [SymbolicRules.OwnerGuard],
                 $"{where} is protected: {owner.Kind} binds {name}.{owner.OwnerProperty} to the caller ({owner.CallerExpression}) at {owner.Location}.");

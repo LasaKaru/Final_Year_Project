@@ -42,7 +42,18 @@ public sealed class BolaLensConfig
 public sealed class AnalysisOptions
 {
     public int MaxCallDepth { get; init; } = 5;
+
+    /// <summary>Secondary scope (ADR-011): also report loads of objects selected by a client id that are returned
+    /// without an owner check (read BOLA / IDOR). Off by default — the primary scope is state-changing BOLA.</summary>
     public bool IncludeReadOnlyPaths { get; init; }
+
+    /// <summary>Every route-template parameter identifies a resource ({slug}, {username}, {id}…), not only *Id names.</summary>
+    public bool RouteParametersAreSelectors { get; init; } = true;
+
+    /// <summary>Mediator/CQRS dispatch calls (MediatR, Mediator, …): Send(command) is followed into the handler whose
+    /// <see cref="HandlerMethods"/> method takes the command type as its first parameter.</summary>
+    public IReadOnlyList<string> DispatchMethods { get; init; } = ["Send", "SendAsync", "Publish", "PublishAsync", "Dispatch", "DispatchAsync"];
+    public IReadOnlyList<string> HandlerMethods { get; init; } = ["Handle", "HandleAsync", "Consume", "ConsumeAsync"];
     public IReadOnlyList<string> IdParameterPatterns { get; init; } = ["^id$", "Id$", "Key$"];
     public IReadOnlyList<string> ParseLikeMethods { get; init; } = ["Parse", "TryParse", "ToInt32", "ToInt64", "ToString", "ToGuid"];
 }
@@ -52,8 +63,20 @@ public sealed class IdentityOptions
     public IReadOnlyList<string> ClaimsPrincipalMembers { get; init; } = ["User", "HttpContext.User"];
     public IReadOnlyList<string> ClaimAccessMethods { get; init; } = ["FindFirst", "FindFirstValue", "HasClaim"];
     public IReadOnlyList<CurrentUserType> CurrentUserTypes { get; init; } =
-        [new CurrentUserType { Type = "*.ICurrentUser", UserMembers = ["UserId"], TenantMembers = ["TenantId"] }];
+    [
+        .. new[] { "*.ICurrentUser", "*.ICurrentUserService", "*.ICurrentUserAccessor", "*.ICurrentUserProvider", "*.IUserContext", "*.IUserAccessor", "*.IUser" }
+            .Select(t => new CurrentUserType
+            {
+                Type = t,
+                UserMembers = ["UserId", "Id", "PersonId", "Username", "UserName", "GetUserId", "GetCurrentUserId", "GetCurrentPersonId", "GetCurrentUsername", "GetCurrentUserName"],
+                TenantMembers = ["TenantId", "OrganizationId", "OrganisationId", "GetTenantId", "GetCurrentTenantId"],
+            }),
+    ];
     public IReadOnlyList<string> ExtensionMethods { get; init; } = ["GetUserId", "GetTenantId"];
+
+    /// <summary>Members of an object derived from the caller's ClaimsPrincipal (e.g. permissions.GetUser(User).UserId)
+    /// that carry the caller's identity.</summary>
+    public IReadOnlyList<string> PrincipalDerivedMembers { get; init; } = ["Id", "UserId", "PersonId", "Name", "UserName", "Username", "Email"];
 }
 
 /// <summary>A server-side "current user" abstraction whose members are trusted identity values.
@@ -71,7 +94,10 @@ public sealed class OwnershipOptions
         ["^UserId$", "^OwnerId$", "^OwnerUserId$", "^CreatedBy(Id)?$", "^AuthorId$", "^CustomerId$"];
     public IReadOnlyList<string> TenantOwnerPatterns { get; init; } =
         ["^TenantId$", "^OrganisationId$", "^OrganizationId$", "^CompanyId$"];
-    public IReadOnlyList<string> UserTypeNames { get; init; } = ["User", "ApplicationUser", "AppUser", "IdentityUser"];
+    public IReadOnlyList<string> UserTypeNames { get; init; } = ["User", "ApplicationUser", "AppUser", "IdentityUser", "Person"];
+
+    /// <summary>Navigation properties that point to the owning user (e.g. Article.Author → Person).</summary>
+    public IReadOnlyList<string> OwnerNavigationPatterns { get; init; } = ["^Author$", "^Owner$", "^Creator$", "^User$"];
 }
 
 public sealed class InferenceOptions

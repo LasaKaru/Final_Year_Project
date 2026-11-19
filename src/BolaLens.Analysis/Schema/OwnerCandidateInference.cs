@@ -14,12 +14,14 @@ public sealed class OwnerCandidateInference
     private readonly Regex[] _user;
     private readonly Regex[] _tenant;
     private readonly HashSet<string> _userTypes;
+    private readonly Regex[] _ownerNav;
 
     public OwnerCandidateInference(OwnershipOptions options)
     {
         _user = options.UserOwnerPatterns.Select(p => new Regex(p, RegexOptions.CultureInvariant)).ToArray();
         _tenant = options.TenantOwnerPatterns.Select(p => new Regex(p, RegexOptions.CultureInvariant)).ToArray();
         _userTypes = new HashSet<string>(options.UserTypeNames, StringComparer.Ordinal);
+        _ownerNav = options.OwnerNavigationPatterns.Select(p => new Regex(p, RegexOptions.CultureInvariant)).ToArray();
     }
 
     public OwnerKind? KindOfName(string property) =>
@@ -36,7 +38,7 @@ public sealed class OwnerCandidateInference
             if (KindOfName(p.Name) is { } kind)
                 result[p.Name] = (kind, [OwnerEvidence.NamePattern]);
         }
-        foreach (var nav in props.Where(p => IsUserType(p.Type)))
+        foreach (var nav in props.Where(p => IsUserType(p.Type) || (IsReferenceNavigation(p.Type) && _ownerNav.Any(r => r.IsMatch(p.Name)))))
         {
             var fk = nav.Name + "Id";
             var target = props.Any(p => p.Name == fk) ? fk : nav.Name;
@@ -47,6 +49,11 @@ public sealed class OwnerCandidateInference
         }
         return result;
     }
+
+    /// <summary>A single-object navigation (a class, not string/collection/simple type).</summary>
+    private static bool IsReferenceNavigation(ITypeSymbol type) =>
+        type.TypeKind == TypeKind.Class && type.SpecialType != SpecialType.System_String && !Symbols.IsSimple(type)
+        && !type.AllInterfaces.Any(i => i.Name == "IEnumerable");
 
     private bool IsUserType(ITypeSymbol type)
     {

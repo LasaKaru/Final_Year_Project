@@ -74,20 +74,34 @@ public class EndpointEnumeratorTests
     }
 
     [Fact]
-    public async Task Counts_minimal_api_endpoints_as_unsupported()
+    public async Task Enumerates_minimal_api_endpoints_with_group_prefix_and_authorization()
     {
         var result = await CompilationFactory.AnalyseAsync("""
+            using Microsoft.AspNetCore.Builder;
+            using Microsoft.AspNetCore.Http;
             namespace M;
+            public record Rename(string Name);
             public static class Startup
             {
-                public static void Map(Microsoft.AspNetCore.Builder.WebApplication app)
+                public static void Map(WebApplication app)
                 {
-                    Microsoft.AspNetCore.Builder.EndpointRouteBuilderExtensions.MapPut(app, "/x/{id}", (int id) => id);
-                    app.MapDelete("/y/{id}", (int id) => id);
+                    var g = app.MapGroup("/api/things").RequireAuthorization();
+                    g.MapPut("/{thingId:int}", (int thingId, Rename body) => Results.Ok());
+                    app.MapDelete("/open/{slug}", Delete);
                 }
+                private static IResult Delete(string slug) => Results.NoContent();
             }
-            """.Replace("namespace M;", "using Microsoft.AspNetCore.Builder;\nnamespace M;"));
-        result.UnsupportedEndpointStyles.ShouldBe(2);
+            """);
+        var put = result.Endpoints.Single(e => e.Verb == HttpVerb.Put);
+        put.Id.ShouldBe("PUT api/things/{thingid}");
+        put.Authorization.HasAuthorize.ShouldBeTrue();
+        put.Parameters.Single(p => p.Name == "thingId").Source.ShouldBe(BindingSource.Route);
+        put.Parameters.Single(p => p.Name == "body").Source.ShouldBe(BindingSource.Body);
+        var del = result.Endpoints.Single(e => e.Verb == HttpVerb.Delete);
+        del.Id.ShouldBe("DELETE open/{slug}");
+        del.Authorization.HasAuthorize.ShouldBeFalse();
+        del.Parameters.Single().IsIdLike.ShouldBeTrue(); // every route parameter selects a resource, not only *Id names
+        result.UnsupportedEndpointStyles.ShouldBe(0);
     }
 
     [Theory]

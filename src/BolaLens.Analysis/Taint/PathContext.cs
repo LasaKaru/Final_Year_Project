@@ -15,6 +15,9 @@ public sealed class GuardRecord
 {
     public required GuardKind Kind { get; init; }
     public required EntityToken? Token { get; init; }
+
+    /// <summary>For token-less guards (existence checks): every object of this entity type selected by the tracked id.</summary>
+    public string? EntityType { get; init; }
     public string? OwnerProperty { get; init; }
     public OwnerKind? OwnerKind { get; init; }
     public ComparandClass Comparand { get; init; }
@@ -29,6 +32,12 @@ public sealed class GuardRecord
     public bool AuthForCaller { get; init; } = true;
 
     public bool Covers(int seq) => seq >= ActiveFrom && seq <= ActiveUntil;
+
+    public bool IsActivated => ActiveFrom != int.MaxValue;
+
+    /// <summary>Does this guard concern the object of the sink?</summary>
+    public bool Concerns(EntityToken token) =>
+        Token is not null ? ReferenceEquals(Token, token) : EntityType == token.EntityType && token.TaintSelected;
 }
 
 /// <summary>Mutable state of one path walk (one endpoint × one tainted parameter).</summary>

@@ -2,28 +2,250 @@
   "analysis": {
     "maxCallDepth": 5,
     "includeReadOnlyPaths": false,
-    "idParameterPatterns": ["^id$", "Id$", "Key$"],
-    "parseLikeMethods": ["Parse", "TryParse", "ToInt32", "ToInt64", "ToString", "ToGuid"]
+    "routeParametersAreSelectors": true,
+    "idParameterPatterns": [
+      "^id$",
+      "Id$",
+      "Key$"
+    ],
+    "parseLikeMethods": [
+      "Parse",
+      "TryParse",
+      "ToInt32",
+      "ToInt64",
+      "ToString",
+      "ToGuid"
+    ],
+    "dispatchMethods": [
+      "Send",
+      "SendAsync",
+      "Publish",
+      "PublishAsync",
+      "Dispatch",
+      "DispatchAsync"
+    ],
+    "handlerMethods": [
+      "Handle",
+      "HandleAsync",
+      "Consume",
+      "ConsumeAsync"
+    ]
   },
   "identity": {
-    "claimsPrincipalMembers": ["User", "HttpContext.User"],
-    "claimAccessMethods": ["FindFirst", "FindFirstValue", "HasClaim"],
-    "currentUserTypes": [
-      { "type": "*.ICurrentUser", "userMembers": ["UserId"], "tenantMembers": ["TenantId"] }
+    "claimsPrincipalMembers": [
+      "User",
+      "HttpContext.User"
     ],
-    "extensionMethods": ["GetUserId", "GetTenantId"]
+    "claimAccessMethods": [
+      "FindFirst",
+      "FindFirstValue",
+      "HasClaim"
+    ],
+    "currentUserTypes": [
+      {
+        "type": "*.ICurrentUser",
+        "userMembers": [
+          "UserId",
+          "Id",
+          "PersonId",
+          "Username",
+          "UserName",
+          "GetUserId",
+          "GetCurrentUserId",
+          "GetCurrentPersonId",
+          "GetCurrentUsername",
+          "GetCurrentUserName"
+        ],
+        "tenantMembers": [
+          "TenantId",
+          "OrganizationId",
+          "OrganisationId",
+          "GetTenantId",
+          "GetCurrentTenantId"
+        ]
+      },
+      {
+        "type": "*.ICurrentUserService",
+        "userMembers": [
+          "UserId",
+          "Id",
+          "PersonId",
+          "Username",
+          "UserName",
+          "GetUserId",
+          "GetCurrentUserId",
+          "GetCurrentPersonId",
+          "GetCurrentUsername",
+          "GetCurrentUserName"
+        ],
+        "tenantMembers": [
+          "TenantId",
+          "OrganizationId",
+          "OrganisationId",
+          "GetTenantId",
+          "GetCurrentTenantId"
+        ]
+      },
+      {
+        "type": "*.ICurrentUserAccessor",
+        "userMembers": [
+          "UserId",
+          "Id",
+          "PersonId",
+          "Username",
+          "UserName",
+          "GetUserId",
+          "GetCurrentUserId",
+          "GetCurrentPersonId",
+          "GetCurrentUsername",
+          "GetCurrentUserName"
+        ],
+        "tenantMembers": [
+          "TenantId",
+          "OrganizationId",
+          "OrganisationId",
+          "GetTenantId",
+          "GetCurrentTenantId"
+        ]
+      },
+      {
+        "type": "*.ICurrentUserProvider",
+        "userMembers": [
+          "UserId",
+          "Id",
+          "PersonId",
+          "Username",
+          "UserName",
+          "GetUserId",
+          "GetCurrentUserId",
+          "GetCurrentPersonId",
+          "GetCurrentUsername",
+          "GetCurrentUserName"
+        ],
+        "tenantMembers": [
+          "TenantId",
+          "OrganizationId",
+          "OrganisationId",
+          "GetTenantId",
+          "GetCurrentTenantId"
+        ]
+      },
+      {
+        "type": "*.IUserContext",
+        "userMembers": [
+          "UserId",
+          "Id",
+          "PersonId",
+          "Username",
+          "UserName",
+          "GetUserId",
+          "GetCurrentUserId",
+          "GetCurrentPersonId",
+          "GetCurrentUsername",
+          "GetCurrentUserName"
+        ],
+        "tenantMembers": [
+          "TenantId",
+          "OrganizationId",
+          "OrganisationId",
+          "GetTenantId",
+          "GetCurrentTenantId"
+        ]
+      },
+      {
+        "type": "*.IUserAccessor",
+        "userMembers": [
+          "UserId",
+          "Id",
+          "PersonId",
+          "Username",
+          "UserName",
+          "GetUserId",
+          "GetCurrentUserId",
+          "GetCurrentPersonId",
+          "GetCurrentUsername",
+          "GetCurrentUserName"
+        ],
+        "tenantMembers": [
+          "TenantId",
+          "OrganizationId",
+          "OrganisationId",
+          "GetTenantId",
+          "GetCurrentTenantId"
+        ]
+      },
+      {
+        "type": "*.IUser",
+        "userMembers": [
+          "UserId",
+          "Id",
+          "PersonId",
+          "Username",
+          "UserName",
+          "GetUserId",
+          "GetCurrentUserId",
+          "GetCurrentPersonId",
+          "GetCurrentUsername",
+          "GetCurrentUserName"
+        ],
+        "tenantMembers": [
+          "TenantId",
+          "OrganizationId",
+          "OrganisationId",
+          "GetTenantId",
+          "GetCurrentTenantId"
+        ]
+      }
+    ],
+    "extensionMethods": [
+      "GetUserId",
+      "GetTenantId"
+    ],
+    "principalDerivedMembers": [
+      "Id",
+      "UserId",
+      "PersonId",
+      "Name",
+      "UserName",
+      "Username",
+      "Email"
+    ]
   },
   "ownership": {
-    "userOwnerPatterns": ["^UserId$", "^OwnerId$", "^OwnerUserId$", "^CreatedBy(Id)?$", "^AuthorId$", "^CustomerId$"],
-    "tenantOwnerPatterns": ["^TenantId$", "^OrganisationId$", "^OrganizationId$", "^CompanyId$"],
-    "userTypeNames": ["User", "ApplicationUser", "AppUser", "IdentityUser"]
+    "userOwnerPatterns": [
+      "^UserId$",
+      "^OwnerId$",
+      "^OwnerUserId$",
+      "^CreatedBy(Id)?$",
+      "^AuthorId$",
+      "^CustomerId$"
+    ],
+    "tenantOwnerPatterns": [
+      "^TenantId$",
+      "^OrganisationId$",
+      "^OrganizationId$",
+      "^CompanyId$"
+    ],
+    "userTypeNames": [
+      "User",
+      "ApplicationUser",
+      "AppUser",
+      "IdentityUser",
+      "Person"
+    ],
+    "ownerNavigationPatterns": [
+      "^Author$",
+      "^Owner$",
+      "^Creator$",
+      "^User$"
+    ]
   },
   "inference": {
     "modelPath": "models/smollm2-135m-instruct-int4",
     "modelId": "smollm2-135m-instruct-int4",
     "maxLength": 4096,
     "maxNewTokens": 160,
-    "suppressThreshold": 0.80,
+    "suppressThreshold": 0.8,
     "retryOnParseFailure": 1,
     "maxSliceTokens": 700,
     "promptVersion": "v1",

@@ -29,11 +29,15 @@ public static class EfOperationClassifier
 
     public static bool IsQueryable(IMethodSymbol m) => m.ContainingType?.ToDisplayString() == "System.Linq.Queryable";
 
+    /// <summary>LINQ-to-objects; only meaningful when applied to a loaded entity's collection navigation
+    /// (article.Comments.First(c =&gt; c.Id == id)) — the walker ignores it on anything else.</summary>
+    public static bool IsEnumerable(IMethodSymbol m) => m.ContainingType?.ToDisplayString() == "System.Linq.Enumerable";
+
     public static EfCategory Classify(IMethodSymbol method)
     {
         var m = method.ReducedFrom ?? method;
         var ef = IsEf(m);
-        var q = IsQueryable(m);
+        var q = IsQueryable(m) || IsEnumerable(m);
         if (!ef && !q) return EfCategory.None;
         var name = m.Name;
 

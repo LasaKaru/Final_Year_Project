@@ -21,6 +21,13 @@ public sealed class CallerIdentityRecognizer(IdentityOptions options)
         if (instance.Identity is not null && prop.Name == "Value")
             return instance with { IdentityExpression = Text(pr) }; // claim.Value
 
+        if (instance.IsPrincipal)
+        {
+            if (prop.Name == "Identity") return instance;                         // User.Identity.Name
+            if (options.PrincipalDerivedMembers.Contains(prop.Name))               // permissions.GetUser(User).UserId
+                return new AbstractValue { Identity = prop.Name.Contains("Tenant", StringComparison.OrdinalIgnoreCase) ? OwnerKind.Tenant : OwnerKind.User, IdentityExpression = Text(pr) };
+        }
+
         var kind = CurrentUserKind(prop.ContainingType, prop.Name)
                    ?? (pr.Instance?.Type is { } it ? CurrentUserKind(it, prop.Name) : null);
         if (kind is not null)
@@ -38,6 +45,17 @@ public sealed class CallerIdentityRecognizer(IdentityOptions options)
             if (m.Name == "HasClaim") return null;
             return new AbstractValue { Identity = ClaimKind(claim), IdentityExpression = Text(inv) };
         }
+        // methods of a configured current-user abstraction, e.g. currentUserAccessor.GetCurrentPersonId()
+        var owner = m.ContainingType is { } ct ? CurrentUserKind(ct, m.Name) : null;
+        owner ??= inv.Instance?.Type is { } it ? CurrentUserKind(it, m.Name) : null;
+        if (owner is not null)
+            return new AbstractValue { Identity = owner, IdentityExpression = Text(inv) };
+
+        // an object looked up from the caller's principal, e.g. _userPermissions.GetUser(User)
+        if (!m.ReturnsVoid && m.Name.StartsWith("Get", StringComparison.Ordinal) && args.Any(a => a.IsPrincipal)
+            && !options.ClaimAccessMethods.Contains(m.Name))
+            return new AbstractValue { IsPrincipal = true, IdentityExpression = Text(inv) };
+
         if (options.ExtensionMethods.Contains(m.Name))
         {
             var kind = m.Name.Contains("Tenant", StringComparison.OrdinalIgnoreCase) || m.Name.Contains("Org", StringComparison.OrdinalIgnoreCase)
