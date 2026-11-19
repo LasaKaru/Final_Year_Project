@@ -80,12 +80,22 @@ public sealed class GlobalPolicyMapper(AnalysisContext context)
             foreach (var node in root.DescendantNodes().OfType<ObjectCreationExpressionSyntax>())
             {
                 if (model.GetOperation(node, ct) is IObjectCreationOperation { Type.Name: "AuthorizeFilter" } oc
-                    && oc.Parent?.Parent is IInvocationOperation { TargetMethod.Name: "Add" })
+                    && EnclosingInvocation(oc) is { TargetMethod.Name: "Add" })
                     globalFilter = true;
             }
         }
 
         return new PolicyMap(schemes, fallbackAuth, globalFilter, policies, ResourceHandlers(), unresolved);
+    }
+
+    private static IInvocationOperation? EnclosingInvocation(IOperation op)
+    {
+        for (var p = op.Parent; p is not null; p = p.Parent)
+        {
+            if (p is IInvocationOperation inv) return inv;
+            if (p is not (IConversionOperation or IArgumentOperation)) return null;
+        }
+        return null;
     }
 
     private static void Add(List<string> list, string value)

@@ -69,11 +69,16 @@ public sealed class CallerIdentityRecognizer(IdentityOptions options)
         return false;
     }
 
-    private static OwnerKind ClaimKind(string? claim)
+    /// <summary>Claim type → identity level, judged on the last URI segment only
+    /// (ClaimTypes.NameIdentifier is ".../xmlsoap.org/.../nameidentifier" — "org" in the host must not count).</summary>
+    public static OwnerKind ClaimKind(string? claim)
     {
         if (claim is null) return OwnerKind.User;
-        var c = claim.ToLowerInvariant();
-        return c.Contains("tenant") || c.Contains("org") || c.Contains("company") ? OwnerKind.Tenant : OwnerKind.User;
+        var name = claim[(claim.LastIndexOf('/') + 1)..].ToLowerInvariant();
+        return name.Contains("tenant") || name.StartsWith("org") || name.Contains("organisation") || name.Contains("organization")
+               || name.Contains("company") || name == "tid"
+            ? OwnerKind.Tenant
+            : OwnerKind.User;
     }
 
     private static string Text(IOperation op) => SourceRefs.Snippet(op.Syntax);
