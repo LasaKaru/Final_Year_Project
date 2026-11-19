@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ML.OnnxRuntimeGenAI" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BolaLens.Core\BolaLens.Core.csproj" />
+  </ItemGroup>
+</Project>

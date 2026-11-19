@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\BolaLens.Core\BolaLens.Core.csproj" />
+  </ItemGroup>
+</Project>

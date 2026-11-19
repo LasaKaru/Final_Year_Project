@@ -1,0 +1,18 @@
+[
+  { "tc": "TC01", "verb": "PUT",    "route": "api/orders/{id}/status",                    "entity": "Order",    "label": "Vulnerable", "expectedRule": "SYM-08" },
+  { "tc": "TC02", "verb": "PUT",    "route": "api/orders/{id}",                           "entity": "Order",    "label": "Protected",  "expectedRule": "SYM-03" },
+  { "tc": "TC03", "verb": "DELETE", "route": "api/orders/{id}",                           "entity": "Order",    "label": "Vulnerable", "expectedRule": "SYM-08" },
+  { "tc": "TC04", "verb": "POST",   "route": "api/orders/{id}/copy-status-to/{targetid}", "entity": "Order",    "label": "Vulnerable", "expectedRule": "SYM-08" },
+  { "tc": "TC05", "verb": "PUT",    "route": "api/orders/{id}/total",                     "entity": "Order",    "label": "Vulnerable", "expectedRule": "SYM-08" },
+  { "tc": "TC06", "verb": "PUT",    "route": "api/projects/{id}",                         "entity": "Project",  "label": "Protected",  "expectedRule": "SYM-04" },
+  { "tc": "TC07", "verb": "DELETE", "route": "api/projects/{id}",                         "entity": "Project",  "label": "Vulnerable", "expectedRule": "SYM-06" },
+  { "tc": "TC08", "verb": "PUT",    "route": "api/orders/{id}/status-detached",           "entity": "Order",    "label": "Vulnerable", "expectedRule": "SYM-07" },
+  { "tc": "TC09", "verb": "PUT",    "route": "api/documents/{id}",                        "entity": "Document", "label": "Protected",  "expectedRule": "SYM-05" },
+  { "tc": "TC10", "verb": "POST",   "route": "api/orders/{id}/process",                   "entity": "Order",    "label": "Unknown",    "expectedRule": "SYM-02" },
+  { "tc": "TC11", "verb": "PUT",    "route": "api/notes/{id}",                            "entity": "Note",     "label": "Vulnerable", "expectedRule": "SYM-08" },
+  { "tc": "TC12", "verb": "POST",   "route": "api/orders/{id}/archive",                   "entity": "Order",    "label": "Protected",  "expectedRule": "SYM-03" },
+  { "tc": "TC13", "verb": "DELETE", "route": "api/invoices/{id}",                         "entity": "Invoice",  "label": "Vulnerable", "expectedRule": "SYM-08" },
+  { "tc": "TC14", "verb": "PUT",    "route": "api/invoices/{id}/amount",                  "entity": "Invoice",  "label": "Protected",  "expectedRule": "SYM-03" },
+  { "tc": "TC15", "verb": "DELETE", "route": "api/orders/{id}/hard",                      "entity": "Order",    "label": "Vulnerable", "expectedRule": "SYM-07" },
+  { "tc": "TC16", "verb": "PUT",    "route": "api/orders/{id}/adjust-total",              "entity": "Order",    "label": "Protected",  "expectedRule": "SYM-03" }
+]

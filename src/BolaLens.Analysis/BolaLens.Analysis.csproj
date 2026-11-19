@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" />
+    <PackageReference Include="Microsoft.Build.Locator" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BolaLens.Core\BolaLens.Core.csproj" />
+  </ItemGroup>
+</Project>

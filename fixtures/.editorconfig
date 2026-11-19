@@ -1,0 +1,6 @@
+root = true
+
+# Fixtures look like ordinary third-party code: no BolaLens style rules.
+[*.cs]
+indent_style = space
+indent_size = 4

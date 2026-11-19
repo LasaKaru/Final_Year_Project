@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Shouldly" />
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <Using Include="Shouldly" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BolaLens.Core\BolaLens.Core.csproj" />
+    <ProjectReference Include="..\..\src\BolaLens.Analysis\BolaLens.Analysis.csproj" />
+    <ProjectReference Include="..\..\src\BolaLens.Slicing\BolaLens.Slicing.csproj" />
+    <ProjectReference Include="..\..\src\BolaLens.Inference\BolaLens.Inference.csproj" />
+    <ProjectReference Include="..\..\src\BolaLens.Reporting\BolaLens.Reporting.csproj" />
+    <ProjectReference Include="..\..\src\BolaLens.Eval\BolaLens.Eval.csproj" />
+    <ProjectReference Include="..\..\src\BolaLens.Cli\BolaLens.Cli.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <EmbeddedResource Include="Prompting\prompt-v1.txt" LogicalName="BolaLens.Slicing.prompt-v1.txt" />
+    <EmbeddedResource Include="Prompting\FewShot\*.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BolaLens.Core\BolaLens.Core.csproj" />
+  </ItemGroup>
+</Project>
