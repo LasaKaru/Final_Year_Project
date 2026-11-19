@@ -61,7 +61,7 @@ public sealed class AnalysisOptions
 
     /// <summary>Callee types not followed by the walker (infrastructure such as logging), as regexes on the type name.</summary>
     public IReadOnlyList<string> SkipCalleeTypes { get; init; } = ["Logger$", "LogManager$", "Telemetry"];
-    public IReadOnlyList<string> IdParameterPatterns { get; init; } = ["^id$", "Id$", "Key$"];
+    public IReadOnlyList<string> IdParameterPatterns { get; init; } = ["^id$", "Id$", "Key$", "Ids$"];
     public IReadOnlyList<string> ParseLikeMethods { get; init; } = ["Parse", "TryParse", "ToInt32", "ToInt64", "ToString", "ToGuid"];
 }
 
@@ -75,7 +75,7 @@ public sealed class IdentityOptions
             .Select(t => new CurrentUserType
             {
                 Type = t,
-                UserMembers = ["UserId", "Id", "PersonId", "Username", "UserName", "GetUserId", "GetCurrentUserId", "GetCurrentPersonId", "GetCurrentUsername", "GetCurrentUserName"],
+                UserMembers = ["UserId", "Id", "PersonId", "Username", "UserName", "GetUserId", "GetCurrentUserId", "GetCurrentPersonId", "GetCurrentUsername", "GetCurrentUserName", "GetUserIdOrThrow", "GetRequiredUserId"],
                 TenantMembers = ["TenantId", "OrganizationId", "OrganisationId", "GetTenantId", "GetCurrentTenantId"],
             }),
     ];

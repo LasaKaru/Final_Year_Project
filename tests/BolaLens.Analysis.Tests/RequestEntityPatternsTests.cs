@@ -227,4 +227,117 @@ public class RequestEntityPatternsTests
         """));
         rethrown.VerdictOf("PUT api/notice/{id}").Status.ShouldBe(VerdictStatus.Protected);
     }
+
+    [Fact]
+    public async Task Base_controller_property_returning_the_caller_identity_is_trusted()
+    {
+        // Kavita: protected int UserId => UserContext.GetUserIdOrThrow(); on BaseApiController
+        var r = await CompilationFactory.AnalyseAsync(Domain, """
+            namespace Q;
+            public interface IUserContext { int GetUserIdOrThrow(); }
+            [ApiController, Route("api/[controller]"), Authorize]
+            public class BaseApiController : ControllerBase
+            {
+                protected IUserContext UserContext => HttpContext.RequestServices.GetRequiredService<IUserContext>();
+                protected int UserId => UserContext.GetUserIdOrThrow();
+            }
+            public class NoticeController(NoticeRepo repo) : BaseApiController
+            {
+                [HttpDelete]
+                public IActionResult Delete(int noticeId)
+                {
+                    var n = repo.Get(noticeId, true);
+                    if (n == null) return Ok();
+                    if (n.FromUserId != UserId) return NotFound();
+                    repo.Delete(noticeId);
+                    return Ok();
+                }
+            }
+            """);
+        var v = r.VerdictOf("DELETE api/Notice");
+        v.Status.ShouldBe(VerdictStatus.Protected);
+    }
+
+    private const string StreamDomain = """
+        namespace S;
+        public class Stream { public int Id { get; set; } public int AppUserId { get; set; } public bool Visible { get; set; } }
+        public class Tag { public int Id { get; set; } public int AppUserId { get; set; } public string Title { get; set; } = ""; }
+        public class Ctx(DbContextOptions<Ctx> o) : DbContext(o) { public DbSet<Stream> Streams => Set<Stream>(); public DbSet<Tag> Tags => Set<Tag>(); }
+        public record TagDto(int Id, string Title);
+        public record UpdateTagDto(TagDto Tag, string NewTitle);
+        public record BulkDto(List<int> Ids, bool Visible);
+        public interface ICurrentUser { int UserId { get; } }
+        """;
+
+    private static string StreamController(string body) => $$"""
+        namespace S;
+        [ApiController, Route("api/stream"), Authorize]
+        public class StreamController(Ctx db, ICurrentUser me) : ControllerBase
+        {
+        {{body}}
+        }
+        """;
+
+    [Fact]
+    public async Task Ids_nested_in_a_body_dto_select_the_object()
+    {
+        var r = await CompilationFactory.AnalyseAsync(StreamDomain, StreamController("""
+            [HttpPost("update-tag")]
+            public async Task<IActionResult> UpdateTag(UpdateTagDto dto)
+            {
+                var tag = await db.Tags.FirstAsync(t => t.Id == dto.Tag.Id);
+                tag.Title = dto.NewTitle;
+                await db.SaveChangesAsync();
+                return Ok();
+            }
+            """));
+        r.VerdictOf("POST api/stream/update-tag").Status.ShouldBe(VerdictStatus.Vulnerable);
+    }
+
+    [Fact]
+    public async Task Bulk_update_selected_by_a_client_id_list_without_owner_predicate_is_vulnerable()
+    {
+        var r = await CompilationFactory.AnalyseAsync(StreamDomain, StreamController("""
+            [HttpPost("bulk")]
+            public async Task<IActionResult> Bulk(BulkDto dto)
+            {
+                var streams = await db.Streams.Where(s => dto.Ids.Contains(s.Id)).ToListAsync();
+                foreach (var s in streams) s.Visible = dto.Visible;
+                await db.SaveChangesAsync();
+                return Ok();
+            }
+            [HttpPost("bulk-own")]
+            public async Task<IActionResult> BulkOwn(BulkDto dto)
+            {
+                var streams = await db.Streams.Where(s => dto.Ids.Contains(s.Id) && s.AppUserId == me.UserId).ToListAsync();
+                foreach (var s in streams) s.Visible = dto.Visible;
+                await db.SaveChangesAsync();
+                return Ok();
+            }
+            """));
+        r.VerdictOf("POST api/stream/bulk").Status.ShouldBe(VerdictStatus.Vulnerable);
+        r.VerdictOf("POST api/stream/bulk-own").Status.ShouldBe(VerdictStatus.Protected);
+    }
+
+    [Theory]
+    [InlineData("if (tag.AppUserId != me.UserId && !User.IsInRole(\"Admin\")) return Forbid();", VerdictStatus.Protected)]
+    [InlineData("if (!(tag.AppUserId == me.UserId || User.IsInRole(\"Admin\"))) return Forbid();", VerdictStatus.Protected)]
+    [InlineData("if (tag.AppUserId != me.UserId && User.IsInRole(\"Admin\")) return Forbid();", VerdictStatus.Vulnerable)]
+    [InlineData("if (tag.AppUserId != me.UserId && tag.Title != \"x\") return Forbid();", VerdictStatus.Vulnerable)]
+    public async Task Owner_check_with_an_admin_role_bypass(string check, VerdictStatus expected)
+    {
+        // Kavita 0.9.1 CollectionController: if (tag.AppUserId != UserId && !User.IsInRole(PolicyConstants.AdminRole)) return Forbid();
+        var r = await CompilationFactory.AnalyseAsync(StreamDomain, StreamController($$"""
+            [HttpPost("rename/{id}")]
+            public async Task<IActionResult> Rename(int id, string title)
+            {
+                var tag = await db.Tags.FirstAsync(t => t.Id == id);
+                {{check}}
+                tag.Title = title;
+                await db.SaveChangesAsync();
+                return Ok();
+            }
+            """));
+        r.VerdictOf("POST api/stream/rename/{id}").Status.ShouldBe(expected);
+    }
 }

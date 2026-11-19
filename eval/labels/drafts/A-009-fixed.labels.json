@@ -1,0 +1,10 @@
+[
+  {
+    "tc": "A-009/POST import-organization",
+    "verb": "POST",
+    "route": "ciphers/import-organization",
+    "entity": null,
+    "label": "Protected",
+    "expectedRule": null
+  }
+]

@@ -109,4 +109,24 @@ public class EndpointEnumeratorTests
     [InlineData("/api/x/{Id:guid?}", "api/x/{id}")]
     [InlineData("files/{**path}", "files/{path}")]
     public void Route_normalisation(string input, string expected) => Routes.Normalise(input).ShouldBe(expected);
+
+    [Fact]
+    public async Task Route_and_authorize_inherited_from_a_base_controller_apply()
+    {
+        // Kavita: [Route("api/[controller]")] [Authorize] on BaseApiController, actions on derived controllers
+        var r = await CompilationFactory.AnalyseAsync("""
+            namespace K;
+            [ApiController, Route("api/[controller]"), Authorize]
+            public class BaseApiController : ControllerBase { }
+            public class FilterController : BaseApiController
+            {
+                [HttpDelete] public IActionResult DeleteFilter(int filterId) => Ok();
+                [HttpPost("update")] public IActionResult Update(int id) => Ok();
+            }
+            """);
+        var del = r.Endpoints.Single(e => e.Action == "DeleteFilter");
+        del.RouteTemplate.ShouldBe("api/Filter");
+        del.Authorization.HasAuthorize.ShouldBeTrue();
+        r.Endpoints.Single(e => e.Action == "Update").RouteTemplate.ShouldBe("api/Filter/update");
+    }
 }

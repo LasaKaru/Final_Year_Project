@@ -85,6 +85,30 @@ public static class GuardDetector
         }
     }
 
+    /// <summary>Operands of a &amp;&amp;/|| tree with their negation parity relative to the tree's root.</summary>
+    public static IEnumerable<(IOperation Leaf, bool Negated)> Leaves(IOperation op, bool negated = false)
+    {
+        op = Unwrap(op);
+        switch (op)
+        {
+            case IUnaryOperation { OperatorKind: UnaryOperatorKind.Not } u:
+                foreach (var l in Leaves(u.Operand, !negated)) yield return l;
+                break;
+            case IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr } b:
+                foreach (var l in Leaves(b.LeftOperand, negated)) yield return l;
+                foreach (var l in Leaves(b.RightOperand, negated)) yield return l;
+                break;
+            default:
+                yield return (op, negated);
+                break;
+        }
+    }
+
+    /// <summary>User.IsInRole("…") / principal.IsInRole(…): a role test (vertical privilege), not an object check.</summary>
+    public static bool IsRoleCheck(IOperation leaf) =>
+        Unwrap(leaf) is IInvocationOperation { TargetMethod.Name: "IsInRole" } inv
+        && (inv.TargetMethod.ContainingType?.Name is "ClaimsPrincipal" or "IPrincipal" || inv.Instance?.Type?.Name == "ClaimsPrincipal");
+
     /// <summary>Number of operands of a &amp;&amp;/|| tree (negations and parentheses are looked through).</summary>
     public static int CountLeaves(IOperation op)
     {

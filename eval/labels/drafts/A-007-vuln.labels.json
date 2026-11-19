@@ -1,0 +1,10 @@
+[
+  {
+    "tc": "A-007/GET items",
+    "verb": "GET",
+    "route": "playlists/{playlistId}/items",
+    "entity": null,
+    "label": "Vulnerable",
+    "expectedRule": null
+  }
+]

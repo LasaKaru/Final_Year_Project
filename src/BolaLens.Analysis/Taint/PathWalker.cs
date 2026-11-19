@@ -282,7 +282,7 @@ public sealed class PathWalker
         foreach (var cmp in comparisons)
             foreach (var record in BuildGuards(cmp, c, f, facts))
                 records.Add((cmp, record));
-        var grouped = AcceptOwnerDisjunctions(records, facts);
+        var grouped = AcceptOwnerDisjunctions(c.Condition, records, facts);
         bool Alone(Comparison cmp) => !cmp.IsCombined || grouped.Contains(cmp);
         var regionGuards = records.Where(r => !r.Cmp.TrueOnMismatch && Alone(r.Cmp) && falseExit == ExitKind.None).Select(r => r.Record).ToList();
 
@@ -321,19 +321,27 @@ public sealed class PathWalker
     /// <summary>A disjunction whose every operand is a valid owner check on the same object (the caller is the sender
     /// OR the recipient) is one owner check: no operand lets a non-owner through. Conservative: an operand that is not
     /// such a check (a role test, a flag, a constant) keeps the whole group rejected.</summary>
-    private static HashSet<Comparison> AcceptOwnerDisjunctions(List<(Comparison Cmp, GuardRecord Record)> records, List<string> facts)
+    private static HashSet<Comparison> AcceptOwnerDisjunctions(IOperation condition, List<(Comparison Cmp, GuardRecord Record)> records, List<string> facts)
     {
         var accepted = new HashSet<Comparison>();
         foreach (var group in records.Where(r => r.Cmp.IsCombined && r.Cmp.CombinationGroup is not null).GroupBy(r => r.Cmp.CombinationGroup!))
         {
             var members = group.ToList();
             if (members.Select(m => m.Cmp).Distinct().Count() != members.Count) continue;         // one record per operand
-            if (members.Count != GuardDetector.CountLeaves(group.Key)) continue;                  // every operand is a check
+            // the other operands may only be role tests that let privileged users through (owner OR admin), with the
+            // polarity that grants: !IsInRole(…) in a deny-condition (mismatch && …), IsInRole(…) in an allow-condition
+            var denyGroup = members[0].Cmp.TrueOnMismatch;
+            var span = group.Key.Syntax.Span;
+            var roleLeaves = GuardDetector.Leaves(condition)                                       // parity from the condition root
+                .Count(l => span.Contains(l.Leaf.Syntax.Span) && GuardDetector.IsRoleCheck(l.Leaf) && l.Negated == denyGroup);
+            if (members.Count + roleLeaves != GuardDetector.CountLeaves(group.Key)) continue;     // every operand is a check
             var token = members[0].Record.Token;
             if (token is null || !members.All(m => IsPlainOwnerCheck(m.Record) && m.Record.Token is { } t && (ReferenceEquals(t, token) || t.SameObject(token))))
                 continue;
             foreach (var m in members) { m.Record.StructuralProblem = null; accepted.Add(m.Cmp); }
-            facts.Add($"{members.Count} owner checks on {token.VariableName ?? token.ShortName} joined by OR — each one binds the caller");
+            facts.Add(roleLeaves > 0
+                ? $"owner check on {token.VariableName ?? token.ShortName} with a role-based bypass for privileged users"
+                : $"{members.Count} owner checks on {token.VariableName ?? token.ShortName} joined by OR — each one binds the caller");
         }
         return accepted;
     }
@@ -434,6 +442,31 @@ public sealed class PathWalker
     }
 
     // ------------------------------------------------------------------ boolean helper guards
+
+    private readonly Dictionary<string, AbstractValue?> _getterSummaries = new(StringComparer.Ordinal);
+
+    /// <summary>A property declared in the analysed code whose getter returns the caller identity, e.g. a base controller's
+    /// <c>protected int UserId =&gt; UserContext.GetUserIdOrThrow();</c>. Evaluated once per property; only an identity is kept.</summary>
+    private AbstractValue? GetterIdentity(IPropertySymbol property)
+    {
+        if (property.GetMethod is not { } getter || !Symbols.IsSimple(property.Type)) return null;
+        var key = Symbols.Key(property);
+        if (_getterSummaries.TryGetValue(key, out var cached)) return cached;
+        _getterSummaries[key] = null; // recursion guard
+        var syntax = property.DeclaringSyntaxReferences.Select(r => r.GetSyntax(_ct)).OfType<Microsoft.CodeAnalysis.CSharp.Syntax.PropertyDeclarationSyntax>().FirstOrDefault();
+        var accessor = syntax?.AccessorList?.Accessors.FirstOrDefault(a => a.Keyword.Text == "get");
+        Microsoft.CodeAnalysis.SyntaxNode? body = syntax?.ExpressionBody?.Expression
+            ?? accessor?.ExpressionBody?.Expression
+            ?? accessor?.Body?.Statements.OfType<Microsoft.CodeAnalysis.CSharp.Syntax.ReturnStatementSyntax>().LastOrDefault()?.Expression;
+        if (body is null) return null;
+        if (_context.GetModel(body.SyntaxTree).GetOperation(body, _ct) is not { } op) return null;
+        var v = Peek(GuardDetector.Unwrap(op), new MethodFrame(getter, 0));
+        var result = v.Identity is { } kind
+            ? new AbstractValue { Identity = kind, IdentityExpression = property.Name }
+            : null;
+        _getterSummaries[key] = result;
+        return result;
+    }
 
     private readonly Dictionary<string, (int Ordinal, OwnerKind Kind, bool Permissive)?> _helperSummaries = new(StringComparer.Ordinal);
 
@@ -702,6 +735,7 @@ public sealed class PathWalker
     private AbstractValue PropertyValue(IPropertyReferenceOperation pr, AbstractValue inst, MethodFrame f)
     {
         if (_identity.FromProperty(pr, inst) is { } id) return id;
+        if (GetterIdentity(pr.Property) is { } gid) return gid;
 
         if (Symbols.DbSetElement(pr.Type) is { } element)
             return new AbstractValue { Query = new QueryValue(EntityName(element, f), false, false, null, null, null, null) };
@@ -738,7 +772,9 @@ public sealed class PathWalker
 
         var simpleInstance = pr.Instance?.Type is { } it && Symbols.IsSimple(it);
         var tags = inst.Tags?.Select(t => $"{t}.{name}").ToHashSet(StringComparer.Ordinal);
-        if (inst.Tainted && (simpleInstance || _context.IsIdLike(name)))
+        // an id-like member of a value derived from the tracked source (dto.Tag.Id) is a client-chosen id
+        var fromSource = inst.Tainted || (inst.ClientControlled && inst.Tags is { Count: > 0 });
+        if (fromSource && (simpleInstance && inst.Tainted || _context.IsIdLike(name)))
             result = result.Merge(new AbstractValue { Tainted = true, ClientControlled = true, Tags = tags });
         else if (inst.ClientControlled || inst.Tainted)
             result = result.Merge(new AbstractValue { ClientControlled = true, Tags = tags });
@@ -1199,6 +1235,16 @@ public sealed class PathWalker
             var lambda = arg.Value.DescendantsAndSelf().OfType<IAnonymousFunctionOperation>().FirstOrDefault();
             if (lambda is null || lambda.Symbol.Parameters.Length == 0) continue;
             var parameter = lambda.Symbol.Parameters[0];
+            // ids.Contains(x.Id): the client-supplied id list selects the rows (bulk operations)
+            foreach (var contains in LambdaExpression(lambda).DescendantsAndSelf().OfType<IInvocationOperation>().Where(i => i.TargetMethod.Name == "Contains"))
+            {
+                var listOp = contains.Instance ?? contains.Arguments.FirstOrDefault()?.Value;
+                var itemOp = contains.Instance is null ? contains.Arguments.ElementAtOrDefault(1)?.Value : contains.Arguments.FirstOrDefault()?.Value;
+                if (listOp is null || itemOp is null || RootedMember(GuardDetector.Unwrap(itemOp), parameter) is null) continue;
+                var lv = Peek(GuardDetector.Unwrap(listOp), f);
+                if (lv.Tainted) q = q with { KeyTainted = true };
+                if (lv.Tags is { Count: > 0 }) q = q with { SelectorTags = Union(q.SelectorTags, [lv.Tags]) };
+            }
             foreach (var cmp in GuardDetector.Collect(LambdaExpression(lambda)))
             {
                 if (cmp.IsResourceCheck || cmp.Right is null || cmp.TrueOnMismatch) continue;

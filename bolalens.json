@@ -6,7 +6,8 @@
     "idParameterPatterns": [
       "^id$",
       "Id$",
-      "Key$"
+      "Key$",
+      "Ids$"
     ],
     "parseLikeMethods": [
       "Parse",
@@ -60,7 +61,9 @@
           "GetCurrentUserId",
           "GetCurrentPersonId",
           "GetCurrentUsername",
-          "GetCurrentUserName"
+          "GetCurrentUserName",
+          "GetUserIdOrThrow",
+          "GetRequiredUserId"
         ],
         "tenantMembers": [
           "TenantId",
@@ -82,7 +85,9 @@
           "GetCurrentUserId",
           "GetCurrentPersonId",
           "GetCurrentUsername",
-          "GetCurrentUserName"
+          "GetCurrentUserName",
+          "GetUserIdOrThrow",
+          "GetRequiredUserId"
         ],
         "tenantMembers": [
           "TenantId",
@@ -104,7 +109,9 @@
           "GetCurrentUserId",
           "GetCurrentPersonId",
           "GetCurrentUsername",
-          "GetCurrentUserName"
+          "GetCurrentUserName",
+          "GetUserIdOrThrow",
+          "GetRequiredUserId"
         ],
         "tenantMembers": [
           "TenantId",
@@ -126,7 +133,9 @@
           "GetCurrentUserId",
           "GetCurrentPersonId",
           "GetCurrentUsername",
-          "GetCurrentUserName"
+          "GetCurrentUserName",
+          "GetUserIdOrThrow",
+          "GetRequiredUserId"
         ],
         "tenantMembers": [
           "TenantId",
@@ -148,7 +157,9 @@
           "GetCurrentUserId",
           "GetCurrentPersonId",
           "GetCurrentUsername",
-          "GetCurrentUserName"
+          "GetCurrentUserName",
+          "GetUserIdOrThrow",
+          "GetRequiredUserId"
         ],
         "tenantMembers": [
           "TenantId",
@@ -170,7 +181,9 @@
           "GetCurrentUserId",
           "GetCurrentPersonId",
           "GetCurrentUsername",
-          "GetCurrentUserName"
+          "GetCurrentUserName",
+          "GetUserIdOrThrow",
+          "GetRequiredUserId"
         ],
         "tenantMembers": [
           "TenantId",
@@ -192,7 +205,9 @@
           "GetCurrentUserId",
           "GetCurrentPersonId",
           "GetCurrentUsername",
-          "GetCurrentUserName"
+          "GetCurrentUserName",
+          "GetUserIdOrThrow",
+          "GetRequiredUserId"
         ],
         "tenantMembers": [
           "TenantId",

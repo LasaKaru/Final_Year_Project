@@ -1,0 +1,10 @@
+[
+  {
+    "tc": "A-008/POST create",
+    "verb": "POST",
+    "route": "ciphers/create",
+    "entity": null,
+    "label": "Vulnerable",
+    "expectedRule": null
+  }
+]

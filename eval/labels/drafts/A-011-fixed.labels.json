@@ -1,0 +1,10 @@
+[
+  {
+    "tc": "A-011/POST collect",
+    "verb": "POST",
+    "route": "collect",
+    "entity": null,
+    "label": "Protected",
+    "expectedRule": null
+  }
+]

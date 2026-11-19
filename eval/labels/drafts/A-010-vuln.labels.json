@@ -1,0 +1,18 @@
+[
+  {
+    "tc": "A-010/POST plan-change",
+    "verb": "POST",
+    "route": "billing/preview-invoice/organizations/{organizationId}/subscription/plan-change",
+    "entity": null,
+    "label": "Vulnerable",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-010/PUT update",
+    "verb": "PUT",
+    "route": "billing/preview-invoice/organizations/{organizationId}/subscription/update",
+    "entity": null,
+    "label": "Vulnerable",
+    "expectedRule": null
+  }
+]

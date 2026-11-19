@@ -1,0 +1,18 @@
+[
+  {
+    "tc": "A-012/POST existing",
+    "verb": "POST",
+    "route": "providers/{providerId}/clients/existing",
+    "entity": null,
+    "label": "Protected",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-012/POST add",
+    "verb": "POST",
+    "route": "providers/{providerId}/organizations/add",
+    "entity": null,
+    "label": "Protected",
+    "expectedRule": null
+  }
+]

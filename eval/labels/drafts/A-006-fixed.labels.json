@@ -1,0 +1,26 @@
+[
+  {
+    "tc": "A-006/GET items",
+    "verb": "GET",
+    "route": "api/readinglist/items",
+    "entity": null,
+    "label": "Protected",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-006/POST bookmarks",
+    "verb": "POST",
+    "route": "api/download/bookmarks",
+    "entity": null,
+    "label": "Protected",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-006/GET {annotationId}",
+    "verb": "GET",
+    "route": "api/annotation/{annotationId}",
+    "entity": null,
+    "label": "Protected",
+    "expectedRule": null
+  }
+]

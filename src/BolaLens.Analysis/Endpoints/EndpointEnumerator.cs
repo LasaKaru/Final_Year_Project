@@ -52,7 +52,8 @@ public sealed class EndpointEnumerator(AnalysisContext context)
     {
         var controllerName = controller.Name.EndsWith("Controller", StringComparison.Ordinal)
             ? controller.Name[..^"Controller".Length] : controller.Name;
-        var classRoutes = RouteTemplates(controller.GetAttributes()).DefaultIfEmpty(null).ToList();
+        // [Route] and [Authorize] are Inherited = true: a base controller's attributes apply to derived controllers
+        var classRoutes = RouteTemplates(InheritedAttributes(controller)).DefaultIfEmpty(null).ToList();
         var methodAttrs = method.GetAttributes();
         var methodRoute = RouteTemplates(methodAttrs).FirstOrDefault();
         var verbs = methodAttrs
@@ -93,10 +94,26 @@ public sealed class EndpointEnumerator(AnalysisContext context)
             return new ParameterInfo(p.Name, typeName, source, context.IsIdLike(p.Name));
         if (source == BindingSource.Body && !Symbols.IsSimple(p.Type))
         {
-            var ids = Symbols.AllProperties(p.Type).Where(pr => context.IsIdLike(pr.Name)).Select(pr => $"{p.Name}.{pr.Name}").ToList();
+            // ids directly on the DTO (dto.OrderId) and one level down (dto.Tag.Id), as sent by real clients
+            var ids = Symbols.AllProperties(p.Type).Where(pr => context.IsIdLike(pr.Name)).Select(pr => $"{p.Name}.{pr.Name}")
+                .Concat(Symbols.AllProperties(p.Type)
+                    .Where(pr => !Symbols.IsSimple(pr.Type) && pr.Type is INamedTypeSymbol { TypeKind: TypeKind.Class or TypeKind.Struct } nt
+                                 && !nt.AllInterfaces.Any(i => i.Name == "IEnumerable"))
+                    .SelectMany(pr => Symbols.AllProperties(pr.Type).Where(sub => context.IsIdLike(sub.Name)).Select(sub => $"{p.Name}.{pr.Name}.{sub.Name}")))
+                .ToList();
             return new ParameterInfo(p.Name, typeName, source, ids.Count > 0, ids.Count > 0 ? string.Join(",", ids) : null);
         }
         return new ParameterInfo(p.Name, typeName, source, source == BindingSource.Body && context.IsIdLike(p.Name));
+    }
+
+    /// <summary>Attributes of the controller and of its base classes in the analysed code (framework bases have none that matter).</summary>
+    private static IEnumerable<AttributeData> InheritedAttributes(INamedTypeSymbol controller)
+    {
+        for (var t = controller; t is not null && t.SpecialType != SpecialType.System_Object; t = t.BaseType)
+        {
+            if (!ReferenceEquals(t, controller) && !t.Locations.Any(l => l.IsInSource)) yield break;
+            foreach (var a in t.GetAttributes()) yield return a;
+        }
     }
 
     private static IEnumerable<string?> RouteTemplates(IEnumerable<AttributeData> attrs) =>
@@ -125,7 +142,7 @@ public sealed class EndpointEnumerator(AnalysisContext context)
             return (auth, anon, policies, roles);
         }
 
-        var c = Read(controller.GetAttributes());
+        var c = Read(InheritedAttributes(controller));
         var m = Read(method.GetAttributes());
         var allowAnonymous = m.anon || (c.anon && !m.auth);
         return new AuthorizeInfo(c.auth || m.auth, allowAnonymous, [.. c.policies, .. m.policies], [.. c.roles, .. m.roles]);

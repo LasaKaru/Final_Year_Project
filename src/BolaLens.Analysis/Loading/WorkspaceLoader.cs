@@ -1,3 +1,4 @@
+using Microsoft.CodeAnalysis.CSharp;
 using BolaLens.Core.Model;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
@@ -10,6 +11,21 @@ namespace BolaLens.Analysis.Loading;
 public sealed class WorkspaceLoader
 {
     /// <summary>C# project paths listed in a .slnx file (folders are nested elements; project paths are relative).</summary>
+    /// <summary>Projects targeting .NET 10+ may use C# 14 (extension blocks, the field keyword). The bundled Roslyn (4.14,
+    /// the last version whose MSBuild host runs on .NET 8) knows these only as preview features, so such projects are parsed
+    /// with LanguageVersion.Preview; otherwise whole files fail to parse and every call into them is unresolved.</summary>
+    public static Solution UpgradeLanguageVersion(Solution solution)
+    {
+        foreach (var project in solution.Projects)
+        {
+            if (project.ParseOptions is not CSharpParseOptions po) continue;
+            if (!po.PreprocessorSymbolNames.Contains("NET10_0_OR_GREATER")) continue;
+            if (po.LanguageVersion == LanguageVersion.Preview) continue;
+            solution = solution.WithProjectParseOptions(project.Id, po.WithLanguageVersion(LanguageVersion.Preview));
+        }
+        return solution;
+    }
+
     public static IReadOnlyList<string> SlnxProjects(string slnxPath)
     {
         var dir = Path.GetDirectoryName(slnxPath)!;
@@ -79,6 +95,7 @@ public sealed class WorkspaceLoader
                 solution = await workspace.OpenSolutionAsync(full, cancellationToken: ct).ConfigureAwait(false);
             }
 
+            solution = UpgradeLanguageVersion(solution);
             return new LoadedSolution
             {
                 Workspace = workspace,

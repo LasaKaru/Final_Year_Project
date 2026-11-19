@@ -2,60 +2,274 @@
   "comment": "Dataset cases (guide 07). Third-party code is never copied into this repo: scripts/run-case.sh clones each repo at the pinned SHA into $BOLALENS_DATASETS (default ../datasets). Draft labels live in eval/labels/drafts and must be verified by the project owner before the label freeze (21 Mar 2027).",
   "cases": [
     {
-      "caseId": "A-001", "dataset": "A", "family": "oqtane",
+      "caseId": "A-001",
+      "dataset": "A",
+      "family": "oqtane",
       "repo": "https://github.com/oqtane/oqtane.framework.git",
       "advisory": "none published — vendor commit 0192d6e4 'resolve security issue with Notification PUT method' (2026-07-31)",
       "flaw": "PUT checked the owner on the request-body notification (FromUserId/ToUserId sent by the client), not on the stored row",
-      "scope": "state-changing", "config": null, "solution": "Oqtane.slnx",
-      "variants": { "vuln": "24e7de71ade8336d5f2efe5252b0e0bad4c76b85", "fixed": "0192d6e4609cc4179abb0d6b1662e6300d3b6edc" },
-      "units": ["PUT api/Notification/{id}"]
+      "scope": "state-changing",
+      "config": null,
+      "solution": "Oqtane.slnx",
+      "variants": {
+        "vuln": "24e7de71ade8336d5f2efe5252b0e0bad4c76b85",
+        "fixed": "0192d6e4609cc4179abb0d6b1662e6300d3b6edc"
+      },
+      "units": [
+        "PUT api/Notification/{id}"
+      ]
     },
     {
-      "caseId": "A-002", "dataset": "A", "family": "oqtane",
+      "caseId": "A-002",
+      "dataset": "A",
+      "family": "oqtane",
       "repo": "https://github.com/oqtane/oqtane.framework.git",
       "advisory": "CVE-2024-55186 / GHSA-2hr5-cvwp-jr5w (fix: PR #4876, merge e83399ac)",
       "flaw": "IsAuthorized(int? userid) returned true for a null user id, so any user passed the owner check on system notifications (FromUserId = null)",
-      "scope": "state-changing + read", "config": "eval/datasets/configs/read-mode.json", "solution": "Oqtane.sln",
-      "variants": { "vuln": "f71a3a1ce3b899962a60d3c58f4b8a644f0d18e7", "fixed": "e83399acb19da9c29726a966e3898116e00d6f6a" },
-      "units": ["GET api/Notification/{id}", "PUT api/Notification/{id}", "DELETE api/Notification/{id}"]
+      "scope": "state-changing + read",
+      "config": "eval/datasets/configs/read-mode.json",
+      "solution": "Oqtane.sln",
+      "variants": {
+        "vuln": "f71a3a1ce3b899962a60d3c58f4b8a644f0d18e7",
+        "fixed": "e83399acb19da9c29726a966e3898116e00d6f6a"
+      },
+      "units": [
+        "GET api/Notification/{id}",
+        "PUT api/Notification/{id}",
+        "DELETE api/Notification/{id}"
+      ]
     },
     {
-      "caseId": "A-003", "dataset": "A", "family": "oqtane",
+      "caseId": "A-003",
+      "dataset": "A",
+      "family": "oqtane",
       "repo": "https://github.com/oqtane/oqtane.framework.git",
       "advisory": "CVE-2024-55471 / GHSA-hhcw-wwxv-g95c (fix: PR #4880, merge 497b2552)",
       "flaw": "GET user returned another user's private settings (field-level exposure inside an otherwise filtered object)",
-      "scope": "read (field-level)", "config": "eval/datasets/configs/read-mode.json", "solution": "Oqtane.sln",
-      "variants": { "vuln": "2441647d7579204ad9d0cbe2be3b29d2eb5a3a6a", "fixed": "497b255216d2e9004f22ee0625560efec7458cd8" },
-      "units": ["GET api/User/{id}"],
+      "scope": "read (field-level)",
+      "config": "eval/datasets/configs/read-mode.json",
+      "solution": "Oqtane.sln",
+      "variants": {
+        "vuln": "2441647d7579204ad9d0cbe2be3b29d2eb5a3a6a",
+        "fixed": "497b255216d2e9004f22ee0625560efec7458cd8"
+      },
+      "units": [
+        "GET api/User/{id}"
+      ],
       "expectedLimitation": "field-level exposure is out of the model (ADR-011) — an expected miss"
     },
     {
-      "caseId": "A-004", "dataset": "A", "family": "oqtane",
+      "caseId": "A-004",
+      "dataset": "A",
+      "family": "oqtane",
       "repo": "https://github.com/oqtane/oqtane.framework.git",
       "advisory": "CVE-2024-55470 / GHSA-995c-qww8-64fj (fix: PR #4878, merge cdd03bf3)",
       "flaw": "settings of entity 'User' were readable by any user (View permission returned true); only Edit compared the caller with entityId",
-      "scope": "read", "config": "eval/datasets/configs/read-mode.json", "solution": "Oqtane.sln",
-      "variants": { "vuln": "e83399acb19da9c29726a966e3898116e00d6f6a", "fixed": "cdd03bf3d4a5a4eb20e8b1f22f358eab02f5367a" },
-      "units": ["GET api/Setting", "GET api/Setting/{id}/{entityName}"]
+      "scope": "read",
+      "config": "eval/datasets/configs/read-mode.json",
+      "solution": "Oqtane.sln",
+      "variants": {
+        "vuln": "e83399acb19da9c29726a966e3898116e00d6f6a",
+        "fixed": "cdd03bf3d4a5a4eb20e8b1f22f358eab02f5367a"
+      },
+      "units": [
+        "GET api/Setting",
+        "GET api/Setting/{id}/{entityName}"
+      ]
     },
     {
-      "caseId": "B-001", "dataset": "B", "family": "conduit",
+      "caseId": "B-001",
+      "dataset": "B",
+      "family": "conduit",
       "repo": "https://github.com/gothinkster/aspnetcore-realworld-example-app.git",
-      "advisory": null, "scope": "state-changing", "config": null, "solution": "Conduit.slnx",
-      "variants": { "head": "6fe67a53892213d264dc8fa244e3aaaf55f50390" }
+      "advisory": null,
+      "scope": "state-changing",
+      "config": null,
+      "solution": "Conduit.slnx",
+      "variants": {
+        "head": "6fe67a53892213d264dc8fa244e3aaaf55f50390"
+      }
     },
     {
-      "caseId": "B-002", "dataset": "B", "family": "cleanarchitecture",
+      "caseId": "B-002",
+      "dataset": "B",
+      "family": "cleanarchitecture",
       "repo": "https://github.com/jasontaylordev/CleanArchitecture.git",
-      "advisory": null, "scope": "state-changing", "config": null, "solution": "CleanArchitecture.slnx",
-      "variants": { "head": "9e1042be109b6b73488695bcd6840c8ea78db5f0" }
+      "advisory": null,
+      "scope": "state-changing",
+      "config": null,
+      "solution": "CleanArchitecture.slnx",
+      "variants": {
+        "head": "9e1042be109b6b73488695bcd6840c8ea78db5f0"
+      }
     },
     {
-      "caseId": "B-003", "dataset": "B", "family": "oqtane",
+      "caseId": "B-003",
+      "dataset": "B",
+      "family": "oqtane",
       "repo": "https://github.com/oqtane/oqtane.framework.git",
-      "advisory": null, "scope": "state-changing", "config": "eval/datasets/configs/oqtane.json", "solution": "Oqtane.slnx",
-      "variants": { "v10.3.2": "f3ecec579117ad27d2c22014f1b834797923fa16" },
+      "advisory": null,
+      "scope": "state-changing",
+      "config": "eval/datasets/configs/oqtane.json",
+      "solution": "Oqtane.slnx",
+      "variants": {
+        "v10.3.2": "f3ecec579117ad27d2c22014f1b834797923fa16"
+      },
       "note": "release tag v10.3.2 (last net10 release; main moved to net11, which no installed SDK can build). Same family as A-001..A-004 — never put B-003 and an A-case of oqtane on different sides of the calibration split"
+    },
+    {
+      "caseId": "A-005",
+      "dataset": "A",
+      "family": "kavita",
+      "repo": "https://github.com/Kareadita/Kavita.git",
+      "advisory": "GHSA-fpjf-pxrq-4xv7, GHSA-8qw5-fgxm-ppjj, GHSA-jhw9-5hj3-mvp4 (Kavita, all CWE-639, fixed in 0.9.1)",
+      "flaw": "filters, collections and dashboard streams loaded by id and changed/deleted without comparing AppUserId with the caller",
+      "scope": "state-changing",
+      "config": null,
+      "solution": "Kavita.sln",
+      "variants": {
+        "vuln": "6bcd5689385d0e96824982d843c54f15ce784ddc",
+        "fixed": "289bc39b3e08f26cc14b8a8fd67b815ad9aaa15f"
+      },
+      "units": [
+        "DELETE api/filter",
+        "POST api/collection/update-series",
+        "POST api/stream/update-dashboard-stream",
+        "POST api/stream/update-sidenav-stream",
+        "POST api/stream/bulk-sidenav-stream-visibility"
+      ],
+      "note": "tags v0.9.0.2 → v0.9.1.0 (release diff, not a single commit). update-sidenav-stream still has no owner check at v0.9.1.0 (labelled Vulnerable in both)."
+    },
+    {
+      "caseId": "A-006",
+      "dataset": "A",
+      "family": "kavita",
+      "repo": "https://github.com/Kareadita/Kavita.git",
+      "advisory": "GHSA-6cpx-c6v4-4g79 (reading list items), GHSA-x67v-89v8-mf3v (bookmark download), GHSA-gjx7-m655-3grw (annotations)",
+      "flaw": "reading-list items / bookmarks / annotations returned by id without owner or library-access check",
+      "scope": "read",
+      "config": "eval/datasets/configs/read-mode.json",
+      "solution": "Kavita.sln",
+      "variants": {
+        "vuln": "6bcd5689385d0e96824982d843c54f15ce784ddc",
+        "fixed": "289bc39b3e08f26cc14b8a8fd67b815ad9aaa15f"
+      },
+      "units": [
+        "GET api/readinglist/items",
+        "POST api/download/bookmarks",
+        "GET api/annotation/{annotationId}"
+      ],
+      "expectedLimitation": "fixed reading-list endpoint uses a [ReadingListAccess] filter attribute; bookmark/annotation fixes are library-access checks"
+    },
+    {
+      "caseId": "A-007",
+      "dataset": "A",
+      "family": "jellyfin",
+      "repo": "https://github.com/jellyfin/jellyfin.git",
+      "advisory": "GHSA-9x85-gx46-6522 (IDOR in playlist management, fixed in 12.0; commit 911ac376 'Fix GHSA-9x85-gx46-6522')",
+      "flaw": "GET /Playlists/{playlistId}/Items used the client-supplied userId as the calling user (userId ?? User.GetUserId())",
+      "scope": "read",
+      "config": "eval/datasets/configs/read-mode.json",
+      "solution": "Jellyfin.sln",
+      "variants": {
+        "vuln": "971be1b658ad0e5e1f06fdc652f9c5e3fc067c9b",
+        "fixed": "911ac3769cdcce50a8f6e0b3c0739d509bd9a23f"
+      },
+      "units": [
+        "GET playlists/{playlistId}/items"
+      ]
+    },
+    {
+      "caseId": "A-008",
+      "dataset": "A",
+      "family": "bitwarden",
+      "repo": "https://github.com/bitwarden/server.git",
+      "advisory": "CVE-2026-119414 (CWE-863; fix 9030c42b 'Add collection permission checks to create cipher endpoint')",
+      "flaw": "org members could create ciphers in collections they cannot edit (only org membership was checked)",
+      "scope": "state-changing",
+      "config": null,
+      "solution": "bitwarden-server.slnx",
+      "variants": {
+        "vuln": "608746dcab8da5dc98da764c2a38853c611556ab",
+        "fixed": "9030c42bf7d8f9ac2ff9fee85c39588d5eb81499"
+      },
+      "units": [
+        "POST ciphers/create"
+      ]
+    },
+    {
+      "caseId": "A-009",
+      "dataset": "A",
+      "family": "bitwarden",
+      "repo": "https://github.com/bitwarden/server.git",
+      "advisory": "CVE-2026-43638 (CWE-862; fix ebbf6dd0 import validation)",
+      "flaw": "importing into an organization with no collections skipped the permission check",
+      "scope": "state-changing",
+      "config": null,
+      "solution": "bitwarden-server.slnx",
+      "variants": {
+        "vuln": "7c4fa752c77bb043689ca26991cf8411ca1ac773",
+        "fixed": "ebbf6dd0fa752114c09d73abb48ce32a50476758"
+      },
+      "units": [
+        "POST ciphers/import-organization"
+      ]
+    },
+    {
+      "caseId": "A-010",
+      "dataset": "A",
+      "family": "bitwarden",
+      "repo": "https://github.com/bitwarden/server.git",
+      "advisory": "CVE-2026-57521 (CWE-862; fix 0a3d9f9d 'Add authorization to PreviewInvoiceController org endpoints')",
+      "flaw": "any authenticated user could preview billing of an arbitrary organization by id",
+      "scope": "read",
+      "config": "eval/datasets/configs/read-mode.json",
+      "solution": "bitwarden-server.slnx",
+      "variants": {
+        "vuln": "9865fc3ad2d313a28751094d55d12358baee6d8a",
+        "fixed": "0a3d9f9deb7d407503207b0d0ca8f0165a890bee"
+      },
+      "units": [
+        "POST billing/preview-invoice/organizations/{organizationId}/subscription/plan-change",
+        "PUT billing/preview-invoice/organizations/{organizationId}/subscription/update"
+      ]
+    },
+    {
+      "caseId": "A-011",
+      "dataset": "A",
+      "family": "bitwarden",
+      "repo": "https://github.com/bitwarden/server.git",
+      "advisory": "CVE-2026-71959 (CWE-862; fix 2aa92a3c 'Require org membership before logging org audit events via /collect')",
+      "flaw": "events were written for any organization id in the request body without checking membership",
+      "scope": "state-changing",
+      "config": null,
+      "solution": "bitwarden-server.slnx",
+      "variants": {
+        "vuln": "264cda57e9798ac48ade4b9041541b0835cc8ac6",
+        "fixed": "2aa92a3c8675a28e305e8207ff16592227f96291"
+      },
+      "units": [
+        "POST collect"
+      ]
+    },
+    {
+      "caseId": "A-012",
+      "dataset": "A",
+      "family": "bitwarden",
+      "repo": "https://github.com/bitwarden/server.git",
+      "advisory": "CVE-2026-43639 (CWE-862; fix 0918bfdd 'Add checks and tests to provider controllers')",
+      "flaw": "a provider user could attach an arbitrary organization (id from the body) to their provider",
+      "scope": "state-changing",
+      "config": null,
+      "solution": "bitwarden-server.slnx",
+      "variants": {
+        "vuln": "1fac799e3daafbce101dd809d78c6c5fbe3e5690",
+        "fixed": "0918bfdda6f5eec391c69bd9074f6aef4eac0b1d"
+      },
+      "units": [
+        "POST providers/{providerId}/clients/existing",
+        "POST providers/{providerId}/organizations/add"
+      ]
     }
   ]
 }

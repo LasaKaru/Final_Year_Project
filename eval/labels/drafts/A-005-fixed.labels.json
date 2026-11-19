@@ -1,0 +1,34 @@
+[
+  {
+    "tc": "A-005/DELETE filter",
+    "verb": "DELETE",
+    "route": "api/filter",
+    "entity": null,
+    "label": "Protected",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-005/POST update-series",
+    "verb": "POST",
+    "route": "api/collection/update-series",
+    "entity": null,
+    "label": "Protected",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-005/POST update-dashboard-stream",
+    "verb": "POST",
+    "route": "api/stream/update-dashboard-stream",
+    "entity": null,
+    "label": "Protected",
+    "expectedRule": null
+  },
+  {
+    "tc": "A-005/POST update-sidenav-stream",
+    "verb": "POST",
+    "route": "api/stream/update-sidenav-stream",
+    "entity": null,
+    "label": "Vulnerable",
+    "expectedRule": null
+  }
+]
