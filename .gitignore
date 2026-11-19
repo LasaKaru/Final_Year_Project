@@ -497,3 +497,9 @@ eval/runs/**/raw/
 # local model build workspace
 .model-work/
 .bolalens/
+
+# The tiny demo model IS committed (86 MB, every file < 100 MB GitHub limit) so a fresh clone can run
+# hybrid mode offline. Larger models (Phi-3 ~2.7 GB) stay local: provision them with scripts/.
+!models/smollm2-135m-instruct-int4/
+!models/smollm2-135m-instruct-int4/**
+!models/smollm2-135m-instruct-int4.sha256

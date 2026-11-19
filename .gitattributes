@@ -1,0 +1,6 @@
+# Model files are binary: no diffs, no line-ending conversion.
+*.onnx       binary
+*.onnx.data  binary
+models/**/tokenizer.json  -diff
+# Shell scripts must keep LF endings (also when checked out on Windows).
+*.sh text eol=lf
