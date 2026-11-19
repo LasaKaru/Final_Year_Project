@@ -25,11 +25,16 @@
     filters to `ExecuteUpdate/Delete`); this is a refinement of guide 05 §11.
 
 ## Semantic stage (Stage 2)
-12. The hybrid arm has **not yet been run with a real model** (the dev container could not download Phi-3). The ONNX code path
-    compiles against ONNX Runtime GenAI 0.20 and is covered by tests with a scripted fake model only.
+12. The only model run so far is **SmolLM2-135M** (86 MB): it parses perfectly with schema guidance but answers "vulnerable"
+    for every slice, fails the calibration gate (2/4) and is advisory only. Detection-quality claims need Phi-3-mini or a
+    0.5–1.5B coder model (S8). The gate has only 4 probes — a coarse test.
 13. Model confidence is uncalibrated; τ = 0.80 is a placeholder until the calibration split exists (S8).
 14. `run.modelSha256` is a manifest hash (config + graph + external-data sizes); full file hashes live in `models/README.md`.
-15. The prompt is Phi-3 chat-formatted; other model families need a new prompt version.
+15. Prompt v1 is one template for all models (wrapped as Phi-3 or ChatML); very small models may need a shorter prompt.
+
+## Web UI
+18. Local single-user tool: binds to 127.0.0.1, no authentication — must not be exposed on a network. Scan jobs are kept
+    in memory (finished runs persist on disk); one scan runs at a time.
 
 ## Evaluation
 16. BolaLab is the **development set**: rules were written while looking at it, so 16/16 there is not evidence of generalisation.

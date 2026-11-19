@@ -1,0 +1,24 @@
+flowchart LR
+    subgraph Front ends
+        CLI[BolaLens.Cli<br/>bolalens commands]
+        WEB[BolaLens.Web<br/>localhost UI + API]
+    end
+    APP[BolaLens.App<br/>ScanService · calibration gate · RunStore]
+    subgraph Stage 1
+        AN[BolaLens.Analysis<br/>Roslyn: endpoints, policy, schema, DI,<br/>taint walker, guards, rules]
+    end
+    subgraph Stage 2
+        SL[BolaLens.Slicing<br/>IR slices, prompt v1, few-shot, probes]
+        INF[BolaLens.Inference<br/>ONNX Runtime GenAI, schema guidance,<br/>parser, fusion]
+    end
+    subgraph Stage 3
+        REP[BolaLens.Reporting<br/>JSON, console, HTML UI assets]
+        EV[BolaLens.Eval<br/>confusion matrix, metrics]
+    end
+    CORE[(BolaLens.Core<br/>records · config · JSON)]
+    MODEL[/local ONNX model<br/>models/…/]
+    CLI --> APP
+    WEB --> APP
+    APP --> AN & SL & INF & REP & EV
+    INF --> MODEL
+    AN & SL & INF & REP & EV --> CORE

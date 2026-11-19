@@ -29,7 +29,23 @@ dotnet run --project src/BolaLens.Cli -c Release -- eval --report report.json --
 dotnet test BolaLens.sln --filter "Category!=RequiresModel"
 ```
 
-Hybrid mode needs a local model: see [`models/README.md`](models/README.md), then `scan … --mode hybrid`.
+Hybrid mode needs a local model. The tiny one (86 MB, SmolLM2-135M int4) is built with `scripts/get-model-smollm2.sh`
+(network needed once); see [`models/README.md`](models/README.md). Then:
+
+```bash
+dotnet run --project src/BolaLens.Cli -c Release -- scan fixtures/BolaLab/BolaLab.sln --mode hybrid --model models/smollm2-135m-instruct-int4
+```
+
+### Web UI (local, responsive, offline)
+
+```bash
+dotnet run --project src/BolaLens.Web        # → http://127.0.0.1:5057
+```
+Start scans (symbolic or hybrid, model picker, calibration gate), browse runs, and inspect every finding: the traced path
+controller → service → repository, the checks found (with the reason each one was rejected), EF Core sinks, the label-free
+IR slice with the model's evidence lines highlighted, endpoints, policy map, ownership schema, DI map, per-phase timings —
+and evaluate a run against labels. Works on desktop and phones (light/dark). Any run can be downloaded as a single
+**offline HTML report** (also `bolalens html --report r.json --out report.html`). Screenshots: [`docs/ipd/screenshots`](docs/ipd/screenshots).
 
 ## Commands
 
@@ -42,8 +58,10 @@ Hybrid mode needs a local model: see [`models/README.md`](models/README.md), the
 | `di <path> [--out]` | DI registration map (service → implementations) |
 | `paths <path> [--endpoint "PUT api/orders/{id}"] [--out]` | Annotated execution paths + symbolic verdicts |
 | `slice <path> --endpoint … [--prompt]` | The label-free IR slice (and the full prompt) |
-| `scan <path> --mode symbolic\|hybrid [--config] [--out] [--model]` | Full pipeline → `report.json` + console summary |
-| `eval --report r.json --labels l.json [--out metrics.md]` | Metrics; a hybrid report gives both arms (ablation) |
+| `scan <path> --mode symbolic\|hybrid [--config] [--out] [--model] [--save dir] [--no-gate]` | Full pipeline → `report.json` + console summary |
+| `eval --report r.json --labels l.json [--compare r2.json …] [--out metrics.md]` | Metrics; a hybrid report gives both arms (ablation) |
+| `models [--dir models]` | List local ONNX models (size, family, chat format) |
+| `html --report r.json [--context c.json] --out report.html` | Self-contained offline HTML report |
 
 Exit codes: `0` no Vulnerable findings · `1` Vulnerable findings present (CI gating; `--no-fail` disables) · `2` load/usage error.
 All heuristics (identity sources, owner-name patterns, depth, model settings) are in [`bolalens.json`](bolalens.json) (`--config`).
@@ -62,23 +80,33 @@ All heuristics (identity sources, owner-name patterns, depth, model settings) ar
 | 8 | SYM-09 | changed entity has no owner candidate | Unknown |
 | 9 | SYM-08 | owned entity selected by client id is changed with no valid guard or filter | Vulnerable |
 
-## Preliminary result (development set — not a research result)
+## Preliminary results (development set — not a research result)
 
 `fixtures/BolaLab` is a deliberately vulnerable API with 16 labelled cases (TC01–TC16, labels only in
-[`expected.json`](fixtures/BolaLab/expected.json)). Symbolic-only, 2026-11-19
-([run](eval/runs/2026-11-19-symbolic-bolalab/metrics.md)): **16/16 units correct with the expected rule IDs**
-(TP 9, FP 0, FN 0, TN 6, TC10 correctly Unknown), 4.2 s, 209 MB peak. Because the rules were developed on BolaLab these numbers
-show correctness on the fixtures only; generalisation is measured on datasets A/B/C. The hybrid arm has not yet been run
-with a real model.
+[`expected.json`](fixtures/BolaLab/expected.json)). Runs of 2026-11-19 ([table](eval/runs/2026-11-19-hybrid-bolalab-smollm2-nogate/metrics-compare.md)):
+
+| Arm | TP | FP | FN | TN | Precision | Recall | FPR | Time | Peak RAM |
+|---|---|---|---|---|---|---|---|---|---|
+| Symbolic (Roslyn only) | 9 | 0 | 0 | 6 | 1.000 | 1.000 | 0.000 | 4.2 s | 209 MB |
+| Hybrid, SmolLM2-135M int4, calibration gate (failed 2/4 → advisory) | 9 | 0 | 0 | 6 | 1.000 | 1.000 | 0.000 | 82 s | ~1 GB |
+| Hybrid, SmolLM2-135M int4, **no gate** | 9 | 1 | 0 | 5 | 0.900 | 1.000 | 0.167 | 62 s | ~1 GB |
+
+TC10 (ambiguous DI dispatch) is correctly **Unknown** in the symbolic arm. The 135M model answers "vulnerable" for every
+slice; without the calibration gate (ADR-009) it overrides TC09's delegated authorization (a new false positive) — with the
+gate, a weak model can never make the result worse. Two runs gave byte-identical model outputs (greedy decoding), and a
+hybrid scan ran to completion with **no network interfaces** (`unshare -n`). Because the rules were developed on BolaLab,
+these numbers show correctness on the fixtures only; generalisation is measured on datasets A/B/C with a capable model.
 
 ## Architecture
 
 Pipeline (pipes-and-filters) inside a layered solution. `Core` has no Roslyn types; only `Cli` wires things together;
-`Inference` never sees Roslyn (it gets an `IrSlice`). Swapping `OnnxSemanticValidator` for `NullSemanticValidator` is the ablation.
+`Inference` never sees Roslyn (it gets an `IrSlice`). Only `Cli` and `Web` are composition roots. Swapping `OnnxSemanticValidator` for `NullSemanticValidator` is the ablation.
 
 ```mermaid
 flowchart LR
-    Cli --> Analysis & Slicing & Inference & Reporting & Eval
+    Cli --> App
+    Web --> App
+    App --> Analysis & Slicing & Inference & Reporting & Eval
     Analysis --> Core
     Slicing --> Core
     Inference --> Core
@@ -94,13 +122,16 @@ flowchart LR
 | `src/BolaLens.Inference` | Stage 2b: ONNX Runtime GenAI generator/validator, response parser, fusion policy |
 | `src/BolaLens.Reporting` | Stage 3: JSON report, console summary, finding IDs, coverage manifest |
 | `src/BolaLens.Eval` | Labels, unit matching, confusion matrix, metrics, Markdown tables |
-| `src/BolaLens.Cli` | `bolalens` commands and the scan service (composition root) |
+| `src/BolaLens.App` | Application services shared by both front ends: `ScanService` (+ calibration gate), `RunStore` |
+| `src/BolaLens.Cli` | `bolalens` commands (composition root) |
+| `src/BolaLens.Web` | Local responsive web UI `bolalens-ui` (minimal API + vanilla JS, localhost only) |
 | `tests/*` | Unit tests on in-memory compilations, BolaLab golden/integration tests, inference/eval tests |
-| `fixtures/BolaLab`, `fixtures/Calibration` | Test API (own solution, never deployed) and few-shot calibration code |
+| `fixtures/BolaLab`, `fixtures/Calibration` | Test API (own solution, never deployed); calibration code for few-shot examples and gate probes |
+| `scripts/` | Reproducible model provisioning (`get-model-smollm2.sh/.ps1`) |
 | `eval/` | Dataset registry/search log, frozen labels, splits, recorded runs |
 | `docs/` | ADRs, requirements status, diagrams, known limitations, reproducibility, logs |
 
-More: [ADRs](docs/adr) · [requirements status](docs/requirements.md) · [known limitations](docs/known-limitations.md) ·
+More: [CLAUDE.md](CLAUDE.md) (project memory, status, next steps) · [plan pack](docs/plan) · [IPD brief](docs/ipd/ipd-brief.md) · [ADRs](docs/adr) · [requirements status](docs/requirements.md) · [known limitations](docs/known-limitations.md) ·
 [reproducibility](docs/reproducibility.md) · [diagrams](docs/diagrams) · [AI-use log](docs/ai-log.md).
 
 ## Safety

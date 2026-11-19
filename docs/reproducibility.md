@@ -17,8 +17,10 @@
 | Microsoft.EntityFrameworkCore(.Relational) (tests) | 8.0.34 |
 | BolaLab: Microsoft.EntityFrameworkCore.Sqlite, Microsoft.AspNetCore.Authentication.JwtBearer | 8.0.34 |
 
-* Model: phi3-mini-4k-instruct cpu-int4-rtn-block-32-acc-level-4 · source URL · licence · SHA-256 of each file → `models/README.md`
-* Prompt: `v1` — the report records `promptVersion` = `v1 (<sha-256 prefix of template + few-shot examples>)`
+* Models: SmolLM2-135M-Instruct int4 (built reproducibly by `scripts/get-model-smollm2.sh`; per-file SHA-256 in `models/README.md`);
+  Phi-3-mini-4k-instruct cpu-int4 (pending) · each report stores `run.modelId` and a manifest hash
+* Python tooling for model conversion only: onnxruntime-genai 0.20.0, torch 2.15.0+cpu, transformers 5.23.0, onnxruntime 1.32.0
+* Prompt: `v1` — the report records `promptVersion` = `v1/<chat format> (<sha-256 prefix of format + template + few-shot examples>)`; JSON-schema guidance on; calibration gate result in `run.modelGate`
 * Config: every report records `run.configHash` (SHA-256 prefix of the effective configuration)
 
 ## How to reproduce a run
