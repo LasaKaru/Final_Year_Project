@@ -113,14 +113,34 @@ public static class GuardDetector
     }
 
     /// <summary>Does this branch leave the method (return / throw) at its top level?</summary>
+    /// <summary>A throw inside a try block whose catch clause catches the exception and does not rethrow does not leave the
+    /// method: execution continues after the try statement (e.g. try { if (o.UserId != uid) throw …; } catch { }).</summary>
+    public static bool Swallowed(IThrowOperation thrown)
+    {
+        var type = thrown.Exception is { } ex ? GuardDetectorTypes.ThrownType(ex) : null;
+        for (IOperation? child = thrown, parent = thrown.Parent; parent is not null; child = parent, parent = parent.Parent)
+        {
+            if (parent is IAnonymousFunctionOperation or ILocalFunctionOperation or IMethodBodyOperation) return false;
+            if (parent is not ITryOperation tryOp || !ReferenceEquals(child, tryOp.Body)) continue;
+            foreach (var c in tryOp.Catches)
+            {
+                var catches = type is null || c.ExceptionType.SpecialType == SpecialType.System_Object || GuardDetectorTypes.DerivesFrom(type, c.ExceptionType);
+                var rethrows = c.Handler.Descendants().Any(o => o is IThrowOperation);
+                if (catches && !rethrows && c.Filter is null) return true;
+                if (catches) return false; // the first matching clause handles it
+            }
+        }
+        return false;
+    }
+
     public static ExitKind Exit(IOperation? branch)
     {
         switch (branch)
         {
             case null: return ExitKind.None;
             case IReturnOperation: return ExitKind.Return;
-            case IThrowOperation: return ExitKind.Throw;
-            case IExpressionStatementOperation { Operation: IThrowOperation }: return ExitKind.Throw;
+            case IThrowOperation t: return Swallowed(t) ? ExitKind.None : ExitKind.Throw;
+            case IExpressionStatementOperation { Operation: IThrowOperation t }: return Swallowed(t) ? ExitKind.None : ExitKind.Throw;
             case IBlockOperation block:
                 foreach (var s in block.Operations)
                 {
@@ -130,5 +150,18 @@ public static class GuardDetector
                 return ExitKind.None;
             default: return ExitKind.None;
         }
+    }
+}
+
+internal static class GuardDetectorTypes
+{
+    public static ITypeSymbol? ThrownType(IOperation exception) =>
+        (exception is IConversionOperation c ? c.Operand : exception).Type;
+
+    public static bool DerivesFrom(ITypeSymbol type, ITypeSymbol baseType)
+    {
+        for (var t = type; t is not null; t = t.BaseType)
+            if (SymbolEqualityComparer.Default.Equals(t, baseType)) return true;
+        return false;
     }
 }

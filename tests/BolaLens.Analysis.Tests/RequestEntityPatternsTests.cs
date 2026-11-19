@@ -198,4 +198,33 @@ public class RequestEntityPatternsTests
         v.Status.ShouldBe(VerdictStatus.OutOfScope);
         v.RuleIds.ShouldBe(["SYM-10"]);
     }
+
+    [Fact]
+    public async Task Owner_check_whose_exception_is_swallowed_by_a_catch_does_not_protect()
+    {
+        var swallowed = await CompilationFactory.AnalyseAsync(Domain, Controller("""
+                var existing = repo.Get(id);
+                try
+                {
+                    if (!IsAuthorized(existing!.FromUserId)) throw new UnauthorizedAccessException();
+                }
+                catch (Exception) { logger.Log("denied", id); }
+                existing!.Body = notice.Body;
+                return repo.Update(existing);
+        """));
+        var v = swallowed.VerdictOf("PUT api/notice/{id}");
+        v.Status.ShouldBe(VerdictStatus.Vulnerable);
+
+        var rethrown = await CompilationFactory.AnalyseAsync(Domain, Controller("""
+                var existing = repo.Get(id);
+                try
+                {
+                    if (!IsAuthorized(existing!.FromUserId)) throw new UnauthorizedAccessException();
+                }
+                catch (InvalidOperationException) { logger.Log("other", id); }
+                existing!.Body = notice.Body;
+                return repo.Update(existing);
+        """));
+        rethrown.VerdictOf("PUT api/notice/{id}").Status.ShouldBe(VerdictStatus.Protected);
+    }
 }
