@@ -1,0 +1,31 @@
+sequenceDiagram
+    actor Dev as Developer / CI
+    participant CLI as bolalens scan
+    participant L as WorkspaceLoader
+    participant S as SymbolicPipeline
+    participant W as PathWalker
+    participant C as SymbolicClassifier
+    participant IR as IrSliceGenerator
+    participant V as ISemanticValidator
+    participant F as FusionPolicy
+    participant R as JsonReportWriter
+    Dev->>CLI: scan BolaLab.sln --mode hybrid
+    CLI->>L: LoadAsync(path)
+    L-->>CLI: Solution + load diagnostics
+    CLI->>S: RunAsync(solution)
+    S->>S: endpoints, policy map, ownership schema, DI map
+    loop each endpoint × id parameter
+        S->>W: Walk(endpoint, source)
+        W-->>S: steps, sinks, guard candidates, unresolved
+        S->>C: Classify(path)
+        C-->>S: SymbolicVerdict + rule IDs
+    end
+    loop each candidate (Vulnerable / Unknown / SYM-05)
+        CLI->>IR: Generate(path)
+        IR-->>CLI: label-free slice
+        CLI->>V: ValidateAsync(slice, prompt)
+        V-->>CLI: SemanticVerdict (parsed, grounded)
+        CLI->>F: Fuse(symbolic, semantic)
+    end
+    CLI->>R: report.json
+    CLI-->>Dev: console summary + exit code (1 if Vulnerable)

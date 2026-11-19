@@ -1,0 +1,30 @@
+{
+  "analysis": {
+    "maxCallDepth": 5,
+    "includeReadOnlyPaths": false,
+    "idParameterPatterns": ["^id$", "Id$", "Key$"],
+    "parseLikeMethods": ["Parse", "TryParse", "ToInt32", "ToInt64", "ToString", "ToGuid"]
+  },
+  "identity": {
+    "claimsPrincipalMembers": ["User", "HttpContext.User"],
+    "claimAccessMethods": ["FindFirst", "FindFirstValue", "HasClaim"],
+    "currentUserTypes": [
+      { "type": "*.ICurrentUser", "userMembers": ["UserId"], "tenantMembers": ["TenantId"] }
+    ],
+    "extensionMethods": ["GetUserId", "GetTenantId"]
+  },
+  "ownership": {
+    "userOwnerPatterns": ["^UserId$", "^OwnerId$", "^OwnerUserId$", "^CreatedBy(Id)?$", "^AuthorId$", "^CustomerId$"],
+    "tenantOwnerPatterns": ["^TenantId$", "^OrganisationId$", "^OrganizationId$", "^CompanyId$"],
+    "userTypeNames": ["User", "ApplicationUser", "AppUser", "IdentityUser"]
+  },
+  "inference": {
+    "modelPath": "models/phi3-mini-4k/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
+    "modelId": "phi3-mini-4k-instruct-cpu-int4",
+    "maxLength": 3072,
+    "suppressThreshold": 0.80,
+    "retryOnParseFailure": 1,
+    "maxSliceTokens": 700,
+    "promptVersion": "v1"
+  }
+}

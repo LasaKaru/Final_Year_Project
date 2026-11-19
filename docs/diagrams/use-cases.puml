@@ -1,0 +1,44 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor "Developer" as Dev
+actor "Security Reviewer" as Rev
+actor "CI Pipeline" as CI <<system>>
+actor "Researcher" as Res
+
+rectangle "BolaLens" {
+  usecase "UC01 Scan solution" as UC01
+  usecase "UC02 Configure analysis\n(bolalens.json)" as UC02
+  usecase "UC03 Extract context\n(endpoints, policy, schema)" as UC03
+  usecase "UC04 Trace ID-to-sink paths" as UC04
+  usecase "UC05 Classify paths\n(symbolic rules)" as UC05
+  usecase "UC06 Validate with local SLM" as UC06
+  usecase "UC07 View findings report" as UC07
+  usecase "UC08 Inspect path evidence\n(slice, guards, spans)" as UC08
+  usecase "UC09 Export SARIF" as UC09
+  usecase "UC10 Gate pull request\n(exit code)" as UC10
+  usecase "UC11 Run evaluation\n(labels -> metrics)" as UC11
+  usecase "UC12 Provision & pin local model" as UC12
+}
+
+Dev --> UC01
+Dev --> UC02
+Dev --> UC07
+Rev --> UC07
+Rev --> UC08
+CI  --> UC01
+CI  --> UC10
+CI  --> UC09
+Res --> UC11
+Res --> UC12
+Res --> UC01
+
+UC01 ..> UC03 : <<include>>
+UC01 ..> UC04 : <<include>>
+UC01 ..> UC05 : <<include>>
+UC06 ..> UC01 : <<extend>>\n[mode = hybrid]
+UC09 ..> UC07 : <<extend>>
+UC10 ..> UC01 : <<include>>
+UC11 ..> UC01 : <<include>>
+UC06 ..> UC12 : <<include>>
+@enduml

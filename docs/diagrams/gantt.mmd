@@ -1,0 +1,43 @@
+gantt
+    title BolaLens - Updated Project Schedule (as of 18 Nov 2026)
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d %b
+
+    section Done before IPD plan
+    Proposal, literature (94 papers), gap analysis :done, pp1, 2026-09-01, 2026-10-31
+    PP presentation                                :done, pp2, 2026-11-01, 2026-11-17
+
+    section M1 Foundation
+    S0 Setup, repo, CI, loader, BolaLab TC01-04     :active, s0, 2026-11-18, 2026-11-29
+    Ethics Part A completed + signed               :e1, 2026-11-18, 2026-11-27
+
+    section M2 Symbolic engine
+    S1 Endpoints, Policy Mapper, Schema Mapper     :s1, 2026-11-30, 2026-12-13
+    S2 DI resolver, taint walker, sinks, guards    :s2, 2026-12-14, 2026-12-27
+    S3 Verdict rules, JSON report, golden tests    :s3, 2026-12-28, 2027-01-10
+
+    section M3 IR + local SLM (started early)
+    S3 IR slicer + ONNX spike                      :s3b, 2027-01-01, 2027-01-10
+    S4 Hybrid mode, eval harness, metrics          :s4, 2027-01-11, 2027-01-20
+    Code freeze v0.1-ipd                           :milestone, m1, 2027-01-20, 0d
+
+    section IPD
+    S5 Slides, diagrams, demo script, video        :s5, 2027-01-21, 2027-01-28
+    IPD submission                                 :milestone, m2, 2027-01-28, 0d
+    Live IPD demo + Q&A window                     :ipd, 2027-01-29, 2027-02-19
+
+    section Parallel tracks
+    Dataset search & admission (A/B/C)             :d1, 2026-12-01, 2027-03-21
+    IPD documents (stakeholders, FR/NFR, UML)      :doc1, 2026-12-01, 2027-01-20
+
+    section M3 cont. (post-IPD)
+    S6 CFG dominance + coverage upgrades           :s6, 2027-02-22, 2027-03-07
+    S7 Labels frozen, calibration split            :s7, 2027-03-08, 2027-03-21
+    S8 Prompt calibration + model comparison       :s8, 2027-03-22, 2027-03-31
+
+    section M4 Reporting & CI
+    SARIF, GitHub Action, minimal UI, robustness   :m4, 2027-04-01, 2027-04-30
+
+    section M5 Evaluation & thesis
+    Experiments A/B/C + error analysis             :m5a, 2027-05-01, 2027-05-31
+    Dissertation + final viva prep                 :m5b, 2027-05-01, 2027-06-30

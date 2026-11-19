@@ -1,0 +1,19 @@
+classDiagram
+    class EndpointInfo { Id; Verb; RouteTemplate; Controller; Action; Parameters; Authorization; Location }
+    class ExecutionPath { Id; TaintSource; Steps; Sinks; Guards; Unresolved; Truncated }
+    class SinkInfo { Kind; EntityType; IsStateChanging; BypassesQueryFilters; IsDetached; GuardIndices }
+    class GuardEvidence { Kind; IsValid; InvalidReason; OwnerProperty; CallerExpression }
+    class EntityModel { EntityType; KeyProperties; OwnerCandidates; QueryFilters; RequiredOwnerKind }
+    class SymbolicVerdict { Status; RuleIds; Rationale }
+    class SemanticVerdict { Status; Confidence; Reason; EvidenceLineIds; ParseOk }
+    class Finding { FindingId; Final; FinalReason; Slice }
+    class ScanReport { Run; Coverage; Findings; LoadDiagnostics }
+    ExecutionPath --> EndpointInfo
+    ExecutionPath "1" --> "*" SinkInfo
+    ExecutionPath "1" --> "*" GuardEvidence
+    SinkInfo ..> GuardEvidence : valid guard indices
+    Finding --> ExecutionPath
+    Finding --> SymbolicVerdict
+    Finding --> SemanticVerdict
+    ScanReport "1" --> "*" Finding
+    SinkInfo ..> EntityModel : EntityType

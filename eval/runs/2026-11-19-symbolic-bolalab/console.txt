@@ -1,0 +1,25 @@
+wrote eval/runs/2026-11-19-symbolic-bolalab/report.json
+BolaLens 0.1.0 · mode symbolic · fixtures/BolaLab/BolaLab.sln
+╭────────────────────────────────────────────────┬────────────┬────────────┬────────┬──────────╮
+│ Endpoint                                       │ Final      │ Symbolic   │ Rules  │ Semantic │
+├────────────────────────────────────────────────┼────────────┼────────────┼────────┼──────────┤
+│ PUT api/documents/{id}                         │ Protected  │ Protected  │ SYM-05 │ —        │
+│ DELETE api/invoices/{id}                       │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ PUT api/invoices/{id}/amount                   │ Protected  │ Protected  │ SYM-03 │ —        │
+│ PUT api/notes/{id}                             │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ PUT api/orders/{id}/status                     │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ PUT api/orders/{id}                            │ Protected  │ Protected  │ SYM-03 │ —        │
+│ DELETE api/orders/{id}                         │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/orders/{id}/copy-status-to/{targetid} │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ PUT api/orders/{id}/total                      │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ PUT api/orders/{id}/status-detached            │ Vulnerable │ Vulnerable │ SYM-07 │ —        │
+│ POST api/orders/{id}/process                   │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST api/orders/{id}/archive                   │ Protected  │ Protected  │ SYM-03 │ —        │
+│ DELETE api/orders/{id}/hard                    │ Vulnerable │ Vulnerable │ SYM-07 │ —        │
+│ PUT api/orders/{id}/adjust-total               │ Protected  │ Protected  │ SYM-03 │ —        │
+│ PUT api/projects/{id}                          │ Protected  │ Protected  │ SYM-04 │ —        │
+│ DELETE api/projects/{id}                       │ Vulnerable │ Vulnerable │ SYM-06 │ —        │
+╰────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
+projects 1 (with errors 0) · endpoints 16 (with ids 16) · paths 18 (truncated 0) · unresolved calls 1
+symbolic: 9 vulnerable · 6 protected · 1 unknown · 2 out of scope
+time 4.2s · peak memory 209 MB

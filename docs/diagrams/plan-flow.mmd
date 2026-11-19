@@ -1,0 +1,15 @@
+flowchart TD
+    A[Day 1-3: Setup + supervisor email + ethics form] --> B[Sprint 0: Repo, solution skeleton, CI, BolaLab TC01-04, solution loader]
+    B --> C[Sprint 1: Endpoint inventory + Policy Mapper + DbContext Schema Mapper + BolaLab TC05-16]
+    C --> D[Sprint 2: DI resolver + Taint walker + EF sink classifier + Guard detector]
+    D --> E[Sprint 3: Symbolic verdict rules + JSON report + golden tests + IR slicer + ONNX spike]
+    E --> F[Sprint 4: Hybrid mode end-to-end + eval harness + preliminary metrics + CODE FREEZE 20 Jan]
+    F --> G[Sprint 5: IPD slides, diagrams, Gantt, demo script, backup video -> SUBMIT 28 Jan]
+    G --> H[29 Jan - 19 Feb: rehearse, live IPD, Q&A]
+    H --> I[Feb-Mar: calibration, model comparison, datasets frozen]
+    I --> J[Apr: reporting, CI action, SARIF, minimal visualisation]
+    J --> K[May-Jun: experiments, error analysis, dissertation, final viva]
+
+    P1[[Parallel track: Dataset search A/B/C from Sprint 1]] -.-> E
+    P1 -.-> I
+    P2[[Parallel track: IPD documents - stakeholders, FR/NFR, use case, diagrams]] -.-> G

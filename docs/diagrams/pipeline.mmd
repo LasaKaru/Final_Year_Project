@@ -1,0 +1,25 @@
+flowchart TD
+    IN[/.sln / .slnx / .csproj path/] --> L[WorkspaceLoader<br/>MSBuildWorkspace]
+    L --> EP[EndpointEnumerator]
+    L --> PM[GlobalPolicyMapper]
+    L --> SM[DbContextSchemaMapper]
+    L --> DI[DiRegistrationMap + ImplementationResolver]
+    EP --> PX[PathExtractor / TaintWalker]
+    PM --> PX
+    SM --> PX
+    DI --> PX
+    PX --> SK[EfOperationClassifier]
+    PX --> GD[GuardDetector]
+    SK --> SC[SymbolicClassifier<br/>rules SYM-01..08]
+    GD --> SC
+    SC -->|candidates: Vulnerable or Unknown or Protected-needs-check| IR[IrSliceGenerator]
+    IR --> PB[PromptBuilder]
+    PB --> SV{Mode?}
+    SV -->|symbolic| NV[NullSemanticValidator]
+    SV -->|hybrid| OV[OnnxSemanticValidator<br/>local ONNX Runtime GenAI]
+    NV --> FU[FusionPolicy]
+    OV --> FU
+    FU --> RW[JsonReportWriter + ConsoleSummary]
+    RW --> OUT[/report.json/]
+    OUT --> EV[Eval harness<br/>+ labels.json]
+    EV --> MET[/metrics.md: TP FP FN TN Unknown, P R F1 FPR, coverage/]
