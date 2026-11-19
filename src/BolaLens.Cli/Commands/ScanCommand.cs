@@ -6,7 +6,7 @@ using BolaLens.Reporting;
 
 namespace BolaLens.Cli.Commands;
 
-/// <summary>`bolalens scan &lt;path&gt; --mode symbolic|hybrid [--config] [--out] [--model] [--save]` — full
+/// <summary>`bolalens scan &lt;path&gt; --mode symbolic|hybrid [--config] [--out] [--sarif] [--model] [--save]` — full
 /// pipeline → report.json + console summary. Exit code 1 if any final verdict is Vulnerable (CI gating, FR15).</summary>
 public static class ScanCommand
 {
@@ -23,8 +23,11 @@ public static class ScanCommand
         var quiet = new Option<bool>("--quiet", "-q") { Description = "Only print the endpoint table, not the explanations" };
         var noGate = new Option<bool>("--no-gate") { Description = "Fuse the model's verdicts even if it fails the calibration gate (for experiments)" };
         var noFail = new Option<bool>("--no-fail") { Description = "Always exit 0 when the scan completes (do not gate on findings)" };
+        var sarif = new Option<string?>("--sarif") { Description = "Also write SARIF 2.1.0 here (GitHub code scanning)" };
+        var sarifNoUnknown = SarifCommand.NoUnknownOption();
+        var uriPrefix = SarifCommand.UriPrefixOption();
 
-        var cmd = new Command("scan", "Run the full pipeline and write a JSON report") { path, mode, output, config, model, save, quiet, noGate, noFail };
+        var cmd = new Command("scan", "Run the full pipeline and write a JSON report") { path, mode, output, config, model, save, quiet, noGate, noFail, sarif, sarifNoUnknown, uriPrefix };
         cmd.SetAction(async (r, ct) =>
         {
             BolaLensConfig cfg;
@@ -58,6 +61,13 @@ public static class ScanCommand
             {
                 await JsonReportWriter.WriteFileAsync(report, outPath, ct);
                 Console.Error.WriteLine($"wrote {outPath}");
+            }
+            if (r.GetValue(sarif) is { } sarifPath)
+            {
+                var srcRoot = Path.GetDirectoryName(Path.GetFullPath(r.GetValue(path)!));
+                await SarifReportWriter.WriteFileAsync(report, BolaLens.Analysis.Verdict.SymbolicRules.Descriptions, sarifPath,
+                    !r.GetValue(sarifNoUnknown), srcRoot, r.GetValue(uriPrefix), ct);
+                Console.Error.WriteLine($"wrote {sarifPath}");
             }
             if (r.GetValue(save) is { } runs)
             {

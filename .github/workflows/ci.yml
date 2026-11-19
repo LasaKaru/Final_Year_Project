@@ -39,3 +39,23 @@ jobs:
             bolalab-report.json
             bolalab-hybrid-report.json
             bolalab-metrics.md
+
+  action-self-test:
+    # the reusable action (action.yml) scanning the deliberately vulnerable BolaLab: must find paths, must not upload
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: bolalens
+        uses: ./
+        with:
+          solution: fixtures/BolaLab/BolaLab.sln
+          fail-on-findings: 'false'
+      - name: Check outputs
+        run: |
+          test -s "${{ steps.bolalens.outputs.sarif }}"
+          test "${{ steps.bolalens.outputs.vulnerable }}" -gt 0
+          python3 -c "import json;d=json.load(open('${{ steps.bolalens.outputs.sarif }}'));assert d['version']=='2.1.0' and d['runs'][0]['results']"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bolalab-sarif
+          path: bolalens-out/

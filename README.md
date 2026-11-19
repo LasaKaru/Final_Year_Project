@@ -63,9 +63,29 @@ and evaluate a run against labels. Works on desktop and phones (light/dark). Any
 | `eval --report r.json --labels l.json [--compare r2.json …] [--out metrics.md]` | Metrics; a hybrid report gives both arms (ablation) |
 | `models [--dir models]` | List local ONNX models (size, family, chat format) |
 | `html --report r.json [--context c.json] --out report.html` | Self-contained offline HTML report |
+| `sarif --report r.json --out r.sarif [--uri-prefix dir] [--sarif-no-unknown]` | SARIF 2.1.0 for GitHub code scanning (also `scan --sarif`) |
 
 Exit codes: `0` no Vulnerable findings · `1` Vulnerable findings present (CI gating; `--no-fail` disables) · `2` load/usage error.
 All heuristics (identity sources, owner-name patterns, depth, model settings) are in [`bolalens.json`](bolalens.json) (`--config`).
+
+### GitHub Action (CI gate + code scanning)
+
+```yaml
+jobs:
+  bola:
+    runs-on: ubuntu-latest
+    permissions: { contents: read, security-events: write }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: LasaKaru/Final_Year_Project@dev          # pin a tag/SHA in real use
+        with:
+          solution: src/MyApi.sln
+          target-dotnet-version: 10.0.x
+          upload-sarif: 'true'                         # alerts in Security → Code scanning
+          fail-on-findings: 'true'                     # exit 1 when an endpoint is Vulnerable
+```
+SARIF output is validated against the OASIS 2.1.0 schema; Vulnerable = `error`, Unknown = `note` (kind `review`), the traced
+controller → service → repository path is a code flow. The action never runs the scanned application.
 
 ## Symbolic rules (first match per sink; a path's verdict is its worst sink)
 

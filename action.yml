@@ -1,0 +1,96 @@
+name: BolaLens BOLA scan
+description: >
+  Offline static detection of horizontal, state-changing Broken Object Level Authorization (BOLA) in ASP.NET Core +
+  EF Core Web APIs. Writes report.json and SARIF 2.1.0 (optionally uploaded to GitHub code scanning) and can fail the job
+  when Vulnerable endpoints are found. The analysed code is only parsed and type-checked, never executed.
+author: Lasantha Karunarathne (final-year project, IIT/UoW)
+branding:
+  icon: shield
+  color: blue
+
+inputs:
+  solution:
+    description: Path of the .sln/.slnx/.csproj to scan, relative to the repository root
+    required: true
+  mode:
+    description: symbolic (default, no model) or hybrid (needs a local ONNX model in the runner, see models/README.md)
+    default: symbolic
+  config:
+    description: Optional bolalens.json with project-specific heuristics (identity sources, owner patterns, privileged roles)
+    default: ''
+  target-dotnet-version:
+    description: .NET SDK the scanned solution needs (it is restored before the scan)
+    default: 8.0.x
+  fail-on-findings:
+    description: Fail the step when at least one endpoint is Vulnerable (exit code 1)
+    default: 'true'
+  include-unknown:
+    description: Also report Unknown verdicts in SARIF as notes (honest abstentions)
+    default: 'true'
+  upload-sarif:
+    description: Upload the SARIF file to GitHub code scanning (needs security-events write permission)
+    default: 'false'
+  output-dir:
+    description: Folder for report.json and bolalens.sarif
+    default: bolalens-out
+
+outputs:
+  report:
+    description: Path of report.json
+    value: ${{ steps.scan.outputs.report }}
+  sarif:
+    description: Path of the SARIF file
+    value: ${{ steps.scan.outputs.sarif }}
+  vulnerable:
+    description: Number of Vulnerable findings
+    value: ${{ steps.scan.outputs.vulnerable }}
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          8.0.x
+          ${{ inputs.target-dotnet-version }}
+    - name: Restore the scanned solution (references must resolve; nothing is executed)
+      shell: bash
+      run: dotnet restore "${{ inputs.solution }}"
+    - name: Build BolaLens
+      shell: bash
+      run: dotnet build "${{ github.action_path }}/src/BolaLens.Cli/BolaLens.Cli.csproj" -c Release -nologo -v quiet -o "${{ runner.temp }}/bolalens"
+    - name: Scan
+      id: scan
+      shell: bash
+      env:
+        SOLUTION: ${{ inputs.solution }}
+        MODE: ${{ inputs.mode }}
+        CONFIG: ${{ inputs.config }}
+        OUT: ${{ inputs.output-dir }}
+        FAIL: ${{ inputs.fail-on-findings }}
+        UNKNOWN: ${{ inputs.include-unknown }}
+      run: |
+        mkdir -p "$OUT"
+        prefix="$(dirname "$SOLUTION")"; [[ "$prefix" == "." ]] && prefix=""
+        args=(scan "$SOLUTION" --mode "$MODE" --out "$OUT/report.json" --sarif "$OUT/bolalens.sarif" --quiet --no-fail)
+        [[ -n "$prefix" ]] && args+=(--uri-prefix "$prefix")
+        [[ -n "$CONFIG" ]] && args+=(--config "$CONFIG")
+        [[ "$UNKNOWN" != "true" ]] && args+=(--sarif-no-unknown)
+        dotnet "${{ runner.temp }}/bolalens/bolalens.dll" "${args[@]}"
+        vulnerable=$(python3 -c "import json,sys;print(sum(1 for f in json.load(open(sys.argv[1]))['findings'] if f['final']=='Vulnerable'))" "$OUT/report.json")
+        echo "report=$OUT/report.json" >> "$GITHUB_OUTPUT"
+        echo "sarif=$OUT/bolalens.sarif" >> "$GITHUB_OUTPUT"
+        echo "vulnerable=$vulnerable" >> "$GITHUB_OUTPUT"
+        echo "### BolaLens: $vulnerable vulnerable path(s) in \`$SOLUTION\`" >> "$GITHUB_STEP_SUMMARY"
+    - name: Upload SARIF to code scanning
+      if: ${{ inputs.upload-sarif == 'true' }}
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: ${{ steps.scan.outputs.sarif }}
+        category: bolalens
+    - name: Gate on findings
+      if: ${{ inputs.fail-on-findings == 'true' && steps.scan.outputs.vulnerable != '0' }}
+      shell: bash
+      run: |
+        echo "::error::BolaLens found ${{ steps.scan.outputs.vulnerable }} vulnerable path(s); see ${{ steps.scan.outputs.sarif }}"
+        exit 1
