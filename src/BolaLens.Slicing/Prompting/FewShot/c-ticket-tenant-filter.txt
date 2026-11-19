@@ -1,0 +1,11 @@
+### Example C
+L1  [ENDPOINT] PATCH api/tickets/{ticketId} -> TicketsController.Retitle  (Model.cs:91)
+L2  [POLICY] [Authorize]; fallback=none; scheme=Cookies
+L3  [SCHEMA] Ticket owners: CompanyId(Tenant); query filters: t.CompanyId == session.CompanyId [Tenant]
+L4  [SOURCE] ticketId : long (route, client-controlled)  (Model.cs:92)
+L5  [LOAD] var ticket = await db.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);   (loads Ticket selected by the client-controlled id)  (Model.cs:94)
+L6  [CHECK] if (ticket is null) return NotFound();  (Model.cs:95)
+L7  [MUTATE] ticket.Subject = change.Subject;  (Model.cs:96)
+L8  [SINK] await db.SaveChangesAsync();   (state change: SaveChanges Ticket)  (Model.cs:97)
+### Answer C
+{"status":"protected","confidence":0.85,"reason":"Ticket is tenant-owned only (CompanyId) and the tenant query filter (L3) restricts the load (L5) to the caller company before the change (L8).","evidence":["L3","L5","L8"]}

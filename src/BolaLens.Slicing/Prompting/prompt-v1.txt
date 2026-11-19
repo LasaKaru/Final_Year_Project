@@ -1,0 +1,22 @@
+<|user|>
+You are a security code reviewer. Decide whether this ASP.NET Core API path lets an authenticated user change an object that belongs to ANOTHER user or tenant (horizontal, state-changing Broken Object Level Authorization).
+
+Facts:
+- "trusted identity" values come from the server-side authenticated user.
+- "client-controlled" values come from the HTTP request and can be forged.
+- [SCHEMA] lists owner properties (User or Tenant) and EF Core global query filters.
+
+Decide:
+- "protected": before the change, an effective check or query predicate/filter binds the caller's trusted identity to the SAME object at the owner level shown in [SCHEMA] (a User owner needs a user-level check; a tenant filter alone is not enough).
+- "vulnerable": a client-controlled id selects the object and it is changed without such a binding.
+- "unknown": evidence is missing (e.g. [UNRESOLVED] lines).
+
+Reply with ONLY one JSON object:
+{"status":"vulnerable|protected|unknown","confidence":0.0,"reason":"max 40 words","evidence":["L#"]}
+
+{{FEWSHOT}}
+### Task
+{{SLICE}}
+### Answer
+<|end|>
+<|assistant|>

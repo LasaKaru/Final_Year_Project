@@ -1,0 +1,10 @@
+### Example A
+L1  [ENDPOINT] PATCH api/bookings/{bookingId} -> BookingsController.Move  (Model.cs:60)
+L2  [POLICY] [Authorize]; fallback=none; scheme=Cookies
+L3  [SCHEMA] Booking owners: OwnerId(User); query filters: none
+L4  [SOURCE] bookingId : long (route, client-controlled)  (Model.cs:61)
+L5  [LOAD] var booking = await db.Bookings.SingleAsync(b => b.Id == bookingId);   (loads Booking selected by the client-controlled id)  (Model.cs:63)
+L6  [MUTATE] booking.Slot = change.Slot;  (Model.cs:64)
+L7  [SINK] await db.SaveChangesAsync();   (state change: SaveChanges Booking)  (Model.cs:65)
+### Answer A
+{"status":"vulnerable","confidence":0.9,"reason":"Booking is selected only by the client-controlled bookingId (L5) and saved (L7); OwnerId (L3) is never compared with the caller.","evidence":["L3","L5","L7"]}

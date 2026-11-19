@@ -1,0 +1,11 @@
+### Example B
+L1  [ENDPOINT] PATCH api/pets/{petId} -> PetsController.Rename  (Model.cs:75)
+L2  [POLICY] [Authorize]; fallback=none; scheme=Cookies
+L3  [SCHEMA] Pet owners: OwnerId(User); query filters: none
+L4  [SOURCE] petId : long (route, client-controlled)  (Model.cs:76)
+L5  [LOAD] var pet = await db.Pets.FindAsync(petId);   (loads Pet selected by the client-controlled id)  (Model.cs:78)
+L6  [CHECK] if (pet is null || pet.OwnerId != session.UserId) return NotFound();   (pet.OwnerId (owner: User) vs session.UserId (trusted identity: User))  (Model.cs:79)
+L7  [MUTATE] pet.Nickname = change.Nickname;  (Model.cs:80)
+L8  [SINK] await db.SaveChangesAsync();   (state change: SaveChanges Pet)  (Model.cs:81)
+### Answer B
+{"status":"protected","confidence":0.9,"reason":"Before the change, pet.OwnerId is compared with the trusted session.UserId and the request stops on mismatch (L6), so only the owner can rename the pet (L8).","evidence":["L6","L8"]}
