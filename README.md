@@ -63,6 +63,7 @@ and evaluate a run against labels. Works on desktop and phones (light/dark). Any
 | `eval --report r.json --labels l.json [--compare r2.json …] [--out metrics.md]` | Metrics; a hybrid report gives both arms (ablation) |
 | `models [--dir models]` | List local ONNX models (size, family, chat format) |
 | `html --report r.json [--context c.json] --out report.html` | Self-contained offline HTML report |
+| `robustness <path> [-p P1 P2 …] [--out r.md]` | Verdict stability under in-memory perturbations (renamed locals/methods, misleading comments, renamed owner properties) |
 | `sarif --report r.json --out r.sarif [--uri-prefix dir] [--sarif-no-unknown]` | SARIF 2.1.0 for GitHub code scanning (also `scan --sarif`) |
 
 Exit codes: `0` no Vulnerable findings · `1` Vulnerable findings present (CI gating; `--no-fail` disables) · `2` load/usage error.

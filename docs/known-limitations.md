@@ -53,3 +53,6 @@
 23. Razor/Blazor components (source-generated partials) show up as compile errors in Oqtane-style solutions; API controllers
     are unaffected, but `projectsFailed` overstates real load problems.
 24. Which roles are privileged (SYM-10) is configured per target; a wrong list hides findings (ADR-013).
+25. Robustness (FR21): P4 (renamed owner properties) lowers verdict stability to 0.313 on BolaLab and 0.891 on Oqtane —
+    ownership and identity recognition rely on names (`UserId`, `ICurrentUser.UserId`). Renaming identity members can even
+    turn a protected bulk update into SYM-07 (owner predicate no longer recognised). Documented threat to validity.

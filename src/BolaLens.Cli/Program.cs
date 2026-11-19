@@ -18,4 +18,5 @@ root.Subcommands.Add(EvalCommand.Create());
 root.Subcommands.Add(ModelsCommand.Create());
 root.Subcommands.Add(HtmlCommand.Create());
 root.Subcommands.Add(SarifCommand.Create());
+root.Subcommands.Add(RobustnessCommand.Create());
 return await root.Parse(args).InvokeAsync();
