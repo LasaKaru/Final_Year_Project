@@ -1,0 +1,792 @@
+[scan] Loading solution (MSBuildWorkspace)…
+[scan] Stage 1: endpoints, policy, schema, DI, taint paths, rules…
+[scan] Loading local model /home/user/Final_Year_Project/models/phi3-mini-4k/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4…
+[scan] Calibration gate: testing the model on labelled probe slices…
+[scan] Calibration gate passed: 3/4
+[scan] Stage 2: SLM 1/3 — POST api/customers/tenant/{tenantid}/all
+[scan] Stage 2: SLM 2/3 — GET api/customers/{id}
+[scan] Stage 2: SLM 3/3 — GET api/devices/{deviceid}/attributelatest
+[scan] Done.
+wrote /home/user/Final_Year_Project/eval/runs/2026-11-23-hybrid-A-014-vuln/report.json
+BolaLens 0.1.0 · mode hybrid · /home/user/datasets/A-014-vuln/IoTSharp.slnx
+model cpu-int4-rtn-block-32-acc-level-4 · prompt v1/phi3 (2cb6f06902429b28)
+calibration gate passed 3/4
+╭───────────────────────────────────────────────────────────────┬────────────┬────────────┬────────┬───────────────────╮
+│ Endpoint                                                      │ Final      │ Symbolic   │ Rules  │ Semantic          │
+├───────────────────────────────────────────────────────────────┼────────────┼────────────┼────────┼───────────────────┤
+│ GET v1/db/{db}/schema                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/maintenance                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ DELETE v1/db/{db}                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/documents/{collection}                        │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ PUT v1/db/{db}/documents/{collection}/validator               │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ DELETE v1/db/{db}/documents/{collection}/validator            │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ DELETE v1/db/{db}/documents/{collection}                      │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/documents/{collection}/insert-one             │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/documents/{collection}/insert-many            │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/documents/{collection}/find                   │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/documents/{collection}/find-one               │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/documents/{collection}/update-one             │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/documents/{collection}/update-many            │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/documents/{collection}/delete-one             │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/documents/{collection}/delete-many            │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/documents/{collection}/count                  │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/documents/{collection}/distinct               │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/documents/{collection}/aggregate              │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ GET v1/db/{db}/geo/{measurement}/trajectory                   │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/measurements/{m}/lp                           │ Unknown    │ Unknown    │ SYM-02 │ —                 │
+│ POST v1/db/{db}/measurements/{m}/json                         │ Unknown    │ Unknown    │ SYM-02 │ —                 │
+│ POST v1/db/{db}/measurements/{m}/bulk                         │ Unknown    │ Unknown    │ SYM-02 │ —                 │
+│ POST v1/db/{db}/kv/{keyspace}/get                             │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/kv/{keyspace}/get-many                        │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/kv/{keyspace}/set                             │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/kv/{keyspace}/set-many                        │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/kv/{keyspace}/incr                            │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/kv/{keyspace}/decr                            │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/kv/{keyspace}/cas                             │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/kv/{keyspace}/remove                          │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/kv/{keyspace}/remove-many                     │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/kv/{keyspace}/expire                          │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/kv/{keyspace}/persist                         │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/kv/{keyspace}/ttl                             │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/kv/{keyspace}/scan-prefix                     │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/kv/{keyspace}/remove-prefix                   │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/kv/{keyspace}/clean-expired                   │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/kv/{keyspace}/stats                           │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/mq/{topic}/publish                            │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/mq/{topic}/pull                               │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/mq/{topic}/ack                                │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/mq/{topic}/stats                              │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ GET v1/db/{db}/s3                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/sql                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST v1/db/{db}/sql/batch                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/account/login                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/account/postaccount                                  │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/account/get                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ PUT api/account/lock                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ PUT api/account/modify                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ PUT api/account/modifymyinfo                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/alarm/occurred                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/alarm/list                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/alarm/ackalarm                                       │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/alarm/clearalarm                                     │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/asset/get                                             │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ PUT api/asset/update                                          │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ DELETE api/asset/delete                                       │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/asset/adddevice                                      │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ DELETE api/asset/removedevice                                 │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ DELETE api/asset/removeassetraletions                         │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/asset/editrelation                                   │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/authorizedkeys/{id}                                   │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ PUT api/authorizedkeys/{id}                                   │ Vulnerable │ Vulnerable │ SYM-07 │ —                 │
+│ DELETE api/authorizedkeys/{id}                                │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/collectiontask/validatedraft                         │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/collectiontask/preview                               │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/customers/tenant/{tenantid}/all                      │ Unknown    │ Unknown    │ SYM-09 │ Vulnerable (0.95) │
+│ POST api/customers/tenant                                     │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/customers/{customerid}/ai                            │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/customers/{customerid}/ai                             │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/customers/{id}                                        │ Unknown    │ Unknown    │ SYM-09 │ Vulnerable (1.00) │
+│ PUT api/customers/{id}                                        │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/customers                                            │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ DELETE api/customers/{id}                                     │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/devicemodel/get                                       │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/devicemodel/update                                   │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/devicemodel/save                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ GET api/devicemodel/delete                                    │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/devicemodel/getcommandsbydevice                       │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ GET api/devicemodel/getcommands                               │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/devicemodel/getcommand                                │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/devicemodel/savecommand                              │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/devicemodel/updatecommand                            │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/devicemodel/deletecommand                             │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/devices/devices/customers/all                         │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ GET api/devices/{deviceid}/identity                           │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ GET api/devices/{deviceid}/createx509identity                 │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ GET api/devices/{deviceid}/downloadcertificates               │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/devices/{deviceid}/attributelatest                    │ Vulnerable │ Vulnerable │ SYM-08 │ Vulnerable (0.95) │
+│ POST api/devices/attributelatestbykeynameanddeviceid          │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ GET api/devices/{deviceid}/attributelatest/{keys}             │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ GET api/devices/{deviceid}/telemetrylatest                    │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ GET api/devices/{deviceid}/telemetrylatest/{keys}             │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ GET api/devices/{deviceid}/telemetrylatest/{keys}/{begin}     │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ GET api/devices/{deviceid}/telemetrydata/{keys}/{begin}/{end} │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ POST api/devices/{deviceid}/telemetrydata                     │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ GET api/devices/{id}                                          │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ PUT api/devices/{id}                                          │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ POST api/devices/produce/{id}                                 │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/devices                                              │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ DELETE api/devices/{id}                                       │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ POST api/devices/{access_token}/rpc/{method}                  │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/devices/{access_token}/telemetry                     │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ GET api/devices/{access_token}/attributes/{dataside}          │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/devices/{access_token}/attributes                    │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/devices/{access_token}/alarm                         │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/devices/{access_token}/pushdatatomap/{format}        │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/devices/{access_token}/pushdatatorulechains/{fromat} │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/devices/{access_token}/addattribute                  │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/devices/{devid}/editattribute                        │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ DELETE api/devices/removeattribute                            │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/dictionary/index                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ GET api/dictionary/get                                        │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/dictionary/save                                      │ Vulnerable │ Vulnerable │ SYM-07 │ —                 │
+│ POST api/dictionary/update                                    │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/dictionary/setstatus                                  │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/dictionary/delete                                     │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/dictionarygroup/get                                   │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/dictionarygroup/setstatus                             │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/dictionarygroup/save                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/dictionarygroup/update                               │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/dictionarygroup/delete                                │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/dynamicforminfo/get                                   │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/dynamicforminfo/getfields                             │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/dynamicforminfo/save                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/dynamicforminfo/update                               │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/dynamicforminfo/delete                                │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/dynamicforminfo/setstatus                             │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/dynamicforminfo/saveparams                           │ Vulnerable │ Vulnerable │ SYM-07 │ —                 │
+│ GET api/dynamicforminfo/getparams                             │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/dynamicforminfo/getformfieldvalue                     │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/edge/{id}                                             │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ POST api/edge/{access_token}/register                         │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/edge/{access_token}/heartbeat                        │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/edge/{access_token}/capabilities                     │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ GET api/edge/{id}/collectionconfig                            │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ PUT api/edge/{id}/collectionconfig                            │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ GET api/edge/{access_token}/collectionconfig                  │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/edgetask/dispatch                                    │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ POST api/edgetask/receipt                                     │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/edgetask/receipt/{deviceid}                           │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ GET api/edgetask/history/{deviceid}                           │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ GET api/edgetask/dispatch/{accesstoken}                       │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/edgetask/dispatch/{accesstoken}/accept               │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ GET api/produces/get                                          │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/produces/save                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ PUT api/produces/update                                       │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/produces/getproducedata                               │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/produces/editproducedata                             │ Vulnerable │ Vulnerable │ SYM-08 │ —                 │
+│ GET api/produces/getproducedictionary                         │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/produces/editproducedictionary                       │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/produces/getdatamappings                              │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/produces/savedatamappings                            │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/produces/{produce_token}/telemetry                   │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/produces/{produce_token}/attributes/{dataside}        │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/produces/{produce_token}/attributes                  │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/rules/updateflowexpression                           │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/rules/save                                           │ Vulnerable │ Vulnerable │ SYM-07 │ —                 │
+│ POST api/rules/update                                         │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/rules/delete                                          │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/rules/get                                             │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/rules/fork                                           │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/rules/deletedevicerules                               │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/rules/getdevicerules                                  │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/rules/getflows                                        │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/rules/savediagramv                                   │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/rules/getdiagramv                                     │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/rules/getdiagram                                      │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/rules/flowevents                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ GET api/rules/getflowoperations                               │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/rules/getexecutor                                     │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/rules/deleteexecutor                                  │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/rules/updateexecutor                                 │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/rules/addexecutor                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ POST api/rules/testtask                                       │ Unknown    │ Unknown    │ SYM-02 │ —                 │
+│ POST api/rules/rulecondition/rulecondition                    │ Unknown    │ Unknown    │ SYM-02 │ —                 │
+│ GET api/subscriptionevent/get                                 │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ PUT api/subscriptionevent/update                              │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/subscriptionevent/save                               │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ GET api/subscriptionevent/delete                              │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/tenants/{id}                                          │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ PUT api/tenants/{id}                                          │ Vulnerable │ Vulnerable │ SYM-07 │ —                 │
+│ POST api/tenants                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —                 │
+│ DELETE api/tenants/{id}                                       │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ POST api/tenants/{id}/ai                                      │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+│ GET api/tenants/{id}/ai                                       │ Unknown    │ Unknown    │ SYM-09 │ —                 │
+╰───────────────────────────────────────────────────────────────┴────────────┴────────────┴────────┴───────────────────╯
+projects 37 (with errors 4) · endpoints 255 (with ids 187) · paths 247 (truncated 0) · unresolved calls 1704
+symbolic: 27 vulnerable · 0 protected · 95 unknown · 125 out of scope · SLM calls 3 (parse failures 0)
+time 594.9s · peak memory 7700 MB
+
+Unknown POST v1/db/{db}/measurements/{m}/lp via 'm' (5b85ad403bdc)
+  No state change found, but 'm' entered unresolved code: ambiguous dispatch: 4 implementations of SonnetDB.Ingest.IPointReader.TryRead(out 
+SonnetDB.Model.Point) (BulkValuesReader, JsonPointsReader, LineProtocolReader, PrometheusRemoteWriteReader); max call depth (5) reached before 
+SonnetDB.Engine.Tsdb.EnsureMeasurementSchemaLocked(SonnetDB.Model.Point, bool); max call depth (5) reached before 
+SonnetDB.Engine.Tsdb.PersistMeasurementSchemasLocked(); max call depth (5) reached before 
+SonnetDB.Engine.Tsdb.NormalizePointAgainstCurrentSchemaLocked(SonnetDB.Model.Point); max call depth (5) reached before 
+SonnetDB.Engine.Tsdb.WritePointLocked(SonnetDB.Model.Point); max call depth (5) reached before SonnetDB.Engine.Tsdb.FlushForHardCapIfNeededLocked(); max call 
+depth (5) reached before SonnetDB.Engine.WalGroupCommitCoordinator.Prepare(SonnetDB.Wal.WalSegmentSet); max call depth (5) reached before 
+SonnetDB.Engine.WalGroupCommitTicket.Wait(); max call depth (5) reached before SonnetDB.Engine.BackgroundFlushWorker.Signal(); max call depth (5) reached before
+SonnetDB.Engine.WalGroupCommitCoordinator.FlushPending(SonnetDB.Wal.WalSegmentSet); max call depth (5) reached before 
+SonnetDB.Engine.Tsdb.PersistCatalogCheckpointLocked(); max call depth (5) reached before SonnetDB.Engine.FlushCoordinator.Flush(SonnetDB.Memory.MemTable, 
+SonnetDB.Wal.WalSegmentSet, long, SonnetDB.Engine.TombstoneTable?, SonnetDB.Catalog.SeriesCatalog?, SonnetDB.Catalog.MeasurementCatalog?); max call depth (5) 
+reached before SonnetDB.Engine.Tsdb.MarkTombstoneManifestCheckpointedLocked(long); max call depth (5) reached before 
+SonnetDB.Engine.SegmentManager.AddSegment(string); max call depth (5) reached before SonnetDB.Engine.Tsdb.FlushNowLocked().
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST v1/db/{db}/measurements/{m}/json via 'm' (da82304a3926)
+  No state change found, but 'm' entered unresolved code: ambiguous dispatch: 4 implementations of SonnetDB.Ingest.IPointReader.TryRead(out 
+SonnetDB.Model.Point) (BulkValuesReader, JsonPointsReader, LineProtocolReader, PrometheusRemoteWriteReader); max call depth (5) reached before 
+SonnetDB.Engine.Tsdb.EnsureMeasurementSchemaLocked(SonnetDB.Model.Point, bool); max call depth (5) reached before 
+SonnetDB.Engine.Tsdb.PersistMeasurementSchemasLocked(); max call depth (5) reached before 
+SonnetDB.Engine.Tsdb.NormalizePointAgainstCurrentSchemaLocked(SonnetDB.Model.Point); max call depth (5) reached before 
+SonnetDB.Engine.Tsdb.WritePointLocked(SonnetDB.Model.Point); max call depth (5) reached before SonnetDB.Engine.Tsdb.FlushForHardCapIfNeededLocked(); max call 
+depth (5) reached before SonnetDB.Engine.WalGroupCommitCoordinator.Prepare(SonnetDB.Wal.WalSegmentSet); max call depth (5) reached before 
+SonnetDB.Engine.WalGroupCommitTicket.Wait(); max call depth (5) reached before SonnetDB.Engine.BackgroundFlushWorker.Signal(); max call depth (5) reached before
+SonnetDB.Engine.WalGroupCommitCoordinator.FlushPending(SonnetDB.Wal.WalSegmentSet); max call depth (5) reached before 
+SonnetDB.Engine.Tsdb.PersistCatalogCheckpointLocked(); max call depth (5) reached before SonnetDB.Engine.FlushCoordinator.Flush(SonnetDB.Memory.MemTable, 
+SonnetDB.Wal.WalSegmentSet, long, SonnetDB.Engine.TombstoneTable?, SonnetDB.Catalog.SeriesCatalog?, SonnetDB.Catalog.MeasurementCatalog?); max call depth (5) 
+reached before SonnetDB.Engine.Tsdb.MarkTombstoneManifestCheckpointedLocked(long); max call depth (5) reached before 
+SonnetDB.Engine.SegmentManager.AddSegment(string); max call depth (5) reached before SonnetDB.Engine.Tsdb.FlushNowLocked().
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST v1/db/{db}/measurements/{m}/bulk via 'm' (a7cb9eadda0b)
+  No state change found, but 'm' entered unresolved code: ambiguous dispatch: 4 implementations of SonnetDB.Ingest.IPointReader.TryRead(out 
+SonnetDB.Model.Point) (BulkValuesReader, JsonPointsReader, LineProtocolReader, PrometheusRemoteWriteReader); max call depth (5) reached before 
+SonnetDB.Engine.Tsdb.EnsureMeasurementSchemaLocked(SonnetDB.Model.Point, bool); max call depth (5) reached before 
+SonnetDB.Engine.Tsdb.PersistMeasurementSchemasLocked(); max call depth (5) reached before 
+SonnetDB.Engine.Tsdb.NormalizePointAgainstCurrentSchemaLocked(SonnetDB.Model.Point); max call depth (5) reached before 
+SonnetDB.Engine.Tsdb.WritePointLocked(SonnetDB.Model.Point); max call depth (5) reached before SonnetDB.Engine.Tsdb.FlushForHardCapIfNeededLocked(); max call 
+depth (5) reached before SonnetDB.Engine.WalGroupCommitCoordinator.Prepare(SonnetDB.Wal.WalSegmentSet); max call depth (5) reached before 
+SonnetDB.Engine.WalGroupCommitTicket.Wait(); max call depth (5) reached before SonnetDB.Engine.BackgroundFlushWorker.Signal(); max call depth (5) reached before
+SonnetDB.Engine.WalGroupCommitCoordinator.FlushPending(SonnetDB.Wal.WalSegmentSet); max call depth (5) reached before 
+SonnetDB.Engine.Tsdb.PersistCatalogCheckpointLocked(); max call depth (5) reached before SonnetDB.Engine.FlushCoordinator.Flush(SonnetDB.Memory.MemTable, 
+SonnetDB.Wal.WalSegmentSet, long, SonnetDB.Engine.TombstoneTable?, SonnetDB.Catalog.SeriesCatalog?, SonnetDB.Catalog.MeasurementCatalog?); max call depth (5) 
+reached before SonnetDB.Engine.Tsdb.MarkTombstoneManifestCheckpointedLocked(long); max call depth (5) reached before 
+SonnetDB.Engine.SegmentManager.AddSegment(string); max call depth (5) reached before SonnetDB.Engine.Tsdb.FlushNowLocked().
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/account/postaccount via 'model' (1fc725fe2976)
+  Read on Customer at IoTSharp/Controllers/AccountController.cs:526: Customer has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/alarm/ackalarm via 'm' (ddcd671ad41d)
+  Read on Alarm at IoTSharp/Controllers/AlarmController.cs:229: Alarm has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/alarm/clearalarm via 'm' (c40d6698918c)
+  Read on Alarm at IoTSharp/Controllers/AlarmController.cs:265: Alarm has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/asset/get via 'id' (117f47c25fc0)
+  Read on Asset at IoTSharp/Controllers/AssetController.cs:141: Asset has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown PUT api/asset/update via 'dto' (37de1851d10a)
+  Read on Asset at IoTSharp/Controllers/AssetController.cs:168: Asset has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown DELETE api/asset/delete via 'id' (cee561d07935)
+  Read on Asset at IoTSharp/Controllers/AssetController.cs:232: Asset has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/asset/adddevice via 'm' (7805d18de40d)
+  Read on Asset at IoTSharp/Controllers/AssetController.cs:265: Asset has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown DELETE api/asset/removedevice via 'm' (37558fff3976)
+  Read on Asset at IoTSharp/Controllers/AssetController.cs:327: Asset has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown DELETE api/asset/removeassetraletions via 'relationId' (c0be42c543da)
+  Read on AssetRelation at IoTSharp/Controllers/AssetController.cs:353: AssetRelation has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/asset/editrelation via 'm' (67f94f6577a9)
+  Read on AssetRelation at IoTSharp/Controllers/AssetController.cs:383: AssetRelation has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/authorizedkeys/{id} via 'id' (f3960f5086b7)
+  Read on AuthorizedKey at IoTSharp/Controllers/AuthorizedKeysController.cs:58: AuthorizedKey has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/authorizedkeys/{id} via 'authorizedKey' (7680219bdae7)
+  SaveChanges on AuthorizedKey at IoTSharp/Controllers/AuthorizedKeysController.cs:91: detached AuthorizedKey built from the client-controlled key is written 
+without loading or checking ownership.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown DELETE api/authorizedkeys/{id} via 'id' (d2249c0826ee)
+  Read on AuthorizedKey at IoTSharp/Controllers/AuthorizedKeysController.cs:134: AuthorizedKey has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/customers/tenant/{tenantid}/all via 'tenantId' (217f2d4946d7)
+  Read on Customer at IoTSharp/Controllers/CustomersController.cs:47: Customer has no owner candidate, so ownership cannot be checked.
+  SLM: Tenant is not checked against the caller's identity (L3), and the endpoint retrieves all customers for the tenantId (L5), allowing any authenticated user
+to access the data (L6).
+  Symbolic Unknown kept (escalation disabled); SLM said Vulnerable.
+
+Unknown POST api/customers/tenant via 'm' (5fe662d3ce30)
+  Read on Customer at IoTSharp/Extensions/QueryExtensions.cs:53: Customer has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/customers/{customerid}/ai via 'customerId' (3cb3ab69dc6a)
+  Read on Customer at IoTSharp/Controllers/CustomersController.cs:93: Customer has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/customers/{customerid}/ai via 'customerId' (981be489d387)
+  Read on Customer at IoTSharp/Controllers/CustomersController.cs:140: Customer has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/customers/{id} via 'id' (d611d9be9f41)
+  Read on Customer at IoTSharp/Controllers/CustomersController.cs:171: Customer has no owner candidate, so ownership cannot be checked.
+  SLM: Client-controlled id selects the customer, but no owner-based check is performed before returning the customer (L7).
+  Symbolic Unknown kept (escalation disabled); SLM said Vulnerable.
+
+Unknown PUT api/customers/{id} via 'id' (8a7aa0ab6eec)
+  Read on Tenant at IoTSharp/Controllers/CustomersController.cs:200: Tenant has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown PUT api/customers/{id} via 'customer' (3720a5100838)
+  Read on Tenant at IoTSharp/Controllers/CustomersController.cs:200: Tenant has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/customers via 'customer' (baffc070edc3)
+  Read on Tenant at IoTSharp/Controllers/CustomersController.cs:233: Tenant has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown DELETE api/customers/{id} via 'id' (e3d7aaf8a75c)
+  Read on Customer at IoTSharp/Controllers/CustomersController.cs:262: Customer has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/devicemodel/get via 'id' (8e55e4cac9c7)
+  Read on DeviceModel at IoTSharp/Controllers/DeviceModelController.cs:53: DeviceModel has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/devicemodel/update via 'm' (300d68b3f0dc)
+  Read on DeviceModel at IoTSharp/Controllers/DeviceModelController.cs:64: DeviceModel has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/devicemodel/delete via 'id' (c5f0f2edb512)
+  Read on DeviceModel at IoTSharp/Controllers/DeviceModelController.cs:99: DeviceModel has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/devicemodel/getcommandsbydevice via 'id' (703a77a2ea5b)
+  Read on Device at IoTSharp/Controllers/DeviceModelController.cs:113: Device (owners: Owner (User)) is selected by client-controlled 'id' and changed with no 
+valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/devicemodel/getcommands via 'id' (b3101c44bf74)
+  Read on DeviceModelCommand at IoTSharp/Controllers/DeviceModelController.cs:125: DeviceModelCommand has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/devicemodel/getcommand via 'id' (645cf38474e0)
+  Read on DeviceModelCommand at IoTSharp/Controllers/DeviceModelController.cs:131: DeviceModelCommand has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/devicemodel/updatecommand via 'm' (d2bcac5228dd)
+  Read on DeviceModelCommand at IoTSharp/Controllers/DeviceModelController.cs:169: DeviceModelCommand has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/devicemodel/deletecommand via 'id' (9619a37b1bcf)
+  Read on DeviceModelCommand at IoTSharp/Controllers/DeviceModelController.cs:190: DeviceModelCommand has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/devices/devices/customers/all via 'customerId' (efae99771a44)
+  Read on Device at IoTSharp/Controllers/DevicesController.cs:104: Device (owners: Owner (User)) is selected by client-controlled 'customerId' and changed with 
+no valid owner guard or applicable query filter. Rejected checks: existence check does not bind the caller identity 
+(IoTSharp/Controllers/DevicesController.cs:98).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/devices/{deviceid}/identity via 'deviceId' (8fb7e40c20bd)
+  Read on Device at IoTSharp/Controllers/DevicesController.cs:546: Device (owners: Owner (User)) is selected by client-controlled 'deviceId' and changed with no
+valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/devices/{deviceid}/createx509identity via 'deviceId' (70238d77514a)
+  Read on Device at IoTSharp/Controllers/DevicesController.cs:335: Device (owners: Owner (User)) is selected by client-controlled 'deviceId' and changed with no
+valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/devices/{deviceid}/downloadcertificates via 'deviceId' (f70a40d35d9c)
+  Read on DeviceIdentity at IoTSharp/Controllers/DevicesController.cs:394: DeviceIdentity has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/devices/{deviceid}/attributelatest via 'deviceId' (6e2db7e35afa)
+  Read on Device at IoTSharp/Controllers/DevicesController.cs:546: Device (owners: Owner (User)) is selected by client-controlled 'deviceId' and changed with no
+valid owner guard or applicable query filter.
+  SLM: Client-controlled id selects the device and the server-side code does not verify the owner's identity before accessing the device's attributes (L11, 
+L12). The device's attributes are accessed without a trusted identity check (L13).
+  Symbolic and semantic agree.
+
+Vulnerable GET api/devices/{deviceid}/attributelatest/{keys} via 'deviceId' (99aedc7107e6)
+  Read on Device at IoTSharp/Controllers/DevicesController.cs:546: Device (owners: Owner (User)) is selected by client-controlled 'deviceId' and changed with no
+valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/devices/{deviceid}/attributelatest/{keys} via 'keys' (2a5a6bbb5fb8)
+  Read on AttributeLatest at IoTSharp/Controllers/DevicesController.cs:534: AttributeLatest has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/devices/{deviceid}/telemetrylatest via 'deviceId' (956b2aef686b)
+  Read on Device at IoTSharp/Controllers/DevicesController.cs:546: Device (owners: Owner (User)) is selected by client-controlled 'deviceId' and changed with no
+valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/devices/{deviceid}/telemetrylatest/{keys} via 'deviceId' (3b76d776d938)
+  Read on Device at IoTSharp/Controllers/DevicesController.cs:546: Device (owners: Owner (User)) is selected by client-controlled 'deviceId' and changed with no
+valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/devices/{deviceid}/telemetrylatest/{keys} via 'keys' (7ff40c39f8d1)
+  No state change found, but 'keys' entered unresolved code: ambiguous dispatch: 6 implementations of IoTSharp.Storage.IStorage.GetTelemetryLatest(System.Guid, 
+string) (EFStorage, InfluxDBStorage, IoTDBStorage, ShardingStorage, SonnetDBStorage, TaosStorage).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/devices/{deviceid}/telemetrylatest/{keys}/{begin} via 'deviceId' (2976fb89837c)
+  Read on Device at IoTSharp/Controllers/DevicesController.cs:546: Device (owners: Owner (User)) is selected by client-controlled 'deviceId' and changed with no
+valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/devices/{deviceid}/telemetrylatest/{keys}/{begin} via 'keys' (80676679814d)
+  No state change found, but 'keys' entered unresolved code: ambiguous dispatch: 6 implementations of IoTSharp.Storage.IStorage.LoadTelemetryAsync(System.Guid, 
+string, System.DateTime, System.DateTime, System.TimeSpan, IoTSharp.Contracts.Aggregate) (EFStorage, InfluxDBStorage, IoTDBStorage, ShardingStorage, 
+SonnetDBStorage, TaosStorage).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/devices/{deviceid}/telemetrylatest/{keys}/{begin} via 'begin' (097f7cbb64b2)
+  No state change found, but 'begin' entered unresolved code: ambiguous dispatch: 6 implementations of IoTSharp.Storage.IStorage.LoadTelemetryAsync(System.Guid,
+string, System.DateTime, System.DateTime, System.TimeSpan, IoTSharp.Contracts.Aggregate) (EFStorage, InfluxDBStorage, IoTDBStorage, ShardingStorage, 
+SonnetDBStorage, TaosStorage).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/devices/{deviceid}/telemetrydata/{keys}/{begin}/{end} via 'deviceId' (d5b2ffc6eb04)
+  Read on Device at IoTSharp/Controllers/DevicesController.cs:546: Device (owners: Owner (User)) is selected by client-controlled 'deviceId' and changed with no
+valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/devices/{deviceid}/telemetrydata/{keys}/{begin}/{end} via 'keys' (90ad48bbeaa9)
+  No state change found, but 'keys' entered unresolved code: ambiguous dispatch: 6 implementations of IoTSharp.Storage.IStorage.LoadTelemetryAsync(System.Guid, 
+string, System.DateTime, System.DateTime, System.TimeSpan, IoTSharp.Contracts.Aggregate) (EFStorage, InfluxDBStorage, IoTDBStorage, ShardingStorage, 
+SonnetDBStorage, TaosStorage).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/devices/{deviceid}/telemetrydata/{keys}/{begin}/{end} via 'begin' (e0d309eb3fbd)
+  No state change found, but 'begin' entered unresolved code: ambiguous dispatch: 6 implementations of IoTSharp.Storage.IStorage.LoadTelemetryAsync(System.Guid,
+string, System.DateTime, System.DateTime, System.TimeSpan, IoTSharp.Contracts.Aggregate) (EFStorage, InfluxDBStorage, IoTDBStorage, ShardingStorage, 
+SonnetDBStorage, TaosStorage).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/devices/{deviceid}/telemetrydata/{keys}/{begin}/{end} via 'end' (4ed8aed23b1c)
+  No state change found, but 'end' entered unresolved code: ambiguous dispatch: 6 implementations of IoTSharp.Storage.IStorage.LoadTelemetryAsync(System.Guid, 
+string, System.DateTime, System.DateTime, System.TimeSpan, IoTSharp.Contracts.Aggregate) (EFStorage, InfluxDBStorage, IoTDBStorage, ShardingStorage, 
+SonnetDBStorage, TaosStorage).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/devices/{deviceid}/telemetrydata via 'deviceId' (a8e64d30b3a8)
+  Read on Device at IoTSharp/Controllers/DevicesController.cs:546: Device (owners: Owner (User)) is selected by client-controlled 'deviceId' and changed with no
+valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/devices/{id} via 'id' (577425d1399b)
+  Read on Device at IoTSharp/Controllers/DevicesController.cs:546: Device (owners: Owner (User)) is selected by client-controlled 'id' and changed with no valid
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/devices/{id} via 'id' (cd73257b600a)
+  Read on Device at IoTSharp/Controllers/DevicesController.cs:773: Device (owners: Owner (User)) is selected by client-controlled 'id' and changed with no valid
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/devices/{id} via 'device' (5fa594eb302e)
+  Read on Device at IoTSharp/Controllers/DevicesController.cs:773: Device (owners: Owner (User)) is selected by client-controlled 'device' and changed with no 
+valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/devices/produce/{id} via 'id' (364298357f14)
+  Read on Produce at IoTSharp/Controllers/DevicesController.cs:830: Produce has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/devices via 'device' (febd5202de6f)
+  Read on Produce at IoTSharp/Controllers/DevicesController.cs:879: Produce has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/devices/{id} via 'id' (c841d034cfe0)
+  Read on Device at IoTSharp/Controllers/DevicesController.cs:546: Device (owners: Owner (User)) is selected by client-controlled 'id' and changed with no valid
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown DELETE api/devices/removeattribute via 'input' (747e8c120ad9)
+  Read on DataStorage at IoTSharp/Controllers/DevicesController.cs:1417: DataStorage has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/dictionary/get via 'id' (bb0bedbe1b35)
+  Read on BaseDictionary at IoTSharp/Controllers/DictionaryController.cs:55: BaseDictionary has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/dictionary/save via 'm' (17b0264fe0ea)
+  SaveChanges on BaseDictionary at IoTSharp/Controllers/DictionaryController.cs:81: detached BaseDictionary built from the client-controlled key is written 
+without loading or checking ownership.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/dictionary/update via 'm' (0f9e3737e159)
+  Read on BaseDictionary at IoTSharp/Controllers/DictionaryController.cs:89: BaseDictionary has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/dictionary/setstatus via 'id' (ab0429a7dc22)
+  Read on BaseDictionary at IoTSharp/Controllers/DictionaryController.cs:112: BaseDictionary has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/dictionary/delete via 'id' (2a0784f68ea1)
+  Read on BaseDictionary at IoTSharp/Controllers/DictionaryController.cs:131: BaseDictionary has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/dictionarygroup/get via 'id' (b6c365f318d7)
+  Read on BaseDictionaryGroup at IoTSharp/Controllers/DictionaryGroupController.cs:53: BaseDictionaryGroup has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/dictionarygroup/setstatus via 'id' (eeb3a480cf2c)
+  Read on BaseDictionaryGroup at IoTSharp/Controllers/DictionaryGroupController.cs:67: BaseDictionaryGroup has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/dictionarygroup/update via 'm' (151b67925841)
+  Read on BaseDictionaryGroup at IoTSharp/Controllers/DictionaryGroupController.cs:111: BaseDictionaryGroup has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/dictionarygroup/delete via 'id' (c6149ff5f5d9)
+  Read on BaseDictionaryGroup at IoTSharp/Controllers/DictionaryGroupController.cs:139: BaseDictionaryGroup has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/dynamicforminfo/get via 'id' (23406cbf4fd9)
+  Read on DynamicFormInfo at IoTSharp/Controllers/DynamicFormInfoController.cs:48: DynamicFormInfo has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/dynamicforminfo/getfields via 'id' (86435e389dc0)
+  Read on DynamicFormInfo at IoTSharp/Controllers/DynamicFormInfoController.cs:62: DynamicFormInfo has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/dynamicforminfo/update via 'm' (65d7d5a32509)
+  Read on DynamicFormInfo at IoTSharp/Controllers/DynamicFormInfoController.cs:92: DynamicFormInfo has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/dynamicforminfo/delete via 'id' (365347845297)
+  Read on DynamicFormInfo at IoTSharp/Controllers/DynamicFormInfoController.cs:107: DynamicFormInfo has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/dynamicforminfo/setstatus via 'id' (fd8fae29945d)
+  Read on DynamicFormInfo at IoTSharp/Controllers/DynamicFormInfoController.cs:121: DynamicFormInfo has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/dynamicforminfo/saveparams via 'model' (a40d33d373a2)
+  SaveChanges on DynamicFormFieldInfo at IoTSharp/Controllers/DynamicFormInfoController.cs:256: detached DynamicFormFieldInfo built from the client-controlled 
+key is written without loading or checking ownership.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/dynamicforminfo/getparams via 'id' (f4e9f4ba56af)
+  Read on DynamicFormFieldInfo at IoTSharp/Controllers/DynamicFormInfoController.cs:282: DynamicFormFieldInfo has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/dynamicforminfo/getformfieldvalue via 'BizId' (239048295b27)
+  Read on DynamicFormFieldValueInfo at IoTSharp/Controllers/DynamicFormInfoController.cs:318: DynamicFormFieldValueInfo has no owner candidate, so ownership 
+cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/dynamicforminfo/getformfieldvalue via 'FormId' (c59cc1aed851)
+  Read on DynamicFormFieldInfo at IoTSharp/Controllers/DynamicFormInfoController.cs:311: DynamicFormFieldInfo has no owner candidate, so ownership cannot be 
+checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/edge/{id} via 'id' (afb47b6ce5a7)
+  Read on Device at IoTSharp/Controllers/EdgeController.cs:96: Device (owners: Owner (User)) is selected by client-controlled 'id' and changed with no valid 
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/edge/{id}/collectionconfig via 'id' (b78df917e6c0)
+  Read on Device at IoTSharp/Controllers/EdgeController.cs:327: Device (owners: Owner (User)) is selected by client-controlled 'id' and changed with no valid 
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/edge/{id}/collectionconfig via 'id' (695d4b49ea9c)
+  Read on Device at IoTSharp/Controllers/EdgeController.cs:327: Device (owners: Owner (User)) is selected by client-controlled 'id' and changed with no valid 
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/edgetask/dispatch via 'request' (0c2be5c7993d)
+  Read on Device at IoTSharp/Controllers/EdgeTaskController.cs:88: Device (owners: Owner (User)) is selected by client-controlled 'request' and changed with no 
+valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/edgetask/receipt via 'request' (7ceb388eeffe)
+  Read on AttributeLatest at IoTSharp/Controllers/EdgeTaskController.cs:463: AttributeLatest has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/edgetask/receipt/{deviceid} via 'deviceId' (bc633ec1646a)
+  Read on Device at IoTSharp/Controllers/EdgeTaskController.cs:202: Device (owners: Owner (User)) is selected by client-controlled 'deviceId' and changed with 
+no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/edgetask/history/{deviceid} via 'deviceId' (9dc8c8121007)
+  Read on Device at IoTSharp/Controllers/EdgeTaskController.cs:233: Device (owners: Owner (User)) is selected by client-controlled 'deviceId' and changed with 
+no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/produces/get via 'id' (9225feefee55)
+  Read on Produce at IoTSharp/Controllers/ProducesController.cs:121: Produce has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown PUT api/produces/update via 'dto' (c08a10656b94)
+  Read on Produce at IoTSharp/Controllers/ProducesController.cs:232: Produce has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/produces/getproducedata via 'produceId' (8aee08cc8585)
+  Read on Produce at IoTSharp/Controllers/ProducesController.cs:276: Produce has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/produces/editproducedata via 'dto' (418a6f35568b)
+  Read on ProduceData at IoTSharp/Controllers/ProducesController.cs:309: ProduceData (owners: Owner (User)) is selected by client-controlled 'dto' and changed 
+with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/produces/getproducedictionary via 'produceId' (8369a4b2fb2d)
+  Read on Produce at IoTSharp/Controllers/ProducesController.cs:372: Produce has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/produces/editproducedictionary via 'dto' (6f90320bbf01)
+  Read on Produce at IoTSharp/Controllers/ProducesController.cs:397: Produce has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/produces/getdatamappings via 'produceId' (fe87977b4068)
+  Read on ProduceDataMapping at IoTSharp/Controllers/ProducesController.cs:487: ProduceDataMapping has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/produces/savedatamappings via 'dto' (5ff326a9311d)
+  Read on Produce at IoTSharp/Controllers/ProducesController.cs:513: Produce has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/produces/{produce_token}/telemetry via 'produce_token' (c124990d8356)
+  Read on Produce at IoTSharp.Data/DataExtension.cs:44: Produce has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/produces/{produce_token}/attributes/{dataside} via 'produce_token' (30c6ec39f066)
+  Read on Produce at IoTSharp.Data/DataExtension.cs:44: Produce has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/produces/{produce_token}/attributes/{dataside} via 'dataSide' (dee6a61a37db)
+  Read on AttributeLatest at IoTSharp/Controllers/ProducesController.cs:636: AttributeLatest has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/produces/{produce_token}/attributes via 'produce_token' (662407363636)
+  Read on Produce at IoTSharp.Data/DataExtension.cs:44: Produce has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/rules/updateflowexpression via 'm' (3fbac64f91f1)
+  Read on Flow at IoTSharp/Controllers/RulesController.cs:58: Flow has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/rules/save via 'm' (7916ce8be584)
+  SaveChanges on FlowRule at IoTSharp/Controllers/RulesController.cs:109: detached FlowRule built from the client-controlled key is written without loading or 
+checking ownership.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/rules/update via 'm' (1ee9c4585a9f)
+  Read on FlowRule at IoTSharp/Controllers/RulesController.cs:122: FlowRule has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/rules/delete via 'id' (8df97fc3d8c1)
+  Read on FlowRule at IoTSharp/Controllers/RulesController.cs:146: FlowRule has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/rules/get via 'id' (96461f914dd8)
+  Read on FlowRule at IoTSharp/Controllers/RulesController.cs:176: FlowRule has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/rules/fork via 'flowRule' (2763bfe873f0)
+  Read on FlowRule at IoTSharp/Controllers/RulesController.cs:195: FlowRule has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/rules/deletedevicerules via 'deviceId' (eac3d0e4e393)
+  Read on DeviceRule at IoTSharp/Controllers/RulesController.cs:310: DeviceRule has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/rules/deletedevicerules via 'ruleId' (ef873b083a5e)
+  Read on DeviceRule at IoTSharp/Controllers/RulesController.cs:310: DeviceRule has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/rules/getdevicerules via 'deviceId' (c987d707fa32)
+  Read on DeviceRule at IoTSharp/Controllers/RulesController.cs:325: DeviceRule has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/rules/getflows via 'ruleId' (543106593e04)
+  Read on Flow at IoTSharp/Controllers/RulesController.cs:366: Flow has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/rules/savediagramv via 'm' (06ccf82fe819)
+  Read on FlowRule at IoTSharp/Controllers/RulesController.cs:693: FlowRule has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/rules/getdiagramv via 'id' (5015021b8626)
+  Read on Flow at IoTSharp/Controllers/RulesController.cs:837: Flow has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/rules/getdiagram via 'id' (a0088cd4fed4)
+  Read on FlowRule at IoTSharp/Controllers/RulesController.cs:936: FlowRule has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/rules/getflowoperations via 'eventId' (e69da78f4716)
+  Read on BaseEvent at IoTSharp/Controllers/RulesController.cs:1534: BaseEvent has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/rules/getexecutor via 'Id' (5d9bcc290cfd)
+  Read on RuleTaskExecutor at IoTSharp/Controllers/RulesController.cs:1608: RuleTaskExecutor has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/rules/deleteexecutor via 'Id' (07a830d4a2ee)
+  Read on RuleTaskExecutor at IoTSharp/Controllers/RulesController.cs:1621: RuleTaskExecutor has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/rules/updateexecutor via 'm' (ef3ab7bdeddb)
+  Read on RuleTaskExecutor at IoTSharp/Controllers/RulesController.cs:1637: RuleTaskExecutor has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/rules/testtask via 'm' (c525dfd3ecf3)
+  No state change found, but 'm' entered unresolved code: external dispatch: EasyCaching.Core.IEasyCachingProviderBase.GetAsync<(IoTSharp.Data.FlowRule rule, 
+System.Collections.Generic.List<IoTSharp.Data.Flow> _allFlows)>(string, System.Func<System.Threading.Tasks.Task<(IoTSharp.Data.FlowRule rule, 
+System.Collections.Generic.List<IoTSharp.Data.Flow> _allFlows)>>, System.TimeSpan, System.Threading.CancellationToken) receives the tracked id; ambiguous 
+dispatch: 9 implementations of IoTSharp.TaskActions.TaskAction.ExecuteAsync(IoTSharp.TaskActions.TaskActionInput) (AlarmPullExcutor, CustomeAlarmPullExcutor, 
+DeviceActionExcutor, MessagePullExecutor, RangerCheckExcutor, TelemetryArrayPullExcutor, PublishAlarmDataTask, PublishAttributeDataTask, 
+PublishTelemetryDataTask); max call depth (5) reached before IoTSharp.Data.JsonDB.Internal.SqlStatementParser.Parse(string); max call depth (5) reached before 
+IoTSharp.Data.JsonDB.Internal.JsonSqlQueryExecutor.ExecuteStatement(IoTSharp.Data.JsonDB.Internal.SqlStatement, 
+IoTSharp.Data.JsonDB.Internal.SqlExecutionContext); max call depth (5) reached before 
+IoTSharp.Interpreter.LuaScriptEngine.ToJsonToken(MoonSharp.Interpreter.DynValue).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/rules/rulecondition/rulecondition via 'm' (b2a7a4ddb61d)
+  No state change found, but 'm' entered unresolved code: external dispatch: EasyCaching.Core.IEasyCachingProviderBase.GetAsync<(IoTSharp.Data.FlowRule rule, 
+System.Collections.Generic.List<IoTSharp.Data.Flow> _allFlows)>(string, System.Func<System.Threading.Tasks.Task<(IoTSharp.Data.FlowRule rule, 
+System.Collections.Generic.List<IoTSharp.Data.Flow> _allFlows)>>, System.TimeSpan, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/subscriptionevent/get via 'id' (d0bf95fee24f)
+  Read on SubscriptionEvent at IoTSharp/Controllers/SubscriptionController.cs:53: SubscriptionEvent has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown PUT api/subscriptionevent/update via 'm' (08d3e6210684)
+  Read on SubscriptionEvent at IoTSharp/Controllers/SubscriptionController.cs:65: SubscriptionEvent has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/subscriptionevent/delete via 'id' (1a664e074454)
+  Read on SubscriptionEvent at IoTSharp/Controllers/SubscriptionController.cs:116: SubscriptionEvent has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/tenants/{id} via 'id' (7816f4111292)
+  Read on Tenant at IoTSharp/Controllers/TenantsController.cs:77: Tenant has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/tenants/{id} via 'tenant' (a6a23706195c)
+  SaveChanges on Tenant at IoTSharp/Controllers/TenantsController.cs:110: detached Tenant built from the client-controlled key is written without loading or 
+checking ownership.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown DELETE api/tenants/{id} via 'id' (2d6a7f23f2e3)
+  Read on Tenant at IoTSharp/Controllers/TenantsController.cs:170: Tenant has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/tenants/{id}/ai via 'id' (1111b76200c5)
+  Read on Tenant at IoTSharp/Controllers/TenantsController.cs:207: Tenant has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/tenants/{id}/ai via 'id' (3504718a224a)
+  Read on Tenant at IoTSharp/Controllers/TenantsController.cs:254: Tenant has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).

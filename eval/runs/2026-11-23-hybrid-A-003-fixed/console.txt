@@ -1,0 +1,597 @@
+[scan] Loading solution (MSBuildWorkspace)…
+[scan] Stage 1: endpoints, policy, schema, DI, taint paths, rules…
+[scan] Loading local model /home/user/Final_Year_Project/models/phi3-mini-4k/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4…
+[scan] Calibration gate: testing the model on labelled probe slices…
+[scan] Calibration gate passed: 3/4
+[scan] Done.
+wrote /home/user/Final_Year_Project/eval/runs/2026-11-23-hybrid-A-003-fixed/report.json
+BolaLens 0.1.0 · mode hybrid · /home/user/datasets/A-003-fixed/Oqtane.sln
+model cpu-int4-rtn-block-32-acc-level-4 · prompt v1/phi3 (2cb6f06902429b28)
+calibration gate passed 3/4
+╭─────────────────────────────────────────────────────────────────────────────────────────────┬────────────┬────────────┬───────────────┬──────────╮
+│ Endpoint                                                                                    │ Final      │ Symbolic   │ Rules         │ Semantic │
+├─────────────────────────────────────────────────────────────────────────────────────────────┼────────────┼────────────┼───────────────┼──────────┤
+│ GET api/alias/{id}                                                                          │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/alias                                                                              │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
+│ PUT api/alias/{id}                                                                          │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
+│ DELETE api/alias/{id}                                                                       │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/file/{siteid}/{path}                                                                │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/file/{id}                                                                           │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/file/name/{name}/{folderid}                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/file                                                                               │ Protected  │ Protected  │ SYM-05        │ —        │
+│ PUT api/file/{id}                                                                           │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ PUT api/file/unzip/{id}                                                                     │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ DELETE api/file/{id}                                                                        │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/file/download/{id}                                                                  │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/file/download/{id}/attach                                                           │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/file/image/{id}/{width}/{height}/{mode}/{position}/{background}/{rotate}/{recreate} │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/folder/{id}                                                                         │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/folder/path/{siteid}                                                                │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/folder                                                                             │ Vulnerable │ Vulnerable │ SYM-08,SYM-07 │ —        │
+│ PUT api/folder/{id}                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ DELETE api/folder/{id}                                                                      │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/job/{id}                                                                            │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/job                                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ PUT api/job/{id}                                                                            │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
+│ DELETE api/job/{id}                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/job/start/{id}                                                                      │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/job/stop/{id}                                                                       │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/joblog/{id}                                                                         │ Unknown    │ Unknown    │ SYM-09        │ —        │
+│ GET api/language/{id}                                                                       │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ PUT api/language                                                                            │ Vulnerable │ Vulnerable │ SYM-08,SYM-07 │ —        │
+│ POST api/language                                                                           │ Vulnerable │ Vulnerable │ SYM-08,SYM-07 │ —        │
+│ DELETE api/language/{id}                                                                    │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/log/{id}                                                                            │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/log                                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ DELETE api/log                                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ GET api/module/{id}                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/module                                                                             │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ PUT api/module/{id}                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ DELETE api/module/{id}                                                                      │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/moduledefinition/{id}                                                               │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ POST api/moduledefinition                                                                   │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ PUT api/moduledefinition/{id}                                                               │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ DELETE api/moduledefinition/{id}                                                            │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/notification/{id}                                                                   │ Protected  │ Protected  │ SYM-03        │ —        │
+│ POST api/notification                                                                       │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
+│ PUT api/notification/{id}                                                                   │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
+│ DELETE api/notification/{id}                                                                │ Protected  │ Protected  │ SYM-03        │ —        │
+│ GET api/page/{id}                                                                           │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/page/path/{siteid}                                                                  │ Protected  │ Protected  │ SYM-05        │ —        │
+│ POST api/page                                                                               │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/page/{id}                                                                          │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ PUT api/page/{id}                                                                           │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ DELETE api/page/{id}                                                                        │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/pagemodule/{id}                                                                     │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/pagemodule/{pageid}/{moduleid}                                                      │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/pagemodule                                                                         │ Protected  │ Protected  │ SYM-05        │ —        │
+│ PUT api/pagemodule/{id}                                                                     │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ DELETE api/pagemodule/{id}                                                                  │ Protected  │ Protected  │ SYM-05        │ —        │
+│ GET api/profile/{id}                                                                        │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/profile                                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ PUT api/profile/{id}                                                                        │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
+│ DELETE api/profile/{id}                                                                     │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/role/{id}                                                                           │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/role                                                                               │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
+│ PUT api/role/{id}                                                                           │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
+│ DELETE api/role/{id}                                                                        │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/searchresults                                                                      │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/setting                                                                             │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/setting/{id}/{entityname}                                                           │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/setting                                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ PUT api/setting/{id}                                                                        │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
+│ PUT api/setting/{entityname}/{entityid}/{settingname}/{settingvalue}/{isprivate}            │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ DELETE api/setting/{entityname}/{entityid}/{settingname}                                    │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/site/{id}                                                                           │ Unknown    │ Unknown    │ SYM-02        │ —        │
+│ POST api/site                                                                               │ Unknown    │ Unknown    │ SYM-02        │ —        │
+│ PUT api/site/{id}                                                                           │ Unknown    │ Unknown    │ SYM-02        │ —        │
+│ DELETE api/site/{id}                                                                        │ Unknown    │ Unknown    │ SYM-02        │ —        │
+│ GET api/site/modules/{siteid}/{pageid}                                                      │ Unknown    │ Unknown    │ SYM-02        │ —        │
+│ POST api/sql                                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ GET api/sync/{lastsyncdate}                                                                 │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ GET api/system/{key}/{value}                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ GET api/tenant/{id}                                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ GET api/theme/{id}                                                                          │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ PUT api/theme/{id}                                                                          │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ DELETE api/theme/{themename}                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ POST api/theme                                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ GET api/urlmapping/{id}                                                                     │ Unknown    │ Unknown    │ SYM-09        │ —        │
+│ GET api/urlmapping/url/{siteid}                                                             │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/urlmapping                                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ PUT api/urlmapping/{id}                                                                     │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
+│ DELETE api/urlmapping/{id}                                                                  │ Unknown    │ Unknown    │ SYM-09        │ —        │
+│ GET api/user/{id}                                                                           │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ GET api/user/username/{username}                                                            │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/user/search/{username}/{email}                                                      │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/user                                                                               │ Vulnerable │ Vulnerable │ SYM-08,SYM-07 │ —        │
+│ PUT api/user/{id}                                                                           │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
+│ DELETE api/user/{id}                                                                        │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/user/login                                                                         │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
+│ POST api/user/logout                                                                        │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ POST api/user/logouteverywhere                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ POST api/user/verify                                                                        │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ POST api/user/forgot                                                                        │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ POST api/user/reset                                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ POST api/user/twofactor                                                                     │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ POST api/user/link                                                                          │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ GET api/user/validate/{password}                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ GET api/user/passwordrequirements/{siteid}                                                  │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/userrole/{id}                                                                       │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ POST api/userrole                                                                           │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ PUT api/userrole/{id}                                                                       │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ DELETE api/userrole/{id}                                                                    │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/visitor/{id}                                                                        │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/htmltext                                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ GET api/htmltext/{moduleid}                                                                 │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ GET api/htmltext/{id}/{moduleid}                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ POST api/htmltext                                                                           │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
+│ DELETE api/htmltext/{id}/{moduleid}                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+╰─────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴───────────────┴──────────╯
+projects 7 (with errors 2) · endpoints 168 (with ids 115) · paths 154 (truncated 0) · unresolved calls 818
+symbolic: 81 vulnerable · 12 protected · 9 unknown · 52 out of scope
+time 309.0s · peak memory 6309 MB
+
+Vulnerable GET api/alias/{id} via 'id' (579ec9e0008e)
+  Read on Alias at Oqtane.Server/Repository/AliasRepository.cs:58: Alias (owners: CreatedBy (User), TenantId (Tenant)) is selected by client-controlled 'id' and
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/alias via 'alias' (c036947fb4cb)
+  SaveChanges on Alias at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: detached Alias built from the client-controlled key is written without loading
+or checking ownership.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/alias/{id} via 'alias' (2b83d5eee920)
+  SaveChanges on Alias at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: detached Alias built from the client-controlled key is written without loading
+or checking ownership.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/alias/{id} via 'id' (583e1df0bc24)
+  Read on Alias at Oqtane.Server/Repository/AliasRepository.cs:58: Alias (owners: CreatedBy (User), TenantId (Tenant)) is selected by client-controlled 'id' and
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/file/{id} via 'id' (f0989be0a980)
+  Read on File at Oqtane.Server/Repository/FileRepository.cs:91: File (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no valid
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/file/name/{name}/{folderid} via 'folderId' (cf6e0a1a6d6d)
+  Read on File at Oqtane.Server/Repository/FileRepository.cs:108: File (owners: CreatedBy (User)) is selected by client-controlled 'folderId' and changed with 
+no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/file/{id} via 'id' (7d3d7dd816d3)
+  Read on File at Oqtane.Server/Repository/FileRepository.cs:91: File (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no valid
+owner guard or applicable query filter. Rejected checks: guard checks a different object (Oqtane.Server/Controllers/FileController.cs:227).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/file/{id} via 'file' (2ba7215f43dd)
+  Read on File at Oqtane.Server/Repository/FileRepository.cs:91: File (owners: CreatedBy (User)) is selected by client-controlled 'file' and changed with no 
+valid owner guard or applicable query filter. Rejected checks: guard checks a different object (Oqtane.Server/Controllers/FileController.cs:227).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/file/unzip/{id} via 'id' (2e9a3908f6c7)
+  Read on File at Oqtane.Server/Repository/FileRepository.cs:91: File (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no valid
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/file/{id} via 'id' (de1f789d36dc)
+  Read on File at Oqtane.Server/Repository/FileRepository.cs:91: File (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no valid
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/file/download/{id} via 'id' (3291e313708c)
+  Read on File at Oqtane.Server/Repository/FileRepository.cs:91: File (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no valid
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/file/download/{id}/attach via 'id' (23dac59d33e5)
+  Read on File at Oqtane.Server/Repository/FileRepository.cs:91: File (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no valid
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/file/image/{id}/{width}/{height}/{mode}/{position}/{background}/{rotate}/{recreate} via 'id' (00bbe6ac0e44)
+  Read on File at Oqtane.Server/Repository/FileRepository.cs:91: File (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no valid
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/folder/path/{siteid} via 'siteId' (ec61c1201d7e)
+  Read on Folder at Oqtane.Server/Repository/FolderRepository.cs:85: Folder (owners: CreatedBy (User)) is selected by client-controlled 'siteId' and changed 
+with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/folder via 'folder' (9c80bfd3cad8)
+  Read on Folder at Oqtane.Server/Repository/FolderRepository.cs:69: Folder (owners: CreatedBy (User)) is selected by client-controlled 'folder' and changed 
+with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/folder/{id} via 'id' (e18810f246b2)
+  Read on Folder at Oqtane.Server/Repository/FolderRepository.cs:69: Folder (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no
+valid owner guard or applicable query filter. Rejected checks: guard checks a different object (Oqtane.Server/Repository/PermissionRepository.cs:142).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/folder/{id} via 'folder' (a909778be26f)
+  Read on Folder at Oqtane.Server/Repository/FolderRepository.cs:69: Folder (owners: CreatedBy (User)) is selected by client-controlled 'folder' and changed 
+with no valid owner guard or applicable query filter. Rejected checks: guard does not precede the state change 
+(Oqtane.Server/Repository/PermissionRepository.cs:142).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/job/{id} via 'id' (ac6bb97e5556)
+  Read on Job at Oqtane.Server/Repository/JobRepository.cs:48: Job (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no valid 
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/job/{id} via 'job' (a1e0c7e7a737)
+  SaveChanges on Job at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: detached Job built from the client-controlled key is written without loading or 
+checking ownership.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/job/{id} via 'id' (9c3c494371ca)
+  Read on Job at Oqtane.Server/Repository/JobRepository.cs:48: Job (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no valid 
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/job/start/{id} via 'id' (b7b1056ed434)
+  Read on Job at Oqtane.Server/Repository/JobRepository.cs:48: Job (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no valid 
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/job/stop/{id} via 'id' (fc9af24183ea)
+  Read on Job at Oqtane.Server/Repository/JobRepository.cs:48: Job (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no valid 
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/joblog/{id} via 'id' (5bb62476eefa)
+  Read on JobLog at Oqtane.Server/Repository/JobLogRepository.cs:40: JobLog has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/language/{id} via 'id' (ba309e39e835)
+  Read on Language at Oqtane.Server/Repository/LanguageRepository.cs:65: Language (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed 
+with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/language via 'language' (0997861fce1c)
+  Read on Language at Oqtane.Server/Repository/LanguageRepository.cs:51: Language (owners: CreatedBy (User)) is selected by client-controlled 'language' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/language via 'language' (bd8874cedcac)
+  Read on Language at Oqtane.Server/Repository/LanguageRepository.cs:29: Language (owners: CreatedBy (User)) is selected by client-controlled 'language' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/language/{id} via 'id' (cf318b649c22)
+  Read on Language at Oqtane.Server/Repository/LanguageRepository.cs:65: Language (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed 
+with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/log/{id} via 'id' (3a431e4f0cdf)
+  Read on Log at Oqtane.Server/Repository/LogRepository.cs:46: Log (owners: UserId (User)) is selected by client-controlled 'id' and changed with no valid owner
+guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/module/{id} via 'id' (76bda2779d95)
+  Read on Setting at Oqtane.Server/Controllers/ModuleController.cs:110: Setting (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed 
+with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/module via 'module' (e7e5007e24e0)
+  Read on Role at Oqtane.Server/Repository/RoleRepository.cs:27: Role (owners: CreatedBy (User)) is selected by client-controlled 'module' and changed with no 
+valid owner guard or applicable query filter. Rejected checks: guard checks a different object (Oqtane.Server/Repository/PermissionRepository.cs:142); guard 
+checks a different object (Oqtane.Server/Controllers/ModuleController.cs:135).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/module/{id} via 'id' (4ad75231ca3e)
+  Read on Module at Oqtane.Server/Repository/ModuleRepository.cs:67: Module (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no
+valid owner guard or applicable query filter. Rejected checks: guard checks a different object (Oqtane.Server/Repository/PermissionRepository.cs:142).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/module/{id} via 'module' (7208044c232e)
+  Read on Module at Oqtane.Server/Repository/ModuleRepository.cs:67: Module (owners: CreatedBy (User)) is selected by client-controlled 'module' and changed 
+with no valid owner guard or applicable query filter. Rejected checks: guard does not precede the state change 
+(Oqtane.Server/Repository/PermissionRepository.cs:142).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/moduledefinition/{id} via 'id' (78dd6c6419f3)
+  Read on Role at Oqtane.Server/Repository/RoleRepository.cs:27: Role (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no valid
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/moduledefinition/{id} via 'moduleDefinition' (690dd253bbd2)
+  SaveChanges on ModuleDefinition at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: detached ModuleDefinition built from the client-controlled key is 
+written without loading or checking ownership.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/moduledefinition/{id} via 'id' (675423dbf60c)
+  Read on ModuleDefinition at Oqtane.Server/Repository/ModuleDefinitionRepository.cs:75: ModuleDefinition (owners: CreatedBy (User)) is selected by 
+client-controlled 'id' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/notification via 'notification' (edf2861e32e5)
+  SaveChanges on Notification at Oqtane.Server/Repository/Context/DBContextBase.cs:86: detached Notification built from the client-controlled key is written 
+without loading or checking ownership. Rejected checks: owner value comes from the request body, not from the stored object 
+(Oqtane.Server/Controllers/NotificationController.cs:158).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/notification/{id} via 'notification' (f505239f75b2)
+  SaveChanges on Notification at Oqtane.Server/Repository/Context/DBContextBase.cs:86: detached Notification built from the client-controlled key is written 
+without loading or checking ownership. Rejected checks: owner value comes from the request body, not from the stored object 
+(Oqtane.Server/Controllers/NotificationController.cs:184).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/page via 'page' (0619282cabd3)
+  Read on Page at Oqtane.Server/Repository/PageRepository.cs:66: Page (owners: CreatedBy (User), UserId (User)) is selected by client-controlled 'page' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/page/{id} via 'id' (a2cd2be6a716)
+  Read on Page at Oqtane.Server/Repository/PageRepository.cs:66: Page (owners: CreatedBy (User), UserId (User)) is selected by client-controlled 'id' and 
+changed with no valid owner guard or applicable query filter. Rejected checks: guard checks a different object 
+(Oqtane.Server/Repository/PermissionRepository.cs:142); guard checks a different object (Oqtane.Server/Controllers/PageController.cs:190).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/page/{id} via 'id' (6414a888c746)
+  Read on Page at Oqtane.Server/Repository/PageRepository.cs:66: Page (owners: CreatedBy (User), UserId (User)) is selected by client-controlled 'id' and 
+changed with no valid owner guard or applicable query filter. Rejected checks: guard checks a different object 
+(Oqtane.Server/Repository/PermissionRepository.cs:142).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/page/{id} via 'page' (d46667313e0c)
+  Read on Page at Oqtane.Server/Repository/PageRepository.cs:66: Page (owners: CreatedBy (User), UserId (User)) is selected by client-controlled 'page' and 
+changed with no valid owner guard or applicable query filter. Rejected checks: guard does not precede the state change 
+(Oqtane.Server/Repository/PermissionRepository.cs:142).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/pagemodule/{id} via 'id' (1f9caeb39447)
+  Read on PageModule at Oqtane.Server/Repository/PageModuleRepository.cs:74: PageModule (owners: CreatedBy (User)) is selected by client-controlled 'id' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/pagemodule/{pageid}/{moduleid} via 'pageid' (ee90d22b7ac2)
+  Read on PageModule at Oqtane.Server/Repository/PageModuleRepository.cs:98: PageModule (owners: CreatedBy (User)) is selected by client-controlled 'pageid' and
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/pagemodule/{pageid}/{moduleid} via 'moduleid' (8d68a685ef62)
+  Read on PageModule at Oqtane.Server/Repository/PageModuleRepository.cs:98: PageModule (owners: CreatedBy (User)) is selected by client-controlled 'moduleid' 
+and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/pagemodule/{id} via 'id' (e04de3deed39)
+  SaveChanges on Page at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: Page (owners: CreatedBy (User), UserId (User)) is selected by client-controlled
+'id' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/pagemodule/{id} via 'pageModule' (f6f1ed78455b)
+  SaveChanges on Page at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: Page (owners: CreatedBy (User), UserId (User)) is selected by client-controlled
+'pageModule' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/profile/{id} via 'id' (6a638e0f6ada)
+  Read on Profile at Oqtane.Server/Repository/ProfileRepository.cs:49: Profile (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with
+no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/profile/{id} via 'profile' (9ace7390c491)
+  SaveChanges on Profile at Oqtane.Server/Repository/Context/DBContextBase.cs:86: detached Profile built from the client-controlled key is written without 
+loading or checking ownership.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/profile/{id} via 'id' (c219bf0c5e93)
+  Read on Profile at Oqtane.Server/Repository/ProfileRepository.cs:49: Profile (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with
+no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/role/{id} via 'id' (6334dff17fa1)
+  Read on Role at Oqtane.Server/Repository/RoleRepository.cs:63: Role (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no valid
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/role via 'role' (a8c83caf9505)
+  SaveChanges on Role at Oqtane.Server/Repository/Context/DBContextBase.cs:86: detached Role built from the client-controlled key is written without loading or 
+checking ownership.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/role/{id} via 'role' (6e4d8d996ba1)
+  SaveChanges on Role at Oqtane.Server/Repository/Context/DBContextBase.cs:86: detached Role built from the client-controlled key is written without loading or 
+checking ownership.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/role/{id} via 'id' (50dfbf7340fc)
+  Read on Role at Oqtane.Server/Repository/RoleRepository.cs:63: Role (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no valid
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/searchresults via 'searchQuery' (a371dec953b7)
+  Read on Setting at Oqtane.Server/Repository/SettingRepository.cs:97: Setting (owners: CreatedBy (User)) is selected by client-controlled 'searchQuery' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/setting via 'entityId' (50e29419b8c2)
+  Read on Setting at Oqtane.Server/Controllers/SettingController.cs:59: Setting (owners: CreatedBy (User)) is selected by client-controlled 'entityId' and 
+changed with no valid owner guard or applicable query filter. Rejected checks: FilterPrivate can return true without comparing the caller identity (e.g. for a 
+null id) (Oqtane.Server/Controllers/SettingController.cs:60); IsAuthorized can return true without comparing the caller identity (e.g. for a null id) 
+(Oqtane.Server/Controllers/SettingController.cs:57).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/setting/{id}/{entityname} via 'id' (da4a859cf171)
+  Read on Setting at Oqtane.Server/Repository/SettingRepository.cs:84: Setting (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with
+no valid owner guard or applicable query filter. Rejected checks: FilterPrivate can return true without comparing the caller identity (e.g. for a null id) 
+(Oqtane.Server/Controllers/SettingController.cs:84).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/setting/{id} via 'setting' (f756c4cb4fa0)
+  SaveChanges on Setting at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: detached Setting built from the client-controlled key is written without 
+loading or checking ownership. Rejected checks: IsAuthorized can return true without comparing the caller identity (e.g. for a null id) 
+(Oqtane.Server/Controllers/SettingController.cs:131).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/setting/{entityname}/{entityid}/{settingname}/{settingvalue}/{isprivate} via 'entityName' (248ffa7d7843)
+  Read on Setting at Oqtane.Server/Repository/SettingRepository.cs:97: Setting (owners: CreatedBy (User)) is selected by client-controlled 'entityName' and 
+changed with no valid owner guard or applicable query filter. Rejected checks: IsAuthorized can return true without comparing the caller identity (e.g. for a 
+null id) (Oqtane.Server/Controllers/SettingController.cs:153).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/setting/{entityname}/{entityid}/{settingname}/{settingvalue}/{isprivate} via 'entityId' (d5a98ea39636)
+  Read on Setting at Oqtane.Server/Repository/SettingRepository.cs:97: Setting (owners: CreatedBy (User)) is selected by client-controlled 'entityId' and 
+changed with no valid owner guard or applicable query filter. Rejected checks: IsAuthorized can return true without comparing the caller identity (e.g. for a 
+null id) (Oqtane.Server/Controllers/SettingController.cs:153).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/setting/{entityname}/{entityid}/{settingname}/{settingvalue}/{isprivate} via 'settingName' (71299833f996)
+  Read on Setting at Oqtane.Server/Repository/SettingRepository.cs:97: Setting (owners: CreatedBy (User)) is selected by client-controlled 'settingName' and 
+changed with no valid owner guard or applicable query filter. Rejected checks: IsAuthorized can return true without comparing the caller identity (e.g. for a 
+null id) (Oqtane.Server/Controllers/SettingController.cs:153).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/setting/{entityname}/{entityid}/{settingname} via 'entityName' (02cba5392c94)
+  Read on Setting at Oqtane.Server/Repository/SettingRepository.cs:97: Setting (owners: CreatedBy (User)) is selected by client-controlled 'entityName' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/setting/{entityname}/{entityid}/{settingname} via 'entityId' (264a9dc17d20)
+  Read on Setting at Oqtane.Server/Repository/SettingRepository.cs:97: Setting (owners: CreatedBy (User)) is selected by client-controlled 'entityId' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/setting/{entityname}/{entityid}/{settingname} via 'settingName' (6fd30170f334)
+  Read on Setting at Oqtane.Server/Repository/SettingRepository.cs:97: Setting (owners: CreatedBy (User)) is selected by client-controlled 'settingName' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/site/{id} via 'id' (f473e4bfaac6)
+  No state change found, but 'id' entered unresolved code: ambiguous dispatch: 2 implementations of Oqtane.Services.ISiteService.GetSiteAsync(int) 
+(ServerSiteService, SiteService).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/site via 'site' (ff74b86e214f)
+  No state change found, but 'site' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Oqtane.Services.ISiteService.AddSiteAsync(Oqtane.Models.Site) (ServerSiteService, SiteService).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown PUT api/site/{id} via 'site' (895b34da3e34)
+  No state change found, but 'site' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Oqtane.Services.ISiteService.UpdateSiteAsync(Oqtane.Models.Site) (ServerSiteService, SiteService).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown DELETE api/site/{id} via 'id' (ba79e2e52300)
+  No state change found, but 'id' entered unresolved code: ambiguous dispatch: 2 implementations of Oqtane.Services.ISiteService.DeleteSiteAsync(int) 
+(ServerSiteService, SiteService).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/site/modules/{siteid}/{pageid} via 'siteId' (9b59f1c401f0)
+  No state change found, but 'siteId' entered unresolved code: ambiguous dispatch: 2 implementations of Oqtane.Services.ISiteService.GetModulesAsync(int, int) 
+(ServerSiteService, SiteService).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/site/modules/{siteid}/{pageid} via 'pageId' (4641f40fab96)
+  No state change found, but 'pageId' entered unresolved code: ambiguous dispatch: 2 implementations of Oqtane.Services.ISiteService.GetModulesAsync(int, int) 
+(ServerSiteService, SiteService).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/theme/{id} via 'id' (5efce9ecea70)
+  Read on Setting at Oqtane.Server/Repository/SettingRepository.cs:97: Setting (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with
+no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/theme/{id} via 'theme' (9555bf9345c4)
+  SaveChanges on Theme at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: detached Theme built from the client-controlled key is written without loading
+or checking ownership.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/urlmapping/{id} via 'id' (dd6508d222da)
+  Read on UrlMapping at Oqtane.Server/Repository/UrlMappingRepository.cs:60: UrlMapping has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/urlmapping/url/{siteid} via 'siteid' (682f270b0159)
+  Read on Site at Oqtane.Server/Repository/SiteRepository.cs:87: Site (owners: CreatedBy (User), TenantId (Tenant)) is selected by client-controlled 'siteid' 
+and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/urlmapping/{id} via 'urlMapping' (479eec63c92e)
+  SaveChanges on UrlMapping at Oqtane.Server/Repository/Context/DBContextBase.cs:86: detached UrlMapping built from the client-controlled key is written without
+loading or checking ownership.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown DELETE api/urlmapping/{id} via 'id' (526b39973dec)
+  Read on UrlMapping at Oqtane.Server/Repository/UrlMappingRepository.cs:60: UrlMapping has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/user/username/{username} via 'username' (d1a21fd56906)
+  Read on User at Oqtane.Server/Repository/UserRepository.cs:122: User (owners: CreatedBy (User), UserId (User)) is selected by client-controlled 'username' and
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/user/search/{username}/{email} via 'username' (73ac42db4be4)
+  Read on User at Oqtane.Server/Repository/UserRepository.cs:122: User (owners: CreatedBy (User), UserId (User)) is selected by client-controlled 'username' and
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/user/search/{username}/{email} via 'email' (cd24d2204841)
+  Read on User at Oqtane.Server/Repository/UserRepository.cs:126: User (owners: CreatedBy (User), UserId (User)) is selected by client-controlled 'email' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/user via 'user' (450d1aaa9f9e)
+  Read on Site at Oqtane.Server/Repository/SiteRepository.cs:87: Site (owners: CreatedBy (User), TenantId (Tenant)) is selected by client-controlled 'user' and 
+changed with no valid owner guard or applicable query filter. Rejected checks: guard does not precede the state change 
+(Oqtane.Server/Controllers/UserController.cs:162).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/user/{id} via 'user' (2487874609b2)
+  SaveChanges on User at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: detached User built from the client-controlled key is written without loading 
+or checking ownership. Rejected checks: owner value comes from the request body, not from the stored object (Oqtane.Server/Controllers/UserController.cs:200); 
+check is combined with other conditions and does not always stop the request (Oqtane.Server/Controllers/UserController.cs:200).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/user/{id} via 'id' (bec52eeb1980)
+  Read on User at Oqtane.Server/Repository/UserRepository.cs:103: User (owners: CreatedBy (User), UserId (User)) is selected by client-controlled 'id' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/user/login via 'user' (45b7ee62bb05)
+  SaveChanges on User at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: detached User built from the client-controlled key is written without loading 
+or checking ownership.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/user/passwordrequirements/{siteid} via 'siteid' (0c3c09b2bdaf)
+  Read on Site at Oqtane.Server/Repository/SiteRepository.cs:87: Site (owners: CreatedBy (User), TenantId (Tenant)) is selected by client-controlled 'siteid' 
+and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/userrole/{id} via 'id' (e5f8bb46d240)
+  Read on UserRole at Oqtane.Server/Repository/UserRoleRepository.cs:111: UserRole (owners: CreatedBy (User), UserId (User)) is selected by client-controlled 
+'id' and changed with no valid owner guard or applicable query filter. Rejected checks: check is combined with other conditions and does not always stop the 
+request (Oqtane.Server/Controllers/UserRoleController.cs:104).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/userrole via 'userRole' (021a45e4e41d)
+  Read on Role at Oqtane.Server/Repository/RoleRepository.cs:63: Role (owners: CreatedBy (User)) is selected by client-controlled 'userRole' and changed with no
+valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/userrole/{id} via 'id' (f6d0352e2157)
+  Read on Role at Oqtane.Server/Repository/RoleRepository.cs:63: Role (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed with no valid
+owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable PUT api/userrole/{id} via 'userRole' (8eb8f16a6f5b)
+  Read on Role at Oqtane.Server/Repository/RoleRepository.cs:63: Role (owners: CreatedBy (User)) is selected by client-controlled 'userRole' and changed with no
+valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/userrole/{id} via 'id' (f998a6132121)
+  Read on UserRole at Oqtane.Server/Repository/UserRoleRepository.cs:111: UserRole (owners: CreatedBy (User), UserId (User)) is selected by client-controlled 
+'id' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/visitor/{id} via 'id' (da6874bb832e)
+  Read on Visitor at Oqtane.Server/Repository/VisitorRepository.cs:45: Visitor (owners: UserId (User)) is selected by client-controlled 'id' and changed with no
+valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/htmltext/{id}/{moduleid} via 'id' (6529a76aeb31)
+  Read on HtmlText at Oqtane.Server/Modules/HtmlText/Repository/HtmlTextRepository.cs:41: HtmlText (owners: CreatedBy (User)) is selected by client-controlled 
+'id' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).

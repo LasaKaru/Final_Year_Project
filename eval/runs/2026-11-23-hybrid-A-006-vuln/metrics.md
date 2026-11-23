@@ -1,0 +1,14 @@
+# Evaluation — /home/user/datasets/A-006-vuln/Kavita.sln (2026-11-23)
+
+| Arm | TP | FP | FN | TN | U(vuln) | U(prot) | Precision | Recall | Op. recall | F1 | FPR | FDR | Coverage |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| symbolic | 0 | 0 | 3 | 0 | 0 | 0 | n/a | 0.000 | 0.000 | 0.000 | n/a | n/a | 1.000 |
+| hybrid (cpu-int4-rtn-block-32-acc-level-4, gate passed 3/4) | 0 | 0 | 3 | 0 | 0 | 0 | n/a | 0.000 | 0.000 | 0.000 | n/a | n/a | 1.000 |
+
+Units labelled Unknown/OutOfScope (excluded from the matrix): 0; correctly abstained (predicted Unknown): 0; labelled units with no prediction: 1.
+
+| Unit | TC | Label | Expected rule | Predicted | Rules | Match |
+|---|---|---|---|---|---|---|
+| `GET api/readinglist/items` | A-006/GET items | Vulnerable |  | OutOfScope | SYM-01 | ❌ |
+| `POST api/download/bookmarks` | A-006/POST bookmarks | Vulnerable |  | — |  | ❌ |
+| `GET api/annotation/{annotationid}` | A-006/GET {annotationId} | Vulnerable |  | OutOfScope | SYM-01 | ❌ |
