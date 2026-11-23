@@ -72,6 +72,30 @@ jobs:
           ls sarif
           echo "case=${{ matrix.case }} variant=${{ matrix.variant }} repo=${{ matrix.repo }} sha=${{ matrix.sha }}" > sarif/env.txt
           python3 -c "import json,glob;d=json.load(open(glob.glob('sarif/*.sarif')[0]));print('codeql', d['runs'][0]['tool']['driver'].get('semanticVersion'))" >> sarif/env.txt
+      - name: Print compact results (retrievable through the job log)
+        env:
+          CASE: ${{ matrix.case }}
+          VARIANT: ${{ matrix.variant }}
+        run: |
+          python3 - <<'PY'
+          import glob, json, os, re
+          d = json.load(open(glob.glob('sarif/*.sarif')[0]))
+          for run in d['runs']:
+              tool = run['tool']
+              cwes = {}
+              for comp in [tool.get('driver', {})] + tool.get('extensions', []):
+                  for r in comp.get('rules', []):
+                      tags = (r.get('properties') or {}).get('tags', [])
+                      cwes[r['id']] = sorted({m.group(1).lstrip('0') for t in tags for m in [re.search(r'cwe[-/](\d+)$', t, re.I)] if m})
+              for res in run.get('results', []):
+                  rule = res.get('ruleId') or (res.get('rule') or {}).get('id', '')
+                  for loc in res.get('locations', [])[:1]:
+                      pl = loc.get('physicalLocation', {})
+                      print('BASELINE ' + json.dumps({'case': os.environ['CASE'], 'variant': os.environ['VARIANT'], 'rule': rule,
+                            'cwes': cwes.get(rule, []), 'uri': pl.get('artifactLocation', {}).get('uri', ''),
+                            'line': pl.get('region', {}).get('startLine', 0)}, separators=(',', ':')))
+          print('BASELINE-END')
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: codeql-${{ matrix.case }}-${{ matrix.variant }}
