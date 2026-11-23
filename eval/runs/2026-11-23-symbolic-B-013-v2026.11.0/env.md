@@ -4,7 +4,7 @@
 * global.json: unchanged
 * Config: eval/datasets/configs/bitwarden.json
 * Machine: Linux x86_64, 4 logical cores; .NET SDKs: 8.0.134,10.0.115
-* BolaLens commit: `1e9cb9f`
-* Wall time (incl. load): 309 s · peak working set: 5711 MB
+* BolaLens commit: `e4b5b65` (+ uncommitted changes)
+* Wall time (incl. load): 357 s · peak working set: 5087 MB
 * Labels: none yet
-* Recorded by `scripts/run-case.sh` on 2026-11-23T08:37:16Z.
+* Recorded by `scripts/run-case.sh` on 2026-11-23T10:04:13Z.

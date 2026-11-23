@@ -4,7 +4,7 @@
 * global.json: unchanged
 * Config: eval/datasets/configs/read-mode.json
 * Machine: Linux x86_64, 4 logical cores; .NET SDKs: 8.0.134,10.0.115
-* BolaLens commit: `a4c5f9b`
-* Wall time (incl. load): 334 s · peak working set: 3300 MB
+* BolaLens commit: `e4b5b65` (+ uncommitted changes)
+* Wall time (incl. load): 417 s · peak working set: 3103 MB
 * Labels: `eval/labels/drafts/A-007-fixed.labels.json`
-* Recorded by `scripts/run-case.sh` on 2026-11-23T08:26:41Z.
+* Recorded by `scripts/run-case.sh` on 2026-11-23T09:52:24Z.

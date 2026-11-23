@@ -583,7 +583,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-013-v2026.11.0/bitwarde
 projects 89 (with errors 6) · endpoints 810 (with ids 595) · paths 823 (truncated 39) · unresolved calls 7360
 symbolic: 50 vulnerable · 1 protected · 457 unknown · 315 out of scope
 1 Minimal-API endpoints were not analysed (unsupported endpoint style).
-time 307.0s · peak memory 5711 MB
+time 354.8s · peak memory 5087 MB
 
 Unknown GET rotationattemptcipherendpoints/{id}/cipher via 'id' (4655268e5ed2)
   No state change found, but 'id' entered unresolved code: external dispatch: AutoMapper.IMapperBase.Map<Bit.Pam.Entities.PamRotationAttempt>(object) receives 
@@ -7005,7 +7005,7 @@ ambiguous dispatch: 3 implementations of Bit.Core.Pam.Services.ICipherLeaseGate.
 
 Vulnerable POST ciphers/bulk-collections via 'model' (7ba5eeaeae9a)
   Remove on CollectionCipher at src/Infrastructure.EntityFramework/Repositories/CollectionCipherRepository.cs:300: CollectionCipher is scoped by membership 
-(Cipher) and is selected by client-controlled 'model' with no access check binding the caller.
+(Collection) and is selected by client-controlled 'model' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE ciphers/admin via 'model' (0408091d1ca5)
