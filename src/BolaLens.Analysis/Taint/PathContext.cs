@@ -4,7 +4,10 @@ using Microsoft.CodeAnalysis;
 namespace BolaLens.Analysis.Taint;
 
 /// <summary>A state-changing EF Core operation on an entity token, with its position in execution order.</summary>
-public sealed record SinkRecord(SinkKind Kind, EntityToken Token, string Symbol, SourceRef Location, int Seq, bool IsStateChanging);
+/// <summary><see cref="Anchors"/>: for every method frame active when the sink was reached, the statement being executed there
+/// (used to check that an exiting guard dominates the sink).</summary>
+public sealed record SinkRecord(SinkKind Kind, EntityToken Token, string Symbol, SourceRef Location, int Seq, bool IsStateChanging,
+    IReadOnlyDictionary<MethodFrame, Microsoft.CodeAnalysis.SyntaxNode?>? Anchors = null);
 
 public enum ComparandClass { Identity, ClientControlled, Other }
 
@@ -37,6 +40,9 @@ public sealed class GuardRecord
     public bool Covers(int seq) => seq >= ActiveFrom && seq <= ActiveUntil;
 
     public bool IsActivated => ActiveFrom != int.MaxValue;
+
+    /// <summary>The if-statement of a guard that leaves the method on failure (return/throw); null for region guards.</summary>
+    public Microsoft.CodeAnalysis.SyntaxNode? ExitStatement { get; set; }
 
     /// <summary>For access checks on the tracked id itself (HasAccessToSeries(uid, seriesId)): provenance tags of that id.</summary>
     public IReadOnlySet<string>? SelectorTags { get; init; }
@@ -86,4 +92,7 @@ public sealed class MethodFrame(IMethodSymbol method, int depth)
     public Stack<AbstractValue> ConditionalAccess { get; } = new();
     public AbstractValue This { get; set; } = AbstractValue.None;
     public AbstractValue Return { get; set; } = AbstractValue.None;
+
+    /// <summary>The statement of this method currently being analysed (dominance anchor for sinks reached from it).</summary>
+    public Microsoft.CodeAnalysis.SyntaxNode? CurrentStatement { get; set; }
 }
