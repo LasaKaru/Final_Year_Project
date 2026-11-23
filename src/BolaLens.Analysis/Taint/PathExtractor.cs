@@ -54,17 +54,27 @@ public sealed class PathExtractor(AnalysisContext context, OwnershipSchema schem
         {
             var reason = StaticReason(g);
             var covered = new List<int>();
+            var notDominating = false;
             for (var i = 0; i < raw.Sinks.Count; i++)
             {
                 var s = raw.Sinks[i];
                 // reads are exposed when the response is sent, so any executed check on the object protects them
                 var inWindow = s.Kind == SinkKind.Read ? g.IsActivated : g.Covers(s.Seq);
-                if (Relevant(s) && g.Concerns(s.Token) && inWindow) covered.Add(i);
+                if (!(Relevant(s) && g.Concerns(s.Token) && inWindow)) continue;
+                // S6: an exiting check protects a change only if it runs on every path to it (dominance in the check's method)
+                if (s.Kind != SinkKind.Read && g.ExitStatement is { } exit && g.Frame is MethodFrame gf
+                    && s.Anchors is { } anchors && anchors.TryGetValue(gf, out var anchor) && anchor is not null
+                    && !Guards.Dominance.Dominates(exit, anchor))
+                {
+                    notDominating = true;
+                    continue;
+                }
+                covered.Add(i);
             }
             if (reason is null && stateSinks.Count > 0 && covered.Count == 0)
             {
-                reason = stateSinks.Any(s => g.Concerns(s.Token))
-                    ? "guard does not precede the state change"
+                reason = notDominating ? "check runs only on some paths to the state change (it does not dominate it)"
+                    : stateSinks.Any(s => g.Concerns(s.Token)) ? "guard does not precede the state change"
                     : "guard checks a different object";
             }
             var index = guards.Count;

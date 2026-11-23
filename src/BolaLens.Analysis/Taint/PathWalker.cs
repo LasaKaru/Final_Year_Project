@@ -128,7 +128,9 @@ public sealed class PathWalker
             IDelegateCreationOperation { Target: IAnonymousFunctionOperation af2 } => af2.Body,
             var other => other,
         };
-        if (body is not null) WalkStatement(body, frame);
+        _frames.Add(frame);
+        try { if (body is not null) WalkStatement(body, frame); }
+        finally { _frames.RemoveAt(_frames.Count - 1); }
 
         var end = _ctx.NextSeq();
         foreach (var g in _ctx.Guards.Where(g => ReferenceEquals(g.Frame, frame) && g.UntilFrameEnd && g.ActiveUntil == int.MinValue))
@@ -148,9 +150,12 @@ public sealed class PathWalker
 
     // ------------------------------------------------------------------ statements
 
+    private readonly List<MethodFrame> _frames = [];
+
     private void WalkStatement(IOperation? op, MethodFrame f)
     {
         if (op is null) return;
+        if (op is not IBlockOperation && op.Syntax is Microsoft.CodeAnalysis.CSharp.Syntax.StatementSyntax stmt) f.CurrentStatement = stmt;
         _ct.ThrowIfCancellationRequested();
         switch (op)
         {
@@ -303,14 +308,20 @@ public sealed class PathWalker
             if (cmp.TrueOnMismatch)
             {
                 if (trueExit != ExitKind.None && Alone(cmp))
+                {
                     Activate(record, afterTrue, trueExit, f);
+                    record.ExitStatement = c.Syntax;
+                }
                 else if (trueExit == ExitKind.None && c.WhenFalse is not null && Alone(cmp))
                     (record.ActiveFrom, record.ActiveUntil) = (afterTrue, afterFalse);
             }
             else
             {
                 if (falseExit != ExitKind.None && Alone(cmp))
+                {
                     Activate(record, start, falseExit, f);
+                    record.ExitStatement = c.Syntax;
+                }
                 else if (Alone(cmp))
                     (record.ActiveFrom, record.ActiveUntil) = (start, afterTrue);
             }
@@ -1372,7 +1383,8 @@ public sealed class PathWalker
     {
         var location = _context.StatementRef(op.Syntax);
         var seq = _ctx.NextSeq();
-        _ctx.Sinks.Add(new SinkRecord(kind, token, Symbols.Display(((IInvocationOperation)op).TargetMethod), location, seq, IsStateChanging: kind != SinkKind.Read));
+        var anchors = _frames.ToDictionary(fr => fr, fr => fr.CurrentStatement);
+        _ctx.Sinks.Add(new SinkRecord(kind, token, Symbols.Display(((IInvocationOperation)op).TargetMethod), location, seq, IsStateChanging: kind != SinkKind.Read, anchors));
         Step(StepKind.Sink, $"state change: {kind} {token.ShortName}", Symbols.Display(((IInvocationOperation)op).TargetMethod), op, f);
     }
 
