@@ -265,9 +265,14 @@ public sealed class PathWalker
 
     private readonly Stack<GuardRecord> _openRegions = new();
 
+    /// <summary>&gt; 0 while a branch condition is evaluated: objects loaded only to decide a condition (authorization lookups)
+    /// are not exposed to the client, so they are not read sinks.</summary>
+    private int _conditionDepth;
+
     private void HandleIf(IConditionalOperation c, MethodFrame f)
     {
-        Eval(c.Condition, f);
+        _conditionDepth++;
+        try { Eval(c.Condition, f); } finally { _conditionDepth--; }
         LinkSameRow(c.Condition, f);
         var stepIndex = Step(StepKind.Check, "condition", null, c, f);
         var start = _ctx.Seq;
@@ -428,7 +433,8 @@ public sealed class PathWalker
         var left = ValueOf(cmp.Left, f);
         var right = cmp.Right is null ? AbstractValue.None : ValueOf(cmp.Right, f);
         var (owner, other, otherOp) = left.Owner is not null ? (left.Owner, right, cmp.Right) : (right.Owner, left, cmp.Left);
-        if (owner is null) return null;
+        if (owner is null)
+            return SelectorEqualsCaller(left, right, cmp, location, exitKind, f, facts, problem);
 
         var comparand = other.Identity is not null ? ComparandClass.Identity
             : other.Tainted || other.ClientControlled ? ComparandClass.ClientControlled
@@ -444,6 +450,27 @@ public sealed class PathWalker
             OwnerFromRequest = owner.Token.FromRequest,
         };
     }
+
+    /// <summary>A client-controlled selector required to equal the caller's identity (appUserId != me.UserId → Forbid): every
+    /// object selected by that value belongs to the caller (Oqtane: GetUser(User).UserId == entityId).</summary>
+    private GuardRecord? SelectorEqualsCaller(AbstractValue left, AbstractValue right, Comparison cmp, SourceRef location, ExitKind exitKind,
+        MethodFrame f, List<string> facts, string? problem)
+    {
+        static bool FromRequest(AbstractValue v) => (v.Tainted || v.ClientControlled) && v.Tags is { Count: > 0 };
+        var (selector, caller) = FromRequest(left) && right.Identity is not null ? (left, right)
+            : FromRequest(right) && left.Identity is not null ? (right, left) : (null, null);
+        if (selector?.Tags is not { Count: > 0 } tags || caller?.Identity is not { } kind) return null;
+        facts.Add($"the client-supplied value must equal the caller's identity ({kind})");
+        return SelectorGuard(tags, kind, location, exitKind, f, problem, "caller identity");
+    }
+
+    private GuardRecord SelectorGuard(IReadOnlySet<string> tags, OwnerKind kind, SourceRef location, ExitKind exitKind, MethodFrame f,
+        string? problem, string caller) => new()
+    {
+        Kind = GuardKind.OwnerEquality, Token = null, SelectorTags = tags, OwnerProperty = "(client selector)", OwnerKind = kind,
+        Comparand = ComparandClass.Identity, IdentityKind = kind, CallerExpression = caller, Location = location, Frame = f,
+        UntilFrameEnd = exitKind == ExitKind.Return, StructuralProblem = problem,
+    };
 
     // ------------------------------------------------------------------ boolean helper guards
 
@@ -492,9 +519,19 @@ public sealed class PathWalker
         {
             foreach (var (x, y) in new[] { (cmp.LeftOperand, cmp.RightOperand), (cmp.RightOperand, cmp.LeftOperand) })
             {
-                if (GuardDetector.Unwrap(x) is IParameterReferenceOperation pref && Peek(GuardDetector.Unwrap(y), frame).Identity is { } kind)
+                if (Peek(GuardDetector.Unwrap(y), frame).Identity is not { } kind) continue;
+                if (GuardDetector.Unwrap(x) is IParameterReferenceOperation pref)
                 {
                     _helperSummaries[key] = (pref.Parameter.Ordinal, kind, CanReturnTrueWithoutCheck(body));
+                    return _helperSummaries[key];
+                }
+                // var note = repo.Get(noteId); … note.AppUserId == caller: the object selected by parameter #k must be the caller's
+                if (GuardDetector.Unwrap(x) is IPropertyReferenceOperation { Instance: ILocalReferenceOperation local } owned
+                    && OwnerKindOf(local.Type is { } lt ? lt.OriginalDefinition.ToDisplayString() : "", owned.Property.Name) is not null
+                    && body.Descendants().OfType<IVariableDeclaratorOperation>().FirstOrDefault(d => SymbolEqualityComparer.Default.Equals(d.Symbol, local.Local)) is { Initializer.Value: { } init }
+                    && init.DescendantsAndSelf().OfType<IParameterReferenceOperation>().FirstOrDefault() is { } selector)
+                {
+                    _helperSummaries[key] = (selector.Parameter.Ordinal, kind, CanReturnTrueWithoutCheck(body));
                     return _helperSummaries[key];
                 }
             }
@@ -556,7 +593,18 @@ public sealed class PathWalker
             };
         }
         var arg = inv.Arguments.FirstOrDefault(a => a.Parameter?.Ordinal == summary.Ordinal);
-        if (arg is null || ValueOf(arg.Value, f).Owner is not { } owner) return null;
+        if (arg is null) return null;
+        var argValue = ValueOf(arg.Value, f);
+        if (argValue.Owner is not { } owner)
+        {
+            // IsSelf(appUserId): the helper requires the client value to be the caller's id
+            if (!(argValue.Tainted || argValue.ClientControlled) || argValue.Tags is not { Count: > 0 } selTags) return null;
+            var selExit = cmp.TrueOnMismatch ? GuardDetector.Exit(c.WhenTrue) : GuardDetector.Exit(c.WhenFalse);
+            facts.Add($"{inv.TargetMethod.Name}(…) requires the client-supplied value to be the caller's identity ({summary.Kind})");
+            return SelectorGuard(selTags, summary.Kind, _context.StatementRef(c.Syntax), selExit, f,
+                summary.Permissive ? $"{inv.TargetMethod.Name} can return true without comparing the caller identity (e.g. for a null id)" : problem,
+                $"{inv.TargetMethod.Name}(…)");
+        }
         var exitKind = cmp.TrueOnMismatch ? GuardDetector.Exit(c.WhenTrue) : GuardDetector.Exit(c.WhenFalse);
         facts.Add($"{inv.TargetMethod.Name}({owner.Token.VariableName ?? owner.Token.ShortName}.{owner.Property}) compares it with the trusted identity ({summary.Kind})"
                   + (owner.Token.FromRequest ? " — value taken from the request body" : ""));
@@ -1216,7 +1264,7 @@ public sealed class PathWalker
                 var how = token.TaintSelected ? " selected by the client-controlled id" : "";
                 var bypass = token.BypassedFilters ? " (IgnoreQueryFilters)" : "";
                 Step(StepKind.Load, $"loads {token.ShortName}{how}{bypass}", Symbols.Display(m), inv, f);
-                if (token.TaintSelected && _context.Config.Analysis.IncludeReadOnlyPaths) AddSink(SinkKind.Read, token, inv, f);
+                if (token.TaintSelected && _context.Config.Analysis.IncludeReadOnlyPaths && _conditionDepth == 0) AddSink(SinkKind.Read, token, inv, f);
                 return new AbstractValue { Entity = token };
             }
 
@@ -1225,7 +1273,7 @@ public sealed class PathWalker
                 if (recv.Query is null) return recv;
                 var token = TokenFrom(recv.Query, "list", inv, collection: true);
                 Step(StepKind.Load, $"loads {token.ShortName} list{(token.TaintSelected ? " selected by the client-controlled id" : "")}", Symbols.Display(m), inv, f);
-                if (token.TaintSelected && _context.Config.Analysis.IncludeReadOnlyPaths) AddSink(SinkKind.Read, token, inv, f);
+                if (token.TaintSelected && _context.Config.Analysis.IncludeReadOnlyPaths && _conditionDepth == 0) AddSink(SinkKind.Read, token, inv, f);
                 return new AbstractValue { Entity = token };
             }
 

@@ -166,4 +166,47 @@ public class MembershipPatternsTests
         r.VerdictOf("GET api/chapter/note/{id}").Status.ShouldBe(VerdictStatus.Vulnerable);
         r.VerdictOf("GET api/chapter/own-note/{id}").Status.ShouldBe(VerdictStatus.Protected);
     }
+
+    [Theory]
+    [InlineData("if (appUserId != me.UserId) return Forbid();", VerdictStatus.Protected)]
+    [InlineData("if (!IsSelf(appUserId)) return Forbid();", VerdictStatus.Protected)]
+    [InlineData("", VerdictStatus.Vulnerable)]
+    public async Task Client_selector_required_to_equal_the_caller_protects_what_it_selects(string check, VerdictStatus expected)
+    {
+        // Oqtane CVE-2024-55470 fix: settings selected by entityId are allowed when GetUser(User).UserId == entityId
+        var r = await CompilationFactory.AnalyseAsync(Domain, Controller($$"""
+            [HttpPut("note/{appUserId}/{id}")]
+            public async Task<IActionResult> EditNote(int appUserId, int id, string text)
+            {
+                {{check}}
+                var note = await db.Notes.FirstAsync(n => n.Id == id && n.AppUserId == appUserId);
+                note.Text = text;
+                await db.SaveChangesAsync();
+                return Ok();
+            }
+            private bool IsSelf(int userId) => me.UserId == userId;
+            """));
+        r.VerdictOf("PUT api/chapter/note/{appUserId}/{id}").Status.ShouldBe(expected);
+    }
+
+    [Fact]
+    public async Task Objects_loaded_only_to_evaluate_an_authorization_condition_are_not_read_sinks()
+    {
+        // Oqtane SettingController: the helper loads a PageModule to decide access, then the endpoint returns settings
+        var config = new BolaLensConfig { Analysis = new() { IncludeReadOnlyPaths = true } };
+        var r = await CompilationFactory.AnalyseAsync(config, Domain, Controller("""
+            [HttpGet("note/{id}")]
+            public async Task<NoteDto?> Get(int id)
+            {
+                if (!await MayRead(id)) return null;
+                return await db.Notes.Where(n => n.Id == id).Select(n => new NoteDto(n.Id, n.Text)).FirstOrDefaultAsync();
+            }
+            private async Task<bool> MayRead(int noteId)
+            {
+                var note = await db.Notes.FirstOrDefaultAsync(n => n.Id == noteId);
+                return note != null && note.AppUserId == me.UserId;
+            }
+            """));
+        r.VerdictOf("GET api/chapter/note/{id}").Status.ShouldBe(VerdictStatus.Protected);
+    }
 }
