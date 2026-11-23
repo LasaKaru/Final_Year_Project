@@ -17,7 +17,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-002-head/CleanArchitect
 projects 13 (with errors 1) · endpoints 10 (with ids 7) · paths 10 (truncated 0) · unresolved calls 0
 symbolic: 8 vulnerable · 0 protected · 0 unknown · 2 out of scope
 5 Minimal-API endpoints were not analysed (unsupported endpoint style).
-time 14.5s · peak memory 434 MB
+time 14.1s · peak memory 433 MB
 
 Vulnerable PUT todoitems/{id} via 'id' (86cdca4490b8)
   SaveChanges on TodoItem at src/Application/TodoItems/Commands/UpdateTodoItem/UpdateTodoItem.cs:33: TodoItem (owners: CreatedBy (User)) is selected by 

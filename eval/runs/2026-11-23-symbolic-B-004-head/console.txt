@@ -17,4 +17,4 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-004-head/TodoApp.sln
 ╰─────────────────────────────┴────────────┴────────────┴────────┴──────────╯
 projects 7 (with errors 1) · endpoints 11 (with ids 8) · paths 16 (truncated 0) · unresolved calls 0
 symbolic: 0 vulnerable · 2 protected · 0 unknown · 14 out of scope
-time 8.0s · peak memory 378 MB
+time 8.5s · peak memory 376 MB

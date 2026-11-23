@@ -208,7 +208,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-007-head/SimplCommerce.
 ╰───────────────────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
 projects 49 (with errors 0) · endpoints 327 (with ids 207) · paths 249 (truncated 0) · unresolved calls 118
 symbolic: 9 vulnerable · 0 protected · 68 unknown · 172 out of scope
-time 33.6s · peak memory 727 MB
+time 31.6s · peak memory 721 MB
 
 Unknown PUT api/countries/{id} via 'id' (4dbd3bbf877b)
   SaveChanges on Country at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Country has no owner candidate, so ownership cannot be 

@@ -17,7 +17,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-009-head/eShopOnWeb.sln
 ╰──────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
 projects 10 (with errors 1) · endpoints 33 (with ids 8) · paths 9 (truncated 0) · unresolved calls 9
 symbolic: 0 vulnerable · 0 protected · 7 unknown · 2 out of scope
-time 10.0s · peak memory 405 MB
+time 9.7s · peak memory 403 MB
 
 Unknown GET api/catalog-items/{catalogitemid} via 'catalogItemId' (7f4ea451730b)
   No state change found, but 'catalogItemId' entered unresolved code: external dispatch: 

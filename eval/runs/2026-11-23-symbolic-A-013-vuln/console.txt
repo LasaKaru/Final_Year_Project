@@ -354,7 +354,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-013-vuln/Kavita.sln
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴───────────────┴──────────╯
 projects 4 (with errors 1) · endpoints 508 (with ids 345) · paths 423 (truncated 4) · unresolved calls 1639
 symbolic: 187 vulnerable · 41 protected · 25 unknown · 170 out of scope
-time 95.2s · peak memory 1662 MB
+time 82.3s · peak memory 1659 MB
 
 Vulnerable POST api/account/login via 'loginDto' (930dcc47bc74)
   Read on AppUserAuthKey at API/Data/Repositories/UserRepository.cs:267: AppUserAuthKey (owners: AppUserId (User)) is selected by client-controlled 'loginDto' 

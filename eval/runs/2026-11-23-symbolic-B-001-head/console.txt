@@ -20,4 +20,4 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-001-head/Conduit.slnx
 ╰──────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
 projects 3 (with errors 2) · endpoints 15 (with ids 11) · paths 12 (truncated 0) · unresolved calls 0
 symbolic: 0 vulnerable · 3 protected · 0 unknown · 9 out of scope
-time 9.3s · peak memory 408 MB
+time 9.5s · peak memory 406 MB

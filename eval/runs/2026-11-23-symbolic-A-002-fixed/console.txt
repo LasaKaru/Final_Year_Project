@@ -124,7 +124,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-002-fixed/Oqtane.sln
 ╰─────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴───────────────┴──────────╯
 projects 7 (with errors 2) · endpoints 168 (with ids 115) · paths 154 (truncated 0) · unresolved calls 812
 symbolic: 81 vulnerable · 12 protected · 9 unknown · 52 out of scope
-time 15.6s · peak memory 604 MB
+time 15.1s · peak memory 608 MB
 
 Vulnerable GET api/alias/{id} via 'id' (579ec9e0008e)
   Read on Alias at Oqtane.Server/Repository/AliasRepository.cs:58: Alias (owners: CreatedBy (User), TenantId (Tenant)) is selected by client-controlled 'id' and
@@ -267,8 +267,8 @@ guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/module/{id} via 'id' (76bda2779d95)
-  Read on Setting at Oqtane.Server/Controllers/ModuleController.cs:110: Setting (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed 
-with no valid owner guard or applicable query filter.
+  SaveChanges on Module at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: Module (owners: CreatedBy (User)) is selected by client-controlled 'id' and 
+changed with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/module via 'module' (e7e5007e24e0)

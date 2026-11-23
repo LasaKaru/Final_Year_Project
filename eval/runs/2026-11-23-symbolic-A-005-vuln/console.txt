@@ -350,7 +350,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-005-vuln/Kavita.sln
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
 projects 12 (with errors 3) · endpoints 505 (with ids 341) · paths 419 (truncated 1) · unresolved calls 1967
 symbolic: 47 vulnerable · 30 protected · 12 unknown · 330 out of scope
-time 90.0s · peak memory 1755 MB
+time 72.1s · peak memory 1740 MB
 
 Unknown POST api/account/update via 'dto' (7732bb9a3614)
   SaveChanges on AppUser at Kavita.Database/DataContext.cs:617: AppUser has no owner candidate, so ownership cannot be checked.

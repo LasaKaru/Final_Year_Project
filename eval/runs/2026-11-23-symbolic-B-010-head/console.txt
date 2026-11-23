@@ -132,7 +132,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-010-head/src/FSH.Starte
 ╰─────────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
 projects 52 (with errors 9) · endpoints 179 (with ids 123) · paths 152 (truncated 0) · unresolved calls 147
 symbolic: 6 vulnerable · 1 protected · 11 unknown · 134 out of scope
-time 115.0s · peak memory 1011 MB
+time 105.7s · peak memory 1021 MB
 
 Unknown POST usage/snapshots/capture via 'command' (a1e630a70938)
   No state change found, but 'command' entered unresolved code: external dispatch: 

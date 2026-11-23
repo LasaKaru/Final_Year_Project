@@ -51,7 +51,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-005-head/src/Moonglade.
 projects 35 (with errors 4) · endpoints 106 (with ids 41) · paths 42 (truncated 0) · unresolved calls 120
 symbolic: 1 vulnerable · 0 protected · 26 unknown · 15 out of scope
 7 Minimal-API endpoints were not analysed (unsupported endpoint style).
-time 56.7s · peak memory 671 MB
+time 48.8s · peak memory 667 MB
 
 Unknown GET api/activitylog/{id}/metadata via 'id' (dfcf2af157f8)
   No state change found, but 'id' entered unresolved code: external dispatch: 

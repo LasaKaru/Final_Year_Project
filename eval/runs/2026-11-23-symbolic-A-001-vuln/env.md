@@ -4,7 +4,7 @@
 * global.json: unchanged
 * Config: defaults (bolalens.json)
 * Machine: Linux x86_64, 4 logical cores; .NET SDKs: 8.0.134,10.0.115
-* BolaLens commit: `1296137` (+ uncommitted changes)
-* Wall time (incl. load): 21 s · peak working set: 718 MB
+* BolaLens commit: `aca0217` (+ uncommitted changes)
+* Wall time (incl. load): 19 s · peak working set: 714 MB
 * Labels: `eval/labels/drafts/A-001-vuln.labels.json`
-* Recorded by `scripts/run-case.sh` on 2026-11-23T09:00:09Z.
+* Recorded by `scripts/run-case.sh` on 2026-11-23T12:15:59Z.
