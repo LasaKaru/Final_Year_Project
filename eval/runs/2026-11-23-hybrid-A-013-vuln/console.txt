@@ -1,0 +1,1427 @@
+[scan] Loading solution (MSBuildWorkspace)…
+[scan] Stage 1: endpoints, policy, schema, DI, taint paths, rules…
+[scan] Loading local model /home/user/Final_Year_Project/models/phi3-mini-4k/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4…
+[scan] Calibration gate: testing the model on labelled probe slices…
+[scan] Calibration gate passed: 3/4
+[scan] Stage 2: SLM 1/7 — GET api/chapter
+[scan] Stage 2: SLM 2/7 — GET api/download/volume-size
+[scan] Stage 2: SLM 3/7 — GET api/download/chapter-size
+[scan] Stage 2: SLM 4/7 — GET api/download/series-size
+[scan] Stage 2: SLM 5/7 — GET api/download/volume
+[scan] Stage 2: SLM 6/7 — GET api/download/chapter
+[scan] Stage 2: SLM 7/7 — GET api/download/series
+[scan] Done.
+wrote /home/user/Final_Year_Project/eval/runs/2026-11-23-hybrid-A-013-vuln/report.json
+BolaLens 0.1.0 · mode hybrid · /home/user/datasets/A-013-vuln/Kavita.sln
+model cpu-int4-rtn-block-32-acc-level-4 · prompt v1/phi3 (2cb6f06902429b28)
+calibration gate passed 3/4
+╭────────────────────────────────────────────────────────────────────────────────────────────────┬────────────┬────────────┬───────────────┬───────────────────╮
+│ Endpoint                                                                                       │ Final      │ Symbolic   │ Rules         │ Semantic          │
+├────────────────────────────────────────────────────────────────────────────────────────────────┼────────────┼────────────┼───────────────┼───────────────────┤
+│ POST api/account/login                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/account/update                                                                        │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ GET api/account/invite-url                                                                     │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ POST api/account/resend-confirmation-email                                                     │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ POST api/account/rotate-auth-key                                                               │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ DELETE api/account/auth-key                                                                    │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/annotation/all-filtered                                                               │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/annotation/all                                                                         │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ GET api/annotation/all-for-series                                                              │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ GET api/annotation/{annotationid}                                                              │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/annotation/create                                                                     │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/annotation/update                                                                     │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ DELETE api/annotation                                                                          │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/annotation/export-filter                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/book/{chapterid}/book-info                                                             │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/book/{chapterid}/book-resources                                                        │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/book/{chapterid}/chapters                                                              │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/book/{chapterid}/book-page                                                             │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/chapter                                                                                │ Vulnerable │ Vulnerable │ SYM-11        │ Unknown (0.90)    │
+│ DELETE api/chapter                                                                             │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/chapter/delete-multiple                                                               │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/chapter/update                                                                        │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/chapter/chapter-detail-plus                                                            │ Vulnerable │ Vulnerable │ SYM-08,SYM-11 │ —                 │
+│ GET api/collection/single                                                                      │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/collection/all-series                                                                  │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/collection/update                                                                     │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/collection/promote-multiple                                                           │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/collection/delete-multiple                                                            │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/collection/update-for-series                                                          │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/collection/update-series                                                              │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ DELETE api/collection                                                                          │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/collection/import-stack                                                               │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/colorscape/series                                                                      │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/colorscape/volume                                                                      │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/colorscape/chapter                                                                     │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/series/chapter-metadata                                                                │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/deprecated/series/chapter-metadata                                                     │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/series                                                                                │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/deprecated/series                                                                     │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/series/recently-added                                                                 │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/deprecated/series/recently-added                                                      │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/series/all                                                                            │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/deprecated/series/all                                                                 │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/upload/reset-chapter-lock                                                             │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/deprecated/upload/reset-chapter-lock                                                  │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/stats/user/reading-history                                                             │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/deprecated/stats/user/reading-history                                                  │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/stats/reading-count-by-day                                                             │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/deprecated/stats/reading-count-by-day                                                  │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/reader/all-chapter-progress                                                            │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/deprecated/reader/all-chapter-progress                                                 │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/recommended/quick-reads                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/deprecated/recommended/quick-reads                                                     │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/recommended/quick-catchup-reads                                                        │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/deprecated/recommended/quick-catchup-reads                                             │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/recommended/highly-rated                                                               │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/deprecated/recommended/highly-rated                                                    │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/recommended/more-in                                                                    │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/deprecated/recommended/more-in                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/recommended/rediscover                                                                 │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/deprecated/recommended/rediscover                                                      │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/device/update                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ DELETE api/device                                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/device/send-to                                                                        │ Vulnerable │ Vulnerable │ SYM-08,SYM-11 │ —                 │
+│ POST api/device/send-series-to                                                                 │ Vulnerable │ Vulnerable │ SYM-11,SYM-08 │ —                 │
+│ DELETE api/device/client/device                                                                │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/device/client/update-name                                                             │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ GET api/download/volume-size                                                                   │ Vulnerable │ Vulnerable │ SYM-11        │ Unknown (0.75)    │
+│ GET api/download/chapter-size                                                                  │ Vulnerable │ Vulnerable │ SYM-11        │ Vulnerable (0.95) │
+│ GET api/download/series-size                                                                   │ Vulnerable │ Vulnerable │ SYM-11        │ Unknown (0.75)    │
+│ GET api/download/volume                                                                        │ Vulnerable │ Vulnerable │ SYM-11        │ Unknown (?)       │
+│ GET api/download/chapter                                                                       │ Vulnerable │ Vulnerable │ SYM-11        │ Unknown (?)       │
+│ GET api/download/series                                                                        │ Vulnerable │ Vulnerable │ SYM-11        │ Unknown (?)       │
+│ POST api/filter/update                                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ DELETE api/filter                                                                              │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/filter/encode                                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/filter/rename                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/font                                                                                   │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ DELETE api/font                                                                                │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ GET api/font/in-use                                                                            │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ GET api/image/chapter-cover                                                                    │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/image/library-cover                                                                    │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/image/volume-cover                                                                     │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/image/series-cover                                                                     │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/image/collection-cover                                                                 │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/image/readinglist-cover                                                                │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/image/bookmark                                                                         │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ GET api/image/web-link                                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/image/publisher                                                                        │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/image/person-cover                                                                     │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ GET api/image/user-cover                                                                       │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ GET api/image/cover-upload                                                                     │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/koreader/{apikey}/users/auth                                                           │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ PUT api/koreader/{apikey}/syncs/progress                                                       │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/koreader/{apikey}/syncs/progress/{ebookhash}                                           │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/library/create                                                                        │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/library                                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/library/user-libraries                                                                 │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ GET api/library/jump-bar                                                                       │ Protected  │ Protected  │ SYM-05        │ —                 │
+│ POST api/library/scan                                                                          │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/library/scan-multiple                                                                 │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/library/refresh-metadata                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/library/refresh-metadata-multiple                                                     │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/library/copy-settings-from                                                            │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/library/scan-folder                                                                   │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ DELETE api/library/delete                                                                      │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ DELETE api/library/delete-multiple                                                             │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/library/update                                                                        │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/library/type                                                                           │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/license/reset                                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/license                                                                               │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/metadata/genres                                                                        │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/metadata/people                                                                        │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/metadata/tags                                                                          │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/metadata/age-ratings                                                                   │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/metadata/publication-status                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/metadata/languages                                                                     │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/metadata/series-detail-plus                                                            │ Vulnerable │ Vulnerable │ SYM-08,SYM-11 │ —                 │
+│ POST api/opds/{apikey}                                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/opds/{apikey}                                                                          │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/opds/{apikey}/smart-filters/{filterid}                                                 │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/opds/{apikey}/smart-filters                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/opds/{apikey}/libraries                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/opds/{apikey}/want-to-read                                                             │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/opds/{apikey}/collections                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/opds/{apikey}/collections/{collectionid}                                               │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/opds/{apikey}/reading-list                                                             │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/opds/{apikey}/reading-list/{readinglistid}                                             │ Vulnerable │ Vulnerable │ SYM-08,SYM-11 │ —                 │
+│ GET api/opds/{apikey}/libraries/{libraryid}                                                    │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/opds/{apikey}/recently-added                                                           │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/opds/{apikey}/more-in-genre                                                            │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ GET api/opds/{apikey}/recently-updated                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/opds/{apikey}/on-deck                                                                  │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/opds/{apikey}/series                                                                   │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/opds/{apikey}/search                                                                   │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/opds/{apikey}/series/{seriesid}                                                        │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}                                      │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}/chapter/{chapterid}                  │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET                                                                                            │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ api/opds/{apikey}/series/{seriesid}/volume/{volumeid}/chapter/{chapterid}/download/{filename}  │            │            │               │                   │
+│ GET api/opds/{apikey}/image                                                                    │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/opds/{apikey}/favicon                                                                  │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/panels/save-progress                                                                  │ Vulnerable │ Vulnerable │ SYM-11,SYM-08 │ —                 │
+│ GET api/panels/get-progress                                                                    │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/person/roles                                                                           │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ POST api/person/all                                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/person/update                                                                         │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ POST api/person/fetch-cover                                                                    │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ GET api/person/series-known-for                                                                │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ GET api/person/chapters-by-role                                                                │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/person/merge                                                                          │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ POST api/person/valid-alias                                                                    │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ POST api/plugin/authenticate                                                                   │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/plugin/version                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/rating/series                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/rating/chapter                                                                        │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/rating/overall-series                                                                  │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/rating/overall-chapter                                                                 │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/reader/pdf                                                                             │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/reader/image                                                                           │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/reader/thumbnail                                                                       │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/reader/bookmark-image                                                                  │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ GET api/reader/file-dimensions                                                                 │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/reader/chapter-info                                                                    │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/reader/bookmark-info                                                                   │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/reader/mark-read                                                                      │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/reader/mark-unread                                                                    │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/reader/mark-volume-unread                                                             │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/reader/mark-volume-read                                                               │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/reader/mark-multiple-read                                                             │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/reader/mark-multiple-unread                                                           │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/reader/mark-multiple-series-read                                                      │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/reader/mark-multiple-series-unread                                                    │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/reader/get-progress                                                                    │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/reader/progress                                                                       │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/reader/continue-point                                                                  │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/reader/has-progress                                                                    │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/reader/chapter-bookmarks                                                               │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/reader/all-bookmarks                                                                  │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/reader/remove-bookmarks                                                               │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/reader/bulk-remove-bookmarks                                                          │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/reader/volume-bookmarks                                                                │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ GET api/reader/series-bookmarks                                                                │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/reader/bookmark                                                                       │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/reader/unbookmark                                                                     │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/reader/next-chapter                                                                    │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/reader/prev-chapter                                                                    │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/reader/time-left                                                                       │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/reader/time-left-for-chapter                                                           │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/reader/ptoc                                                                            │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ DELETE api/reader/ptoc                                                                         │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/reader/create-ptoc                                                                    │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/reader/prompt-reread/series                                                            │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/reader/prompt-reread/volume                                                            │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/reader/prompt-reread/chapter                                                           │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/reader/first-progress-date                                                             │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/readinglist                                                                            │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/readinglist/lists-for-series                                                           │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/readinglist/lists-for-chapter                                                          │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/readinglist/items                                                                      │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/readinglist/update-position                                                           │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/readinglist/delete-item                                                               │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/readinglist/remove-read                                                               │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ DELETE api/readinglist                                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/readinglist/update                                                                    │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/readinglist/update-by-series                                                          │ Vulnerable │ Vulnerable │ SYM-08,SYM-11 │ —                 │
+│ POST api/readinglist/update-by-multiple                                                        │ Vulnerable │ Vulnerable │ SYM-08,SYM-11 │ —                 │
+│ POST api/readinglist/update-by-multiple-series                                                 │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/readinglist/update-by-volume                                                          │ Vulnerable │ Vulnerable │ SYM-08,SYM-11 │ —                 │
+│ POST api/readinglist/update-by-chapter                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/readinglist/people                                                                     │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/readinglist/all-people                                                                 │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/readinglist/next-chapter                                                               │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/readinglist/prev-chapter                                                               │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/readinglist/promote-multiple                                                          │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/readinglist/delete-multiple                                                           │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/readinglist/info                                                                       │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/reading-profile/{libraryid}/{seriesid}                                                 │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/readingprofile/{libraryid}/{seriesid}                                                  │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/reading-profile/series                                                                 │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/readingprofile/series                                                                  │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/reading-profile/library                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/readingprofile/library                                                                 │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/reading-profile/create                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/readingprofile/create                                                                 │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/reading-profile/promote                                                               │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/readingprofile/promote                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/reading-profile/series                                                                │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/readingprofile/series                                                                 │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/reading-profile/update-parent                                                         │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/readingprofile/update-parent                                                          │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/reading-profile                                                                       │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/readingprofile                                                                        │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ DELETE api/reading-profile                                                                     │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ DELETE api/readingprofile                                                                      │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/reading-profile/series/{seriesid}                                                     │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/readingprofile/series/{seriesid}                                                      │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ DELETE api/reading-profile/series/{seriesid}                                                   │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ DELETE api/readingprofile/series/{seriesid}                                                    │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/reading-profile/library/{libraryid}                                                   │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/readingprofile/library/{libraryid}                                                    │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ DELETE api/reading-profile/library/{libraryid}                                                 │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ DELETE api/readingprofile/library/{libraryid}                                                  │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/reading-profile/bulk                                                                  │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/readingprofile/bulk                                                                   │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/reading-profile/set-devices                                                           │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/readingprofile/set-devices                                                            │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/review/series                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/review/chapter                                                                        │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ DELETE api/review/series                                                                       │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ DELETE api/review/chapter                                                                      │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/review/all                                                                             │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/scrobbling/has-hold                                                                    │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/scrobbling/library-allows-scrobbling                                                   │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/scrobbling/add-hold                                                                   │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ DELETE api/scrobbling/remove-hold                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/search/series-for-mangafile                                                            │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/search/series-for-chapter                                                              │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/series/v2                                                                             │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/series/{seriesid}                                                                      │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ DELETE api/series/{seriesid}                                                                   │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/series/delete-multiple                                                                │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/series/volumes                                                                         │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/series/volume                                                                          │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/series/chapter                                                                         │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/series/update                                                                         │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/series/recently-added-v2                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/series/all-v2                                                                         │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/series/on-deck                                                                        │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/series/remove-from-on-deck                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/series/currently-reading                                                               │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/series/refresh-metadata                                                               │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/series/scan                                                                           │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/series/analyze                                                                        │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/series/metadata                                                                        │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/series/metadata                                                                       │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/series/series-by-collection                                                            │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/series/series-by-ids                                                                  │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/series/series-detail                                                                   │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/series/related                                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/series/all-related                                                                     │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/series/update-related                                                                 │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/series/external-series-detail                                                          │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/series/next-expected                                                                   │ Protected  │ Protected  │ SYM-05        │ —                 │
+│ POST api/series/match                                                                          │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/series/update-match                                                                   │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/series/dont-match                                                                     │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/settings                                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/stats/reading-counts                                                                   │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/stats/day-breakdown                                                                    │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/stats/pages-per-year                                                                   │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/stats/words-per-year                                                                   │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/stats/reading-activity                                                                 │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/stats/reading-pace                                                                     │ Vulnerable │ Vulnerable │ SYM-08,SYM-11 │ —                 │
+│ GET api/stats/genre-breakdown                                                                  │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/stats/tag-breakdown                                                                    │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/stats/page-spread                                                                      │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/stats/word-spread                                                                      │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/stats/favorite-authors                                                                 │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/stats/avg-time-by-hour                                                                 │ Vulnerable │ Vulnerable │ SYM-08,SYM-11 │ —                 │
+│ GET api/stats/reads-by-month                                                                   │ Vulnerable │ Vulnerable │ SYM-08,SYM-11 │ —                 │
+│ GET api/stats/total-reads                                                                      │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ GET api/stats/user-stats                                                                       │ Vulnerable │ Vulnerable │ SYM-08,SYM-11 │ —                 │
+│ GET api/stats/user-read                                                                        │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/stream/create-external-source                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/stream/update-external-source                                                         │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/stream/external-source-exists                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ DELETE api/stream/delete-external-source                                                       │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/stream/add-dashboard-stream                                                           │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/stream/update-dashboard-stream                                                        │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/stream/update-dashboard-position                                                      │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/stream/add-sidenav-stream                                                             │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/stream/add-sidenav-stream-from-external-source                                        │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/stream/update-sidenav-stream                                                          │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/stream/update-sidenav-position                                                        │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/stream/bulk-sidenav-stream-visibility                                                 │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ DELETE api/stream/smart-filter-side-nav-stream                                                 │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ DELETE api/stream/smart-filter-dashboard-stream                                                │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ GET api/tachiyomi/latest-chapter                                                               │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/tachiyomi/mark-chapter-until-as-read                                                  │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/theme/update-default                                                                  │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ GET api/theme/download-content                                                                 │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ DELETE api/theme                                                                               │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ POST api/upload/series                                                                         │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/upload/collection                                                                     │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/upload/reading-list                                                                   │ Vulnerable │ Vulnerable │ SYM-08        │ —                 │
+│ POST api/upload/chapter                                                                        │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/upload/volume                                                                         │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/upload/library                                                                        │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/upload/person                                                                         │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ POST api/upload/user                                                                           │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ GET api/users/profile-info                                                                     │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ GET api/users/has-profile-shared                                                               │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ GET api/users/has-reading-progress                                                             │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ GET api/users/has-library-access                                                               │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/users/update-preferences                                                              │ Unknown    │ Unknown    │ SYM-09        │ —                 │
+│ GET api/volume                                                                                 │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ DELETE api/volume                                                                              │ Vulnerable │ Vulnerable │ SYM-11        │ —                 │
+│ POST api/want-to-read/v2                                                                       │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ POST api/wanttoread/v2                                                                         │ Protected  │ Protected  │ SYM-03        │ —                 │
+│ GET api/want-to-read                                                                           │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ GET api/wanttoread                                                                             │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/want-to-read/add-series                                                               │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/wanttoread/add-series                                                                 │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/want-to-read/remove-series                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+│ POST api/wanttoread/remove-series                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —                 │
+╰────────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴───────────────┴───────────────────╯
+projects 4 (with errors 1) · endpoints 508 (with ids 345) · paths 423 (truncated 4) · unresolved calls 1639
+symbolic: 187 vulnerable · 41 protected · 25 unknown · 170 out of scope · SLM calls 7 (parse failures 3)
+time 1431.7s · peak memory 8881 MB
+
+Vulnerable POST api/account/login via 'loginDto' (930dcc47bc74)
+  Read on AppUserAuthKey at API/Data/Repositories/UserRepository.cs:267: AppUserAuthKey (owners: AppUserId (User)) is selected by client-controlled 'loginDto' 
+and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/account/update via 'dto' (576fd843aea5)
+  Read on AppUser at API/Data/Repositories/UserRepository.cs:257: AppUser has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/account/invite-url via 'userId' (7a909b1013ed)
+  Read on AppUser at API/Data/Repositories/UserRepository.cs:257: AppUser has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/account/resend-confirmation-email via 'userId' (961ec3a7f94a)
+  Read on AppUser at API/Data/Repositories/UserRepository.cs:257: AppUser has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/annotation/create via 'dto' (18c6016256e5)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'dto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/annotation/update via 'dto' (80787cc1475f)
+  Read on AppUserAnnotation at API/Data/Repositories/AnnotationRepository.cs:69: AppUserAnnotation (owners: AppUserId (User)) is selected by client-controlled 
+'dto' and changed with no valid owner guard or applicable query filter. Rejected checks: guard does not precede the state change 
+(API/Services/AnnotationService.cs:127).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/book/{chapterid}/book-info via 'chapterId' (012f403a5c31)
+  Read on MangaFile at API/Data/Repositories/ChapterRepository.cs:204: MangaFile is scoped by membership (Chapter.Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/book/{chapterid}/book-resources via 'chapterId' (bfba5207c077)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/book/{chapterid}/chapters via 'chapterId' (fb40d080117a)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/book/{chapterid}/book-page via 'chapterId' (a140fe6316d8)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/chapter via 'chapterId' (850473c4c52c)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:164: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  SLM: The endpoint does not explicitly require authorization, and the client-controlled id (L4) is used to load the chapter. However, the checks (L5-L12) do 
+not directly bind the caller's identity to the chapter's owner. The checks only ensure a
+  SLM not confident enough to suppress.
+
+Vulnerable DELETE api/chapter via 'chapterId' (175772cc9559)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/chapter/delete-multiple via 'seriesId' (20ec85764f20)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:95: Chapter is scoped by membership (Volume.Series.Library) and is selected by client-controlled
+'seriesId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/chapter/delete-multiple via 'dto' (c12c64c5dab0)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:95: Chapter is scoped by membership (Volume.Series.Library) and is selected by client-controlled
+'dto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/chapter/update via 'dto' (580ae1365a4c)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'dto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/chapter/chapter-detail-plus via 'chapterId' (dd2504ab9158)
+  Read on AppUserChapterRating at API/Data/Repositories/UserRepository.cs:840: AppUserChapterRating (owners: AppUserId (User)) is selected by client-controlled 
+'chapterId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/collection/promote-multiple via 'dto' (dd66875f43da)
+  Read on AppUserCollection at API/Data/Repositories/CollectionTagRepository.cs:222: AppUserCollection (owners: AppUserId (User)) is selected by 
+client-controlled 'dto' and changed with no valid owner guard or applicable query filter. Rejected checks: guard does not precede the state change 
+(API/Controllers/CollectionController.cs:146).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/collection/delete-multiple via 'dto' (cdcd85cdcc0a)
+  Read on AppUserCollection at API/Controllers/CollectionController.cs:170: AppUserCollection (owners: AppUserId (User)) is selected by client-controlled 'dto' 
+and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/collection/update-for-series via 'dto' (46664ce269f2)
+  Read on AppUserCollection at API/Controllers/CollectionController.cs:202: AppUserCollection (owners: AppUserId (User)) is selected by client-controlled 'dto' 
+and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/collection/update-series via 'updateSeriesForTagDto' (3c1f718eec60)
+  Read on AppUserCollection at API/Data/Repositories/CollectionTagRepository.cs:241: AppUserCollection (owners: AppUserId (User)) is selected by 
+client-controlled 'updateSeriesForTagDto' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/colorscape/series via 'id' (2469537b522b)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'id' with no 
+access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/colorscape/volume via 'id' (cbf8985eaa71)
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Library) and is selected by client-controlled 'id' 
+with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/colorscape/chapter via 'id' (d67142b0cff5)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:164: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'id' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/series/chapter-metadata via 'chapterId' (e781e6b5dc75)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:187: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/deprecated/series/chapter-metadata via 'chapterId' (83a7bbeb38cd)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:187: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/series via 'libraryId' (bcdf4be5dca2)
+  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Library) and is selected by client-controlled 'libraryId' with no access check 
+binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/deprecated/series via 'libraryId' (0fc5b8975094)
+  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Library) and is selected by client-controlled 'libraryId' with no access check 
+binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/series/recently-added via 'libraryId' (603e6a94e5fe)
+  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Library) and is selected by client-controlled 'libraryId' with no access check 
+binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/deprecated/series/recently-added via 'libraryId' (06d3d0c7cc0d)
+  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Library) and is selected by client-controlled 'libraryId' with no access check 
+binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/series/all via 'libraryId' (0aadfab30113)
+  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Library) and is selected by client-controlled 'libraryId' with no access check 
+binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/deprecated/series/all via 'libraryId' (32366cbd1d8e)
+  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Library) and is selected by client-controlled 'libraryId' with no access check 
+binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/upload/reset-chapter-lock via 'uploadFileDto' (fab548acb8fc)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'uploadFileDto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/deprecated/upload/reset-chapter-lock via 'uploadFileDto' (ede54e9375b8)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'uploadFileDto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/stats/user/reading-history via 'userId' (90327f02b0b7)
+  Read on AppUserProgress at API/Services/StatisticService.cs:539: AppUserProgress (owners: AppUserId (User)) is selected by client-controlled 'userId' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/deprecated/stats/user/reading-history via 'userId' (6b58c6fdddd7)
+  Read on AppUserProgress at API/Services/StatisticService.cs:539: AppUserProgress (owners: AppUserId (User)) is selected by client-controlled 'userId' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/all-chapter-progress via 'chapterId' (5e8787721757)
+  Read on AppUserProgress at API/Data/Repositories/AppUserProgressRepository.cs:269: AppUserProgress (owners: AppUserId (User)) is selected by client-controlled
+'chapterId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/deprecated/reader/all-chapter-progress via 'chapterId' (a27004c97e8a)
+  Read on AppUserProgress at API/Data/Repositories/AppUserProgressRepository.cs:269: AppUserProgress (owners: AppUserId (User)) is selected by client-controlled
+'chapterId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/device/update via 'dto' (bced581fd7c9)
+  Read on Device at API/Services/DeviceService.cs:75: Device (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed with no valid owner 
+guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/device/send-to via 'dto' (d1de0e0829a9)
+  Read on Device at API/Data/Repositories/DeviceRepository.cs:48: Device (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed with no 
+valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/device/send-series-to via 'dto' (e6a4d6936c59)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'dto' with no 
+access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/download/volume-size via 'volumeId' (68ca63bdbac8)
+  Read on Chapter at API/Data/Repositories/VolumeRepository.cs:84: Chapter is scoped by membership (Volume.Series.Library) and is selected by client-controlled 
+'volumeId' with no access check binding the caller.
+  SLM: Client-controlled volumeId is used to load chapters, but no owner-based check is evident before the call (L6).
+  SLM not confident enough to suppress.
+
+Vulnerable GET api/download/chapter-size via 'chapterId' (2d9ae10bc2e1)
+  Read on MangaFile at API/Data/Repositories/ChapterRepository.cs:204: MangaFile is scoped by membership (Chapter.Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  SLM: Client-controlled chapterId selects MangaFiles, but no owner check is performed before the list is returned (L6).
+  Symbolic and semantic agree.
+
+Vulnerable GET api/download/series-size via 'seriesId' (ad186ab12522)
+  Read on Volume at API/Data/Repositories/SeriesRepository.cs:1311: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
+'seriesId' with no access check binding the caller.
+  SLM: Client-controlled id selects the series, but no explicit owner check is shown before the list is returned (L6, L7).
+  SLM not confident enough to suppress.
+
+Vulnerable GET api/download/volume via 'volumeId' (31fd8004a45a)
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:194: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
+'volumeId' with no access check binding the caller.
+  SLM: parse failure after 2 attempt(s): no JSON object in output
+  SLM output invalid; symbolic verdict kept.
+
+Vulnerable GET api/download/chapter via 'chapterId' (267272ceb9bf)
+  Read on MangaFile at API/Data/Repositories/ChapterRepository.cs:204: MangaFile is scoped by membership (Chapter.Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  SLM: parse failure after 2 attempt(s): no JSON object in output
+  SLM output invalid; symbolic verdict kept.
+
+Vulnerable GET api/download/series via 'seriesId' (192f63581422)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
+  SLM: parse failure after 2 attempt(s): no JSON object in output
+  SLM output invalid; symbolic verdict kept.
+
+Vulnerable DELETE api/filter via 'filterId' (3f1a4c6c9fef)
+  Read on AppUserSmartFilter at API/Data/Repositories/AppUserSmartFilterRepository.cs:69: AppUserSmartFilter (owners: AppUserId (User)) is selected by 
+client-controlled 'filterId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/filter/rename via 'filterId' (120958579d60)
+  Read on AppUserSmartFilter at API/Controllers/FilterController.cs:163: AppUserSmartFilter (owners: AppUserId (User)) is selected by client-controlled 
+'filterId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/font via 'fontId' (f03cf1d33d74)
+  Read on EpubFont at API/Data/Repositories/EpubFontRepository.cs:87: EpubFont has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/font via 'apiKey' (d4fc87d0f3f1)
+  Read on AppUserAuthKey at API/Data/Repositories/UserRepository.cs:999: AppUserAuthKey (owners: AppUserId (User)) is selected by client-controlled 'apiKey' and
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown DELETE api/font via 'fontId' (cec6a12cf0bb)
+  Read on EpubFont at API/Data/Repositories/EpubFontRepository.cs:87: EpubFont has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/font/in-use via 'fontId' (ff527d707b2f)
+  Read on EpubFont at API/Data/Repositories/EpubFontRepository.cs:87: EpubFont has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/image/chapter-cover via 'chapterId' (2afad80820a0)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:260: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/image/library-cover via 'libraryId' (95073aa487d1)
+  Read on Library at API/Data/Repositories/LibraryRepository.cs:331: Library is scoped by membership (it is the container) and is selected by client-controlled 
+'libraryId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/image/volume-cover via 'volumeId' (7a05bf17964e)
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:100: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
+'volumeId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/image/series-cover via 'seriesId' (cc4387084639)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:743: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/image/collection-cover via 'collectionTagId' (e114725ddcb0)
+  Read on AppUserCollection at API/Data/Repositories/CollectionTagRepository.cs:148: AppUserCollection (owners: AppUserId (User)) is selected by 
+client-controlled 'collectionTagId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/image/readinglist-cover via 'readingListId' (c090aa8412a4)
+  Read on ReadingList at API/Data/Repositories/ReadingListRepository.cs:91: ReadingList (owners: AppUserId (User)) is selected by client-controlled 
+'readingListId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/image/person-cover via 'personId' (200ad5e178fe)
+  Read on Person at API/Data/Repositories/UserRepository.cs:1079: Person has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/image/user-cover via 'userId' (f7ec9193ec3c)
+  Read on AppUser at API/Data/Repositories/UserRepository.cs:1063: AppUser has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/image/cover-upload via 'apiKey' (b99a20ce36b3)
+  Read on AppUserAuthKey at API/Data/Repositories/UserRepository.cs:787: AppUserAuthKey (owners: AppUserId (User)) is selected by client-controlled 'apiKey' and
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/koreader/{apikey}/syncs/progress/{ebookhash} via 'ebookHash' (d9c737803b0d)
+  Read on MangaFile at API/Data/Repositories/MangaFileRepository.cs:42: MangaFile is scoped by membership (Chapter.Volume.Series.Library) and is selected by 
+client-controlled 'ebookHash' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/library/user-libraries via 'userId' (4644eaf82c7b)
+  Read on AppUser at API/Data/Repositories/UserRepository.cs:257: AppUser has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/library/scan via 'libraryId' (de0899d689fb)
+  Read on Library at API/Data/Repositories/LibraryRepository.cs:224: Library is scoped by membership (it is the container) and is selected by client-controlled 
+'libraryId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/library/scan-multiple via 'dto' (73c520c5f6aa)
+  Read on Library at API/Data/Repositories/LibraryRepository.cs:224: Library is scoped by membership (it is the container) and is selected by client-controlled 
+'dto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/library/copy-settings-from via 'dto' (d58b35cb2229)
+  Read on Library at API/Data/Repositories/LibraryRepository.cs:224: Library is scoped by membership (it is the container) and is selected by client-controlled 
+'dto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/library/scan-folder via 'dto' (86b3cc38dc14)
+  Read on AppUserAuthKey at API/Data/Repositories/UserRepository.cs:267: AppUserAuthKey (owners: AppUserId (User)) is selected by client-controlled 'dto' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/library/delete via 'libraryId' (a0e9341d8878)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:231: Series is scoped by membership (Library) and is selected by client-controlled 'libraryId' 
+with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/library/delete-multiple via 'libraryIds' (70a1c521b964)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:231: Series is scoped by membership (Library) and is selected by client-controlled 'libraryIds' 
+with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/library/update via 'dto' (010d46d40373)
+  Read on Library at API/Data/Repositories/LibraryRepository.cs:224: Library is scoped by membership (it is the container) and is selected by client-controlled 
+'dto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/library/type via 'libraryId' (660c65d459eb)
+  Read on Library at API/Data/Repositories/LibraryRepository.cs:145: Library is scoped by membership (it is the container) and is selected by client-controlled 
+'libraryId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/metadata/series-detail-plus via 'seriesId' (f4943ca11c6a)
+  Read on AppUserRating at API/Data/Repositories/UserRepository.cs:825: AppUserRating (owners: AppUserId (User)) is selected by client-controlled 'seriesId' and
+changed with no valid owner guard or applicable query filter. Rejected checks: existence check does not bind the caller identity 
+(API/Services/Plus/ExternalMetadataService.cs:311).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/opds/{apikey}/smart-filters/{filterid} via 'filterId' (15bd001af42a)
+  Read on AppUserSmartFilter at API/Data/Repositories/AppUserSmartFilterRepository.cs:69: AppUserSmartFilter (owners: AppUserId (User)) is selected by 
+client-controlled 'filterId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/opds/{apikey}/collections/{collectionid} via 'collectionId' (e8ca2ab34371)
+  Read on AppUserCollection at API/Data/Repositories/CollectionTagRepository.cs:241: AppUserCollection (owners: AppUserId (User)) is selected by 
+client-controlled 'collectionId' and changed with no valid owner guard or applicable query filter. Rejected checks: check is combined with other conditions and 
+does not always stop the request (API/Services/OpdsService.cs:527).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/opds/{apikey}/reading-list/{readinglistid} via 'readingListId' (91a6f228958d)
+  Read on ReadingList at API/Data/Repositories/ReadingListRepository.cs:505: ReadingList (owners: AppUserId (User)) is selected by client-controlled 
+'readingListId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/opds/{apikey}/more-in-genre via 'genreId' (cf59e7f3c2f5)
+  Read on Genre at API/Data/Repositories/GenreRepository.cs:97: Genre has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/opds/{apikey}/series/{seriesid} via 'seriesId' (7988dc20dc91)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller. Rejected checks: guard checks a different object (API/Services/OpdsService.cs:710).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid} via 'seriesId' (b36a1408d398)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid} via 'volumeId' (5a765405262a)
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
+'volumeId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}/chapter/{chapterid} via 'seriesId' (133549dfb954)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}/chapter/{chapterid} via 'volumeId' (e32126dcc2bb)
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
+'volumeId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}/chapter/{chapterid}/download/{filename} via 'chapterId' (02e0ac6bde45)
+  Read on MangaFile at API/Data/Repositories/ChapterRepository.cs:204: MangaFile is scoped by membership (Chapter.Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/opds/{apikey}/image via 'chapterId' (20292fcb0437)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/panels/save-progress via 'dto' (ee5e041c9066)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:157: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'dto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/panels/save-progress via 'apiKey' (f3434b43c66f)
+  Read on AppUserAuthKey at API/Data/Repositories/UserRepository.cs:999: AppUserAuthKey (owners: AppUserId (User)) is selected by client-controlled 'apiKey' and
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/panels/get-progress via 'chapterId' (e1550571cf37)
+  Read on AppUserProgress at API/Data/Repositories/AppUserProgressRepository.cs:149: AppUserProgress (owners: AppUserId (User)) is selected by client-controlled
+'chapterId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/panels/get-progress via 'apiKey' (67742d1dce18)
+  Read on AppUserAuthKey at API/Data/Repositories/UserRepository.cs:999: AppUserAuthKey (owners: AppUserId (User)) is selected by client-controlled 'apiKey' and
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/person/roles via 'personId' (511c580470ab)
+  Read on Person at API/Data/Repositories/PersonRepository.cs:193: Person has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/person/update via 'dto' (6a5b473d757f)
+  Read on Person at API/Data/Repositories/PersonRepository.cs:303: Person has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/person/fetch-cover via 'personId' (35f89fbd04b5)
+  Read on Person at API/Data/Repositories/PersonRepository.cs:303: Person has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/person/series-known-for via 'personId' (ecb8cdf42a4f)
+  Read on Person at API/Data/Repositories/PersonRepository.cs:345: Person has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/person/chapters-by-role via 'personId' (023497efa182)
+  Read on ChapterPeople at API/Data/Repositories/PersonRepository.cs:364: ChapterPeople (owners: PersonId (User)) is selected by client-controlled 'personId' 
+and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/person/merge via 'dto' (f8c33151a5d7)
+  Read on Person at API/Data/Repositories/PersonRepository.cs:303: Person has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/person/valid-alias via 'dto' (5ce9b8884e9f)
+  Read on Person at API/Data/Repositories/PersonRepository.cs:303: Person has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/plugin/authenticate via 'apiKey' (6ffd17639582)
+  Read on AppUserAuthKey at API/Data/Repositories/UserRepository.cs:999: AppUserAuthKey (owners: AppUserId (User)) is selected by client-controlled 'apiKey' and
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/plugin/version via 'apiKey' (f628967b8ee2)
+  Read on AppUserAuthKey at API/Data/Repositories/UserRepository.cs:999: AppUserAuthKey (owners: AppUserId (User)) is selected by client-controlled 'apiKey' and
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/rating/series via 'updateRating' (0b5429c9bd4d)
+  SaveChanges on AppUserRating at API/Data/DataContext.cs:575: AppUserRating (owners: AppUserId (User)) is selected by client-controlled 'updateRating' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/rating/chapter via 'updateRating' (b49796bd1627)
+  SaveChanges on AppUserChapterRating at API/Data/DataContext.cs:575: AppUserChapterRating (owners: AppUserId (User)) is selected by client-controlled 
+'updateRating' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/pdf via 'chapterId' (4cac8f54aa65)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/image via 'chapterId' (d0747104445d)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/thumbnail via 'chapterId' (4d7a676e8a47)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/file-dimensions via 'chapterId' (a30926a33070)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/chapter-info via 'chapterId' (5b644e1aea9f)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/bookmark-info via 'seriesId' (243be393e311)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/reader/mark-read via 'markReadDto' (ed6792551c91)
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:170: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
+'markReadDto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/reader/mark-unread via 'markReadDto' (4cb8d5525da4)
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:170: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
+'markReadDto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/reader/mark-volume-unread via 'markVolumeReadDto' (ad3fc81fff87)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:231: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'markVolumeReadDto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/reader/mark-volume-read via 'markVolumeReadDto' (c91ed7523c59)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:231: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'markVolumeReadDto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/reader/mark-multiple-read via 'dto' (672fa5873bcd)
+  Read on Chapter at API/Data/Repositories/VolumeRepository.cs:113: Chapter is scoped by membership (Volume.Series.Library) and is selected by client-controlled
+'dto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/reader/mark-multiple-unread via 'dto' (e61487a6c899)
+  Read on Chapter at API/Data/Repositories/VolumeRepository.cs:113: Chapter is scoped by membership (Volume.Series.Library) and is selected by client-controlled
+'dto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/continue-point via 'seriesId' (f655c34d9c5e)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:415: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'seriesId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/reader/remove-bookmarks via 'dto' (f62bcf3c3e49)
+  Read on AppUserBookmark at API/Controllers/ReaderController.cs:627: AppUserBookmark (owners: AppUserId (User)) is selected by client-controlled 'dto' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/reader/bulk-remove-bookmarks via 'dto' (4755f380cedc)
+  Read on AppUserBookmark at API/Controllers/ReaderController.cs:669: AppUserBookmark (owners: AppUserId (User)) is selected by client-controlled 'dto' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/reader/bookmark via 'bookmarkDto' (3ff6021b3ab9)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'bookmarkDto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/reader/unbookmark via 'bookmarkDto' (f04112a9f2c5)
+  Remove on AppUserBookmark at API/Data/Repositories/UserRepository.cs:211: AppUserBookmark (owners: AppUserId (User)) is selected by client-controlled 
+'bookmarkDto' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/next-chapter via 'seriesId' (67d9398868e8)
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:209: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
+'seriesId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/prev-chapter via 'seriesId' (03082a8974e5)
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:209: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
+'seriesId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/time-left via 'seriesId' (804f206260e4)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/time-left-for-chapter via 'seriesId' (819a454cb72d)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/time-left-for-chapter via 'chapterId' (034ef69661cc)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:164: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/reader/create-ptoc via 'dto' (49517cc29ed8)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'dto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/prompt-reread/series via 'seriesId' (41fa9a388d50)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/prompt-reread/series via 'libraryId' (84853f1362fc)
+  Read on Library at API/Data/Repositories/LibraryRepository.cs:145: Library is scoped by membership (it is the container) and is selected by client-controlled 
+'libraryId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/prompt-reread/volume via 'libraryId' (997cac75e167)
+  Read on Library at API/Data/Repositories/LibraryRepository.cs:145: Library is scoped by membership (it is the container) and is selected by client-controlled 
+'libraryId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/prompt-reread/volume via 'volumeId' (fa7ff5d7c5c7)
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
+'volumeId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/prompt-reread/chapter via 'libraryId' (bd25af63cac4)
+  Read on Library at API/Data/Repositories/LibraryRepository.cs:145: Library is scoped by membership (it is the container) and is selected by client-controlled 
+'libraryId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/prompt-reread/chapter via 'chapterId' (99b589c73691)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:164: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/reader/first-progress-date via 'userId' (00965b0eea92)
+  Read on AppUserProgress at API/Data/Repositories/AppUserProgressRepository.cs:223: AppUserProgress (owners: AppUserId (User)) is selected by client-controlled
+'userId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/readinglist via 'readingListId' (7d68b2d86072)
+  Read on ReadingList at API/Data/Repositories/ReadingListRepository.cs:505: ReadingList (owners: AppUserId (User)) is selected by client-controlled 
+'readingListId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/readinglist/items via 'readingListId' (a39410c3d486)
+  Read on ReadingListItem at API/Data/Repositories/ReadingListRepository.cs:499: ReadingListItem is scoped by membership (Series.Library) and is selected by 
+client-controlled 'readingListId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/readinglist/delete-item via 'dto' (ea6734108ef8)
+  SaveChanges on ReadingList at API/Data/DataContext.cs:575: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed with no 
+valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/readinglist/remove-read via 'readingListId' (409609d23f92)
+  SaveChanges on ReadingList at API/Data/DataContext.cs:575: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'readingListId' and changed
+with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/readinglist/update via 'dto' (d3c1a8fc274c)
+  Read on ReadingList at API/Data/Repositories/ReadingListRepository.cs:352: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/readinglist/update-by-series via 'dto' (f09090a37851)
+  Read on ReadingList at API/Controllers/ReadingListController.cs:270: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed
+with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/readinglist/update-by-multiple via 'dto' (a321f6685f82)
+  Read on ReadingList at API/Controllers/ReadingListController.cs:312: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed
+with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/readinglist/update-by-multiple-series via 'dto' (34f7f8391fa7)
+  Read on ReadingList at API/Controllers/ReadingListController.cs:357: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed
+with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/readinglist/update-by-volume via 'dto' (5fbb1e813bb3)
+  Read on ReadingList at API/Controllers/ReadingListController.cs:396: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed
+with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/readinglist/update-by-chapter via 'dto' (dd9bc72f1dfc)
+  Read on ReadingList at API/Controllers/ReadingListController.cs:433: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed
+with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/readinglist/people via 'readingListId' (889d30f2b8f7)
+  Read on ReadingListItem at API/Data/Repositories/ReadingListRepository.cs:137: ReadingListItem is scoped by membership (Series.Library) and is selected by 
+client-controlled 'readingListId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/readinglist/all-people via 'readingListId' (5c0ef3850d59)
+  Read on ReadingListItem at API/Data/Repositories/ReadingListRepository.cs:150: ReadingListItem is scoped by membership (Series.Library) and is selected by 
+client-controlled 'readingListId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/readinglist/next-chapter via 'readingListId' (5e51502207bc)
+  Read on ReadingListItem at API/Data/Repositories/ReadingListRepository.cs:523: ReadingListItem is scoped by membership (Series.Library) and is selected by 
+client-controlled 'readingListId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/readinglist/prev-chapter via 'readingListId' (00782c4789c5)
+  Read on ReadingListItem at API/Data/Repositories/ReadingListRepository.cs:523: ReadingListItem is scoped by membership (Series.Library) and is selected by 
+client-controlled 'readingListId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/readinglist/promote-multiple via 'dto' (8c9c4f167209)
+  Read on ReadingList at API/Data/Repositories/ReadingListRepository.cs:251: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and 
+changed with no valid owner guard or applicable query filter. Rejected checks: guard does not precede the state change 
+(API/Controllers/ReadingListController.cs:561).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/readinglist/delete-multiple via 'dto' (5b8094fd4784)
+  Read on ReadingList at API/Controllers/ReadingListController.cs:585: ReadingList (owners: AppUserId (User)) is selected by client-controlled 'dto' and changed
+with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/readinglist/info via 'readingListId' (eb057f304cf4)
+  Read on ReadingList at API/Data/Repositories/ReadingListRepository.cs:274: ReadingList (owners: AppUserId (User)) is selected by client-controlled 
+'readingListId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/reading-profile/series via 'seriesId' (ef61b04f20e6)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/readingprofile/series via 'seriesId' (b4aec6687db6)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/review/series via 'dto' (6d4e78803646)
+  Read on AppUserRating at API/Data/Repositories/UserRepository.cs:809: AppUserRating (owners: AppUserId (User)) is selected by client-controlled 'dto' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/review/chapter via 'dto' (39d522c81ef8)
+  Read on AppUserChapterRating at API/Data/Repositories/UserRepository.cs:816: AppUserChapterRating (owners: AppUserId (User)) is selected by client-controlled 
+'dto' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/review/all via 'userId' (faf477554262)
+  Read on AppUserPreferences at API/Data/Repositories/UserRepository.cs:708: AppUserPreferences (owners: AppUserId (User)) is selected by client-controlled 
+'userId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/scrobbling/library-allows-scrobbling via 'seriesId' (3121740cfa43)
+  Read on Series at API/Data/Repositories/LibraryRepository.cs:356: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' 
+with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/scrobbling/add-hold via 'seriesId' (f20c234b41a3)
+  Read on ScrobbleEvent at API/Data/Repositories/ScrobbleEventRepository.cs:174: ScrobbleEvent (owners: AppUserId (User)) is selected by client-controlled 
+'seriesId' and changed with no valid owner guard or applicable query filter. Rejected checks: existence check does not bind the caller identity 
+(API/Controllers/ScrobblingController.cs:217).
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/search/series-for-mangafile via 'mangaFileId' (d1f3e1e8f93f)
+  Read on MangaFile at API/Data/Repositories/SeriesRepository.cs:1545: MangaFile is scoped by membership (Chapter.Volume.Series.Library) and is selected by 
+client-controlled 'mangaFileId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/search/series-for-chapter via 'chapterId' (4fea1e9cff3d)
+  Read on Chapter at API/Data/Repositories/SeriesRepository.cs:1561: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/series/{seriesid} via 'seriesId' (deab77ecdda1)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/series/{seriesid} via 'seriesId' (5f988287d7b9)
+  Read on Volume at API/Data/Repositories/SeriesRepository.cs:636: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
+'seriesId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/series/delete-multiple via 'dto' (a132a330e831)
+  Remove on Series at API/Data/Repositories/SeriesRepository.cs:210: Series is scoped by membership (Library) and is selected by client-controlled 'dto' with no
+access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/series/volumes via 'seriesId' (b3c6efc7589d)
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:209: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
+'seriesId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/series/volume via 'volumeId' (d07b138d919e)
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
+'volumeId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/series/chapter via 'chapterId' (bcddf256bf67)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:164: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/series/update via 'updateSeries' (e7dc88c72e59)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'updateSeries' 
+with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/series/scan via 'refreshSeriesDto' (cc8c7f4114bd)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 
+'refreshSeriesDto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/series/metadata via 'seriesId' (4b9e2949d125)
+  Read on SeriesMetadata at API/Data/Repositories/SeriesRepository.cs:1281: SeriesMetadata is scoped by membership (Series.Library) and is selected by 
+client-controlled 'seriesId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/series/metadata via 'updateSeriesMetadataDto' (18773e184cac)
+  SaveChanges on Series at API/Data/DataContext.cs:575: Series is scoped by membership (Library) and is selected by client-controlled 'updateSeriesMetadataDto' 
+with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/series/series-by-collection via 'collectionId' (9a53b5bf6b51)
+  Read on AppUserCollection at API/Helpers/PagedList.cs:35: AppUserCollection (owners: AppUserId (User)) is selected by client-controlled 'collectionId' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/series/series-by-ids via 'dto' (45516016c91e)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:1330: Series is scoped by membership (Library) and is selected by client-controlled 'dto' with no 
+access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/series/series-detail via 'seriesId' (f7979d065916)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/series/all-related via 'seriesId' (5aa4b81712a9)
+  Read on SeriesRelation at API/Data/Repositories/SeriesRepository.cs:1916: SeriesRelation is scoped by membership (TargetSeries.Library) and is selected by 
+client-controlled 'seriesId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/series/update-related via 'dto' (92a3bdbc48f0)
+  SaveChanges on Series at API/Data/DataContext.cs:575: Series is scoped by membership (Library) and is selected by client-controlled 'dto' with no access check
+binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/series/external-series-detail via 'aniListId' (b81a17bf849a)
+  No state change found, but 'aniListId' entered unresolved code: max call depth (5) reached before Kavita.Common.HashUtil.CalculateCrc(string); external 
+dispatch: EasyCaching.Core.IEasyCachingProviderBase.GetAsync<API.DTOs.Recommendation.ExternalSeriesDto>(string, System.Threading.CancellationToken) receives the
+tracked id; max call depth (5) reached before Kavita.Common.HashUtil.AnonymousToken(); external dispatch: 
+EasyCaching.Core.IEasyCachingProviderBase.SetAsync<API.DTOs.KavitaPlus.Metadata.ExternalSeriesDetailDto?>(string, 
+API.DTOs.KavitaPlus.Metadata.ExternalSeriesDetailDto?, System.TimeSpan, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/series/external-series-detail via 'malId' (5e8963bf0bb5)
+  No state change found, but 'malId' entered unresolved code: max call depth (5) reached before Kavita.Common.HashUtil.CalculateCrc(string); external dispatch: 
+EasyCaching.Core.IEasyCachingProviderBase.GetAsync<API.DTOs.Recommendation.ExternalSeriesDto>(string, System.Threading.CancellationToken) receives the tracked 
+id; max call depth (5) reached before Kavita.Common.HashUtil.AnonymousToken(); external dispatch: 
+EasyCaching.Core.IEasyCachingProviderBase.SetAsync<API.DTOs.KavitaPlus.Metadata.ExternalSeriesDetailDto?>(string, 
+API.DTOs.KavitaPlus.Metadata.ExternalSeriesDetailDto?, System.TimeSpan, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/series/external-series-detail via 'seriesId' (a3fd63e36f7a)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/series/match via 'dto' (ef2cf0c24327)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'dto' with no 
+access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/series/dont-match via 'seriesId' (40d12f5a0cf2)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/stats/reading-activity via 'userId' (1294128ee21b)
+  Read on AppUserPreferences at API/Data/Repositories/UserRepository.cs:1118: AppUserPreferences (owners: AppUserId (User)) is selected by client-controlled 
+'userId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/stats/reading-pace via 'userId' (c56cba0e8f49)
+  Read on AppUserPreferences at API/Data/Repositories/UserRepository.cs:1118: AppUserPreferences (owners: AppUserId (User)) is selected by client-controlled 
+'userId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/stats/genre-breakdown via 'userId' (90f1a3267bee)
+  Read on AppUserPreferences at API/Data/Repositories/UserRepository.cs:1118: AppUserPreferences (owners: AppUserId (User)) is selected by client-controlled 
+'userId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/stats/tag-breakdown via 'userId' (bcc567e0cfdc)
+  Read on AppUserPreferences at API/Data/Repositories/UserRepository.cs:1118: AppUserPreferences (owners: AppUserId (User)) is selected by client-controlled 
+'userId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/stats/page-spread via 'userId' (3f9e8025ab0e)
+  Read on AppUserPreferences at API/Data/Repositories/UserRepository.cs:1118: AppUserPreferences (owners: AppUserId (User)) is selected by client-controlled 
+'userId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/stats/word-spread via 'userId' (58daf75a211b)
+  Read on AppUserPreferences at API/Data/Repositories/UserRepository.cs:1118: AppUserPreferences (owners: AppUserId (User)) is selected by client-controlled 
+'userId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/stats/favorite-authors via 'userId' (31c18c4c9084)
+  Read on AppUserPreferences at API/Data/Repositories/UserRepository.cs:1118: AppUserPreferences (owners: AppUserId (User)) is selected by client-controlled 
+'userId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/stats/avg-time-by-hour via 'userId' (ecc48dfe96d9)
+  Read on AppUserPreferences at API/Data/Repositories/UserRepository.cs:1118: AppUserPreferences (owners: AppUserId (User)) is selected by client-controlled 
+'userId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/stats/reads-by-month via 'userId' (ca7896fe3275)
+  Read on AppUserPreferences at API/Data/Repositories/UserRepository.cs:1118: AppUserPreferences (owners: AppUserId (User)) is selected by client-controlled 
+'userId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/stats/total-reads via 'userId' (791d6fd25410)
+  Read on AppUserPreferences at API/Data/Repositories/UserRepository.cs:1118: AppUserPreferences (owners: AppUserId (User)) is selected by client-controlled 
+'userId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/stats/user-stats via 'userId' (a0f05c8e27de)
+  Read on AppUserPreferences at API/Data/Repositories/UserRepository.cs:1118: AppUserPreferences (owners: AppUserId (User)) is selected by client-controlled 
+'userId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/stats/user-read via 'userId' (5354ce410e99)
+  Read on AppUserReadingSessionActivityData at API/Services/StatisticService.cs:93: AppUserReadingSessionActivityData is scoped by membership (Library) and is 
+selected by client-controlled 'userId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/stream/delete-external-source via 'externalSourceId' (eec93d51f12e)
+  Read on AppUserSideNavStream at API/Data/Repositories/UserRepository.cs:575: AppUserSideNavStream (owners: AppUserId (User)) is selected by client-controlled 
+'externalSourceId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/stream/add-dashboard-stream via 'smartFilterId' (3c49afc7f232)
+  Read on AppUserSmartFilter at API/Data/Repositories/AppUserSmartFilterRepository.cs:69: AppUserSmartFilter (owners: AppUserId (User)) is selected by 
+client-controlled 'smartFilterId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/stream/update-dashboard-stream via 'dto' (b0851875df36)
+  Read on AppUserDashboardStream at API/Data/Repositories/UserRepository.cs:474: AppUserDashboardStream (owners: AppUserId (User)) is selected by 
+client-controlled 'dto' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/stream/update-dashboard-position via 'dto' (af8fceaeb112)
+  Read on AppUserDashboardStream at API/Services/StreamService.cs:132: AppUserDashboardStream (owners: AppUserId (User)) is selected by client-controlled 'dto' 
+and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/stream/add-sidenav-stream via 'smartFilterId' (1c193e7e1605)
+  Read on AppUserSmartFilter at API/Data/Repositories/AppUserSmartFilterRepository.cs:69: AppUserSmartFilter (owners: AppUserId (User)) is selected by 
+client-controlled 'smartFilterId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/stream/add-sidenav-stream-from-external-source via 'externalSourceId' (f781bfaaf57d)
+  Read on AppUserExternalSource at API/Data/Repositories/AppUserExternalSourceRepository.cs:45: AppUserExternalSource (owners: AppUserId (User)) is selected by 
+client-controlled 'externalSourceId' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/stream/update-sidenav-stream via 'dto' (50b90e3bc760)
+  Read on AppUserSideNavStream at API/Data/Repositories/UserRepository.cs:545: AppUserSideNavStream (owners: AppUserId (User)) is selected by client-controlled 
+'dto' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/stream/update-sidenav-position via 'dto' (98543d87f383)
+  Read on AppUserSideNavStream at API/Services/StreamService.cs:274: AppUserSideNavStream (owners: AppUserId (User)) is selected by client-controlled 'dto' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/stream/bulk-sidenav-stream-visibility via 'dto' (7ba74a8ab0d3)
+  Read on AppUserSideNavStream at API/Data/Repositories/UserRepository.cs:582: AppUserSideNavStream (owners: AppUserId (User)) is selected by client-controlled 
+'dto' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/tachiyomi/latest-chapter via 'seriesId' (0b68306182fe)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:415: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'seriesId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/theme/update-default via 'dto' (35c7bd00b501)
+  Read on SiteTheme at API/Data/Repositories/SiteThemeRepository.cs:109: SiteTheme has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/theme/download-content via 'themeId' (05a96e4106c9)
+  Read on SiteTheme at API/Data/Repositories/SiteThemeRepository.cs:109: SiteTheme has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown DELETE api/theme via 'themeId' (d3b9a2014541)
+  Read on SiteTheme at API/Data/Repositories/SiteThemeRepository.cs:96: SiteTheme has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/upload/series via 'uploadFileDto' (058fd6505529)
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'uploadFileDto'
+with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/upload/collection via 'uploadFileDto' (53867bfad19b)
+  Read on AppUserCollection at API/Data/Repositories/CollectionTagRepository.cs:241: AppUserCollection (owners: AppUserId (User)) is selected by 
+client-controlled 'uploadFileDto' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/upload/reading-list via 'uploadFileDto' (3ca4ebaa27bf)
+  Read on ReadingList at API/Data/Repositories/ReadingListRepository.cs:352: ReadingList (owners: AppUserId (User)) is selected by client-controlled 
+'uploadFileDto' and changed with no valid owner guard or applicable query filter.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/upload/chapter via 'uploadFileDto' (59090f9af5d9)
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'uploadFileDto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/upload/volume via 'uploadFileDto' (b951daa44281)
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:194: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
+'uploadFileDto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable POST api/upload/library via 'uploadFileDto' (468b6b52c631)
+  Read on Library at API/Data/Repositories/LibraryRepository.cs:224: Library is scoped by membership (it is the container) and is selected by client-controlled 
+'uploadFileDto' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/upload/person via 'uploadFileDto' (eae27d7000f7)
+  Read on Person at API/Data/Repositories/PersonRepository.cs:303: Person has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/users/profile-info via 'userId' (60b796d25cf4)
+  Read on AppUser at API/Data/Repositories/UserRepository.cs:257: AppUser has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown GET api/users/has-profile-shared via 'userId' (4208a66daa81)
+  Read on AppUser at API/Data/Repositories/UserRepository.cs:257: AppUser has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/users/has-reading-progress via 'libraryId' (0f7d8d8567b3)
+  Read on Library at API/Data/Repositories/LibraryRepository.cs:224: Library is scoped by membership (it is the container) and is selected by client-controlled 
+'libraryId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Unknown POST api/users/update-preferences via 'preferencesDto' (ecb72feb7480)
+  Read on SiteTheme at API/Data/Repositories/SiteThemeRepository.cs:96: SiteTheme has no owner candidate, so ownership cannot be checked.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable GET api/volume via 'volumeId' (b5f44b73a239)
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
+'volumeId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
+
+Vulnerable DELETE api/volume via 'volumeId' (3cbd969f8abb)
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:194: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
+'volumeId' with no access check binding the caller.
+  Symbolic verdict (semantic stage limited to the selected units).
