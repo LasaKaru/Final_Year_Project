@@ -20,7 +20,7 @@ real code (repo, modules, tests, preliminary results, code walkthrough). Diagram
 
 ## Where things are
 * Plan pack (baseline, do not edit): `docs/plan/00…11` — **11_BUILD_FLOW_STEP_BY_STEP.md** is the ordered build list.
-* Decisions: `docs/adr/` (ADR-001 .NET 8 … ADR-010 web UI). Requirements status: `docs/requirements.md`.
+* Decisions: `docs/adr/` (ADR-001 .NET 8 … ADR-015 access checks + membership). Requirements status: `docs/requirements.md`.
 * Limitations: `docs/known-limitations.md`. Reproducibility: `docs/reproducibility.md`. AI-use log: `docs/ai-log.md` (keep honest).
 * Recorded runs: `eval/runs/<date>-<mode>-<target>/` (report.json, metrics.md, env.md).
 
@@ -42,6 +42,8 @@ dotnet run --project src/BolaLens.Web        # UI on http://127.0.0.1:5057 (runs
 scripts/ensure-model.sh                      # verifies the committed 86 MB SmolLM2 model; rebuilds it if missing
 scripts/get-model-smollm2.sh                 # (re)builds the SmolLM2-135M int4 model from Hugging Face (network once)
 scripts/run-case.sh A-001                    # dataset case: clone at pinned SHA (../datasets), restore, scan, record
+MODE=hybrid MODEL=$PWD/models/phi3-mini-4k/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4 scripts/run-case.sh A-005   # SLM on labelled units
+python3 scripts/baseline-codeql-import.py <sarif-dir> --run-id <id>   # CodeQL baseline (workflow baseline-codeql.yml, edit eval/datasets/baseline-request.txt)
 python3 scripts/dataset-report.py --worksheets   # summary + blind labelling worksheets
 dotnet run --project src/BolaLens.Cli -- robustness fixtures/BolaLab/BolaLab.sln     # FR21 perturbations
 dotnet run --project src/BolaLens.Cli -- scan <sln> --sarif out.sarif               # SARIF 2.1.0
@@ -71,20 +73,19 @@ read mode (ADR-011); IR slices; ONNX validator (SmolLM2 committed, Phi-3-mini ru
 (ADR-012); eval harness (+ `--compare`, `--baseline-sarif` arm); SARIF 2.1.0 + reusable GitHub Action (self-tested in CI);
 robustness runner P1–P4; local web UI with SVG call graph + offline HTML; dataset framework (`eval/datasets/cases.json`,
 `scripts/run-case.sh`, `scripts/dataset-report.py`, `scripts/run-experiments.sh`), CodeQL baseline workflow (manual).
-**Findings so far:** BolaLab 16/16 (dev set). Datasets (draft labels, `eval/results/summary-symbolic.md`): **14 A-cases**
-(Oqtane ×4, Kavita ×3, Jellyfin, Bitwarden ×5, IoTSharp; 25 vuln→fixed pairs) — Dataset A TP 11 / FN 13 / abstained 7
-(precision 1.000, recall 0.458); Dataset C TN 20 / FP 2 (FPR 0.091); 6/25 pairs discriminated (Kavita A-005 9/9 units).
-Misses = membership/tenant/library authorization and DTO-projection reads (`eval/results/error-analysis.md`).
-**13 B-repos** (Conduit, CleanArchitecture, Oqtane, TodoApi, Moonglade, Ombi, SimplCommerce, ErsatzTV, eShopOnWeb,
-fullstackhero, Kavita, Jellyfin, Bitwarden), ~4,300 endpoints, blind worksheets with 2,293 units. Robustness P1–P3 1.000.
-Phi-3: gate 3/4, ~78 s/slice, only added FPs via escalation → escalation off by default.
+**Findings so far (draft labels, `eval/results/summary-symbolic.md`):** BolaLab 16/16 (dev set only). **14 A-cases** (Oqtane ×4,
+Kavita ×3, Jellyfin, Bitwarden ×5, IoTSharp; 25 vuln→fixed pairs): Dataset A TP 19 / FN 7 / Unknown 5 — precision 1.000,
+recall 0.731; Dataset C TN 20 / FP 2 (FPR 0.091); 13/25 pairs discriminated. **CodeQL baseline** (run 45130132411,
+`eval/baseline/codeql`): 0/33 vulnerable units. **13 B-repos**, ~4,300 endpoints, blind worksheets (2,293 units).
+Robustness P1–P3 1.000. Phi-3: gate 3/4, ~78 s/slice; hybrid on Dataset A/C labelled units (`--semantic-units`) in
+`eval/runs/*-hybrid-A-*`. Misses = creation-time BOLA, tenant scoping without a container entity, reads built outside EF.
 **Owner actions (cannot be delegated):** ethics Part A; verify draft labels (`eval/labels/drafts`); blind-label Dataset B
-worksheets + 2nd-rater sample; read/explain every class (R6); supervisor sign-off of ADR-011..013; trigger the
-`baseline-codeql` workflow (Actions tab) and evaluate its SARIF.
+worksheets + 2nd-rater sample; read/explain every class (R6); supervisor sign-off of ADR-011..013; rate the RQ4 sheet
+(`eval/rq4/rating-sheet.csv`, rubric `docs/evaluation/rq4-rubric.md`) with a second rater.
 **Next (in order):**
-1. Membership-based ownership (user ∈ library/organization/tenant) and DTO-projection read sinks — the two biggest recall gaps.
+1. Tenant scoping by value (IoTSharp TenantId without a container), creation-time BOLA (Bitwarden), path sensitivity (S6).
 2. Phi-3 / Qwen2.5-Coder hybrid ×3 on the 16 GB laptop for A/B/C (`MODES="symbolic hybrid" scripts/run-experiments.sh`).
-3. Permission-service modelling (A-004 FP), CFG dominance (S6), custom policy handlers (Oqtane `[Authorize(Policy=…)]`).
+3. Custom policy handlers (Oqtane `[Authorize(Policy=…)]`), switch-branch-sensitive helpers (A-004 fixed FP).
 4. IPD (S5): slides from `docs/ipd/*` (onion, Gantt + deviations, demo script, Q&A evidence map), rehearse, backup video.
 5. After the freeze (21 Mar): final experiments, RQ4 rubric study, dissertation (`docs/thesis/outline-and-evidence-map.md`).
 
