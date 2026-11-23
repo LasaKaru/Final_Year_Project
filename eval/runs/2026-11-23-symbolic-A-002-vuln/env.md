@@ -4,7 +4,7 @@
 * global.json: unchanged
 * Config: eval/datasets/configs/read-mode.json
 * Machine: Linux x86_64, 4 logical cores; .NET SDKs: 8.0.134,10.0.115
-* BolaLens commit: `aca0217` (+ uncommitted changes)
-* Wall time (incl. load): 16 s · peak working set: 608 MB
+* BolaLens commit: `c9c1100` (+ uncommitted changes)
+* Wall time (incl. load): 15 s · peak working set: 607 MB
 * Labels: `eval/labels/drafts/A-002-vuln.labels.json`
-* Recorded by `scripts/run-case.sh` on 2026-11-23T12:16:37Z.
+* Recorded by `scripts/run-case.sh` on 2026-11-23T13:22:07Z.

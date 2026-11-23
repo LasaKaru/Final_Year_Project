@@ -570,7 +570,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-008-vuln/bitwarden-serv
 projects 82 (with errors 6) · endpoints 793 (with ids 580) · paths 802 (truncated 18) · unresolved calls 6030
 symbolic: 43 vulnerable · 1 protected · 403 unknown · 355 out of scope
 1 Minimal-API endpoints were not analysed (unsupported endpoint style).
-time 353.8s · peak memory 4689 MB
+time 300.3s · peak memory 4980 MB
 
 Unknown GET accessrequestendpoints/{id} via 'id' (b6f8880bf942)
   No state change found, but 'id' entered unresolved code: external dispatch: AutoMapper.IMapperBase.Map<Bit.Pam.Models.AccessRequestDetails>(object) receives 

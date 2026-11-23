@@ -39,7 +39,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-003-v10.3.2/Oqtane.slnx
 │ GET api/log/{id}                                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/log                                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ DELETE api/log                                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
-│ GET api/module/{id}                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/module/{id}                                                                         │ Protected  │ Protected  │ SYM-05        │ —        │
 │ POST api/module                                                                             │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ PUT api/module/{id}                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ DELETE api/module/{id}                                                                      │ Protected  │ Protected  │ SYM-05        │ —        │
@@ -146,8 +146,8 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-003-v10.3.2/Oqtane.slnx
 │ DELETE api/htmltext/{id}/{moduleid}                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴───────────────┴──────────╯
 projects 3 (with errors 2) · endpoints 204 (with ids 138) · paths 183 (truncated 1) · unresolved calls 2226
-symbolic: 32 vulnerable · 9 protected · 12 unknown · 130 out of scope
-time 18.8s · peak memory 707 MB
+symbolic: 31 vulnerable · 10 protected · 12 unknown · 130 out of scope
+time 19.4s · peak memory 695 MB
 
 Vulnerable PUT api/file/{id} via 'id' (d13d6def0dc3)
   SaveChanges on File at Oqtane.Server/Repository/Context/TenantDBContext.cs:105: File (owners: CreatedBy (User)) is selected by client-controlled 'id' and 
@@ -173,12 +173,6 @@ loading or checking ownership.
 Vulnerable DELETE api/folder/{id} via 'id' (9aa248e6a99d)
   SaveChanges on File at Oqtane.Server/Repository/Context/TenantDBContext.cs:105: File (owners: CreatedBy (User)) is selected by client-controlled 'id' and 
 changed with no valid owner guard or applicable query filter.
-  Symbolic only (semantic stage not run).
-
-Vulnerable GET api/module/{id} via 'id' (76bda2779d95)
-  SaveChanges on Module at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: Module (owners: CreatedBy (User)) is selected by client-controlled 'id' and 
-changed with no valid owner guard or applicable query filter. Rejected checks: check runs only on some paths to the state change (it does not dominate it) 
-(Oqtane.Server/Controllers/ModuleController.cs:129).
   Symbolic only (semantic stage not run).
 
 Vulnerable PUT api/module/{id} via 'id' (9a2e28605e95)

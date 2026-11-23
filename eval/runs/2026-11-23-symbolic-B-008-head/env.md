@@ -4,7 +4,7 @@
 * global.json: unchanged
 * Config: defaults (bolalens.json)
 * Machine: Linux x86_64, 4 logical cores; .NET SDKs: 8.0.134,10.0.115
-* BolaLens commit: `1e9cb9f`
-* Wall time (incl. load): 315 s · peak working set: 7494 MB
+* BolaLens commit: `7e07759` (+ uncommitted changes)
+* Wall time (incl. load): 293 s · peak working set: 7414 MB
 * Labels: none yet
-* Recorded by `scripts/run-case.sh` on 2026-11-23T08:32:01Z.
+* Recorded by `scripts/run-case.sh` on 2026-11-23T13:05:08Z.

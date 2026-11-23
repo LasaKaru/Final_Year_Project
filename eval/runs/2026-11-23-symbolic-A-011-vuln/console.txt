@@ -548,7 +548,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-011-vuln/bitwarden-serv
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴───────────────┴──────────╯
 projects 62 (with errors 5) · endpoints 775 (with ids 559) · paths 783 (truncated 18) · unresolved calls 6630
 symbolic: 30 vulnerable · 1 protected · 423 unknown · 329 out of scope
-time 289.2s · peak memory 4232 MB
+time 236.6s · peak memory 4632 MB
 
 Unknown POST  via 'id' (ca07be7f30e2)
   No state change found, but 'id' entered unresolved code: ambiguous dispatch: 2 implementations of 

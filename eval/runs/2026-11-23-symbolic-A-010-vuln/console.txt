@@ -527,7 +527,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-010-vuln/bitwarden-serv
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴───────────────┴──────────╯
 projects 56 (with errors 3) · endpoints 736 (with ids 538) · paths 760 (truncated 13) · unresolved calls 6737
 symbolic: 123 vulnerable · 39 protected · 132 unknown · 466 out of scope
-time 193.9s · peak memory 4408 MB
+time 175.1s · peak memory 3820 MB
 
 Vulnerable GET organizations/{orgid}/collections/{id}/details via 'id' (d8f6a90f2b60)
   Read on CollectionGroup at src/Infrastructure.EntityFramework/AdminConsole/Repositories/CollectionRepository.cs:505: CollectionGroup is scoped by membership 

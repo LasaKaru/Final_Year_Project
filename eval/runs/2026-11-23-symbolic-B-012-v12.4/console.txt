@@ -554,7 +554,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-012-v12.4/Jellyfin.sln
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
 projects 41 (with errors 15) · endpoints 677 (with ids 533) · paths 1252 (truncated 499) · unresolved calls 262122
 symbolic: 3 vulnerable · 0 protected · 553 unknown · 696 out of scope
-time 373.5s · peak memory 3494 MB
+time 385.6s · peak memory 3496 MB
 
 Vulnerable DELETE auth/keys/{key} via 'key' (dd4017a560ad)
   BulkDelete on ApiKey at Jellyfin.Server.Implementations/Security/AuthenticationManager.cs:62: bulk write selected by the client-controlled id has no owner 

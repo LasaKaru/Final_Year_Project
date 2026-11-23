@@ -526,7 +526,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-012-vuln/bitwarden-serv
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴───────────────┴──────────╯
 projects 55 (with errors 1) · endpoints 734 (with ids 537) · paths 754 (truncated 13) · unresolved calls 5861
 symbolic: 27 vulnerable · 1 protected · 207 unknown · 519 out of scope
-time 133.6s · peak memory 3626 MB
+time 113.4s · peak memory 3682 MB
 
 Unknown GET organizations/{orgid}/groups/{id}/details via 'id' (9ec1c26f16da)
   No state change found, but 'id' entered unresolved code: ambiguous dispatch: 4 implementations of 

@@ -106,7 +106,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-008-head/ErsatzTV.sln
 ╰─────────────────────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
 projects 14 (with errors 7) · endpoints 113 (with ids 97) · paths 109 (truncated 0) · unresolved calls 537
 symbolic: 0 vulnerable · 0 protected · 6 unknown · 103 out of scope
-time 314.0s · peak memory 7494 MB
+time 293.1s · peak memory 7414 MB
 
 Unknown UNKNOWN iptv/hdhr/channel/{channelnumber}.ts via 'channelNumber' (9515f20aa4bc)
   No state change found, but 'channelNumber' entered unresolved code: external dispatch: MediatR.ISender.Send<LanguageExt.Either<ErsatzTV.Core.BaseError, 

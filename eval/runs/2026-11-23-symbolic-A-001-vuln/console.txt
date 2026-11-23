@@ -39,7 +39,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-001-vuln/Oqtane.slnx
 │ GET api/log/{id}                                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/log                                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ DELETE api/log                                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
-│ GET api/module/{id}                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
+│ GET api/module/{id}                                                                         │ Protected  │ Protected  │ SYM-05        │ —        │
 │ POST api/module                                                                             │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ PUT api/module/{id}                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ DELETE api/module/{id}                                                                      │ Protected  │ Protected  │ SYM-05        │ —        │
@@ -143,8 +143,8 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-001-vuln/Oqtane.slnx
 │ DELETE api/htmltext/{id}/{moduleid}                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴───────────────┴──────────╯
 projects 3 (with errors 2) · endpoints 200 (with ids 135) · paths 180 (truncated 1) · unresolved calls 2756
-symbolic: 55 vulnerable · 8 protected · 12 unknown · 105 out of scope
-time 18.5s · peak memory 714 MB
+symbolic: 54 vulnerable · 9 protected · 12 unknown · 105 out of scope
+time 18.4s · peak memory 722 MB
 
 Vulnerable POST api/alias via 'alias' (c036947fb4cb)
   SaveChanges on Alias at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: detached Alias built from the client-controlled key is written without loading
@@ -232,12 +232,6 @@ loading or checking ownership.
 Vulnerable DELETE api/language/{id} via 'id' (236dfe6e25ab)
   Remove on Language at Oqtane.Server/Repository/LanguageRepository.cs:81: Language (owners: CreatedBy (User)) is selected by client-controlled 'id' and changed
 with no valid owner guard or applicable query filter.
-  Symbolic only (semantic stage not run).
-
-Vulnerable GET api/module/{id} via 'id' (76bda2779d95)
-  SaveChanges on Module at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: Module (owners: CreatedBy (User)) is selected by client-controlled 'id' and 
-changed with no valid owner guard or applicable query filter. Rejected checks: check runs only on some paths to the state change (it does not dominate it) 
-(Oqtane.Server/Controllers/ModuleController.cs:113).
   Symbolic only (semantic stage not run).
 
 Vulnerable PUT api/module/{id} via 'id' (9a2e28605e95)
