@@ -120,6 +120,21 @@ gate, a weak model can never make the result worse. Two runs gave byte-identical
 hybrid scan ran to completion with **no network interfaces** (`unshare -n`). Because the rules were developed on BolaLab,
 these numbers show correctness on the fixtures only; generalisation is measured on datasets A/B/C with a capable model.
 
+## Dataset results (real repositories — draft labels, preliminary)
+
+Datasets are cloned at pinned commits (`eval/datasets/cases.json`, `scripts/run-case.sh`); labels are derived from vendor
+fixes and still need the owner's verification (`eval/labels/drafts`). Full tables: [`eval/results/summary-symbolic.md`](eval/results/summary-symbolic.md),
+errors: [`eval/results/error-analysis.md`](eval/results/error-analysis.md).
+
+| Arm | Dataset A — vulnerable commits (14 advisories, 33 units) | Dataset C — fixed commits | Pairs told apart |
+|---|---|---|---|
+| BolaLens symbolic | TP 19 · FN 7 · Unknown 5 — precision 1.000, recall 0.731 | TN 20 · FP 2 — FPR 0.091 | 13 / 25 |
+| CodeQL 2.27.5 security-extended (baseline) | TP 0 · FN 33 — recall 0.000 | TN 27 · FP 0 | 0 / 25 |
+
+Projects: Oqtane, Kavita, Jellyfin, Bitwarden, IoTSharp (Dataset A/C); 13 wild repositories (Dataset B, ~4,300 endpoints,
+10 s – 6 min and 0.4 – 7.5 GB per scan). Misses are membership/tenant authorization outside the model, creation-time BOLA and
+reads assembled outside EF — see the error analysis.
+
 ## Architecture
 
 Pipeline (pipes-and-filters) inside a layered solution. `Core` has no Roslyn types; only `Cli` wires things together;

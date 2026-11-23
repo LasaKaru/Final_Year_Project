@@ -56,9 +56,14 @@
 25. Robustness (FR21): P4 (renamed owner properties) lowers verdict stability to 0.313 on BolaLab and 0.891 on Oqtane —
     ownership and identity recognition rely on names (`UserId`, `ICurrentUser.UserId`). Renaming identity members can even
     turn a protected bulk update into SYM-07 (owner predicate no longer recognised). Documented threat to validity.
-26. **Membership-based authorization** (user ∈ library / organization / tenant: Kavita libraries, Bitwarden organizations and
-    collections, IoTSharp tenants) is not an ownership relation: such endpoints end Unknown (SYM-09) or OutOfScope.
-27. Read mode models entity loads only; DTO projections (`Select`, AutoMapper `ProjectTo`) returned to the client are not read sinks.
+26. **Membership-based authorization** is modelled heuristically (ADR-015): containers are found from navigations/join
+    entities; tenant scoping by a `TenantId` value without a container entity (IoTSharp) still ends Unknown (SYM-09).
+    Membership enforced inside a query predicate or filter the engine does not read can make SYM-11 over-report.
+27. Projections are read sinks (ADR-015), but DTOs assembled outside EF (services that map entities by hand, lists of
+    objects carrying ids in the request body) are not traced.
 28. Custom access filters are trusted by name (ADR-014); role names in an owner-or-admin check are trusted as privileged.
 29. `analysis.preferredImplementations` picks one implementation family per target (e.g. Bitwarden EF); the other family is not analysed.
 30. Very large solutions (Jellyfin, Bitwarden, ErsatzTV) need 3–6 GB RAM and 5–6 min; Jellyfin hits the call-depth limit (518 Unknowns).
+31. Access checks are trusted by name and binding (ADR-015, delegated SYM-05); a permissive branch anywhere in a helper
+    (`authorized = true` for another entity type) rejects the whole helper — branch-insensitive (Oqtane A-004 fixed FP).
+32. Creation-time BOLA (creating an object inside another user's container, Bitwarden CVE-2026-119414/43638) is not a sink.

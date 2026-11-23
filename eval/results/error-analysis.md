@@ -61,3 +61,24 @@ Categories: **G** guard pattern not recognised · **P** permissive/incorrect gua
 **Reading for the dissertation:** precision on Dataset A is 1.000 (every endpoint flagged in a vulnerable commit is a true
 positive); recall is bounded by the ownership model (horizontal, user-owned objects). Membership-, tenant- and
 library-scoped authorization need a different "owner" relation (user ∈ library/organization) — candidate future work (S6+).
+
+## Round 3 (2026-11-23, commit b6db8a1): access checks, membership, projections — and the CodeQL baseline
+
+| Change | Effect on Dataset A/C (draft labels) |
+|---|---|
+| access-check calls as delegated guards (ADR-015); permission-service helpers (permissive ones rejected) | fixed commits that add `HasAccessTo…`/`IsAuthorized(User, …)` are seen |
+| membership-scoped objects (library / organization containers) → SYM-11 instead of SYM-09 | Kavita A-013: 7/7 vulnerable units flagged (was Unknown), fixed commit not flagged → 7 pairs discriminated |
+| projections keep the query; condition-only loads are not read sinks; self-access checks; object-check helpers | no regressions; Oqtane A-004 fixed still FP (permissive branch in another `switch` case) |
+| run-case.sh initialises git submodules | IoTSharp A-014 now restores: 1 TP + 2 honest Unknowns (was 3 FN on a broken build) |
+
+**Totals:** Dataset A TP 19 / FN 7 / abstained 5 → precision 1.000, recall 0.731 (was 0.458), operational recall 0.576;
+Dataset C TN 20 / FP 2 (FPR 0.091); 13 of 25 vulnerable→fixed pairs discriminated (was 6).
+
+**Baseline (CodeQL 2.27.5 security-extended, run 45130132411):** 0 of 33 labelled vulnerable units flagged, 0 false
+positives on the fixed commits. Its authorization queries (`cs/web/missing-function-level-access-control`,
+`cs/web/insecure-direct-object-reference`) fire on other actions (login pages, unauthenticated endpoints) — they look for a
+missing `[Authorize]` or a missing check on a whole action, not for an owner/membership binding of a client-selected object.
+
+**Still open:** Kavita A-006 reads (reading list items via a service that returns DTOs built outside EF; bookmark ids
+inside a list of objects); Jellyfin A-007 (library manager, not EF); Bitwarden A-008…A-012 (commands, creates and
+organization-level stored procedures — creation-time BOLA is outside the model); Oqtane A-003 (field-level) and A-004 fixed.

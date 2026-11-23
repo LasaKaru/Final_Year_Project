@@ -1,4 +1,4 @@
-# Requirements status (filled from the real code; last update 2026-11-19, session 3)
+# Requirements status (filled from the real code; last update 2026-11-23, session 3 round 3)
 
 ✅ Implemented · 🔶 Partially implemented · ⬜ Pending. PP IDs mapped in the "PP" column (guide 08).
 
@@ -13,8 +13,8 @@
 | FR05 | Resolve DI interface calls; ambiguous/external dispatch → Unresolved | Must | F4 | ✅ | `DiRegistrationMap`, `ImplementationResolver` (factories ⬜) |
 | FR06 | Trace route/body IDs controller → service → repository to EF Core (bounded depth) | Must | F4 | ✅ | `PathWalker`, TC13/TC14 golden tests |
 | FR07 | Classify EF ops: load, write, commit, bulk, bypass, detached | Must | F4 | ✅ | `EfOperationClassifier`, TC07/TC08/TC12/TC15 |
-| FR08 | Detect guards (owner equality, LINQ predicate, resource authorization, query filter) and validate binding | Must | F4 | ✅ (dominance 🔶) | `GuardDetector`, `PathExtractor.Bind`; windows not CFG |
-| FR09 | Symbolic verdict Vulnerable/Protected/Unknown/OutOfScope with rule IDs | Must | F4 | ✅ | `SymbolicClassifier`, SYM-01..10 tests (SYM-10 privileged-role scope, ADR-013) |
+| FR08 | Detect guards (owner equality, LINQ predicate, resource authorization, query filter) and validate binding | Must | F4 | ✅ (dominance 🔶) | `GuardDetector`, `PathExtractor.Bind`; + helpers, OR/owner-or-admin, access checks, access filters, self-access, membership (ADR-014/015); windows not CFG |
+| FR09 | Symbolic verdict Vulnerable/Protected/Unknown/OutOfScope with rule IDs | Must | F4 | ✅ | `SymbolicClassifier`, SYM-01..11 tests (SYM-10 privileged roles, SYM-11 membership) |
 | FR10 | Label-free IR slices with source map and token estimate | Must | F5 | ✅ | `IrSliceGenerator`, `bolalens slice` |
 | FR11 | Validate candidates with a local ONNX SLM; parse/ground JSON; symbolic or hybrid mode | Must | F6 | ✅ | SmolLM2-135M (gate 2/4 → advisory) and Phi-3-mini int4 (gate 3/4, 0 parse failures, ~78 s/slice CPU) end to end — eval/runs/*phi3mini; model comparison on datasets pending (S8) |
 | FR12 | Fuse symbolic and semantic verdicts with a configurable threshold | Should | F6 | 🔶 | `FusionPolicy`, calibration gate (ADR-009), conservative fusion default (ADR-012); τ uncalibrated |
@@ -22,7 +22,7 @@
 | FR14 | SARIF 2.1.0 export | Should | F7 | ✅ | `SarifReportWriter`, `bolalens sarif` / `scan --sarif`; validated against the OASIS schema; `SarifTests` |
 | FR15 | CI integration: exit codes + GitHub Actions | Should | F7 | ✅ | exit codes, CI smoke scan, reusable composite Action `action.yml` (code-scanning upload, gate) self-tested in CI |
 | FR16 | Visualise paths (responsive UI / HTML report) | Should | F7 | ✅ | `BolaLens.Web` local dashboard + offline HTML export (ADR-010) + SVG call graph per path (`docs/ipd/screenshots/call-graph-*.png`) |
-| FR17 | Evaluation harness (confusion matrix, P/R/F1/FPR/FDR, coverage) | Must | E1 | ✅ | `BolaLens.Eval`, `bolalens eval`, `MetricsTests` |
+| FR17 | Evaluation harness (confusion matrix, P/R/F1/FPR/FDR, coverage) | Must | E1 | ✅ | `BolaLens.Eval`, `bolalens eval` (+ `--baseline-sarif` CodeQL arm), `scripts/dataset-report.py`, `scripts/run-experiments.sh`, `--semantic-units` |
 | FR18 | Configuration file (identity sources, owner patterns, depth, model) | Should | new | ✅ | `bolalens.json`, `BolaLensConfig` |
 | FR19 | Inspect intermediate artefacts via CLI | Should | new | ✅ | `endpoints`, `policy`, `schema`, `di`, `paths`, `slice` |
 | FR20 | Minimal-API endpoint support | Could | new | ✅ | `MapGet/Post/Put/Patch/Delete`, `MapGroup` prefixes, `RequireAuthorization` (CleanArchitecture B-002) |
