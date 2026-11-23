@@ -570,7 +570,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-008-vuln/bitwarden-serv
 projects 82 (with errors 6) · endpoints 793 (with ids 580) · paths 802 (truncated 18) · unresolved calls 6030
 symbolic: 43 vulnerable · 1 protected · 403 unknown · 355 out of scope
 1 Minimal-API endpoints were not analysed (unsupported endpoint style).
-time 388.7s · peak memory 4697 MB
+time 353.8s · peak memory 4689 MB
 
 Unknown GET accessrequestendpoints/{id} via 'id' (b6f8880bf942)
   No state change found, but 'id' entered unresolved code: external dispatch: AutoMapper.IMapperBase.Map<Bit.Pam.Models.AccessRequestDetails>(object) receives 
@@ -5985,7 +5985,7 @@ ambiguous dispatch: 3 implementations of Bit.Core.Pam.Services.ICipherLeaseGate.
 
 Vulnerable POST ciphers/bulk-collections via 'model' (775a75aeba18)
   Remove on CollectionCipher at src/Infrastructure.EntityFramework/Repositories/CollectionCipherRepository.cs:299: CollectionCipher is scoped by membership 
-(Cipher) and is selected by client-controlled 'model' with no access check binding the caller.
+(Collection) and is selected by client-controlled 'model' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE ciphers/admin via 'model' (c37e3bbef25c)
