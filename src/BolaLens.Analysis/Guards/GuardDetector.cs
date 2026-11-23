@@ -10,6 +10,9 @@ namespace BolaLens.Analysis.Guards;
 public sealed record Comparison(IOperation Left, IOperation? Right, bool TrueOnMismatch, bool InConjunction, bool InDisjunction, bool IsResourceCheck, bool IsExistsCheck = false, bool IsHelperCheck = false)
 {
     public IOperation? OuterAnd { get; init; }
+
+    /// <summary>A bool call that may be an access check (HasAccessTo…, IsAuthorized(User, …)); validated by the walker.</summary>
+    public bool IsAccessCheck { get; init; }
     public IOperation? OuterOr { get; init; }
 
     /// <summary>The check does not stop the request on its own: it is OR-ed (match polarity) or AND-ed (mismatch polarity).</summary>
@@ -75,15 +78,20 @@ public static class GuardDetector
                 Add(new Comparison(inv, null, negated, inAnd, inOr, false, IsExistsCheck: true));
                 break;
             // a boolean helper in the analysed code, e.g. if (IsAuthorized(notification.FromUserId)) — summarised by the walker
-            case IInvocationOperation { TargetMethod: { ReturnType.SpecialType: SpecialType.System_Boolean } hm } hinv
-                when hm.Locations.Any(l => l.IsInSource) && hm.Name != "Equals":
-                Add(new Comparison(hinv, null, negated, inAnd, inOr, false, IsHelperCheck: true));
+            // a bool (or Task<bool>) call: a helper in the analysed code (summarised by the walker) or an access-check call
+            // such as HasAccessToSeries(userId, seriesId) / IsAuthorized(User, …, id, …) — decided by the walker
+            case IInvocationOperation { TargetMethod: var hm } hinv when ReturnsBool(hm) && hm.Name != "Equals":
+                Add(new Comparison(hinv, null, negated, inAnd, inOr, false, IsHelperCheck: hm.Locations.Any(l => l.IsInSource)) { IsAccessCheck = true });
                 break;
             case ILocalReferenceOperation or IParameterReferenceOperation when op.Type?.SpecialType == SpecialType.System_Boolean:
                 Add(new Comparison(op, null, negated, inAnd, inOr, false, IsExistsCheck: true));
                 break;
         }
     }
+
+    public static bool ReturnsBool(IMethodSymbol m) =>
+        m.ReturnType.SpecialType == SpecialType.System_Boolean
+        || m.ReturnType is INamedTypeSymbol { Name: "Task" or "ValueTask", TypeArguments: [{ SpecialType: SpecialType.System_Boolean }] };
 
     /// <summary>Operands of a &amp;&amp;/|| tree with their negation parity relative to the tree's root.</summary>
     public static IEnumerable<(IOperation Leaf, bool Negated)> Leaves(IOperation op, bool negated = false)

@@ -36,6 +36,8 @@ public static class EfOperationClassifier
     public static EfCategory Classify(IMethodSymbol method)
     {
         var m = method.ReducedFrom ?? method;
+        // AutoMapper ProjectTo<TDto>(…) on an IQueryable: a projection like Select (the selected rows are still read)
+        if (m.Name == "ProjectTo" && m.ReturnType.AllInterfaces.Any(i => i.Name == "IQueryable")) return EfCategory.Chain;
         var ef = IsEf(m);
         var q = IsQueryable(m) || IsEnumerable(m);
         if (!ef && !q) return EfCategory.None;
@@ -59,7 +61,7 @@ public static class EfOperationClassifier
             return EfCategory.Exists;
         if (baseName is "Where" or "Include" or "ThenInclude" or "AsNoTracking" or "AsTracking" or "AsNoTrackingWithIdentityResolution"
             or "OrderBy" or "OrderByDescending" or "ThenBy" or "ThenByDescending" or "Skip" or "Take" or "AsSplitQuery"
-            or "AsSingleQuery" or "TagWith" or "Distinct" or "AsQueryable")
+            or "AsSingleQuery" or "TagWith" or "Distinct" or "AsQueryable" or "Select" or "SelectMany")
             return EfCategory.Chain;
         return EfCategory.None;
     }

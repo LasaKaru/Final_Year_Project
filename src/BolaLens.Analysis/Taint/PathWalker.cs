@@ -386,8 +386,12 @@ public sealed class PathWalker
         var exitKind = cmp.TrueOnMismatch ? GuardDetector.Exit(c.WhenTrue) : GuardDetector.Exit(c.WhenFalse);
         var problem = cmp.IsCombined ? CombinedProblem : null;
 
-        if (cmp.IsHelperCheck)
-            return cmp.Left is IInvocationOperation hinv ? BuildHelperGuard(hinv, cmp, c, f, facts, problem) : null;
+        if (cmp.IsHelperCheck || cmp.IsAccessCheck)
+        {
+            if (cmp.Left is not IInvocationOperation hinv) return null;
+            return (cmp.IsHelperCheck ? BuildHelperGuard(hinv, cmp, c, f, facts, problem) : null)
+                   ?? BuildAccessGuard(hinv, cmp, c, f, facts, problem, permissive: false);
+        }
 
         if (cmp.IsExistsCheck)
         {
@@ -508,9 +512,49 @@ public sealed class PathWalker
                || body.Descendants().OfType<ISimpleAssignmentOperation>().Any(a => a.Target is ILocalReferenceOperation l && returnedLocals.Contains(l.Local) && IsTrue(a.Value));
     }
 
+    private readonly Dictionary<string, (HashSet<int> Ordinals, bool Permissive)?> _accessHelperSummaries = new(StringComparer.Ordinal);
+
+    /// <summary>A helper that passes its parameter #k, together with the caller identity, to an access-check call
+    /// (Oqtane: IsAuthorized(entityName, entityId, permission) → _userPermissions.IsAuthorized(User, …, entityId, …)).</summary>
+    private (HashSet<int> Ordinals, bool Permissive)? AccessHelperSummary(IMethodSymbol helper)
+    {
+        var key = Symbols.Key(helper);
+        if (_accessHelperSummaries.TryGetValue(key, out var cached)) return cached;
+        _accessHelperSummaries[key] = null;
+        var syntax = helper.DeclaringSyntaxReferences.Select(r => r.GetSyntax(_ct)).FirstOrDefault(HasBody);
+        if (syntax is null || _context.GetModel(syntax.SyntaxTree).GetOperation(syntax, _ct) is not { } body) return null;
+        var frame = new MethodFrame(helper, 0);
+        foreach (var call in body.Descendants().OfType<IInvocationOperation>().Where(i => IsAccessMethod(i.TargetMethod)))
+        {
+            var bindsCaller = call.Arguments.Any(a => Peek(GuardDetector.Unwrap(a.Value), frame) is { } v && (v.Identity is not null || v.IsPrincipal))
+                              || IsAccessContext(call.Instance?.Type);
+            var forwarded = call.Arguments.Select(a => GuardDetector.Unwrap(a.Value)).OfType<IParameterReferenceOperation>()
+                .Select(p => p.Parameter.Ordinal).ToHashSet();
+            if (!bindsCaller || forwarded.Count == 0) continue;
+            _accessHelperSummaries[key] = (forwarded, CanReturnTrueWithoutCheck(body));
+            return _accessHelperSummaries[key];
+        }
+        return null;
+    }
+
     private GuardRecord? BuildHelperGuard(IInvocationOperation inv, Comparison cmp, IConditionalOperation c, MethodFrame f, List<string> facts, string? problem)
     {
-        if (HelperSummary(inv.TargetMethod) is not { } summary) return null;
+        if (HelperSummary(inv.TargetMethod) is not { } summary)
+        {
+            if (AccessHelperSummary(inv.TargetMethod) is not { } access) return null;
+            var forwarded = inv.Arguments.Where(a => a.Parameter is { } p && access.Ordinals.Contains(p.Ordinal)).Select(a => a.Value);
+            var (tok, tags) = TrackedSubject(forwarded, f);
+            if (tok is null && tags is null) return null;
+            var exit = cmp.TrueOnMismatch ? GuardDetector.Exit(c.WhenTrue) : GuardDetector.Exit(c.WhenFalse);
+            facts.Add($"{inv.TargetMethod.Name}(…) asks an access check about the client-selected object (delegated)");
+            return new GuardRecord
+            {
+                Kind = GuardKind.ResourceAuthorization, Token = tok, SelectorTags = tok is null ? tags : null,
+                Location = _context.StatementRef(c.Syntax), Frame = f, UntilFrameEnd = exit == ExitKind.Return,
+                StructuralProblem = access.Permissive ? $"{inv.TargetMethod.Name} can return true without the access check" : problem,
+                AuthForCaller = true, CallerExpression = $"{inv.TargetMethod.Name}(…)",
+            };
+        }
         var arg = inv.Arguments.FirstOrDefault(a => a.Parameter?.Ordinal == summary.Ordinal);
         if (arg is null || ValueOf(arg.Value, f).Owner is not { } owner) return null;
         var exitKind = cmp.TrueOnMismatch ? GuardDetector.Exit(c.WhenTrue) : GuardDetector.Exit(c.WhenFalse);
@@ -525,6 +569,63 @@ public sealed class PathWalker
                 ? $"{inv.TargetMethod.Name} can return true without comparing the caller identity (e.g. for a null id)" : problem,
             OwnerFromRequest = owner.Token.FromRequest,
         };
+    }
+
+    private List<System.Text.RegularExpressions.Regex>? _accessMethods, _accessContexts;
+
+    private bool IsAccessMethod(IMethodSymbol m)
+    {
+        _accessMethods ??= _context.Config.Analysis.AccessCheckMethods.Select(p => new System.Text.RegularExpressions.Regex(p)).ToList();
+        return _accessMethods.Any(r => r.IsMatch(m.Name));
+    }
+
+    private bool IsAccessContext(ITypeSymbol? type)
+    {
+        if (type is null) return false;
+        _accessContexts ??= _context.Config.Analysis.AccessContextTypes.Select(p => new System.Text.RegularExpressions.Regex(p)).ToList();
+        return _accessContexts.Any(r => r.IsMatch(type.Name)) || type.AllInterfaces.Any(i => _accessContexts.Any(r => r.IsMatch(i.Name)));
+    }
+
+    /// <summary>An access-check call binding the caller and the tracked object: name matches analysis.accessCheckMethods, an
+    /// argument is the caller identity / principal (or the receiver is an identity context) and an argument is the tracked id
+    /// or a property of the tracked object. Delegated (SYM-05): the check's own logic is not verified.</summary>
+    private GuardRecord? BuildAccessGuard(IInvocationOperation inv, Comparison cmp, IConditionalOperation c, MethodFrame f, List<string> facts,
+        string? problem, bool permissive)
+    {
+        var m = inv.TargetMethod;
+        if (!IsAccessMethod(m)) return null;
+        var args = inv.Arguments.Select(a => ValueOf(a.Value, f)).ToList();
+        var recv = inv.Instance is null ? AbstractValue.None : ValueOf(inv.Instance, f);
+        var bindsCaller = args.Any(a => a.Identity is not null || a.IsPrincipal) || recv.Identity is not null || recv.IsPrincipal
+                          || IsAccessContext(inv.Instance?.Type);
+        if (!bindsCaller) return null;
+        var (token, tags) = TrackedSubject(inv.Arguments.Select(a => a.Value), f);
+        if (token is null && tags is null) return null;
+        var exitKind = cmp.TrueOnMismatch ? GuardDetector.Exit(c.WhenTrue) : GuardDetector.Exit(c.WhenFalse);
+        facts.Add($"{m.Name}(…) checks the caller's access to {(token is not null ? token.VariableName ?? token.ShortName : "the client-selected object")} (delegated)");
+        return new GuardRecord
+        {
+            Kind = GuardKind.ResourceAuthorization, Token = token, SelectorTags = token is null ? tags : null,
+            Location = _context.StatementRef(c.Syntax), Frame = f, UntilFrameEnd = exitKind == ExitKind.Return,
+            StructuralProblem = permissive ? $"{m.Name} can return true without the access check" : problem,
+            AuthForCaller = true, CallerExpression = $"{m.Name}(…)",
+        };
+    }
+
+    /// <summary>The tracked object an access check is about: a loaded entity, a property of it (chapter.SeriesId) or the
+    /// client-controlled id itself (seriesId → every object it selects).</summary>
+    private (EntityToken? Token, IReadOnlySet<string>? Tags) TrackedSubject(IEnumerable<IOperation> args, MethodFrame f)
+    {
+        foreach (var raw in args)
+        {
+            var op = GuardDetector.Unwrap(raw);
+            var v = ValueOf(op, f);
+            var token = v.Entity ?? v.Owner?.Token ?? v.KeyOf
+                        ?? (op is IPropertyReferenceOperation pr && pr.Instance is not null ? ValueOf(pr.Instance, f).Entity : null);
+            if (token is { TaintSelected: true }) return (token, null);
+            if (v.Tainted && v.Tags is { Count: > 0 }) return (null, v.Tags);
+        }
+        return (null, null);
     }
 
     /// <summary>body.Id == id where the stored object was loaded by id: both tokens are the same row.</summary>
@@ -817,7 +918,7 @@ public sealed class PathWalker
             case IPropertyReferenceOperation pr:
             {
                 var inst = pr.Instance is null ? AbstractValue.None : Eval(pr.Instance, f);
-                if (inst.Entity is { } token)
+                if (inst.Entity is { Projected: false } token)
                 {
                     token.Dirty = true;
                     if (token.TaintSelected)
@@ -1088,6 +1189,7 @@ public sealed class PathWalker
                 if (recv.Query is null) return recv;
                 var q = recv.Query;
                 if (m.Name == "Where") q = ApplyPredicates(q, inv, first, f);
+                if (m.Name is "Select" or "SelectMany" or "ProjectTo") q = q with { Projected = true };
                 return recv with { Query = q };
             }
 
@@ -1147,7 +1249,7 @@ public sealed class PathWalker
                 var kind = m.Name.StartsWith("Remove", StringComparison.Ordinal) ? SinkKind.Remove
                     : m.Name.StartsWith("Attach", StringComparison.Ordinal) ? SinkKind.Attach
                     : SinkKind.Update;
-                if (target.TaintSelected) AddSink(kind, target, inv, f);
+                if (target.TaintSelected && !target.Projected) AddSink(kind, target, inv, f);
                 return AbstractValue.None;
             }
 
@@ -1194,6 +1296,7 @@ public sealed class PathWalker
             OwnerPredicateCaller = q.OwnerPredicateCaller,
             OwnerPredicateLocation = q.PredicateLocation,
             IsCollection = collection,
+            Projected = q.Projected,
         };
         if (q.SelectorTags is not null) token.SelectorTags.UnionWith(q.SelectorTags);
         if (q.KeyTags is not null && !collection)

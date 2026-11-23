@@ -85,8 +85,77 @@ public sealed class DbContextSchemaMapper(AnalysisContext context)
             }
         }
 
-        var list = entities.Values.Select(b => b.Build(_owners)).OrderBy(e => e.EntityType, StringComparer.Ordinal).ToList();
+        var membership = MembershipPaths(entities);
+        var list = entities.Values.Select(b => b.Build(_owners) with { MembershipPath = membership.GetValueOrDefault(b.Key) })
+            .OrderBy(e => e.EntityType, StringComparer.Ordinal).ToList();
         return new OwnershipSchema(list, unresolved);
+    }
+
+    /// <summary>Containers are entities users belong to: a collection navigation to the user type (Library.AppUsers), a
+    /// collection on the user type (AppUser.Libraries), or a join entity named after them with a user owner
+    /// (OrganizationUser: UserId + OrganizationId). Every entity that reaches a container through reference navigations
+    /// (≤ 4 hops) or a "{Container}Id" foreign key is membership-scoped. Heuristic: names a relation, not the policy.</summary>
+    private Dictionary<string, string> MembershipPaths(Dictionary<string, Builder> entities)
+    {
+        var userTypes = context.Config.Ownership.UserTypeNames.ToHashSet(StringComparer.Ordinal);
+        bool IsUser(ITypeSymbol t) { for (var x = t; x is not null; x = x.BaseType) if (userTypes.Contains(x.Name)) return true; return false; }
+        static ITypeSymbol? Element(ITypeSymbol t) =>
+            t is INamedTypeSymbol { IsGenericType: true } g && g.AllInterfaces.Any(i => i.Name == "IEnumerable") && g.TypeArguments.Length == 1 ? g.TypeArguments[0] : null;
+        Builder? EntityOf(ITypeSymbol t) => entities.GetValueOrDefault(t.OriginalDefinition.ToDisplayString());
+
+        var containers = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var b in entities.Values)
+        {
+            var props = Symbols.AllProperties(b.Type).ToList();
+            if (IsUser(b.Type))
+            {
+                foreach (var p in props)
+                    if (Element(p.Type) is { } el && EntityOf(el) is { } c && !IsUser(el)) containers.Add(c.Key);
+                continue;
+            }
+            if (props.Any(p => Element(p.Type) is { } el && IsUser(el))) containers.Add(b.Key);
+            // join entity: OrganizationUser { UserId, OrganizationId / Organization }
+            var hasUser = props.Any(p => _owners.KindOfName(p.Name) == OwnerKind.User || IsUser(p.Type));
+            if (!hasUser) continue;
+            foreach (var p in props.Where(p => !IsUser(p.Type) && EntityOf(p.Type) is not null && Element(p.Type) is null))
+            {
+                var c = EntityOf(p.Type)!;
+                if (b.Type.Name.Contains(c.Type.Name, StringComparison.Ordinal) || b.Type.Name.EndsWith("Member", StringComparison.Ordinal))
+                    containers.Add(c.Key);
+            }
+            foreach (var p in props.Where(p => p.Name.EndsWith("Id", StringComparison.Ordinal) && p.Name.Length > 2))
+            {
+                var name = p.Name[..^2];
+                var c = entities.Values.FirstOrDefault(e => e.Type.Name == name && !IsUser(e.Type));
+                if (c is not null && b.Type.Name.Contains(name, StringComparison.Ordinal)) containers.Add(c.Key);
+            }
+        }
+
+        var paths = new Dictionary<string, string>(StringComparer.Ordinal);
+        foreach (var key in containers) paths[key] = "(container)";
+        foreach (var b in entities.Values.Where(b => !containers.Contains(b.Key) && !IsUser(b.Type)))
+        {
+            // breadth-first over reference navigations
+            var queue = new Queue<(ITypeSymbol Type, string Path, int Depth)>([(b.Type, "", 0)]);
+            var seen = new HashSet<string>(StringComparer.Ordinal) { b.Key };
+            string? found = null;
+            while (queue.Count > 0 && found is null)
+            {
+                var (type, path, depth) = queue.Dequeue();
+                foreach (var p in Symbols.AllProperties(type))
+                {
+                    if (Element(p.Type) is not null || IsUser(p.Type) || EntityOf(p.Type) is not { } target) continue;
+                    var next = path.Length == 0 ? p.Name : $"{path}.{p.Name}";
+                    if (containers.Contains(target.Key)) { found = next; break; }
+                    if (depth < 3 && seen.Add(target.Key)) queue.Enqueue((p.Type, next, depth + 1));
+                }
+            }
+            found ??= Symbols.AllProperties(b.Type).Select(p => p.Name)
+                .FirstOrDefault(n => n.EndsWith("Id", StringComparison.Ordinal) && n.Length > 2
+                                     && containers.Any(c => entities[c].Type.Name == n[..^2]));
+            if (found is not null) paths[b.Key] = found;
+        }
+        return paths;
     }
 
     private static List<string> ReferencedProperties(IAnonymousFunctionOperation lambda)
@@ -112,6 +181,8 @@ public sealed class DbContextSchemaMapper(AnalysisContext context)
 
     private sealed class Builder(INamedTypeSymbol type, string dbContext)
     {
+        public INamedTypeSymbol Type => type;
+        public string Key => type.ToDisplayString();
         public string? DbSetName { get; set; }
         public List<string> Keys { get; } = [];
         public List<QueryFilterInfo> Filters { get; } = [];

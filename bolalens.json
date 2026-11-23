@@ -37,6 +37,18 @@
       "Telemetry"
     ],
     "preferredImplementations": [],
+    "accessCheckMethods": [
+      "^(Has|Can|Is|Check|Ensure|Verify|Assert|User)\\w*(Access|Permission|Authori[sz]|Owner|Member|Allowed|Belongs)",
+      "^IsAuthorized(Async)?$",
+      "^Authorize(Async)?$"
+    ],
+    "accessContextTypes": [
+      "CurrentContext$",
+      "UserContext$",
+      "UserPermissions$",
+      "PermissionService$",
+      "AccessService$"
+    ],
     "accessFilterPatterns": [
       "Access",
       "Authori[sz]",

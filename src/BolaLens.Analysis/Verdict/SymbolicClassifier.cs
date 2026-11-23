@@ -46,7 +46,7 @@ public sealed class SymbolicClassifier(OwnershipSchema schema, bool includeReadO
         var resource = valid.FirstOrDefault(g => g.Kind == GuardKind.ResourceAuthorization);
         if (resource is not null)
             return new(VerdictStatus.Protected, [SymbolicRules.ResourceAuthz],
-                $"{where} is gated by resource-based authorization at {resource.Location} (delegated to an authorization handler).");
+                $"{where} is gated by {resource.CallerExpression ?? "resource-based authorization"} at {resource.Location} (delegated: the check itself is not traced).");
 
         if (path.Endpoint.Authorization.AccessFilters is { Count: > 0 } accessFilters)
             return new(VerdictStatus.Protected, [SymbolicRules.ResourceAuthz],
@@ -70,6 +70,10 @@ public sealed class SymbolicClassifier(OwnershipSchema schema, bool includeReadO
         if (filter is not null)
             return new(VerdictStatus.Protected, [SymbolicRules.QueryFilter],
                 $"{where} is protected by the {filter.OwnerKind} query filter '{filter.CallerExpression}'.");
+
+        if (entity is { OwnerCandidates.Count: 0, MembershipPath: { } via })
+            return new(VerdictStatus.Vulnerable, [SymbolicRules.MembershipUnchecked],
+                $"{where}: {name} is scoped by membership ({(via == "(container)" ? "it is the container" : via)}) and is selected by client-controlled '{path.TaintSource.Name}' with no access check binding the caller.{invalidText}");
 
         if (entity is null || entity.OwnerCandidates.Count == 0)
             return new(VerdictStatus.Unknown, [SymbolicRules.NoOwnershipModel],

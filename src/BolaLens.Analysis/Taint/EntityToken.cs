@@ -43,6 +43,9 @@ public sealed class EntityToken
     /// <summary>Other tokens proven to be the same row (key equality with the value that loaded them).</summary>
     public HashSet<EntityToken> Aliases { get; } = [];
 
+    /// <summary>Rows read through a projection (Select / ProjectTo): a DTO, never written back through EF.</summary>
+    public bool Projected { get; init; }
+
     /// <summary>Built from request data (body parameter / new T { Id = … }), not loaded from the database.</summary>
     public bool FromRequest { get; init; }
 

@@ -52,6 +52,15 @@ public sealed class AnalysisOptions
     /// (ambiguous dispatch → Unknown); set per target and record it with the run.</summary>
     public IReadOnlyList<string> PreferredImplementations { get; init; } = [];
 
+    /// <summary>Bool (or Task&lt;bool&gt;) calls whose name matches one of these regexes are access checks when they also receive the
+    /// caller identity (or are called on an identity context, <see cref="AccessContextTypes"/>) and the tracked id or object:
+    /// HasAccessToSeries(userId, seriesId), IsAuthorized(User, …, entityId, …). Delegated authorization (SYM-05).</summary>
+    public IReadOnlyList<string> AccessCheckMethods { get; init; } =
+        ["^(Has|Can|Is|Check|Ensure|Verify|Assert|User)\\w*(Access|Permission|Authori[sz]|Owner|Member|Allowed|Belongs)", "^IsAuthorized(Async)?$", "^Authorize(Async)?$"];
+
+    /// <summary>Receiver types (regex on the type name) that carry the caller identity themselves, e.g. Bitwarden's ICurrentContext.</summary>
+    public IReadOnlyList<string> AccessContextTypes { get; init; } = ["CurrentContext$", "UserContext$", "UserPermissions$", "PermissionService$", "AccessService$"];
+
     /// <summary>Custom filter attributes of the analysed code (IAuthorizationFilter/IAsyncAuthorizationFilter/IActionFilter/
     /// IAsyncActionFilter) whose name matches one of these regexes are delegated authorization (SYM-05).</summary>
     public IReadOnlyList<string> AccessFilterPatterns { get; init; } = ["Access", "Authori[sz]", "Permission", "Owner"];

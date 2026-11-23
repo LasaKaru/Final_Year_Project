@@ -1,1 +1,17 @@
-{ "analysis": { "preferredImplementations": ["\\.EntityFramework\\."], "includeReadOnlyPaths": true } }
+{
+  "analysis": {
+    "preferredImplementations": [
+      "\\.EntityFramework\\."
+    ],
+    "accessCheckMethods": [
+      "^(Has|Can|Is|Check|Ensure|Verify|Assert|User)\\w*(Access|Permission|Authori[sz]|Owner|Member|Allowed|Belongs)",
+      "^IsAuthorized(Async)?$",
+      "^Authorize(Async)?$",
+      "^Organization(User|Owner|Admin|Custom)$",
+      "^(Manage|Edit|Access)[A-Z]\\w*$",
+      "^ProviderUser$",
+      "^ProviderProviderAdmin$"
+    ],
+    "includeReadOnlyPaths": true
+  }
+}

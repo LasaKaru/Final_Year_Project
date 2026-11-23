@@ -38,9 +38,14 @@ public sealed class GuardRecord
 
     public bool IsActivated => ActiveFrom != int.MaxValue;
 
+    /// <summary>For access checks on the tracked id itself (HasAccessToSeries(uid, seriesId)): provenance tags of that id.</summary>
+    public IReadOnlySet<string>? SelectorTags { get; init; }
+
     /// <summary>Does this guard concern the object of the sink?</summary>
     public bool Concerns(EntityToken token) =>
-        Token is not null ? Token.SameObject(token) : EntityType == token.EntityType && token.TaintSelected;
+        Token is not null ? Token.SameObject(token)
+        : SelectorTags is { Count: > 0 } tags ? token.TaintSelected && (token.SelectorTags.Overlaps(tags) || token.Aliases.Any(a => a.SelectorTags.Overlaps(tags)))
+        : EntityType == token.EntityType && token.TaintSelected;
 }
 
 /// <summary>Mutable state of one path walk (one endpoint × one tainted parameter).</summary>

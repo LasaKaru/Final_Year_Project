@@ -13,6 +13,7 @@ public static class SymbolicRules
     public const string DetachedOrBulk = "SYM-07";     // detached write / bulk write without owner predicate → Vulnerable
     public const string MissingGuard = "SYM-08";       // owned entity selected by id reaches a state change unguarded → Vulnerable
     public const string NoOwnershipModel = "SYM-09";   // entity has no owner candidate → Unknown
+    public const string MembershipUnchecked = "SYM-11"; // membership-scoped object (library/organization) without an access check → Vulnerable
     public const string PrivilegedOnly = "SYM-10";     // endpoint restricted to configured privileged roles → OutOfScope (checked first)
 
     public static IReadOnlyDictionary<string, string> Descriptions { get; } = new Dictionary<string, string>
@@ -26,6 +27,7 @@ public static class SymbolicRules
         [DetachedOrBulk] = "Detached update by a client-controlled key, or bulk write without an owner predicate.",
         [MissingGuard] = "A client-controlled id selects an owned object that is changed without a valid guard or filter.",
         [NoOwnershipModel] = "The changed entity has no owner candidate (no ownership model to check against).",
+        [MembershipUnchecked] = "An object scoped by a container users belong to (library, organization) is selected by a client id and changed or read with no access check.",
         [PrivilegedOnly] = "Only callers in configured privileged roles (analysis.privilegedRoles) reach the endpoint: horizontal BOLA needs peer users.",
     };
 }

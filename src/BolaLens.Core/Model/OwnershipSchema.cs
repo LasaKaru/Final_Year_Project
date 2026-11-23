@@ -11,14 +11,17 @@ public sealed record OwnerCandidate(string Property, OwnerKind Kind, IReadOnlyLi
 /// <summary>An EF Core global query filter (HasQueryFilter) and the entity properties it references.</summary>
 public sealed record QueryFilterInfo(string Expression, IReadOnlyList<string> ReferencedProperties, OwnerKind ScopeKind, SourceRef Location);
 
-/// <summary>An EF Core entity as seen through a DbContext: keys, owner candidates and query filters.</summary>
+/// <summary>An EF Core entity as seen through a DbContext: keys, owner candidates and query filters.
+/// <see cref="MembershipPath"/>: the entity is scoped by a container users belong to (Kavita library, Bitwarden organization):
+/// "(container)" for the container itself, otherwise the navigation/foreign-key path to it (e.g. "Series.Library").</summary>
 public sealed record EntityModel(
     string EntityType,
     string DbContext,
     string? DbSetName,
     IReadOnlyList<string> KeyProperties,
     IReadOnlyList<OwnerCandidate> OwnerCandidates,
-    IReadOnlyList<QueryFilterInfo> QueryFilters)
+    IReadOnlyList<QueryFilterInfo> QueryFilters,
+    string? MembershipPath = null)
 {
     /// <summary>Short (unqualified) type name, e.g. "Order".</summary>
     public string ShortName => EntityType[(EntityType.LastIndexOf('.') + 1)..];
