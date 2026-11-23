@@ -53,6 +53,30 @@ def predictions(report, symbolic=True):
     return pred
 
 
+def baseline_predictions(case_id, variant, report):
+    """CodeQL arm: a unit is flagged when an imported authorization result lies inside the endpoint's action method
+    (same rule as BolaLens.Eval.BaselineSarif). None when no baseline SARIF was imported for this case variant."""
+    path = os.path.join(ROOT, "eval", "baseline", "codeql", f"{case_id}-{variant}.sarif")
+    if not os.path.exists(path):
+        return None
+    hits = []
+    for run in json.load(open(path))["runs"]:
+        for res in run.get("results", []):
+            for loc in res.get("locations", [])[:1]:
+                pl = loc.get("physicalLocation", {})
+                hits.append((pl.get("artifactLocation", {}).get("uri", "").replace("\\", "/"), pl.get("region", {}).get("startLine", 0)))
+    pred = {}
+    for f in report["findings"]:
+        e = f["path"]["endpoint"]
+        k = unit_key(e["verb"], e["routeTemplate"])
+        loc = e["location"]
+        fp = loc["filePath"].replace("\\", "/")
+        flagged = any((u == fp or u.endswith("/" + fp) or fp.endswith("/" + u)) and loc["startLine"] <= ln <= loc["endLine"] for u, ln in hits)
+        if flagged or k not in pred:
+            pred[k] = "Vulnerable" if flagged else "Protected"
+    return pred
+
+
 def outcome(label, predicted):
     if label not in ("Vulnerable", "Protected"):
         return "excluded"
@@ -79,6 +103,7 @@ def main():
            "Labels marked *draft* are derived from vendor fixes and still need the owner's verification. "
            "BolaLab (development set) is reported separately and never mixed in.\n"]
     totals = {}
+    btotals = {}
     rows, cov, pairs = [], [], {}
     for c in cases:
         for variant in c["variants"]:
@@ -100,6 +125,7 @@ def main():
                 continue
             # patched commits of Dataset A cases are the Dataset C controls: reported separately
             ds = "C (fixed commits of A)" if c["dataset"] == "A" and variant == "fixed" else c["dataset"]
+            baseline = baseline_predictions(c["caseId"], variant, report)
             for l in labels:
                 k = unit_key(l["verb"], l["route"])
                 p = pred.get(k)
@@ -108,13 +134,18 @@ def main():
                 totals[ds][o] += 1
                 if l["label"] == "Vulnerable" and o in ("abstained", "no prediction"):
                     totals[ds]["missedVuln"] = totals[ds].get("missedVuln", 0) + 1
-                rows.append(f"| {c['caseId']} | {variant} | `{k}` | {l['label']} ({status}) | {p[0] if p else '—'} | {p[1] if p else ''} | {o} |")
+                bp = baseline.get(k, "Protected") if baseline is not None else None
+                bo = outcome(l["label"], bp) if bp is not None else "—"
+                if bp is not None:
+                    btotals.setdefault(ds, {}).setdefault(bo, 0)
+                    btotals[ds][bo] += 1
+                rows.append(f"| {c['caseId']} | {variant} | `{k}` | {l['label']} ({status}) | {p[0] if p else '—'} | {p[1] if p else ''} | {o} | {bo} |")
                 pairs.setdefault((c["caseId"], k), {})[variant] = o
 
     out += ["## Coverage, runtime, memory\n",
             "| Case | Variant | Commit | Endpoints | With ids | V / P / U / OoS | Projects | Time | Peak RAM | Run |",
             "|---|---|---|---|---|---|---|---|---|---|", *cov, ""]
-    out += ["## Labelled units\n", "| Case | Variant | Unit | Label | Predicted | Rules | Outcome |", "|---|---|---|---|---|---|---|", *rows, ""]
+    out += ["## Labelled units\n", "| Case | Variant | Unit | Label | Predicted | Rules | Outcome | CodeQL baseline |", "|---|---|---|---|---|---|---|---|", *rows, ""]
     out += ["## Metrics per dataset (labelled units only; Unknown = abstained, counted as a miss in operational recall)\n",
             "| Dataset | TP | FP | FN | TN | Abstained | Precision | Recall | Op. recall | FPR |", "|---|---|---|---|---|---|---|---|---|---|"]
     for ds, t in sorted(totals.items()):
@@ -125,6 +156,12 @@ def main():
         oprec = tp / vuln_total if vuln_total else None
         fpr = fp / (fp + tn) if fp + tn else None
         out.append(f"| {ds} | {tp} | {fp} | {fn} | {tn} | {ab} | {fmt(prec)} | {fmt(rec)} | {fmt(oprec)} | {fmt(fpr)} |")
+    if btotals:
+        out += ["", "## Baseline arm — CodeQL C# security-extended (authorization rules CWE-284/285/566/639/862/863; `eval/baseline/codeql`)\n",
+                "| Dataset | TP | FP | FN | TN | Precision | Recall | FPR |", "|---|---|---|---|---|---|---|---|"]
+        for ds, t in sorted(btotals.items()):
+            tp, fp, fn, tn = (t.get(x, 0) for x in ("TP", "FP", "FN", "TN"))
+            out.append(f"| {ds} | {tp} | {fp} | {fn} | {tn} | {fmt(tp / (tp + fp) if tp + fp else None)} | {fmt(tp / (tp + fn) if tp + fn else None)} | {fmt(fp / (fp + tn) if fp + tn else None)} |")
     discriminated = [(cid, k) for (cid, k), v in pairs.items() if v.get("vuln") == "TP" and v.get("fixed") == "TN"]
     pair_total = [(cid, k) for (cid, k), v in pairs.items() if "vuln" in v and "fixed" in v and
                   v.get("vuln") in ("TP", "FN", "abstained") and v.get("fixed") in ("TN", "FP", "abstained")]

@@ -1,0 +1,358 @@
+{
+ "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+ "version": "2.1.0",
+ "runs": [
+  {
+   "tool": {
+    "driver": {
+     "name": "CodeQL",
+     "semanticVersion": "2.27.5",
+     "rules": [
+      {
+       "id": "cs/web/insecure-direct-object-reference",
+       "properties": {
+        "tags": [
+         "external/cwe/cwe-639"
+        ]
+       }
+      },
+      {
+       "id": "cs/web/missing-function-level-access-control",
+       "properties": {
+        "tags": [
+         "external/cwe/cwe-284",
+         "external/cwe/cwe-285",
+         "external/cwe/cwe-862"
+        ]
+       }
+      },
+      {
+       "id": "cs/empty-password-in-configuration",
+       "properties": {
+        "tags": [
+         "external/cwe/cwe-258",
+         "external/cwe/cwe-862"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   "results": [
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "src/Admin/Auth/Controllers/LoginController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 119
+        },
+        "region": {
+         "startLine": 21,
+         "startColumn": 26,
+         "endColumn": 31
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "src/Admin/Auth/Controllers/LoginController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 119
+        },
+        "region": {
+         "startLine": 39,
+         "startColumn": 38,
+         "endColumn": 43
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "src/Admin/Auth/Controllers/LoginController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 119
+        },
+        "region": {
+         "startLine": 53,
+         "startColumn": 38,
+         "endColumn": 45
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "src/Admin/Auth/Controllers/LoginController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 119
+        },
+        "region": {
+         "startLine": 74,
+         "startColumn": 38,
+         "endColumn": 44
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "src/Admin/Controllers/ErrorController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 120
+        },
+        "region": {
+         "startLine": 9,
+         "startColumn": 26,
+         "endColumn": 31
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "src/Admin/Controllers/InfoController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 121
+        },
+        "region": {
+         "startLine": 10,
+         "startColumn": 21,
+         "endColumn": 29
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "src/Admin/Controllers/InfoController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 121
+        },
+        "region": {
+         "startLine": 16,
+         "startColumn": 23,
+         "endColumn": 33
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "src/Admin/Controllers/HomeController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 122
+        },
+        "region": {
+         "startLine": 36,
+         "startColumn": 26,
+         "endColumn": 31
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "src/Admin/Controllers/HomeController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 122
+        },
+        "region": {
+         "startLine": 45,
+         "startColumn": 38,
+         "endColumn": 54
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "src/Admin/Controllers/HomeController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 122
+        },
+        "region": {
+         "startLine": 71,
+         "startColumn": 38,
+         "endColumn": 60
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "src/Api/Billing/Controllers/VNext/ProviderBillingVNextController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 66
+        },
+        "region": {
+         "startLine": 50,
+         "startColumn": 32,
+         "endColumn": 46
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "src/Api/Billing/Controllers/VNext/ProviderBillingVNextController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 66
+        },
+        "region": {
+         "startLine": 59,
+         "startColumn": 32,
+         "endColumn": 55
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "src/Icons/Controllers/ChangePasswordUriController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 17
+        },
+        "region": {
+         "startLine": 43,
+         "startColumn": 38,
+         "endColumn": 41
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "src/Icons/Controllers/ChangePasswordUriController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 17
+        },
+        "region": {
+         "startLine": 32,
+         "startColumn": 26,
+         "endColumn": 35
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "properties": {
+    "workflowRun": "45130132411",
+    "allResults": 364,
+    "filter": "rules tagged CWE-284/285/566/639/862/863"
+   }
+  }
+ ]
+}

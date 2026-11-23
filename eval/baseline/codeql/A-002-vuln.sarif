@@ -1,0 +1,49 @@
+{
+ "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+ "version": "2.1.0",
+ "runs": [
+  {
+   "tool": {
+    "driver": {
+     "name": "CodeQL",
+     "semanticVersion": "2.27.5",
+     "rules": [
+      {
+       "id": "cs/web/insecure-direct-object-reference",
+       "properties": {
+        "tags": [
+         "external/cwe/cwe-639"
+        ]
+       }
+      },
+      {
+       "id": "cs/web/missing-function-level-access-control",
+       "properties": {
+        "tags": [
+         "external/cwe/cwe-284",
+         "external/cwe/cwe-285",
+         "external/cwe/cwe-862"
+        ]
+       }
+      },
+      {
+       "id": "cs/empty-password-in-configuration",
+       "properties": {
+        "tags": [
+         "external/cwe/cwe-258",
+         "external/cwe/cwe-862"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   "results": [],
+   "properties": {
+    "workflowRun": "45130132411",
+    "allResults": 51,
+    "filter": "rules tagged CWE-284/285/566/639/862/863"
+   }
+  }
+ ]
+}

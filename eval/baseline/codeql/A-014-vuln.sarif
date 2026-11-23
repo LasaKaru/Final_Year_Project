@@ -1,0 +1,160 @@
+{
+ "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+ "version": "2.1.0",
+ "runs": [
+  {
+   "tool": {
+    "driver": {
+     "name": "CodeQL",
+     "semanticVersion": "2.27.5",
+     "rules": [
+      {
+       "id": "cs/web/insecure-direct-object-reference",
+       "properties": {
+        "tags": [
+         "external/cwe/cwe-639"
+        ]
+       }
+      },
+      {
+       "id": "cs/web/missing-function-level-access-control",
+       "properties": {
+        "tags": [
+         "external/cwe/cwe-284",
+         "external/cwe/cwe-285",
+         "external/cwe/cwe-862"
+        ]
+       }
+      },
+      {
+       "id": "cs/empty-password-in-configuration",
+       "properties": {
+        "tags": [
+         "external/cwe/cwe-258",
+         "external/cwe/cwe-862"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   "results": [
+    {
+     "ruleId": "cs/web/insecure-direct-object-reference",
+     "message": {
+      "text": "This method may be missing authorization checks for which users can access the resource of the provided ID."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "IoTSharp/Controllers/ProducesController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 19
+        },
+        "region": {
+         "startLine": 153,
+         "startColumn": 44,
+         "endColumn": 50
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "IoTSharp/Controllers/BlobStorageController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 20
+        },
+        "region": {
+         "startLine": 140,
+         "startColumn": 38,
+         "endColumn": 44
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "IoTSharp/Controllers/BlobStorageController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 20
+        },
+        "region": {
+         "startLine": 174,
+         "startColumn": 38,
+         "endColumn": 44
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "IoTSharp/Controllers/ProducesController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 19
+        },
+        "region": {
+         "startLine": 153,
+         "startColumn": 44,
+         "endColumn": 50
+        }
+       }
+      }
+     ]
+    },
+    {
+     "ruleId": "cs/web/missing-function-level-access-control",
+     "message": {
+      "text": "This action is missing an authorization check."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "IoTSharp/Controllers/ProducesController.cs",
+         "uriBaseId": "%SRCROOT%",
+         "index": 19
+        },
+        "region": {
+         "startLine": 298,
+         "startColumn": 44,
+         "endColumn": 59
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "properties": {
+    "workflowRun": "45130132411",
+    "allResults": 31,
+    "filter": "rules tagged CWE-284/285/566/639/862/863"
+   }
+  }
+ ]
+}
