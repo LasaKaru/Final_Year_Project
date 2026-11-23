@@ -354,7 +354,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-013-vuln/Kavita.sln
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴───────────────┴──────────╯
 projects 4 (with errors 1) · endpoints 508 (with ids 345) · paths 423 (truncated 4) · unresolved calls 1639
 symbolic: 187 vulnerable · 41 protected · 25 unknown · 170 out of scope
-time 89.5s · peak memory 1658 MB
+time 95.2s · peak memory 1662 MB
 
 Vulnerable POST api/account/login via 'loginDto' (930dcc47bc74)
   Read on AppUserAuthKey at API/Data/Repositories/UserRepository.cs:267: AppUserAuthKey (owners: AppUserId (User)) is selected by client-controlled 'loginDto' 
@@ -374,8 +374,8 @@ Unknown POST api/account/resend-confirmation-email via 'userId' (961ec3a7f94a)
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/annotation/create via 'dto' (18c6016256e5)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'dto' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'dto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/annotation/update via 'dto' (80787cc1475f)
@@ -385,48 +385,48 @@ Vulnerable POST api/annotation/update via 'dto' (80787cc1475f)
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/book/{chapterid}/book-info via 'chapterId' (012f403a5c31)
-  Read on MangaFile at API/Data/Repositories/ChapterRepository.cs:204: MangaFile is scoped by membership (Chapter) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on MangaFile at API/Data/Repositories/ChapterRepository.cs:204: MangaFile is scoped by membership (Chapter.Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/book/{chapterid}/book-resources via 'chapterId' (bfba5207c077)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/book/{chapterid}/chapters via 'chapterId' (fb40d080117a)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/book/{chapterid}/book-page via 'chapterId' (a140fe6316d8)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/chapter via 'chapterId' (850473c4c52c)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:164: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:164: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/chapter via 'chapterId' (175772cc9559)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/chapter/delete-multiple via 'seriesId' (20ec85764f20)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:95: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:95: Chapter is scoped by membership (Volume.Series.Library) and is selected by client-controlled
 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/chapter/delete-multiple via 'dto' (c12c64c5dab0)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:95: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:95: Chapter is scoped by membership (Volume.Series.Library) and is selected by client-controlled
 'dto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/chapter/update via 'dto' (580ae1365a4c)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'dto' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'dto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/chapter/chapter-detail-plus via 'chapterId' (dd2504ab9158)
@@ -456,68 +456,68 @@ client-controlled 'updateSeriesForTagDto' and changed with no valid owner guard 
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/colorscape/series via 'id' (2469537b522b)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Metadata) and is selected by client-controlled 'id' with no 
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'id' with no 
 access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/colorscape/volume via 'id' (cbf8985eaa71)
-  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 'id' 
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Library) and is selected by client-controlled 'id' 
 with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/colorscape/chapter via 'id' (d67142b0cff5)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:164: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'id' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:164: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'id' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/series/chapter-metadata via 'chapterId' (e781e6b5dc75)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:187: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:187: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/deprecated/series/chapter-metadata via 'chapterId' (83a7bbeb38cd)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:187: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:187: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series via 'libraryId' (bcdf4be5dca2)
-  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Metadata) and is selected by client-controlled 'libraryId' with no access check
+  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Library) and is selected by client-controlled 'libraryId' with no access check 
 binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/deprecated/series via 'libraryId' (0fc5b8975094)
-  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Metadata) and is selected by client-controlled 'libraryId' with no access check
+  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Library) and is selected by client-controlled 'libraryId' with no access check 
 binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/recently-added via 'libraryId' (603e6a94e5fe)
-  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Metadata) and is selected by client-controlled 'libraryId' with no access check
+  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Library) and is selected by client-controlled 'libraryId' with no access check 
 binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/deprecated/series/recently-added via 'libraryId' (06d3d0c7cc0d)
-  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Metadata) and is selected by client-controlled 'libraryId' with no access check
+  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Library) and is selected by client-controlled 'libraryId' with no access check 
 binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/all via 'libraryId' (0aadfab30113)
-  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Metadata) and is selected by client-controlled 'libraryId' with no access check
+  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Library) and is selected by client-controlled 'libraryId' with no access check 
 binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/deprecated/series/all via 'libraryId' (32366cbd1d8e)
-  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Metadata) and is selected by client-controlled 'libraryId' with no access check
+  Read on Series at API/Helpers/PagedList.cs:35: Series is scoped by membership (Library) and is selected by client-controlled 'libraryId' with no access check 
 binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/upload/reset-chapter-lock via 'uploadFileDto' (fab548acb8fc)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'uploadFileDto' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'uploadFileDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/deprecated/upload/reset-chapter-lock via 'uploadFileDto' (ede54e9375b8)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'uploadFileDto' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'uploadFileDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/stats/user/reading-history via 'userId' (90327f02b0b7)
@@ -551,38 +551,38 @@ valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/device/send-series-to via 'dto' (e6a4d6936c59)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Metadata) and is selected by client-controlled 'dto' with no 
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'dto' with no 
 access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/download/volume-size via 'volumeId' (68ca63bdbac8)
-  Read on Chapter at API/Data/Repositories/VolumeRepository.cs:84: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
+  Read on Chapter at API/Data/Repositories/VolumeRepository.cs:84: Chapter is scoped by membership (Volume.Series.Library) and is selected by client-controlled 
 'volumeId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/download/chapter-size via 'chapterId' (2d9ae10bc2e1)
-  Read on MangaFile at API/Data/Repositories/ChapterRepository.cs:204: MangaFile is scoped by membership (Chapter) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on MangaFile at API/Data/Repositories/ChapterRepository.cs:204: MangaFile is scoped by membership (Chapter.Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/download/series-size via 'seriesId' (ad186ab12522)
-  Read on Volume at API/Data/Repositories/SeriesRepository.cs:1311: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at API/Data/Repositories/SeriesRepository.cs:1311: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/download/volume via 'volumeId' (31fd8004a45a)
-  Read on Volume at API/Data/Repositories/VolumeRepository.cs:194: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:194: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'volumeId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/download/chapter via 'chapterId' (267272ceb9bf)
-  Read on MangaFile at API/Data/Repositories/ChapterRepository.cs:204: MangaFile is scoped by membership (Chapter) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on MangaFile at API/Data/Repositories/ChapterRepository.cs:204: MangaFile is scoped by membership (Chapter.Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/download/series via 'seriesId' (192f63581422)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' 
-with no access check binding the caller.
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/filter via 'filterId' (3f1a4c6c9fef)
@@ -613,8 +613,8 @@ Unknown GET api/font/in-use via 'fontId' (ff527d707b2f)
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/image/chapter-cover via 'chapterId' (2afad80820a0)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:260: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:260: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/image/library-cover via 'libraryId' (95073aa487d1)
@@ -623,13 +623,13 @@ Vulnerable GET api/image/library-cover via 'libraryId' (95073aa487d1)
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/image/volume-cover via 'volumeId' (7a05bf17964e)
-  Read on Volume at API/Data/Repositories/VolumeRepository.cs:100: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:100: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'volumeId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/image/series-cover via 'seriesId' (cc4387084639)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:743: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' 
-with no access check binding the caller.
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:743: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/image/collection-cover via 'collectionTagId' (e114725ddcb0)
@@ -656,8 +656,8 @@ changed with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/koreader/{apikey}/syncs/progress/{ebookhash} via 'ebookHash' (d9c737803b0d)
-  Read on MangaFile at API/Data/Repositories/MangaFileRepository.cs:42: MangaFile is scoped by membership (Chapter) and is selected by client-controlled 
-'ebookHash' with no access check binding the caller.
+  Read on MangaFile at API/Data/Repositories/MangaFileRepository.cs:42: MangaFile is scoped by membership (Chapter.Volume.Series.Library) and is selected by 
+client-controlled 'ebookHash' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Unknown GET api/library/user-libraries via 'userId' (4644eaf82c7b)
@@ -685,12 +685,12 @@ changed with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/library/delete via 'libraryId' (a0e9341d8878)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:231: Series is scoped by membership (Metadata) and is selected by client-controlled 'libraryId' 
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:231: Series is scoped by membership (Library) and is selected by client-controlled 'libraryId' 
 with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/library/delete-multiple via 'libraryIds' (70a1c521b964)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:231: Series is scoped by membership (Metadata) and is selected by client-controlled 'libraryIds' 
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:231: Series is scoped by membership (Library) and is selected by client-controlled 'libraryIds' 
 with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -731,43 +731,43 @@ Unknown GET api/opds/{apikey}/more-in-genre via 'genreId' (cf59e7f3c2f5)
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/opds/{apikey}/series/{seriesid} via 'seriesId' (7988dc20dc91)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' 
-with no access check binding the caller. Rejected checks: guard checks a different object (API/Services/OpdsService.cs:710).
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller. Rejected checks: guard checks a different object (API/Services/OpdsService.cs:710).
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid} via 'seriesId' (b36a1408d398)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' 
-with no access check binding the caller.
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid} via 'volumeId' (5a765405262a)
-  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'volumeId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}/chapter/{chapterid} via 'seriesId' (133549dfb954)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' 
-with no access check binding the caller.
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}/chapter/{chapterid} via 'volumeId' (e32126dcc2bb)
-  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'volumeId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/opds/{apikey}/series/{seriesid}/volume/{volumeid}/chapter/{chapterid}/download/{filename} via 'chapterId' (02e0ac6bde45)
-  Read on MangaFile at API/Data/Repositories/ChapterRepository.cs:204: MangaFile is scoped by membership (Chapter) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on MangaFile at API/Data/Repositories/ChapterRepository.cs:204: MangaFile is scoped by membership (Chapter.Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/opds/{apikey}/image via 'chapterId' (20292fcb0437)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/panels/save-progress via 'dto' (ee5e041c9066)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:157: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'dto' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:157: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'dto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/panels/save-progress via 'apiKey' (f3434b43c66f)
@@ -835,68 +835,68 @@ Vulnerable POST api/rating/chapter via 'updateRating' (b49796bd1627)
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/pdf via 'chapterId' (4cac8f54aa65)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/image via 'chapterId' (d0747104445d)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/thumbnail via 'chapterId' (4d7a676e8a47)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/file-dimensions via 'chapterId' (a30926a33070)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/chapter-info via 'chapterId' (5b644e1aea9f)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/bookmark-info via 'seriesId' (243be393e311)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' 
-with no access check binding the caller.
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/mark-read via 'markReadDto' (ed6792551c91)
-  Read on Volume at API/Data/Repositories/VolumeRepository.cs:170: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:170: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'markReadDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/mark-unread via 'markReadDto' (4cb8d5525da4)
-  Read on Volume at API/Data/Repositories/VolumeRepository.cs:170: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:170: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'markReadDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/mark-volume-unread via 'markVolumeReadDto' (ad3fc81fff87)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:231: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'markVolumeReadDto' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:231: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'markVolumeReadDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/mark-volume-read via 'markVolumeReadDto' (c91ed7523c59)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:231: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'markVolumeReadDto' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:231: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'markVolumeReadDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/mark-multiple-read via 'dto' (672fa5873bcd)
-  Read on Chapter at API/Data/Repositories/VolumeRepository.cs:113: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
+  Read on Chapter at API/Data/Repositories/VolumeRepository.cs:113: Chapter is scoped by membership (Volume.Series.Library) and is selected by client-controlled
 'dto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/mark-multiple-unread via 'dto' (e61487a6c899)
-  Read on Chapter at API/Data/Repositories/VolumeRepository.cs:113: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
+  Read on Chapter at API/Data/Repositories/VolumeRepository.cs:113: Chapter is scoped by membership (Volume.Series.Library) and is selected by client-controlled
 'dto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/continue-point via 'seriesId' (f655c34d9c5e)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:415: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'seriesId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:415: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/remove-bookmarks via 'dto' (f62bcf3c3e49)
@@ -910,8 +910,8 @@ changed with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/bookmark via 'bookmarkDto' (3ff6021b3ab9)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'bookmarkDto' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'bookmarkDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/unbookmark via 'bookmarkDto' (f04112a9f2c5)
@@ -920,38 +920,38 @@ Vulnerable POST api/reader/unbookmark via 'bookmarkDto' (f04112a9f2c5)
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/next-chapter via 'seriesId' (67d9398868e8)
-  Read on Volume at API/Data/Repositories/VolumeRepository.cs:209: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:209: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/prev-chapter via 'seriesId' (03082a8974e5)
-  Read on Volume at API/Data/Repositories/VolumeRepository.cs:209: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:209: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/time-left via 'seriesId' (804f206260e4)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' 
-with no access check binding the caller.
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/time-left-for-chapter via 'seriesId' (819a454cb72d)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' 
-with no access check binding the caller.
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/time-left-for-chapter via 'chapterId' (034ef69661cc)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:164: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:164: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/create-ptoc via 'dto' (49517cc29ed8)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'dto' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'dto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/prompt-reread/series via 'seriesId' (41fa9a388d50)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' 
-with no access check binding the caller.
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/prompt-reread/series via 'libraryId' (84853f1362fc)
@@ -965,7 +965,7 @@ Vulnerable GET api/reader/prompt-reread/volume via 'libraryId' (997cac75e167)
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/prompt-reread/volume via 'volumeId' (fa7ff5d7c5c7)
-  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'volumeId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -975,8 +975,8 @@ Vulnerable GET api/reader/prompt-reread/chapter via 'libraryId' (bd25af63cac4)
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/prompt-reread/chapter via 'chapterId' (99b589c73691)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:164: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:164: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/reader/first-progress-date via 'userId' (00965b0eea92)
@@ -990,7 +990,7 @@ Vulnerable GET api/readinglist via 'readingListId' (7d68b2d86072)
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/readinglist/items via 'readingListId' (a39410c3d486)
-  Read on ReadingListItem at API/Data/Repositories/ReadingListRepository.cs:499: ReadingListItem is scoped by membership (ReadingList) and is selected by 
+  Read on ReadingListItem at API/Data/Repositories/ReadingListRepository.cs:499: ReadingListItem is scoped by membership (Series.Library) and is selected by 
 client-controlled 'readingListId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -1035,22 +1035,22 @@ with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/readinglist/people via 'readingListId' (889d30f2b8f7)
-  Read on ReadingListItem at API/Data/Repositories/ReadingListRepository.cs:137: ReadingListItem is scoped by membership (ReadingList) and is selected by 
+  Read on ReadingListItem at API/Data/Repositories/ReadingListRepository.cs:137: ReadingListItem is scoped by membership (Series.Library) and is selected by 
 client-controlled 'readingListId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/readinglist/all-people via 'readingListId' (5c0ef3850d59)
-  Read on ReadingListItem at API/Data/Repositories/ReadingListRepository.cs:150: ReadingListItem is scoped by membership (ReadingList) and is selected by 
+  Read on ReadingListItem at API/Data/Repositories/ReadingListRepository.cs:150: ReadingListItem is scoped by membership (Series.Library) and is selected by 
 client-controlled 'readingListId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/readinglist/next-chapter via 'readingListId' (5e51502207bc)
-  Read on ReadingListItem at API/Data/Repositories/ReadingListRepository.cs:523: ReadingListItem is scoped by membership (ReadingList) and is selected by 
+  Read on ReadingListItem at API/Data/Repositories/ReadingListRepository.cs:523: ReadingListItem is scoped by membership (Series.Library) and is selected by 
 client-controlled 'readingListId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/readinglist/prev-chapter via 'readingListId' (00782c4789c5)
-  Read on ReadingListItem at API/Data/Repositories/ReadingListRepository.cs:523: ReadingListItem is scoped by membership (ReadingList) and is selected by 
+  Read on ReadingListItem at API/Data/Repositories/ReadingListRepository.cs:523: ReadingListItem is scoped by membership (Series.Library) and is selected by 
 client-controlled 'readingListId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -1071,13 +1071,13 @@ Vulnerable GET api/readinglist/info via 'readingListId' (eb057f304cf4)
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reading-profile/series via 'seriesId' (ef61b04f20e6)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' 
-with no access check binding the caller.
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/readingprofile/series via 'seriesId' (b4aec6687db6)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' 
-with no access check binding the caller.
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/review/series via 'dto' (6d4e78803646)
@@ -1096,7 +1096,7 @@ Vulnerable GET api/review/all via 'userId' (faf477554262)
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/scrobbling/library-allows-scrobbling via 'seriesId' (3121740cfa43)
-  Read on Series at API/Data/Repositories/LibraryRepository.cs:356: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' 
+  Read on Series at API/Data/Repositories/LibraryRepository.cs:356: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' 
 with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -1107,62 +1107,62 @@ Vulnerable POST api/scrobbling/add-hold via 'seriesId' (f20c234b41a3)
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/search/series-for-mangafile via 'mangaFileId' (d1f3e1e8f93f)
-  Read on MangaFile at API/Data/Repositories/SeriesRepository.cs:1545: MangaFile is scoped by membership (Chapter) and is selected by client-controlled 
-'mangaFileId' with no access check binding the caller.
+  Read on MangaFile at API/Data/Repositories/SeriesRepository.cs:1545: MangaFile is scoped by membership (Chapter.Volume.Series.Library) and is selected by 
+client-controlled 'mangaFileId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/search/series-for-chapter via 'chapterId' (4fea1e9cff3d)
-  Read on Chapter at API/Data/Repositories/SeriesRepository.cs:1561: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/SeriesRepository.cs:1561: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/series/{seriesid} via 'seriesId' (deab77ecdda1)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' 
-with no access check binding the caller.
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/series/{seriesid} via 'seriesId' (5f988287d7b9)
-  Read on Volume at API/Data/Repositories/SeriesRepository.cs:636: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at API/Data/Repositories/SeriesRepository.cs:636: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/delete-multiple via 'dto' (a132a330e831)
-  Remove on Series at API/Data/Repositories/SeriesRepository.cs:210: Series is scoped by membership (Metadata) and is selected by client-controlled 'dto' with 
-no access check binding the caller.
+  Remove on Series at API/Data/Repositories/SeriesRepository.cs:210: Series is scoped by membership (Library) and is selected by client-controlled 'dto' with no
+access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/series/volumes via 'seriesId' (b3c6efc7589d)
-  Read on Volume at API/Data/Repositories/VolumeRepository.cs:209: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:209: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/series/volume via 'volumeId' (d07b138d919e)
-  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'volumeId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/series/chapter via 'chapterId' (bcddf256bf67)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:164: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'chapterId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:164: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/update via 'updateSeries' (e7dc88c72e59)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Metadata) and is selected by client-controlled 'updateSeries'
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'updateSeries' 
 with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/scan via 'refreshSeriesDto' (cc8c7f4114bd)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Metadata) and is selected by client-controlled 
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 
 'refreshSeriesDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/series/metadata via 'seriesId' (4b9e2949d125)
-  Read on SeriesMetadata at API/Data/Repositories/SeriesRepository.cs:1281: SeriesMetadata is scoped by membership (it is the container) and is selected by 
+  Read on SeriesMetadata at API/Data/Repositories/SeriesRepository.cs:1281: SeriesMetadata is scoped by membership (Series.Library) and is selected by 
 client-controlled 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/metadata via 'updateSeriesMetadataDto' (18773e184cac)
-  SaveChanges on Series at API/Data/DataContext.cs:575: Series is scoped by membership (Metadata) and is selected by client-controlled 'updateSeriesMetadataDto'
+  SaveChanges on Series at API/Data/DataContext.cs:575: Series is scoped by membership (Library) and is selected by client-controlled 'updateSeriesMetadataDto' 
 with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -1172,23 +1172,23 @@ changed with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/series-by-ids via 'dto' (45516016c91e)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:1330: Series is scoped by membership (Metadata) and is selected by client-controlled 'dto' with no
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:1330: Series is scoped by membership (Library) and is selected by client-controlled 'dto' with no 
 access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/series/series-detail via 'seriesId' (f7979d065916)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' 
-with no access check binding the caller.
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:532: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/series/all-related via 'seriesId' (5aa4b81712a9)
-  Read on SeriesRelation at API/Data/Repositories/SeriesRepository.cs:1916: SeriesRelation is scoped by membership (TargetSeries.Metadata) and is selected by 
+  Read on SeriesRelation at API/Data/Repositories/SeriesRepository.cs:1916: SeriesRelation is scoped by membership (TargetSeries.Library) and is selected by 
 client-controlled 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/update-related via 'dto' (92a3bdbc48f0)
-  SaveChanges on Series at API/Data/DataContext.cs:575: Series is scoped by membership (Metadata) and is selected by client-controlled 'dto' with no access 
-check binding the caller.
+  SaveChanges on Series at API/Data/DataContext.cs:575: Series is scoped by membership (Library) and is selected by client-controlled 'dto' with no access check
+binding the caller.
   Symbolic only (semantic stage not run).
 
 Unknown GET api/series/external-series-detail via 'aniListId' (b81a17bf849a)
@@ -1208,18 +1208,18 @@ API.DTOs.KavitaPlus.Metadata.ExternalSeriesDetailDto?, System.TimeSpan, System.T
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/series/external-series-detail via 'seriesId' (a3fd63e36f7a)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' 
-with no access check binding the caller.
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/match via 'dto' (ef2cf0c24327)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Metadata) and is selected by client-controlled 'dto' with no 
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'dto' with no 
 access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/dont-match via 'seriesId' (40d12f5a0cf2)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' 
-with no access check binding the caller.
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with
+no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/stats/reading-activity via 'userId' (1294128ee21b)
@@ -1278,8 +1278,8 @@ Vulnerable GET api/stats/user-stats via 'userId' (a0f05c8e27de)
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/stats/user-read via 'userId' (5354ce410e99)
-  Read on AppUserReadingSessionActivityData at API/Services/StatisticService.cs:93: AppUserReadingSessionActivityData is scoped by membership (ReadingSession) 
-and is selected by client-controlled 'userId' with no access check binding the caller.
+  Read on AppUserReadingSessionActivityData at API/Services/StatisticService.cs:93: AppUserReadingSessionActivityData is scoped by membership (Library) and is 
+selected by client-controlled 'userId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/stream/delete-external-source via 'externalSourceId' (eec93d51f12e)
@@ -1328,8 +1328,8 @@ Vulnerable POST api/stream/bulk-sidenav-stream-visibility via 'dto' (7ba74a8ab0d
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/tachiyomi/latest-chapter via 'seriesId' (0b68306182fe)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:415: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'seriesId' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:415: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Unknown POST api/theme/update-default via 'dto' (35c7bd00b501)
@@ -1345,8 +1345,8 @@ Unknown DELETE api/theme via 'themeId' (d3b9a2014541)
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/upload/series via 'uploadFileDto' (058fd6505529)
-  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Metadata) and is selected by client-controlled 
-'uploadFileDto' with no access check binding the caller.
+  Read on Series at API/Data/Repositories/SeriesRepository.cs:548: Series is scoped by membership (Library) and is selected by client-controlled 'uploadFileDto'
+with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/upload/collection via 'uploadFileDto' (53867bfad19b)
@@ -1360,12 +1360,12 @@ Vulnerable POST api/upload/reading-list via 'uploadFileDto' (3ca4ebaa27bf)
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/upload/chapter via 'uploadFileDto' (59090f9af5d9)
-  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
-'uploadFileDto' with no access check binding the caller.
+  Read on Chapter at API/Data/Repositories/ChapterRepository.cs:218: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
+client-controlled 'uploadFileDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/upload/volume via 'uploadFileDto' (b951daa44281)
-  Read on Volume at API/Data/Repositories/VolumeRepository.cs:194: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:194: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'uploadFileDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -1396,11 +1396,11 @@ Unknown POST api/users/update-preferences via 'preferencesDto' (ecb72feb7480)
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/volume via 'volumeId' (b5f44b73a239)
-  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:154: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'volumeId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/volume via 'volumeId' (3cbd969f8abb)
-  Read on Volume at API/Data/Repositories/VolumeRepository.cs:194: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at API/Data/Repositories/VolumeRepository.cs:194: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'volumeId' with no access check binding the caller.
   Symbolic only (semantic stage not run).

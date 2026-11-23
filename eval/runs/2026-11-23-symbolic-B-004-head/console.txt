@@ -9,32 +9,12 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-004-head/TodoApp.sln
 │ GET todos                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
 │ GET todos/{id}              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
 │ POST todos                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
-│ PUT todos/{id}              │ Vulnerable │ Vulnerable │ SYM-07 │ —        │
-│ DELETE todos/{id}           │ Vulnerable │ Vulnerable │ SYM-07 │ —        │
+│ PUT todos/{id}              │ Protected  │ Protected  │ SYM-03 │ —        │
+│ DELETE todos/{id}           │ Protected  │ Protected  │ SYM-03 │ —        │
 │ POST users/token/{provider} │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
 │ GET auth/login/{provider}   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
 │ GET auth/signin/{provider}  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
 ╰─────────────────────────────┴────────────┴────────────┴────────┴──────────╯
 projects 7 (with errors 1) · endpoints 11 (with ids 8) · paths 16 (truncated 0) · unresolved calls 0
-symbolic: 5 vulnerable · 0 protected · 0 unknown · 11 out of scope
-time 16.7s · peak memory 385 MB
-
-Vulnerable PUT todos/{id} via 'id' (35162e876ceb)
-  BulkUpdate on Todo at Todo.Api/Todos/TodoApi.cs:59: bulk write selected by the client-controlled id has no owner predicate.
-  Symbolic only (semantic stage not run).
-
-Vulnerable PUT todos/{id} via 'todo' (e4b452ba584d)
-  BulkUpdate on Todo at Todo.Api/Todos/TodoApi.cs:59: bulk write selected by the client-controlled id has no owner predicate.
-  Symbolic only (semantic stage not run).
-
-Vulnerable PUT todos/{id} via 'owner' (8f77f2603e7a)
-  BulkUpdate on Todo at Todo.Api/Todos/TodoApi.cs:59: bulk write selected by the client-controlled id has no owner predicate.
-  Symbolic only (semantic stage not run).
-
-Vulnerable DELETE todos/{id} via 'id' (430bb06c8411)
-  BulkDelete on Todo at Todo.Api/Todos/TodoApi.cs:69: bulk write selected by the client-controlled id has no owner predicate.
-  Symbolic only (semantic stage not run).
-
-Vulnerable DELETE todos/{id} via 'owner' (13d28bc843a6)
-  BulkDelete on Todo at Todo.Api/Todos/TodoApi.cs:69: bulk write selected by the client-controlled id has no owner predicate.
-  Symbolic only (semantic stage not run).
+symbolic: 0 vulnerable · 2 protected · 0 unknown · 14 out of scope
+time 8.0s · peak memory 378 MB

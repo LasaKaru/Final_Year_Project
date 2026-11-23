@@ -196,7 +196,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-014-vuln/IoTSharp.slnx
 ╰───────────────────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
 projects 37 (with errors 4) · endpoints 255 (with ids 187) · paths 247 (truncated 0) · unresolved calls 1704
 symbolic: 27 vulnerable · 0 protected · 95 unknown · 125 out of scope
-time 81.3s · peak memory 1412 MB
+time 91.1s · peak memory 1418 MB
 
 Unknown POST v1/db/{db}/measurements/{m}/lp via 'm' (5b85ad403bdc)
   No state change found, but 'm' entered unresolved code: ambiguous dispatch: 4 implementations of SonnetDB.Ingest.IPointReader.TryRead(out 

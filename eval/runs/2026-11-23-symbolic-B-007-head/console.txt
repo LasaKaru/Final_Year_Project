@@ -168,8 +168,8 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-007-head/SimplCommerce.
 │ POST api/stocks/back-in-stock                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
 │ GET api/warehouses/{id}                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
 │ POST api/warehouses                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
-│ PUT api/warehouses/{id}                                       │ Vulnerable │ Vulnerable │ SYM-11 │ —        │
-│ DELETE api/warehouses/{id}                                    │ Vulnerable │ Vulnerable │ SYM-11 │ —        │
+│ PUT api/warehouses/{id}                                       │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ DELETE api/warehouses/{id}                                    │ Unknown    │ Unknown    │ SYM-09 │ —        │
 │ POST api/warehouses/{warehouseid}/products                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
 │ POST api/warehouses/{warehouseid}/add-products                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
 │ POST api/warehouses/{warehouseid}/add-all-products            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
@@ -207,8 +207,8 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-007-head/SimplCommerce.
 │ GET checkout/error                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
 ╰───────────────────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
 projects 49 (with errors 0) · endpoints 327 (with ids 207) · paths 249 (truncated 0) · unresolved calls 118
-symbolic: 11 vulnerable · 0 protected · 66 unknown · 172 out of scope
-time 49.1s · peak memory 724 MB
+symbolic: 9 vulnerable · 0 protected · 68 unknown · 172 out of scope
+time 33.6s · peak memory 727 MB
 
 Unknown PUT api/countries/{id} via 'id' (4dbd3bbf877b)
   SaveChanges on Country at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Country has no owner candidate, so ownership cannot be 
@@ -529,14 +529,14 @@ Unknown PUT api/stocks via 'stockVms' (f41646dd8021)
 checked.
   Symbolic only (semantic stage not run).
 
-Vulnerable PUT api/warehouses/{id} via 'id' (872ad09d2551)
-  SaveChanges on Warehouse at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Warehouse is scoped by membership (Address) and is 
-selected by client-controlled 'id' with no access check binding the caller.
+Unknown PUT api/warehouses/{id} via 'id' (872ad09d2551)
+  SaveChanges on Warehouse at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:45: Warehouse has no owner candidate, so ownership cannot be 
+checked.
   Symbolic only (semantic stage not run).
 
-Vulnerable DELETE api/warehouses/{id} via 'id' (e5bcb13d44c1)
-  Remove on Warehouse at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: Warehouse is scoped by membership (Address) and is selected by 
-client-controlled 'id' with no access check binding the caller.
+Unknown DELETE api/warehouses/{id} via 'id' (e5bcb13d44c1)
+  Remove on Warehouse at src/Modules/SimplCommerce.Module.Core/Data/RepositoryWithTypedId.cs:55: Warehouse has no owner candidate, so ownership cannot be 
+checked.
   Symbolic only (semantic stage not run).
 
 Unknown POST cart/update-item-quantity via 'model' (c6e1ab4220d3)

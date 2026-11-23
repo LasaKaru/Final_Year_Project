@@ -108,7 +108,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-001-vuln/Oqtane.slnx
 │ GET api/urlmapping/url/{siteid}                                                             │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/urlmapping                                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ PUT api/urlmapping/{id}                                                                     │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
-│ DELETE api/urlmapping/{id}                                                                  │ Vulnerable │ Vulnerable │ SYM-11        │ —        │
+│ DELETE api/urlmapping/{id}                                                                  │ Unknown    │ Unknown    │ SYM-09        │ —        │
 │ GET api/user/{id}                                                                           │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/user/username/{username}                                                            │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/user/search/{username}/{email}                                                      │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
@@ -143,8 +143,8 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-001-vuln/Oqtane.slnx
 │ DELETE api/htmltext/{id}/{moduleid}                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴───────────────┴──────────╯
 projects 3 (with errors 2) · endpoints 200 (with ids 135) · paths 180 (truncated 1) · unresolved calls 2756
-symbolic: 55 vulnerable · 9 protected · 11 unknown · 105 out of scope
-time 20.7s · peak memory 704 MB
+symbolic: 54 vulnerable · 9 protected · 12 unknown · 105 out of scope
+time 20.7s · peak memory 718 MB
 
 Vulnerable POST api/alias via 'alias' (c036947fb4cb)
   SaveChanges on Alias at Oqtane.Server/Repository/Context/MasterDBContext.cs:77: detached Alias built from the client-controlled key is written without loading
@@ -440,9 +440,8 @@ Vulnerable PUT api/urlmapping/{id} via 'urlMapping' (5b3debe35973)
 without loading or checking ownership.
   Symbolic only (semantic stage not run).
 
-Vulnerable DELETE api/urlmapping/{id} via 'id' (aeebf1c2d5d3)
-  Remove on UrlMapping at Oqtane.Server/Repository/UrlMappingRepository.cs:135: UrlMapping is scoped by membership (SiteId) and is selected by client-controlled
-'id' with no access check binding the caller.
+Unknown DELETE api/urlmapping/{id} via 'id' (aeebf1c2d5d3)
+  Remove on UrlMapping at Oqtane.Server/Repository/UrlMappingRepository.cs:135: UrlMapping has no owner candidate, so ownership cannot be checked.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/user via 'user' (450d1aaa9f9e)

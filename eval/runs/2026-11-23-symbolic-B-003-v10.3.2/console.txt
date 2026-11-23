@@ -147,7 +147,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-003-v10.3.2/Oqtane.slnx
 ╰─────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴───────────────┴──────────╯
 projects 3 (with errors 2) · endpoints 204 (with ids 138) · paths 183 (truncated 1) · unresolved calls 2226
 symbolic: 31 vulnerable · 10 protected · 12 unknown · 130 out of scope
-time 23.6s · peak memory 718 MB
+time 19.6s · peak memory 695 MB
 
 Vulnerable PUT api/file/{id} via 'id' (d13d6def0dc3)
   SaveChanges on File at Oqtane.Server/Repository/Context/TenantDBContext.cs:105: File (owners: CreatedBy (User)) is selected by client-controlled 'id' and 

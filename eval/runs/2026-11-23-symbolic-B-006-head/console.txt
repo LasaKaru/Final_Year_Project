@@ -212,7 +212,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-006-head/src/Ombi.sln
 ╰─────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
 projects 23 (with errors 0) · endpoints 395 (with ids 230) · paths 319 (truncated 6) · unresolved calls 2183
 symbolic: 26 vulnerable · 0 protected · 81 unknown · 212 out of scope
-time 49.3s · peak memory 1025 MB
+time 34.6s · peak memory 1020 MB
 
 Unknown POST discord via 'settings' (8ef4a4f04f6f)
   No state change found, but 'settings' entered unresolved code: ambiguous dispatch: 13 implementations of 

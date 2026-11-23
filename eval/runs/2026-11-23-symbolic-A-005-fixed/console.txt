@@ -362,7 +362,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-005-fixed/Kavita.sln
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
 projects 13 (with errors 3) · endpoints 543 (with ids 353) · paths 423 (truncated 2) · unresolved calls 2555
 symbolic: 47 vulnerable · 32 protected · 12 unknown · 332 out of scope
-time 103.3s · peak memory 2076 MB
+time 94.4s · peak memory 2075 MB
 
 Unknown POST api/account/update via 'dto' (e463dae093be)
   SaveChanges on AppUser at Kavita.Database/DataContext.cs:713: AppUser has no owner candidate, so ownership cannot be checked.
@@ -389,13 +389,13 @@ Vulnerable POST api/cbl/remap-rules/{id}/demote via 'id' (0258df0f9405)
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/chapter via 'chapterId' (a18d8a8adcc6)
-  Remove on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:36: Chapter is scoped by membership (it is the container) and is selected by 
+  Remove on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:36: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
 client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/chapter/update via 'dto' (d87efcf2bb79)
-  SaveChanges on Chapter at Kavita.Database/DataContext.cs:713: Chapter is scoped by membership (it is the container) and is selected by client-controlled 'dto'
-with no access check binding the caller.
+  SaveChanges on Chapter at Kavita.Database/DataContext.cs:713: Chapter is scoped by membership (Volume.Series.Library) and is selected by client-controlled 
+'dto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/collection/update via 'updatedTag' (796b0ab459c6)
@@ -452,7 +452,7 @@ with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/metadata/series-detail-plus via 'seriesId' (7d3b6055698b)
-  SaveChanges on Series at Kavita.Database/DataContext.cs:713: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' with no
+  SaveChanges on Series at Kavita.Database/DataContext.cs:713: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with no 
 access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -528,8 +528,8 @@ identity (Kavita.Server/Controllers/ScrobblingController.cs:278).
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/scrobbling/remove-error/{id} via 'id' (c86396e9421b)
-  Remove on ScrobbleError at Kavita.Database/Repositories/ScrobbleEventRepository.cs:47: ScrobbleError is scoped by membership (Chapter) and is selected by 
-client-controlled 'id' with no access check binding the caller.
+  Remove on ScrobbleError at Kavita.Database/Repositories/ScrobbleEventRepository.cs:47: ScrobbleError is scoped by membership (Series.Library) and is selected 
+by client-controlled 'id' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/scrobbling/retry-scrobble via 'dto' (a179cc6ff75a)
@@ -539,27 +539,27 @@ owner predicate. Rejected checks: check is combined with other conditions and do
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/series/{seriesid} via 'seriesId' (843ed7407990)
-  Remove on Series at Kavita.Database/Repositories/SeriesRepository.cs:85: Series is scoped by membership (Metadata) and is selected by client-controlled 
+  Remove on Series at Kavita.Database/Repositories/SeriesRepository.cs:85: Series is scoped by membership (Library) and is selected by client-controlled 
 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/delete-multiple via 'dto' (0ae8aa22e85e)
-  Remove on Series at Kavita.Database/Repositories/SeriesRepository.cs:85: Series is scoped by membership (Metadata) and is selected by client-controlled 'dto' 
+  Remove on Series at Kavita.Database/Repositories/SeriesRepository.cs:85: Series is scoped by membership (Library) and is selected by client-controlled 'dto' 
 with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/update via 'updateSeries' (846a46d2cd96)
-  SaveChanges on Series at Kavita.Database/DataContext.cs:713: Series is scoped by membership (Metadata) and is selected by client-controlled 'updateSeries' 
-with no access check binding the caller.
+  SaveChanges on Series at Kavita.Database/DataContext.cs:713: Series is scoped by membership (Library) and is selected by client-controlled 'updateSeries' with
+no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/metadata via 'updateSeriesMetadataDto' (fdbf55fc1d4c)
-  SaveChanges on Series at Kavita.Database/DataContext.cs:713: Series is scoped by membership (Metadata) and is selected by client-controlled 
+  SaveChanges on Series at Kavita.Database/DataContext.cs:713: Series is scoped by membership (Library) and is selected by client-controlled 
 'updateSeriesMetadataDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/update-related via 'dto' (a7d6a8ba4783)
-  SaveChanges on Series at Kavita.Database/DataContext.cs:713: Series is scoped by membership (Metadata) and is selected by client-controlled 'dto' with no 
+  SaveChanges on Series at Kavita.Database/DataContext.cs:713: Series is scoped by membership (Library) and is selected by client-controlled 'dto' with no 
 access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -604,7 +604,7 @@ Kavita.Models.DTOs.Metadata.Matching.MatchSeriesResultDto, System.TimeSpan, Syst
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/dont-match via 'seriesId' (1a67317add04)
-  SaveChanges on Series at Kavita.Database/DataContext.cs:713: Series is scoped by membership (Metadata) and is selected by client-controlled 'seriesId' with no
+  SaveChanges on Series at Kavita.Database/DataContext.cs:713: Series is scoped by membership (Library) and is selected by client-controlled 'seriesId' with no 
 access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -624,7 +624,7 @@ Vulnerable POST api/stream/bulk-sidenav-stream-visibility via 'dto' (ddff5fc14eb
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/tachiyomi/mark-chapter-until-as-read via 'seriesId' (c3a9302fc2dc)
-  SaveChanges on Volume at Kavita.Database/DataContext.cs:713: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 'seriesId' 
+  SaveChanges on Volume at Kavita.Database/DataContext.cs:713: Volume is scoped by membership (Series.Library) and is selected by client-controlled 'seriesId' 
 with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -633,7 +633,7 @@ Unknown DELETE api/theme via 'themeId' (b4a19a35733f)
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/upload/series via 'uploadCoverFileDto' (c9af55f4a56e)
-  SaveChanges on Series at Kavita.Database/DataContext.cs:713: Series is scoped by membership (Metadata) and is selected by client-controlled 
+  SaveChanges on Series at Kavita.Database/DataContext.cs:713: Series is scoped by membership (Library) and is selected by client-controlled 
 'uploadCoverFileDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -643,12 +643,12 @@ and changed with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/upload/chapter via 'uploadCoverFileDto' (d407d6228e40)
-  SaveChanges on Chapter at Kavita.Database/DataContext.cs:713: Chapter is scoped by membership (it is the container) and is selected by client-controlled 
+  SaveChanges on Chapter at Kavita.Database/DataContext.cs:713: Chapter is scoped by membership (Volume.Series.Library) and is selected by client-controlled 
 'uploadCoverFileDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/upload/volume via 'uploadCoverFileDto' (34d2907a86f9)
-  SaveChanges on Volume at Kavita.Database/DataContext.cs:713: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  SaveChanges on Volume at Kavita.Database/DataContext.cs:713: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'uploadCoverFileDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -667,11 +667,11 @@ receives the tracked id.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/volume/update via 'dto' (84af8842a2f9)
-  SaveChanges on Volume at Kavita.Database/DataContext.cs:713: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 'dto' with 
+  SaveChanges on Volume at Kavita.Database/DataContext.cs:713: Volume is scoped by membership (Series.Library) and is selected by client-controlled 'dto' with 
 no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/volume via 'volumeId' (062ec0a8549a)
-  Remove on Volume at Kavita.Database/Repositories/VolumeRepository.cs:30: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled
+  Remove on Volume at Kavita.Database/Repositories/VolumeRepository.cs:30: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'volumeId' with no access check binding the caller.
   Symbolic only (semantic stage not run).

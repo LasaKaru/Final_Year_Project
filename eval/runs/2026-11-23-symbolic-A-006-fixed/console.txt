@@ -363,7 +363,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-006-fixed/Kavita.sln
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴──────────────────────┴──────────╯
 projects 13 (with errors 3) · endpoints 543 (with ids 353) · paths 423 (truncated 2) · unresolved calls 2555
 symbolic: 114 vulnerable · 102 protected · 21 unknown · 186 out of scope
-time 117.6s · peak memory 2123 MB
+time 102.5s · peak memory 2123 MB
 
 Vulnerable POST api/account/login via 'loginDto' (4b1b95e38052)
   Read on AppUserAuthKey at Kavita.Database/Repositories/UserRepository.cs:146: AppUserAuthKey (owners: AppUserId (User)) is selected by client-controlled 
@@ -383,7 +383,7 @@ Unknown POST api/account/resend-confirmation-email via 'userId' (2e25292f4422)
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/annotation/create via 'dto' (49ef5a176787)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter is scoped by membership (it is the container) and is selected by 
+  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
 client-controlled 'dto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -394,7 +394,7 @@ client-controlled 'dto' and changed with no valid owner guard or applicable quer
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/cbl/remap-rules via 'dto' (f99ff6546037)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Metadata) and is selected by client-controlled 'dto' 
+  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Library) and is selected by client-controlled 'dto' 
 with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -409,32 +409,32 @@ by client-controlled 'id' and changed with no valid owner guard or applicable qu
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/cbl/remap-rules/{id} via 'id' (9babeb9df065)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Metadata) and is selected by client-controlled 'id' 
+  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Library) and is selected by client-controlled 'id' 
 with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/cbl/remap-rules/{id} via 'dto' (bccd2d47e99e)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Metadata) and is selected by client-controlled 'dto' 
+  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Library) and is selected by client-controlled 'dto' 
 with no access check binding the caller. Rejected checks: guard checks a different object (Kavita.Server/Controllers/CBLController.cs:401).
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/chapter via 'chapterId' (a18d8a8adcc6)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter is scoped by membership (it is the container) and is selected by 
+  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
 client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/chapter/delete-multiple via 'seriesId' (09907a0e3e08)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:47: Chapter is scoped by membership (it is the container) and is selected by 
+  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:47: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
 client-controlled 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/chapter/delete-multiple via 'dto' (9b36d04e521f)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:47: Chapter is scoped by membership (it is the container) and is selected by 
+  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:47: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
 client-controlled 'dto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/chapter/update via 'dto' (d87efcf2bb79)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter is scoped by membership (it is the container) and is selected by 
+  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
 client-controlled 'dto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -476,22 +476,22 @@ with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/device/send-series-to via 'dto' (a13b42af7219)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Metadata) and is selected by client-controlled 'dto' 
+  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Library) and is selected by client-controlled 'dto' 
 with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/download/bulk-volume-size via 'request' (8ee47f195fa5)
-  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:233: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:233: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'request' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/download/bulk-chapter-size via 'request' (7d06648da8fb)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:247: Chapter is scoped by membership (it is the container) and is selected by 
+  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:247: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
 client-controlled 'request' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/download/bulk-series-size via 'request' (9fda5b5f8b2b)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:578: Series is scoped by membership (Metadata) and is selected by client-controlled 
+  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:578: Series is scoped by membership (Library) and is selected by client-controlled 
 'request' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -525,8 +525,8 @@ Unknown GET api/image/user-cover via 'userId' (a33d26232e78)
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/koreader/{apikey}/syncs/progress/{ebookhash} via 'ebookHash' (fa7e27454bf6)
-  Read on MangaFile at Kavita.Database/Repositories/MangaFileRepository.cs:29: MangaFile is scoped by membership (Chapter) and is selected by client-controlled 
-'ebookHash' with no access check binding the caller.
+  Read on MangaFile at Kavita.Database/Repositories/MangaFileRepository.cs:29: MangaFile is scoped by membership (Chapter.Volume.Series.Library) and is selected
+by client-controlled 'ebookHash' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Unknown GET api/library/user-libraries via 'userId' (3d7f81331110)
@@ -554,7 +554,7 @@ and changed with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/library/delete via 'libraryId' (edbffb3937ae)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:109: Series is scoped by membership (Metadata) and is selected by client-controlled 
+  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:109: Series is scoped by membership (Library) and is selected by client-controlled 
 'libraryId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -617,37 +617,37 @@ Vulnerable POST api/rating/chapter via 'updateRating' (088ffd4ab76f)
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/mark-chapter-read via 'dto' (b326a2c8cf50)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Metadata) and is selected by client-controlled 'dto' 
+  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Library) and is selected by client-controlled 'dto' 
 with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/mark-read via 'markReadDto' (76ce1eaf66b3)
-  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:137: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:137: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'markReadDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/mark-unread via 'markReadDto' (eb37ee4d245e)
-  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:137: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:137: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'markReadDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/mark-volume-unread via 'markVolumeReadDto' (06a7266dd6c0)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:168: Chapter is scoped by membership (it is the container) and is selected by 
+  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:168: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
 client-controlled 'markVolumeReadDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/mark-volume-read via 'markVolumeReadDto' (90082aa1d52d)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:168: Chapter is scoped by membership (it is the container) and is selected by 
+  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:168: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
 client-controlled 'markVolumeReadDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/mark-multiple-read via 'dto' (c906d94f2f79)
-  Read on Chapter at Kavita.Database/Repositories/VolumeRepository.cs:76: Chapter is scoped by membership (it is the container) and is selected by 
+  Read on Chapter at Kavita.Database/Repositories/VolumeRepository.cs:76: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
 client-controlled 'dto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/mark-multiple-unread via 'dto' (2531e15dcf90)
-  Read on Chapter at Kavita.Database/Repositories/VolumeRepository.cs:76: Chapter is scoped by membership (it is the container) and is selected by 
+  Read on Chapter at Kavita.Database/Repositories/VolumeRepository.cs:76: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
 client-controlled 'dto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -662,7 +662,7 @@ Vulnerable POST api/reader/bulk-remove-bookmarks via 'dto' (7428ab6aad2b)
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/reader/bookmark via 'bookmarkDto' (de7a39f546f5)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter is scoped by membership (it is the container) and is selected by 
+  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
 client-controlled 'bookmarkDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -744,7 +744,7 @@ client-controlled 'userId' and changed with no valid owner guard or applicable q
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/scrobbling/library-allows-scrobbling via 'seriesId' (470924cbf69b)
-  Read on Series at Kavita.Database/Repositories/LibraryRepository.cs:323: Series is scoped by membership (Metadata) and is selected by client-controlled 
+  Read on Series at Kavita.Database/Repositories/LibraryRepository.cs:323: Series is scoped by membership (Library) and is selected by client-controlled 
 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -755,8 +755,8 @@ identity (Kavita.Server/Controllers/ScrobblingController.cs:278).
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/scrobbling/remove-error/{id} via 'id' (c86396e9421b)
-  Read on ScrobbleError at Kavita.Database/Repositories/ScrobbleEventRepository.cs:107: ScrobbleError is scoped by membership (Chapter) and is selected by 
-client-controlled 'id' with no access check binding the caller.
+  Read on ScrobbleError at Kavita.Database/Repositories/ScrobbleEventRepository.cs:107: ScrobbleError is scoped by membership (Series.Library) and is selected 
+by client-controlled 'id' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/scrobbling/retry-scrobble via 'dto' (a179cc6ff75a)
@@ -766,37 +766,37 @@ always stop the request (Kavita.Server/Controllers/ScrobblingController.cs:382).
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/series/{seriesid} via 'seriesId' (843ed7407990)
-  Read on Volume at Kavita.Database/Repositories/SeriesRepository.cs:542: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at Kavita.Database/Repositories/SeriesRepository.cs:542: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/delete-multiple via 'dto' (0ae8aa22e85e)
-  Remove on Series at Kavita.Database/Repositories/SeriesRepository.cs:85: Series is scoped by membership (Metadata) and is selected by client-controlled 'dto' 
+  Remove on Series at Kavita.Database/Repositories/SeriesRepository.cs:85: Series is scoped by membership (Library) and is selected by client-controlled 'dto' 
 with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/update via 'updateSeries' (846a46d2cd96)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Metadata) and is selected by client-controlled 
+  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Library) and is selected by client-controlled 
 'updateSeries' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/scan via 'refreshSeriesDto' (a69efccda703)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Metadata) and is selected by client-controlled 
+  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Library) and is selected by client-controlled 
 'refreshSeriesDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/metadata via 'updateSeriesMetadataDto' (fdbf55fc1d4c)
-  SaveChanges on Series at Kavita.Database/DataContext.cs:713: Series is scoped by membership (Metadata) and is selected by client-controlled 
+  SaveChanges on Series at Kavita.Database/DataContext.cs:713: Series is scoped by membership (Library) and is selected by client-controlled 
 'updateSeriesMetadataDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/series-by-ids via 'dto' (ee170d11affc)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:1055: Series is scoped by membership (Metadata) and is selected by client-controlled 'dto' 
+  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:1055: Series is scoped by membership (Library) and is selected by client-controlled 'dto' 
 with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/update-related via 'dto' (a7d6a8ba4783)
-  SaveChanges on Series at Kavita.Database/DataContext.cs:713: Series is scoped by membership (Metadata) and is selected by client-controlled 'dto' with no 
+  SaveChanges on Series at Kavita.Database/DataContext.cs:713: Series is scoped by membership (Library) and is selected by client-controlled 'dto' with no 
 access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -825,22 +825,22 @@ Kavita.Models.DTOs.KavitaPlus.Metadata.ExternalSeriesDetailDto?, System.TimeSpan
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/series/external-series-detail via 'seriesId' (9c6721216467)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Metadata) and is selected by client-controlled 
+  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Library) and is selected by client-controlled 
 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/match via 'dto' (d424370adf61)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:680: Series is scoped by membership (Metadata) and is selected by client-controlled 'dto' 
+  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:680: Series is scoped by membership (Library) and is selected by client-controlled 'dto' 
 with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/series/dont-match via 'seriesId' (1a67317add04)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Metadata) and is selected by client-controlled 
+  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Library) and is selected by client-controlled 
 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/series/match-info via 'seriesId' (de079612a61f)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Metadata) and is selected by client-controlled 
+  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Library) and is selected by client-controlled 
 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -900,13 +900,13 @@ client-controlled 'userId' and changed with no valid owner guard or applicable q
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/stats/user-read via 'userId' (7969b0692a8c)
-  Read on AppUserReadingSessionActivityData at Kavita.Services/StatisticService.cs:52: AppUserReadingSessionActivityData is scoped by membership 
-(ReadingSession) and is selected by client-controlled 'userId' with no access check binding the caller.
+  Read on AppUserReadingSessionActivityData at Kavita.Services/StatisticService.cs:52: AppUserReadingSessionActivityData is scoped by membership (Library) and 
+is selected by client-controlled 'userId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/stats/reading-history/series/{seriesid} via 'seriesId' (b077347ddd9e)
-  Read on AppUserReadingSessionActivityData at Kavita.Services/StatisticService.cs:1605: AppUserReadingSessionActivityData is scoped by membership 
-(ReadingSession) and is selected by client-controlled 'seriesId' with no access check binding the caller.
+  Read on AppUserReadingSessionActivityData at Kavita.Services/StatisticService.cs:1605: AppUserReadingSessionActivityData is scoped by membership (Library) and
+is selected by client-controlled 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/stream/delete-external-source via 'externalSourceId' (169d8625c339)
@@ -950,12 +950,12 @@ client-controlled 'dto' and changed with no valid owner guard or applicable quer
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/tachiyomi/latest-chapter via 'seriesId' (a4e73b232a20)
-  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:137: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:137: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/tachiyomi/mark-chapter-until-as-read via 'seriesId' (c3a9302fc2dc)
-  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:101: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:101: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -972,22 +972,22 @@ Unknown DELETE api/theme via 'themeId' (b4a19a35733f)
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/upload/upload-chapter-cover via 'chapterId' (04833e016ffb)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:183: Chapter is scoped by membership (it is the container) and is selected by 
+  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:183: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
 client-controlled 'chapterId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/upload/upload-volume-cover via 'volumeId' (ff0cff16d8ce)
-  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:62: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:62: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'volumeId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/upload/upload-series-cover via 'seriesId' (e6393f216f7b)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:688: Series is scoped by membership (Metadata) and is selected by client-controlled 
+  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:688: Series is scoped by membership (Library) and is selected by client-controlled 
 'seriesId' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/upload/series via 'uploadCoverFileDto' (c9af55f4a56e)
-  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Metadata) and is selected by client-controlled 
+  Read on Series at Kavita.Database/Repositories/SeriesRepository.cs:451: Series is scoped by membership (Library) and is selected by client-controlled 
 'uploadCoverFileDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -997,12 +997,12 @@ Vulnerable POST api/upload/reading-list via 'uploadCoverFileDto' (87b354aa9000)
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/upload/chapter via 'uploadCoverFileDto' (d407d6228e40)
-  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter is scoped by membership (it is the container) and is selected by 
+  Read on Chapter at Kavita.Database/Repositories/ChapterRepository.cs:152: Chapter is scoped by membership (Volume.Series.Library) and is selected by 
 client-controlled 'uploadCoverFileDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/upload/volume via 'uploadCoverFileDto' (34d2907a86f9)
-  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:165: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:165: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'uploadCoverFileDto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
@@ -1033,11 +1033,11 @@ Unknown POST api/users/update-preferences via 'preferencesDto' (472309bdb85b)
   Symbolic only (semantic stage not run).
 
 Vulnerable POST api/volume/update via 'dto' (84af8842a2f9)
-  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:165: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:165: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'dto' with no access check binding the caller.
   Symbolic only (semantic stage not run).
 
 Vulnerable DELETE api/volume via 'volumeId' (062ec0a8549a)
-  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:165: Volume is scoped by membership (Series.Metadata) and is selected by client-controlled 
+  Read on Volume at Kavita.Database/Repositories/VolumeRepository.cs:165: Volume is scoped by membership (Series.Library) and is selected by client-controlled 
 'volumeId' with no access check binding the caller.
   Symbolic only (semantic stage not run).

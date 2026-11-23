@@ -31,7 +31,7 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-003-vuln/Oqtane.sln
 │ DELETE api/job/{id}                                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ GET api/job/start/{id}                                                                      │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ GET api/job/stop/{id}                                                                       │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
-│ GET api/joblog/{id}                                                                         │ Vulnerable │ Vulnerable │ SYM-11        │ —        │
+│ GET api/joblog/{id}                                                                         │ Unknown    │ Unknown    │ SYM-09        │ —        │
 │ GET api/language/{id}                                                                       │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ PUT api/language                                                                            │ Vulnerable │ Vulnerable │ SYM-08,SYM-07 │ —        │
 │ POST api/language                                                                           │ Vulnerable │ Vulnerable │ SYM-08,SYM-07 │ —        │
@@ -90,11 +90,11 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-003-vuln/Oqtane.sln
 │ PUT api/theme/{id}                                                                          │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ DELETE api/theme/{themename}                                                                │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ POST api/theme                                                                              │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
-│ GET api/urlmapping/{id}                                                                     │ Vulnerable │ Vulnerable │ SYM-11        │ —        │
-│ GET api/urlmapping/url/{siteid}                                                             │ Vulnerable │ Vulnerable │ SYM-11,SYM-08 │ —        │
+│ GET api/urlmapping/{id}                                                                     │ Unknown    │ Unknown    │ SYM-09        │ —        │
+│ GET api/urlmapping/url/{siteid}                                                             │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ POST api/urlmapping                                                                         │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ PUT api/urlmapping/{id}                                                                     │ Vulnerable │ Vulnerable │ SYM-07        │ —        │
-│ DELETE api/urlmapping/{id}                                                                  │ Vulnerable │ Vulnerable │ SYM-11        │ —        │
+│ DELETE api/urlmapping/{id}                                                                  │ Unknown    │ Unknown    │ SYM-09        │ —        │
 │ GET api/user/{id}                                                                           │ OutOfScope │ OutOfScope │ SYM-01        │ —        │
 │ GET api/user/username/{username}                                                            │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 │ GET api/user/search/{username}/{email}                                                      │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
@@ -123,8 +123,8 @@ BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-003-vuln/Oqtane.sln
 │ DELETE api/htmltext/{id}/{moduleid}                                                         │ Vulnerable │ Vulnerable │ SYM-08        │ —        │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴───────────────┴──────────╯
 projects 7 (with errors 2) · endpoints 168 (with ids 115) · paths 154 (truncated 0) · unresolved calls 818
-symbolic: 84 vulnerable · 12 protected · 6 unknown · 52 out of scope
-time 18.1s · peak memory 607 MB
+symbolic: 81 vulnerable · 12 protected · 9 unknown · 52 out of scope
+time 16.0s · peak memory 615 MB
 
 Vulnerable GET api/alias/{id} via 'id' (579ec9e0008e)
   Read on Alias at Oqtane.Server/Repository/AliasRepository.cs:58: Alias (owners: CreatedBy (User), TenantId (Tenant)) is selected by client-controlled 'id' and
@@ -237,9 +237,8 @@ Vulnerable GET api/job/stop/{id} via 'id' (fc9af24183ea)
 owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
-Vulnerable GET api/joblog/{id} via 'id' (5bb62476eefa)
-  Read on JobLog at Oqtane.Server/Repository/JobLogRepository.cs:40: JobLog is scoped by membership (Job) and is selected by client-controlled 'id' with no 
-access check binding the caller.
+Unknown GET api/joblog/{id} via 'id' (5bb62476eefa)
+  Read on JobLog at Oqtane.Server/Repository/JobLogRepository.cs:40: JobLog has no owner candidate, so ownership cannot be checked.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/language/{id} via 'id' (ba309e39e835)
@@ -496,14 +495,13 @@ Vulnerable PUT api/theme/{id} via 'theme' (9555bf9345c4)
 or checking ownership.
   Symbolic only (semantic stage not run).
 
-Vulnerable GET api/urlmapping/{id} via 'id' (dd6508d222da)
-  Read on UrlMapping at Oqtane.Server/Repository/UrlMappingRepository.cs:60: UrlMapping is scoped by membership (SiteId) and is selected by client-controlled 
-'id' with no access check binding the caller.
+Unknown GET api/urlmapping/{id} via 'id' (dd6508d222da)
+  Read on UrlMapping at Oqtane.Server/Repository/UrlMappingRepository.cs:60: UrlMapping has no owner candidate, so ownership cannot be checked.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/urlmapping/url/{siteid} via 'siteid' (682f270b0159)
-  Read on UrlMapping at Oqtane.Server/Repository/UrlMappingRepository.cs:72: UrlMapping is scoped by membership (SiteId) and is selected by client-controlled 
-'siteid' with no access check binding the caller.
+  Read on Site at Oqtane.Server/Repository/SiteRepository.cs:87: Site (owners: CreatedBy (User), TenantId (Tenant)) is selected by client-controlled 'siteid' 
+and changed with no valid owner guard or applicable query filter.
   Symbolic only (semantic stage not run).
 
 Vulnerable PUT api/urlmapping/{id} via 'urlMapping' (479eec63c92e)
@@ -511,9 +509,8 @@ Vulnerable PUT api/urlmapping/{id} via 'urlMapping' (479eec63c92e)
 loading or checking ownership.
   Symbolic only (semantic stage not run).
 
-Vulnerable DELETE api/urlmapping/{id} via 'id' (526b39973dec)
-  Read on UrlMapping at Oqtane.Server/Repository/UrlMappingRepository.cs:60: UrlMapping is scoped by membership (SiteId) and is selected by client-controlled 
-'id' with no access check binding the caller.
+Unknown DELETE api/urlmapping/{id} via 'id' (526b39973dec)
+  Read on UrlMapping at Oqtane.Server/Repository/UrlMappingRepository.cs:60: UrlMapping has no owner candidate, so ownership cannot be checked.
   Symbolic only (semantic stage not run).
 
 Vulnerable GET api/user/username/{username} via 'username' (d1a21fd56906)
