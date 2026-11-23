@@ -23,11 +23,12 @@ public static class ScanCommand
         var quiet = new Option<bool>("--quiet", "-q") { Description = "Only print the endpoint table, not the explanations" };
         var noGate = new Option<bool>("--no-gate") { Description = "Fuse the model's verdicts even if it fails the calibration gate (for experiments)" };
         var noFail = new Option<bool>("--no-fail") { Description = "Always exit 0 when the scan completes (do not gate on findings)" };
+        var semanticUnits = new Option<string?>("--semantic-units") { Description = "Labels file (expected.json format): ask the SLM only about these endpoint units" };
         var sarif = new Option<string?>("--sarif") { Description = "Also write SARIF 2.1.0 here (GitHub code scanning)" };
         var sarifNoUnknown = SarifCommand.NoUnknownOption();
         var uriPrefix = SarifCommand.UriPrefixOption();
 
-        var cmd = new Command("scan", "Run the full pipeline and write a JSON report") { path, mode, output, config, model, save, quiet, noGate, noFail, sarif, sarifNoUnknown, uriPrefix };
+        var cmd = new Command("scan", "Run the full pipeline and write a JSON report") { path, mode, output, config, model, save, quiet, noGate, noFail, sarif, sarifNoUnknown, uriPrefix, semanticUnits };
         cmd.SetAction(async (r, ct) =>
         {
             BolaLensConfig cfg;
@@ -48,7 +49,10 @@ public static class ScanCommand
             try
             {
                 var progress = new Progress<string>(msg => Console.Error.WriteLine($"[scan] {msg}"));
-                result = await new ScanService(cfg).ScanAsync(r.GetValue(path)!, scanMode, ct, r.GetValue(quiet) ? null : progress);
+                var units = r.GetValue(semanticUnits) is { } unitsFile
+                    ? BolaLens.Eval.LabelSet.Load(unitsFile).Entries.Select(e => e.UnitKey).ToHashSet(StringComparer.Ordinal)
+                    : null;
+                result = await new ScanService(cfg) { SemanticUnits = units }.ScanAsync(r.GetValue(path)!, scanMode, ct, r.GetValue(quiet) ? null : progress);
             }
             catch (Exception ex) when (ex is FileNotFoundException or NotSupportedException or InvalidOperationException or IOException or DllNotFoundException or TypeInitializationException)
             {
