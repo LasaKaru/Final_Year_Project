@@ -1,10 +1,11 @@
 # Known limitations (v0.1, honest list for the IPD "critical evaluation" slide)
 
 ## Analysis (Stage 1)
-1. **Path-insensitive guard windows** (ADR-008). Branches are walked in order and merged; loops are visited once. A guard
-   protects a sink if it is on the same object and its window covers the sink. CFG dominance (`ControlFlowGraph`) is planned for S6.
-2. **Controllers only.** Minimal APIs (`app.MapPut(...)`) are counted as `unsupportedEndpointStyles`, not analysed (FR20 "Could").
-   Razor Pages handlers and gRPC are out of scope.
+1. **Syntactic, not CFG, dominance** (ADR-008, ADR-016). Branches are walked in order and merged; loops are visited once. An
+   exit-style check (`if (owner != caller) return Forbid();`) must dominate the state change syntactically (same block or an
+   enclosing block/try/using, or an `else` whose `then` always exits); a check that runs only on some paths is rejected.
+   Branch-specific permissive values (`authorized = true` in another `switch` case, Oqtane A-004) are still not path-sensitive.
+2. **Controllers and Minimal APIs only.** Razor Pages handlers and gRPC are out of scope.
 3. **Fields and static state are not tracked.** Identity copied into a field (e.g. `_userId = ...` in a constructor) is not
    recognised unless its type is configured in `identity.currentUserTypes`.
 4. **DI resolution:** generic and `typeof` registrations only; factory lambdas, assembly scanning (Scrutor) and keyed services

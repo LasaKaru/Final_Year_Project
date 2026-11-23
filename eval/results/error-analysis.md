@@ -82,3 +82,22 @@ missing `[Authorize]` or a missing check on a whole action, not for an owner/mem
 **Still open:** Kavita A-006 reads (reading list items via a service that returns DTOs built outside EF; bookmark ids
 inside a list of objects); Jellyfin A-007 (library manager, not EF); Bitwarden A-008…A-012 (commands, creates and
 organization-level stored procedures — creation-time BOLA is outside the model); Oqtane A-003 (field-level) and A-004 fixed.
+
+## RQ2 — Phi-3-mini as a second opinion (2026-11-23, `eval/results/summary-hybrid.md`)
+
+Phi-3-mini-4k int4 (calibration gate 3/4) was run in hybrid mode on every Dataset A/C ownership case that fits the 16 GB
+machine (Oqtane A-001…A-004, Kavita A-005/A-006/A-013, IoTSharp A-014; 15 reports), with the model limited to the labelled
+units (`--semantic-units`). Bitwarden and Jellyfin were not run in hybrid mode (5–7.5 GB symbolic scan + ~6–9 GB model).
+
+| Observation | Count | Reading |
+|---|---|---|
+| SLM calls / parse failures | 29 / 6 | parse failures fall back to the symbolic verdict (ADR-012) |
+| Model said Vulnerable on a symbolically **Protected** fixed unit (A-013 `[ChapterAccess]` downloads) | 3 | the model does not see the filter attribute's semantics; fusion keeps Protected |
+| Model said Unknown on a symbolically **Vulnerable** unit | 4 | conservative fusion keeps Vulnerable (a model cannot downgrade a proven missing check) |
+| Model said Vulnerable on a symbolic **Unknown** (A-014 tenant reads) | 2 | advisory only; Unknown is kept with the model's rationale attached |
+| Final verdict changed by the model | **0** | hybrid metrics = symbolic arm metrics (TP 19, FP 0 on A; FP 2 on C) |
+
+**Finding:** on this data a 3.8 B int4 model adds latency (median 108 s per call, peak 8.9 GB) and no precision: the two
+remaining Dataset C false positives (Oqtane A-004 fixed) were **not** recognised as safe by the model either. The value of
+the semantic stage is therefore the natural-language rationale on Unknowns, not FP reduction — an honest negative result
+for NFR03/RQ2 that the dissertation should report (with the caveat of draft labels and a single model; Qwen2.5-Coder pending).
