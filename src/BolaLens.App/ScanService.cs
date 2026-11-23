@@ -24,6 +24,11 @@ public sealed record ScanResult(ScanReport Report, SymbolicResult Symbolic);
 /// The validator factory is injectable so tests can run "hybrid" with a scripted fake model.</summary>
 public sealed class ScanService(BolaLensConfig config, Func<BolaLensConfig, ISemanticValidator>? validatorFactory = null)
 {
+    /// <summary>Experiment control: when set, the SLM is only asked about candidates of these endpoint units ("VERB route",
+    /// normalised) — e.g. the labelled units of a dataset case, so a slow local model is spent where it is measured.
+    /// Other candidates keep their symbolic verdict and say so in the final reason.</summary>
+    public IReadOnlySet<string>? SemanticUnits { get; init; }
+
     public static string ToolVersion =>
         typeof(ScanService).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.1.0";
 
@@ -60,7 +65,8 @@ public sealed class ScanService(BolaLensConfig config, Func<BolaLensConfig, ISem
         var advisory = gate is { Passed: false };
 
         var findings = new List<Finding>();
-        var candidates = symbolic.Paths.Count(p => FusionPolicy.IsCandidate(p.Verdict));
+        bool InScope(ExecutionPath p) => SemanticUnits is null || SemanticUnits.Contains(Routes.UnitKey(p.Endpoint.Verb, p.Endpoint.RouteTemplate));
+        var candidates = symbolic.Paths.Count(p => FusionPolicy.IsCandidate(p.Verdict) && InScope(p.Path));
         var done = 0;
         foreach (var (path, verdict) in symbolic.Paths)
         {
@@ -71,13 +77,15 @@ public sealed class ScanService(BolaLensConfig config, Func<BolaLensConfig, ISem
             {
                 var slice = slicer.Generate(path);
                 sliceText = slice.Text;
-                if (validator.IsEnabled)
+                if (validator.IsEnabled && InScope(path))
                 {
                     progress?.Report($"Stage 2: SLM {++done}/{candidates} — {path.Endpoint.Id}");
                     semantic = await validator.ValidateAsync(slice, prompts.BuildPair(slice), ct).ConfigureAwait(false);
                 }
             }
             var (final, reason) = fusion.Fuse(verdict, semantic, advisory);
+            if (validator.IsEnabled && semantic is null && FusionPolicy.IsCandidate(verdict) && !InScope(path))
+                reason = "Symbolic verdict (semantic stage limited to the selected units).";
             findings.Add(new Finding(FindingIdFactory.Create(path), path, verdict, semantic, final, reason, sliceText));
         }
         var semanticSeconds = sw.Elapsed.TotalSeconds;

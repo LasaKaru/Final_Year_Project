@@ -13,6 +13,25 @@ namespace BolaLens.Integration.Tests;
 public class PipelineTests(BolaLabFixture fx)
 {
     [Fact]
+    public async Task Semantic_units_limit_the_model_to_the_selected_endpoints()
+    {
+        var calls = 0;
+        var service = new ScanService(BolaLensConfig.Default.WithGate(false), _ => new OnnxSemanticValidator((prompt, _) =>
+        {
+            calls++;
+            var lastLine = prompt.Split('\n').Last(l => l.StartsWith('L')).Split(' ')[0];
+            return ($$"""{"status":"vulnerable","confidence":0.9,"reason":"fake","evidence":["{{lastLine}}"]}""", 10, 10);
+        }, "fake-model"))
+        { SemanticUnits = new HashSet<string> { BolaLens.Core.Model.Routes.UnitKey("DELETE", "api/invoices/{id}") } };
+
+        var (report, _) = await service.ScanAsync(BolaLabFixture.SolutionPath, ScanMode.Hybrid, TestContext.Current.CancellationToken);
+        calls.ShouldBe(1);
+        report.Findings.Count(f => f.Semantic is not null).ShouldBe(1);
+        report.Findings.Where(f => f.Semantic is null && FusionPolicy.IsCandidate(f.Symbolic))
+            .ShouldAllBe(f => f.FinalReason.Contains("limited to the selected units"));
+    }
+
+    [Fact]
     public async Task Hybrid_mode_invokes_the_validator_only_on_candidates_and_fuses()
     {
         var calls = 0;

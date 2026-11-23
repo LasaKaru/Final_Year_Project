@@ -81,7 +81,11 @@ for entry in "${variants[@]}"; do
 
   out="$ROOT/eval/runs/$DATE-$MODE-$case_id-$variant${RUN_SUFFIX:-}"
   mkdir -p "$out"
+  labels="$ROOT/eval/labels/$case_id-$variant.labels.json"
+  [[ -f "$labels" ]] || labels="$ROOT/eval/labels/drafts/$case_id-$variant.labels.json"
   args=(scan "$work/$sol" --mode "$MODE" --out "$out/report.json" --no-fail)
+  # hybrid: the slow local model is only asked about the labelled units (SEMANTIC_ALL=1 asks about every candidate)
+  [[ "$MODE" == "hybrid" && -f "$labels" && "${SEMANTIC_ALL:-}" != "1" ]] && args+=(--semantic-units "$labels")
   [[ -n "$config" ]] && args+=(--config "$ROOT/$config")
   [[ -n "$MODEL" ]] && args+=(--model "$MODEL")
   start=$(date +%s)
@@ -90,8 +94,6 @@ for entry in "${variants[@]}"; do
   secs=$(( $(date +%s) - start ))
   rss_mb=$(python3 -I -c "import json,sys;print(json.load(open(sys.argv[1]))['run']['peakWorkingSetBytes']//1048576)" "$out/report.json")
 
-  labels="$ROOT/eval/labels/$case_id-$variant.labels.json"
-  [[ -f "$labels" ]] || labels="$ROOT/eval/labels/drafts/$case_id-$variant.labels.json"
   if [[ -f "$labels" ]]; then
     dotnet "$CLI" eval --report "$out/report.json" --labels "$labels" --out "$out/metrics.md" >/dev/null || true
   fi
