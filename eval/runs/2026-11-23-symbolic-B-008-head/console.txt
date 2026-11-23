@@ -1,0 +1,143 @@
+[scan] Loading solution (MSBuildWorkspace)…
+[scan] Stage 1: endpoints, policy, schema, DI, taint paths, rules…
+[scan] Done.
+wrote /home/user/Final_Year_Project/eval/runs/2026-11-23-symbolic-B-008-head/report.json
+BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-008-head/ErsatzTV.sln
+╭─────────────────────────────────────────────────────────────────┬────────────┬────────────┬────────┬──────────╮
+│ Endpoint                                                        │ Final      │ Symbolic   │ Rules  │ Semantic │
+├─────────────────────────────────────────────────────────────────┼────────────┼────────────┼────────┼──────────┤
+│ POST api/ffmpeg/profiles/new                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/ffmpeg/profiles/update                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/ffmpeg/delete/{id}                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/ffmpeg/resolution/by-name/{name}                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/scripted/playout/build/{buildid}/context                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/add_collection        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/add_marathon          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/add_multi_collection  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/add_playlist          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/create_playlist       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/add_search            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/add_smart_collection  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/add_show              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/add_all               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/add_count             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/add_duration          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/pad_to_next           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/pad_until             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/pad_until_exact       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/scripted/playout/build/{buildid}/peek_next/{content}    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/start_epg_group       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/stop_epg_group        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/graphics_on           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/graphics_off          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/watermark_on          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/watermark_off         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/pre_roll_on           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/pre_roll_off          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/skip_items            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/skip_to_item          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/wait_until_exact      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/scripted/playout/build/{buildid}/wait_until            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/collections/smart/update                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/collections/smart/delete/{id}                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN api/troubleshoot/playback.m3u8                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/troubleshoot/playback.m3u8                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN api/troubleshoot/playback/sample/{mediaitemid}          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/troubleshoot/playback/sample/{mediaitemid}              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN artwork/{id}                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET artwork/{id}                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN iptv/artwork/posters/{filename}                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/artwork/posters/{filename}                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN iptv/artwork/posters/{filename}.jpg                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/artwork/posters/{filename}.jpg                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET artwork/posters/{filename}                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET artwork/watermarks/{filename}                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET artwork/fanart/{filename}                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN iptv/artwork/posters/plex/{id}                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/artwork/posters/plex/{id}                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN iptv/artwork/thumbnails/plex/{id}                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/artwork/thumbnails/plex/{id}                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET artwork/posters/plex/{id}                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET artwork/thumbnails/plex/{id}                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET artwork/fanart/plex/{id}                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN iptv/artwork/posters/jellyfin/{id}                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/artwork/posters/jellyfin/{id}                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN iptv/artwork/thumbnails/jellyfin/{id}                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/artwork/thumbnails/jellyfin/{id}                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET artwork/posters/jellyfin/{id}                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET artwork/thumbnails/jellyfin/{id}                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET artwork/fanart/jellyfin/{id}                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN iptv/artwork/posters/emby/{id}                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/artwork/posters/emby/{id}                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN iptv/artwork/thumbnails/emby/{id}                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/artwork/thumbnails/emby/{id}                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET artwork/posters/emby/{id}                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET artwork/thumbnails/emby/{id}                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET artwork/fanart/emby/{id}                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN iptv/artwork/thumbnails/{filename}                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/artwork/thumbnails/{filename}                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN iptv/artwork/thumbnails/{filename}.jpg                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/artwork/thumbnails/{filename}.jpg                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET artwork/thumbnails/{filename}                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET internal/ffmpeg/music-video-credits/{playoutitemid}         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET internal/ffmpeg/song-background/{channelid}/{playoutitemid} │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET internal/ffmpeg/remote-stream/{remotestreamid}              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET internal/media/plex/{plexmediasourceid}/{path}              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET internal/media/jellyfin/{path}                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET internal/media/emby/{path}                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET internal/media/subtitle/{id}                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET internal/graphics/{channelnumber}/{playoutitemid}           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN iptv/hdhr/channel/{channelnumber}.ts                    │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET iptv/hdhr/channel/{channelnumber}.ts                        │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ UNKNOWN iptv/channel/{channelnumber}.ts                         │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET iptv/channel/{channelnumber}.ts                             │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ UNKNOWN iptv/session/{channelnumber}/hls.m3u8                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/session/{channelnumber}/hls.m3u8                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN iptv/channel/{channelnumber}.m3u8                       │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET iptv/channel/{channelnumber}.m3u8                           │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ UNKNOWN iptv/logos/{filename}                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/logos/{filename}                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ UNKNOWN iptv/logos/{filename}.jpg                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/logos/{filename}.jpg                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/hls-direct/{channelnumber}                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/hls-direct/{channelnumber}.ts                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/hls-direct/{channelnumber}.mkv                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET iptv/hls-direct/{channelnumber}.mp4                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+╰─────────────────────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
+projects 14 (with errors 7) · endpoints 113 (with ids 97) · paths 109 (truncated 0) · unresolved calls 537
+symbolic: 0 vulnerable · 0 protected · 6 unknown · 103 out of scope
+time 314.0s · peak memory 7494 MB
+
+Unknown UNKNOWN iptv/hdhr/channel/{channelnumber}.ts via 'channelNumber' (9515f20aa4bc)
+  No state change found, but 'channelNumber' entered unresolved code: external dispatch: MediatR.ISender.Send<LanguageExt.Either<ErsatzTV.Core.BaseError, 
+ErsatzTV.Application.Streaming.PlayoutItemProcessModel>>(MediatR.IRequest<LanguageExt.Either<ErsatzTV.Core.BaseError, 
+ErsatzTV.Application.Streaming.PlayoutItemProcessModel>>, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown GET iptv/hdhr/channel/{channelnumber}.ts via 'channelNumber' (d1c349887e21)
+  No state change found, but 'channelNumber' entered unresolved code: external dispatch: MediatR.ISender.Send<LanguageExt.Either<ErsatzTV.Core.BaseError, 
+ErsatzTV.Application.Streaming.PlayoutItemProcessModel>>(MediatR.IRequest<LanguageExt.Either<ErsatzTV.Core.BaseError, 
+ErsatzTV.Application.Streaming.PlayoutItemProcessModel>>, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown UNKNOWN iptv/channel/{channelnumber}.ts via 'channelNumber' (868933fa1aeb)
+  No state change found, but 'channelNumber' entered unresolved code: external dispatch: MediatR.ISender.Send<LanguageExt.Either<ErsatzTV.Core.BaseError, 
+ErsatzTV.Application.Streaming.PlayoutItemProcessModel>>(MediatR.IRequest<LanguageExt.Either<ErsatzTV.Core.BaseError, 
+ErsatzTV.Application.Streaming.PlayoutItemProcessModel>>, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown GET iptv/channel/{channelnumber}.ts via 'channelNumber' (ae73e8bfa660)
+  No state change found, but 'channelNumber' entered unresolved code: external dispatch: MediatR.ISender.Send<LanguageExt.Either<ErsatzTV.Core.BaseError, 
+ErsatzTV.Application.Streaming.PlayoutItemProcessModel>>(MediatR.IRequest<LanguageExt.Either<ErsatzTV.Core.BaseError, 
+ErsatzTV.Application.Streaming.PlayoutItemProcessModel>>, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown UNKNOWN iptv/channel/{channelnumber}.m3u8 via 'channelNumber' (2246829970d4)
+  No state change found, but 'channelNumber' entered unresolved code: external dispatch: MediatR.ISender.Send<LanguageExt.Either<ErsatzTV.Core.BaseError, 
+string>>(MediatR.IRequest<LanguageExt.Either<ErsatzTV.Core.BaseError, string>>, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown GET iptv/channel/{channelnumber}.m3u8 via 'channelNumber' (946fd63d8eef)
+  No state change found, but 'channelNumber' entered unresolved code: external dispatch: MediatR.ISender.Send<LanguageExt.Either<ErsatzTV.Core.BaseError, 
+string>>(MediatR.IRequest<LanguageExt.Either<ErsatzTV.Core.BaseError, string>>, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
