@@ -1,0 +1,3 @@
+# Editing this file on branch dev starts .github/workflows/baseline-codeql.yml (CodeQL security-extended on every case
+# in eval/datasets/cases.json). SARIF results are kept as workflow artifacts.
+request: 2026-11-23 all cases (A-001..A-014, B-001..B-013)

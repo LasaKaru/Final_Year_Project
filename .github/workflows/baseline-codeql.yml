@@ -4,6 +4,10 @@ name: baseline-codeql
 # to this repository's code scanning). Evaluate locally:
 #   bolalens eval --report <run>/report.json --labels <labels> --baseline-sarif csharp.sarif --baseline-name CodeQL --baseline-cwe 639 285 862 863
 on:
+  # manual runs need the workflow on the default branch; on dev, editing the request file starts a run
+  push:
+    branches: [ dev ]
+    paths: [ 'eval/datasets/baseline-request.txt' ]
   workflow_dispatch:
     inputs:
       cases:
@@ -24,7 +28,7 @@ jobs:
       - uses: actions/checkout@v4
       - id: m
         env:
-          WANT: ${{ inputs.cases }}
+          WANT: ${{ inputs.cases || '' }}
         run: |
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
           import json, os
