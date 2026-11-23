@@ -130,10 +130,14 @@ errors: [`eval/results/error-analysis.md`](eval/results/error-analysis.md).
 |---|---|---|---|
 | BolaLens symbolic | TP 19 · FN 7 · Unknown 5 — precision 1.000, recall 0.731 | TN 20 · FP 2 — FPR 0.091 | 13 / 25 |
 | CodeQL 2.27.5 security-extended (baseline) | TP 0 · FN 33 — recall 0.000 | TN 27 · FP 0 | 0 / 25 |
+| BolaLens hybrid, Phi-3-mini int4 (8 Oqtane/Kavita/IoTSharp cases only) | TP 19 · FN 3 · Unknown 2 — precision 1.000, recall 0.864 | TN 16 · FP 2 — FPR 0.111 | = symbolic arm |
 
 Projects: Oqtane, Kavita, Jellyfin, Bitwarden, IoTSharp (Dataset A/C); 13 wild repositories (Dataset B, ~4,300 endpoints,
 10 s – 6 min and 0.4 – 7.5 GB per scan). Misses are membership/tenant authorization outside the model, creation-time BOLA and
 reads assembled outside EF — see the error analysis.
+The hybrid row uses a smaller report set (Bitwarden/Jellyfin not run with the model: memory), so compare it only with the
+symbolic arm of the same reports ([`summary-hybrid.md`](eval/results/summary-hybrid.md)): the model changed **no** final
+verdict (29 calls, median 108 s, peak 8.9 GB) — conservative fusion kept every disagreement.
 
 ## Architecture
 

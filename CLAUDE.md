@@ -20,7 +20,7 @@ real code (repo, modules, tests, preliminary results, code walkthrough). Diagram
 
 ## Where things are
 * Plan pack (baseline, do not edit): `docs/plan/00…11` — **11_BUILD_FLOW_STEP_BY_STEP.md** is the ordered build list.
-* Decisions: `docs/adr/` (ADR-001 .NET 8 … ADR-015 access checks + membership). Requirements status: `docs/requirements.md`.
+* Decisions: `docs/adr/` (ADR-001 .NET 8 … ADR-015 access checks + membership, ADR-016 syntactic dominance). Requirements status: `docs/requirements.md`.
 * Limitations: `docs/known-limitations.md`. Reproducibility: `docs/reproducibility.md`. AI-use log: `docs/ai-log.md` (keep honest).
 * Recorded runs: `eval/runs/<date>-<mode>-<target>/` (report.json, metrics.md, env.md).
 
@@ -66,9 +66,9 @@ UI screenshots for slides: `docs/ipd/screenshots/`. Playwright is preinstalled i
 7. BolaLab numbers are **development-set** results; never mix them with datasets A/B/C.
 
 ## Status (update at the end of every session)
-**Done (build-flow phases 0–23 + extras, as of 19 Nov 2026):** solution/CI; BolaLab TC01–TC16; full symbolic engine (MVC +
+**Done (build-flow phases 0–23 + extras, as of 23 Nov 2026):** solution/CI; BolaLab TC01–TC16; full symbolic engine (MVC +
 Minimal APIs, MediatR dispatch, DI incl. library implementations, inter-procedural taint walker, entity tokens with same-row
-aliasing, helper/flag/OR owner checks, permissive-helper and request-body rejection, swallowed throws, rules SYM-01..10; C# 14 preview parsing, inherited routes, getter identities, nested/list ids, owner-or-admin, custom access filters (ADR-014), preferred implementations);
+aliasing, helper/flag/OR owner checks, permissive-helper and request-body rejection, swallowed throws, rules SYM-01..10; C# 14 preview parsing, inherited routes, getter identities, nested/list ids, owner-or-admin, custom access filters (ADR-014), preferred implementations, access checks/permission services + membership SYM-11 (ADR-015), projections, self-access, syntactic dominance of exit checks (ADR-016));
 read mode (ADR-011); IR slices; ONNX validator (SmolLM2 committed, Phi-3-mini run), calibration gate, conservative fusion
 (ADR-012); eval harness (+ `--compare`, `--baseline-sarif` arm); SARIF 2.1.0 + reusable GitHub Action (self-tested in CI);
 robustness runner P1–P4; local web UI with SVG call graph + offline HTML; dataset framework (`eval/datasets/cases.json`,
@@ -77,15 +77,16 @@ robustness runner P1–P4; local web UI with SVG call graph + offline HTML; data
 Kavita ×3, Jellyfin, Bitwarden ×5, IoTSharp; 25 vuln→fixed pairs): Dataset A TP 19 / FN 7 / Unknown 5 — precision 1.000,
 recall 0.731; Dataset C TN 20 / FP 2 (FPR 0.091); 13/25 pairs discriminated. **CodeQL baseline** (run 45130132411,
 `eval/baseline/codeql`): 0/33 vulnerable units. **13 B-repos**, ~4,300 endpoints, blind worksheets (2,293 units).
-Robustness P1–P3 1.000. Phi-3: gate 3/4, ~78 s/slice; hybrid on Dataset A/C labelled units (`--semantic-units`) in
-`eval/runs/*-hybrid-A-*`. Misses = creation-time BOLA, tenant scoping without a container entity, reads built outside EF.
+Robustness P1–P3 1.000. Phi-3: gate 3/4; hybrid on the 8 Oqtane/Kavita/IoTSharp A/C cases (`--semantic-units`,
+`eval/runs/2026-11-23-hybrid-*`, `eval/results/summary-hybrid.md`): **hybrid = symbolic arm** (29 calls, 0 verdicts changed,
+median 108 s/call, peak 8.9 GB) — RQ2 negative result. 197 tests green; all runs re-recorded 23 Nov from one commit. Misses = creation-time BOLA, tenant scoping without a container entity, reads built outside EF.
 **Owner actions (cannot be delegated):** ethics Part A; verify draft labels (`eval/labels/drafts`); blind-label Dataset B
 worksheets + 2nd-rater sample; read/explain every class (R6); supervisor sign-off of ADR-011..013; rate the RQ4 sheet
 (`eval/rq4/rating-sheet.csv`, rubric `docs/evaluation/rq4-rubric.md`) with a second rater.
 **Next (in order):**
-1. Tenant scoping by value (IoTSharp TenantId without a container), creation-time BOLA (Bitwarden), path sensitivity (S6).
-2. Phi-3 / Qwen2.5-Coder hybrid ×3 on the 16 GB laptop for A/B/C (`MODES="symbolic hybrid" scripts/run-experiments.sh`).
-3. Custom policy handlers (Oqtane `[Authorize(Policy=…)]`), switch-branch-sensitive helpers (A-004 fixed FP).
+1. Tenant scoping by value (IoTSharp TenantId without a container), creation-time BOLA (Bitwarden), branch-specific permissive values (Oqtane A-004 fixed FP).
+2. Qwen2.5-Coder hybrid (model comparison) and Phi-3 on Bitwarden/Jellyfin on the 16 GB laptop (`MODES="symbolic hybrid" scripts/run-experiments.sh`).
+3. Custom policy handlers (Oqtane `[Authorize(Policy=…)]`, B-003 noise).
 4. IPD (S5): slides from `docs/ipd/*` (onion, Gantt + deviations, demo script, Q&A evidence map), rehearse, backup video.
 5. After the freeze (21 Mar): final experiments, RQ4 rubric study, dissertation (`docs/thesis/outline-and-evidence-map.md`).
 

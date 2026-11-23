@@ -11,10 +11,14 @@ For a check that leaves the method on failure (return/throw), the walker records
 each active method frame, the statement through which it was reached. A covered sink only counts if the check **dominates**
 that statement in the check's method: the check sits in a block that encloses the statement and precedes it, climbing through
 `else` branches whose sibling always exits and through blocks that always run as a whole (try body, using, lock, nested
-blocks). Otherwise the check is rejected: "check runs only on some paths to the state change". Region guards (change inside
-the then-branch) are already dominated by construction.
+blocks). A statement inside one branch of the check itself is dominated when the other branch always exits
+(`if (ok) { change } else { return Forbid(); }` — found on Oqtane `GET api/module/{id}`). Otherwise the check is rejected:
+"check runs only on some paths to the state change". Region guards (change inside the then-branch) are already dominated by
+construction.
 
 ## Consequences
-+ Path-insensitivity false negatives of exiting checks are removed (6 tests, BolaLab unchanged).
++ Path-insensitivity false negatives of exiting checks are removed (9 tests, BolaLab unchanged).
++ Re-recorded datasets (2026-11-23): Dataset A/C metrics unchanged; after the branch rule no real case has a dominance
+  rejection — real controllers put checks first, so the change matters for robustness (P-perturbations), not for these numbers.
 − `goto`, labels and exceptions thrown between check and change are not modelled; a Roslyn `ControlFlowGraph` remains the
   option if datasets show such code.

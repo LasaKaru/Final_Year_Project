@@ -101,3 +101,10 @@ units (`--semantic-units`). Bitwarden and Jellyfin were not run in hybrid mode (
 remaining Dataset C false positives (Oqtane A-004 fixed) were **not** recognised as safe by the model either. The value of
 the semantic stage is therefore the natural-language rationale on Unknowns, not FP reduction — an honest negative result
 for NFR03/RQ2 that the dissertation should report (with the caveat of draft labels and a single model; Qwen2.5-Coder pending).
+
+## Dominance (ADR-016) on the datasets (2026-11-23)
+
+All 27 cases were re-recorded after the dominance merge. One regression was found and fixed before recording the final runs:
+Oqtane B-003 `GET api/module/{id}` (`if (authorized) { … } else { Forbid; return null; }`) was rejected because the change sits
+*inside* the check's then-branch — now dominated when the other branch always exits (3 new tests). Final runs: Dataset A/C
+metrics unchanged (precision 1.000, recall 0.731, FPR 0.091, 13/25 pairs); no remaining dominance rejection on real code.
