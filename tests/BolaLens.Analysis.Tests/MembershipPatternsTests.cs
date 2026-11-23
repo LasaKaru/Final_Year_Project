@@ -246,4 +246,39 @@ public class MembershipPatternsTests
         var r = await CompilationFactory.AnalyseAsync(todo);
         r.VerdictOf("DELETE todos/{id}").Status.ShouldBe(expected);
     }
+
+    [Fact]
+    public async Task Per_user_data_and_owned_collections_are_not_membership_containers()
+    {
+        // Kavita AppUserChapterRating / AppUser.ReadingLists, SimplCommerce UserAddress: ownership, not membership.
+        // Bitwarden OrganizationUser { UserId, OrganizationId }: membership.
+        var extra = """
+            namespace M;
+            public class ReadingList { public int Id { get; set; } public int AppUserId { get; set; } public string Title { get; set; } = ""; }
+            public class Rating { public int Id { get; set; } public int AppUserId { get; set; } public int ChapterId { get; set; } public Chapter Chapter { get; set; } = null!; public int Score { get; set; } }
+            public class Address { public int Id { get; set; } public string Street { get; set; } = ""; }
+            public class UserAddress { public int Id { get; set; } public int UserId { get; set; } public int AddressId { get; set; } public Address Address { get; set; } = null!; }
+            public class Organization { public int Id { get; set; } public string Name { get; set; } = ""; }
+            public class OrganizationUser { public int Id { get; set; } public int UserId { get; set; } public int OrganizationId { get; set; } public Organization Organization { get; set; } = null!; public int Status { get; set; } }
+            public class Vault { public int Id { get; set; } public int OrganizationId { get; set; } public string Name { get; set; } = ""; }
+            public class Ctx2(DbContextOptions<Ctx2> o) : DbContext(o)
+            {
+                public DbSet<ReadingList> ReadingLists => Set<ReadingList>();
+                public DbSet<Rating> Ratings => Set<Rating>();
+                public DbSet<Address> Addresses => Set<Address>();
+                public DbSet<UserAddress> UserAddresses => Set<UserAddress>();
+                public DbSet<Organization> Organizations => Set<Organization>();
+                public DbSet<OrganizationUser> OrganizationUsers => Set<OrganizationUser>();
+                public DbSet<Vault> Vaults => Set<Vault>();
+                public DbSet<AppUser> Users => Set<AppUser>();
+            }
+            public class AppUserLists { public List<ReadingList> Lists { get; set; } = new(); }
+            """;
+        var r = await CompilationFactory.AnalyseAsync(Domain, Controller(""), extra);
+        r.Schema.Find("M.Chapter")!.MembershipPath.ShouldBe("Series.Library");   // still via Library, not via Rating
+        r.Schema.Find("M.Address")!.MembershipPath.ShouldBeNull();
+        r.Schema.Find("M.ReadingList")!.MembershipPath.ShouldBeNull();
+        r.Schema.Find("M.Organization")!.MembershipPath.ShouldBe("(container)");
+        r.Schema.Find("M.Vault")!.MembershipPath.ShouldBe("OrganizationId");
+    }
 }

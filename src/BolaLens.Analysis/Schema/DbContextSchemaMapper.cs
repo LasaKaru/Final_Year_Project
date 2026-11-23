@@ -103,31 +103,35 @@ public sealed class DbContextSchemaMapper(AnalysisContext context)
             t is INamedTypeSymbol { IsGenericType: true } g && g.AllInterfaces.Any(i => i.Name == "IEnumerable") && g.TypeArguments.Length == 1 ? g.TypeArguments[0] : null;
         Builder? EntityOf(ITypeSymbol t) => entities.GetValueOrDefault(t.OriginalDefinition.ToDisplayString());
 
+        bool OwnedByUser(Builder b) => _owners.Infer(b.Type).Values.Any(v => v.Kind == OwnerKind.User);
+        // join tables named like memberships: OrganizationUser, LibraryAppUser, ProjectMember(ship)
+        static bool MembershipName(string join, string container) =>
+            System.Text.RegularExpressions.Regex.IsMatch(join, $"^{container}(App)?Users?$|^{container}Member(ship)?s?$");
+
         var containers = new HashSet<string>(StringComparer.Ordinal);
         foreach (var b in entities.Values)
         {
             var props = Symbols.AllProperties(b.Type).ToList();
             if (IsUser(b.Type))
             {
+                // AppUser.Libraries: a collection on the user type — unless those objects are owned by one user (ReadingLists)
                 foreach (var p in props)
-                    if (Element(p.Type) is { } el && EntityOf(el) is { } c && !IsUser(el)) containers.Add(c.Key);
+                    if (Element(p.Type) is { } el && EntityOf(el) is { } c && !IsUser(el) && !OwnedByUser(c)) containers.Add(c.Key);
                 continue;
             }
-            if (props.Any(p => Element(p.Type) is { } el && IsUser(el))) containers.Add(b.Key);
-            // join entity: OrganizationUser { UserId, OrganizationId / Organization }
+            if (!OwnedByUser(b) && props.Any(p => Element(p.Type) is { } el && IsUser(el))) containers.Add(b.Key); // Library.AppUsers
             var hasUser = props.Any(p => _owners.KindOfName(p.Name) == OwnerKind.User || IsUser(p.Type));
             if (!hasUser) continue;
             foreach (var p in props.Where(p => !IsUser(p.Type) && EntityOf(p.Type) is not null && Element(p.Type) is null))
             {
                 var c = EntityOf(p.Type)!;
-                if (b.Type.Name.Contains(c.Type.Name, StringComparison.Ordinal) || b.Type.Name.EndsWith("Member", StringComparison.Ordinal))
-                    containers.Add(c.Key);
+                if (MembershipName(b.Type.Name, c.Type.Name) && !OwnedByUser(c)) containers.Add(c.Key);
             }
             foreach (var p in props.Where(p => p.Name.EndsWith("Id", StringComparison.Ordinal) && p.Name.Length > 2))
             {
                 var name = p.Name[..^2];
                 var c = entities.Values.FirstOrDefault(e => e.Type.Name == name && !IsUser(e.Type));
-                if (c is not null && b.Type.Name.Contains(name, StringComparison.Ordinal)) containers.Add(c.Key);
+                if (c is not null && MembershipName(b.Type.Name, name) && !OwnedByUser(c)) containers.Add(c.Key);
             }
         }
 
