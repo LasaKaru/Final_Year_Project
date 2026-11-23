@@ -8,10 +8,20 @@ namespace BolaLens.Analysis.Guards;
 /// Limitation: assumes structured control flow — goto/labels and exceptions thrown between the two are not modelled.</summary>
 public static class Dominance
 {
-    /// <summary>True when <paramref name="guard"/> executes before <paramref name="anchor"/> on every path: it sits in a block that
-    /// encloses the anchor and precedes it, or in the else-branch of an if whose then-branch always leaves the method.</summary>
+    /// <summary>True when <paramref name="guard"/> executes before <paramref name="anchor"/> on every path: the anchor is in one
+    /// branch of the check while the other always leaves the method, or the check sits in a block that encloses the anchor and
+    /// precedes it, or in the else-branch of an if whose then-branch always leaves the method.</summary>
     public static bool Dominates(SyntaxNode guard, SyntaxNode anchor)
     {
+        // the change sits inside one branch of the check itself: it is reached only when the check passed
+        // if the other branch always leaves the method (if (ok) { change } else return Forbid();)
+        if (guard is IfStatementSyntax check)
+        {
+            if (check.Statement.Span.Contains(anchor.Span))
+                return check.Else is { } otherwise && AlwaysExits(otherwise.Statement);
+            if (check.Else is { } e && e.Statement.Span.Contains(anchor.Span))
+                return AlwaysExits(check.Statement);
+        }
         var s = guard;
         while (true)
         {

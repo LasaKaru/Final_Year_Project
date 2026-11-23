@@ -40,6 +40,10 @@ public class DominanceTests
     [InlineData("foreach (var _ in new int[0]) { if (o.UserId != me.UserId) return Forbid(); } await svc.Save(o, total);", VerdictStatus.Vulnerable)]
     [InlineData("if (express) return Ok(); else if (o.UserId != me.UserId) return Forbid(); await svc.Save(o, total);", VerdictStatus.Protected)]
     [InlineData("if (express) { } else if (o.UserId != me.UserId) return Forbid(); await svc.Save(o, total);", VerdictStatus.Vulnerable)]
+    // the change inside the branch the check selects (Oqtane: if (authorized) { … } else { Forbid; return null; })
+    [InlineData("if (o.UserId == me.UserId) { await svc.Save(o, total); } else { return Forbid(); }", VerdictStatus.Protected)]
+    [InlineData("if (o.UserId != me.UserId) return Forbid(); else { await svc.Save(o, total); }", VerdictStatus.Protected)]
+    [InlineData("if (o.UserId == me.UserId) { } else { await svc.Save(o, total); return Forbid(); }", VerdictStatus.Vulnerable)]
     public async Task Exit_guards_must_dominate_the_change(string body, VerdictStatus expected)
     {
         var v = (await Analyse(body)).VerdictOf("PUT api/orders/{id}");
