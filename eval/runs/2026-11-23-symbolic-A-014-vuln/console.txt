@@ -1,0 +1,223 @@
+[scan] Loading solution (MSBuildWorkspace)…
+[scan] Stage 1: endpoints, policy, schema, DI, taint paths, rules…
+[scan] Done.
+wrote /home/user/Final_Year_Project/eval/runs/2026-11-23-symbolic-A-014-vuln/report.json
+BolaLens 0.1.0 · mode symbolic · /home/user/datasets/A-014-vuln/IoTSharp.slnx
+╭───────────────────────────────────────────────────────────────┬────────────┬────────────┬────────┬──────────╮
+│ Endpoint                                                      │ Final      │ Symbolic   │ Rules  │ Semantic │
+├───────────────────────────────────────────────────────────────┼────────────┼────────────┼────────┼──────────┤
+│ POST api/account/login                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/account/postaccount                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/account/get                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/account/lock                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/account/modify                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/account/modifymyinfo                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/alarm/occurred                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/alarm/list                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/alarm/ackalarm                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/alarm/clearalarm                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/asset/get                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/asset/update                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/asset/delete                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/asset/adddevice                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/asset/removedevice                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/asset/removeassetraletions                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/asset/editrelation                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/authorizedkeys/{id}                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/authorizedkeys/{id}                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/authorizedkeys/{id}                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/collectiontask/validatedraft                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/collectiontask/preview                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/customers/tenant/{tenantid}/all                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/customers/tenant                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/customers/{customerid}/ai                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/customers/{customerid}/ai                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/customers/{id}                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/customers/{id}                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/customers                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/customers/{id}                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/devicemodel/get                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/devicemodel/update                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/devicemodel/save                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/devicemodel/delete                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/devicemodel/getcommandsbydevice                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/devicemodel/getcommands                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/devicemodel/getcommand                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/devicemodel/savecommand                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/devicemodel/updatecommand                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/devicemodel/deletecommand                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/devices/devices/customers/all                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/devices/{deviceid}/identity                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/devices/{deviceid}/createx509identity                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/devices/{deviceid}/downloadcertificates               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/devices/{deviceid}/attributelatest                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/devices/attributelatestbykeynameanddeviceid          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/devices/{deviceid}/attributelatest/{keys}             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/devices/{deviceid}/telemetrylatest                    │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET api/devices/{deviceid}/telemetrylatest/{keys}             │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET api/devices/{deviceid}/telemetrylatest/{keys}/{begin}     │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET api/devices/{deviceid}/telemetrydata/{keys}/{begin}/{end} │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST api/devices/{deviceid}/telemetrydata                     │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET api/devices/{id}                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/devices/{id}                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/devices/produce/{id}                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/devices                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/devices/{id}                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/devices/{access_token}/rpc/{method}                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/devices/{access_token}/telemetry                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/devices/{access_token}/attributes/{dataside}          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/devices/{access_token}/attributes                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/devices/{access_token}/alarm                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/devices/{access_token}/pushdatatomap/{format}        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/devices/{access_token}/pushdatatorulechains/{fromat} │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/devices/{access_token}/addattribute                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/devices/{devid}/editattribute                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/devices/removeattribute                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/dictionary/index                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/dictionary/get                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/dictionary/save                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/dictionary/update                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/dictionary/setstatus                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/dictionary/delete                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/dictionarygroup/get                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/dictionarygroup/setstatus                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/dictionarygroup/save                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/dictionarygroup/update                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/dictionarygroup/delete                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/dynamicforminfo/get                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/dynamicforminfo/getfields                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/dynamicforminfo/save                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/dynamicforminfo/update                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/dynamicforminfo/delete                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/dynamicforminfo/setstatus                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/dynamicforminfo/saveparams                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/dynamicforminfo/getparams                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/dynamicforminfo/getformfieldvalue                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/edge/{id}                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/edge/{access_token}/register                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/edge/{access_token}/heartbeat                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/edge/{access_token}/capabilities                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/edge/{id}/collectionconfig                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/edge/{id}/collectionconfig                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/edge/{access_token}/collectionconfig                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/edgetask/dispatch                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/edgetask/receipt                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/edgetask/receipt/{deviceid}                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/edgetask/history/{deviceid}                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/edgetask/dispatch/{accesstoken}                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/edgetask/dispatch/{accesstoken}/accept               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/produces/get                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/produces/save                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/produces/update                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/produces/getproducedata                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/produces/editproducedata                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/produces/getproducedictionary                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/produces/editproducedictionary                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/produces/getdatamappings                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/produces/savedatamappings                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/produces/{produce_token}/telemetry                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/produces/{produce_token}/attributes/{dataside}        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/produces/{produce_token}/attributes                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/rules/updateflowexpression                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/rules/save                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/rules/update                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/rules/delete                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/rules/get                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/rules/fork                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/rules/deletedevicerules                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/rules/getdevicerules                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/rules/getflows                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/rules/savediagramv                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/rules/getdiagramv                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/rules/getdiagram                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/rules/flowevents                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/rules/getflowoperations                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/rules/getexecutor                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/rules/deleteexecutor                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/rules/updateexecutor                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/rules/addexecutor                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/rules/testtask                                       │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST api/rules/rulecondition/rulecondition                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/subscriptionevent/get                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/subscriptionevent/update                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/subscriptionevent/save                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/subscriptionevent/delete                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/tenants/{id}                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT api/tenants/{id}                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/tenants                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/tenants/{id}                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/tenants/{id}/ai                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/tenants/{id}/ai                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+╰───────────────────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
+projects 31 (with errors 31) · endpoints 199 (with ids 142) · paths 163 (truncated 0) · unresolved calls 31
+symbolic: 0 vulnerable · 0 protected · 12 unknown · 151 out of scope
+time 61.4s · peak memory 854 MB
+
+Unknown GET api/devices/{deviceid}/telemetrylatest via 'deviceId' (956b2aef686b)
+  No state change found, but 'deviceId' entered unresolved code: ambiguous dispatch: 6 implementations of 
+IoTSharp.Storage.IStorage.GetTelemetryLatest(System.Guid) (EFStorage, InfluxDBStorage, IoTDBStorage, ShardingStorage, SonnetDBStorage, TaosStorage).
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/devices/{deviceid}/telemetrylatest/{keys} via 'deviceId' (3b76d776d938)
+  No state change found, but 'deviceId' entered unresolved code: ambiguous dispatch: 6 implementations of 
+IoTSharp.Storage.IStorage.GetTelemetryLatest(System.Guid, string) (EFStorage, InfluxDBStorage, IoTDBStorage, ShardingStorage, SonnetDBStorage, TaosStorage).
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/devices/{deviceid}/telemetrylatest/{keys} via 'keys' (7ff40c39f8d1)
+  No state change found, but 'keys' entered unresolved code: ambiguous dispatch: 6 implementations of IoTSharp.Storage.IStorage.GetTelemetryLatest(System.Guid, 
+string) (EFStorage, InfluxDBStorage, IoTDBStorage, ShardingStorage, SonnetDBStorage, TaosStorage).
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/devices/{deviceid}/telemetrylatest/{keys}/{begin} via 'deviceId' (2976fb89837c)
+  No state change found, but 'deviceId' entered unresolved code: ambiguous dispatch: 6 implementations of 
+IoTSharp.Storage.IStorage.LoadTelemetryAsync(System.Guid, string, System.DateTime, System.DateTime, System.TimeSpan, IoTSharp.Contracts.Aggregate) (EFStorage, 
+InfluxDBStorage, IoTDBStorage, ShardingStorage, SonnetDBStorage, TaosStorage).
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/devices/{deviceid}/telemetrylatest/{keys}/{begin} via 'keys' (80676679814d)
+  No state change found, but 'keys' entered unresolved code: ambiguous dispatch: 6 implementations of IoTSharp.Storage.IStorage.LoadTelemetryAsync(System.Guid, 
+string, System.DateTime, System.DateTime, System.TimeSpan, IoTSharp.Contracts.Aggregate) (EFStorage, InfluxDBStorage, IoTDBStorage, ShardingStorage, 
+SonnetDBStorage, TaosStorage).
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/devices/{deviceid}/telemetrylatest/{keys}/{begin} via 'begin' (097f7cbb64b2)
+  No state change found, but 'begin' entered unresolved code: ambiguous dispatch: 6 implementations of IoTSharp.Storage.IStorage.LoadTelemetryAsync(System.Guid,
+string, System.DateTime, System.DateTime, System.TimeSpan, IoTSharp.Contracts.Aggregate) (EFStorage, InfluxDBStorage, IoTDBStorage, ShardingStorage, 
+SonnetDBStorage, TaosStorage).
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/devices/{deviceid}/telemetrydata/{keys}/{begin}/{end} via 'deviceId' (d5b2ffc6eb04)
+  No state change found, but 'deviceId' entered unresolved code: ambiguous dispatch: 6 implementations of 
+IoTSharp.Storage.IStorage.LoadTelemetryAsync(System.Guid, string, System.DateTime, System.DateTime, System.TimeSpan, IoTSharp.Contracts.Aggregate) (EFStorage, 
+InfluxDBStorage, IoTDBStorage, ShardingStorage, SonnetDBStorage, TaosStorage).
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/devices/{deviceid}/telemetrydata/{keys}/{begin}/{end} via 'keys' (90ad48bbeaa9)
+  No state change found, but 'keys' entered unresolved code: ambiguous dispatch: 6 implementations of IoTSharp.Storage.IStorage.LoadTelemetryAsync(System.Guid, 
+string, System.DateTime, System.DateTime, System.TimeSpan, IoTSharp.Contracts.Aggregate) (EFStorage, InfluxDBStorage, IoTDBStorage, ShardingStorage, 
+SonnetDBStorage, TaosStorage).
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/devices/{deviceid}/telemetrydata/{keys}/{begin}/{end} via 'begin' (e0d309eb3fbd)
+  No state change found, but 'begin' entered unresolved code: ambiguous dispatch: 6 implementations of IoTSharp.Storage.IStorage.LoadTelemetryAsync(System.Guid,
+string, System.DateTime, System.DateTime, System.TimeSpan, IoTSharp.Contracts.Aggregate) (EFStorage, InfluxDBStorage, IoTDBStorage, ShardingStorage, 
+SonnetDBStorage, TaosStorage).
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/devices/{deviceid}/telemetrydata/{keys}/{begin}/{end} via 'end' (4ed8aed23b1c)
+  No state change found, but 'end' entered unresolved code: ambiguous dispatch: 6 implementations of IoTSharp.Storage.IStorage.LoadTelemetryAsync(System.Guid, 
+string, System.DateTime, System.DateTime, System.TimeSpan, IoTSharp.Contracts.Aggregate) (EFStorage, InfluxDBStorage, IoTDBStorage, ShardingStorage, 
+SonnetDBStorage, TaosStorage).
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/devices/{deviceid}/telemetrydata via 'deviceId' (a8e64d30b3a8)
+  No state change found, but 'deviceId' entered unresolved code: ambiguous dispatch: 6 implementations of 
+IoTSharp.Storage.IStorage.LoadTelemetryAsync(System.Guid, string, System.DateTime, System.DateTime, System.TimeSpan, IoTSharp.Contracts.Aggregate) (EFStorage, 
+InfluxDBStorage, IoTDBStorage, ShardingStorage, SonnetDBStorage, TaosStorage).
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/rules/testtask via 'm' (c525dfd3ecf3)
+  No state change found, but 'm' entered unresolved code: ambiguous dispatch: 9 implementations of 
+IoTSharp.TaskActions.TaskAction.ExecuteAsync(IoTSharp.TaskActions.TaskActionInput) (AlarmPullExcutor, CustomeAlarmPullExcutor, DeviceActionExcutor, 
+MessagePullExecutor, RangerCheckExcutor, TelemetryArrayPullExcutor, PublishAlarmDataTask, PublishAttributeDataTask, PublishTelemetryDataTask).
+  Symbolic only (semantic stage not run).

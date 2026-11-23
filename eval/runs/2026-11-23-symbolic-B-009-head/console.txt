@@ -1,0 +1,66 @@
+[scan] Loading solution (MSBuildWorkspace)…
+[scan] Stage 1: endpoints, policy, schema, DI, taint paths, rules…
+[scan] Done.
+wrote /home/user/Final_Year_Project/eval/runs/2026-11-23-symbolic-B-009-head/report.json
+BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-009-head/eShopOnWeb.sln
+╭──────────────────────────────────────────┬────────────┬────────────┬────────┬──────────╮
+│ Endpoint                                 │ Final      │ Symbolic   │ Rules  │ Semantic │
+├──────────────────────────────────────────┼────────────┼────────────┼────────┼──────────┤
+│ GET api/catalog-items/{catalogitemid}    │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET api/catalog-items                    │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST api/catalog-items                   │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ DELETE api/catalog-items/{catalogitemid} │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ PUT api/catalog-items                    │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST manage/removelogin                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST manage/enableauthenticator          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET order/detail/{orderid}               │ Unknown    │ Unknown    │ SYM-02 │ —        │
+╰──────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
+projects 10 (with errors 1) · endpoints 33 (with ids 8) · paths 9 (truncated 0) · unresolved calls 9
+symbolic: 0 vulnerable · 0 protected · 7 unknown · 2 out of scope
+time 25.2s · peak memory 407 MB
+
+Unknown GET api/catalog-items/{catalogitemid} via 'catalogItemId' (7f4ea451730b)
+  No state change found, but 'catalogItemId' entered unresolved code: external dispatch: 
+Ardalis.Specification.IReadRepositoryBase<Microsoft.eShopWeb.ApplicationCore.Entities.CatalogItem>.GetByIdAsync<int>(int, System.Threading.CancellationToken) 
+receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/catalog-items via 'catalogBrandId' (be34788afe76)
+  No state change found, but 'catalogBrandId' entered unresolved code: external dispatch: 
+Ardalis.Specification.IReadRepositoryBase<Microsoft.eShopWeb.ApplicationCore.Entities.CatalogItem>.CountAsync(Ardalis.Specification.ISpecification<Microsoft.eSh
+opWeb.ApplicationCore.Entities.CatalogItem>, System.Threading.CancellationToken) receives the tracked id; external dispatch: 
+Ardalis.Specification.IReadRepositoryBase<Microsoft.eShopWeb.ApplicationCore.Entities.CatalogItem>.ListAsync(Ardalis.Specification.ISpecification<Microsoft.eSho
+pWeb.ApplicationCore.Entities.CatalogItem>, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown GET api/catalog-items via 'catalogTypeId' (6b60e15483ef)
+  No state change found, but 'catalogTypeId' entered unresolved code: external dispatch: 
+Ardalis.Specification.IReadRepositoryBase<Microsoft.eShopWeb.ApplicationCore.Entities.CatalogItem>.CountAsync(Ardalis.Specification.ISpecification<Microsoft.eSh
+opWeb.ApplicationCore.Entities.CatalogItem>, System.Threading.CancellationToken) receives the tracked id; external dispatch: 
+Ardalis.Specification.IReadRepositoryBase<Microsoft.eShopWeb.ApplicationCore.Entities.CatalogItem>.ListAsync(Ardalis.Specification.ISpecification<Microsoft.eSho
+pWeb.ApplicationCore.Entities.CatalogItem>, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST api/catalog-items via 'request' (7a2ae0d006b3)
+  No state change found, but 'request' entered unresolved code: external dispatch: 
+Ardalis.Specification.IRepositoryBase<Microsoft.eShopWeb.ApplicationCore.Entities.CatalogItem>.AddAsync(Microsoft.eShopWeb.ApplicationCore.Entities.CatalogItem,
+System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE api/catalog-items/{catalogitemid} via 'catalogItemId' (49501ef4fca5)
+  No state change found, but 'catalogItemId' entered unresolved code: external dispatch: 
+Ardalis.Specification.IReadRepositoryBase<Microsoft.eShopWeb.ApplicationCore.Entities.CatalogItem>.GetByIdAsync<int>(int, System.Threading.CancellationToken) 
+receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT api/catalog-items via 'request' (0d2edf0bed52)
+  No state change found, but 'request' entered unresolved code: external dispatch: 
+Ardalis.Specification.IReadRepositoryBase<Microsoft.eShopWeb.ApplicationCore.Entities.CatalogItem>.GetByIdAsync<int>(int, System.Threading.CancellationToken) 
+receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown GET order/detail/{orderid} via 'orderId' (4e93266b8e06)
+  No state change found, but 'orderId' entered unresolved code: external dispatch: 
+Ardalis.Specification.IReadRepositoryBase<Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate.Order>.FirstOrDefaultAsync(Ardalis.Specification.ISpecifica
+tion<Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate.Order>, System.Threading.CancellationToken) receives the tracked id.
+  Symbolic only (semantic stage not run).

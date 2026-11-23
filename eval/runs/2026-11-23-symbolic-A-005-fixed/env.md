@@ -1,0 +1,10 @@
+# Run environment — A-005 / fixed (symbolic)
+
+* Target: https://github.com/Kareadita/Kavita.git @ `289bc39b3e08f26cc14b8a8fd67b815ad9aaa15f` — `Kavita.sln`
+* global.json: unchanged
+* Config: defaults (bolalens.json)
+* Machine: Linux x86_64, 4 logical cores; .NET SDKs: 8.0.134,10.0.115
+* BolaLens commit: `e4e02b4`
+* Wall time (incl. load): 105 s · peak working set: 2076 MB
+* Labels: `eval/labels/drafts/A-005-fixed.labels.json`
+* Recorded by `scripts/run-case.sh` on 2026-11-23T07:41:58Z.

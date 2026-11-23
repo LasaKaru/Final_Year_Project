@@ -1,0 +1,1188 @@
+[scan] Loading solution (MSBuildWorkspace)…
+[scan] Stage 1: endpoints, policy, schema, DI, taint paths, rules…
+[scan] Done.
+wrote /home/user/Final_Year_Project/eval/runs/2026-11-23-symbolic-B-006-head/report.json
+BolaLens 0.1.0 · mode symbolic · /home/user/datasets/B-006-head/src/Ombi.sln
+╭─────────────────────────────────────────────────────────────────────────────────────────┬────────────┬────────────┬────────┬──────────╮
+│ Endpoint                                                                                │ Final      │ Symbolic   │ Rules  │ Semantic │
+├─────────────────────────────────────────────────────────────────────────────────────────┼────────────┼────────────┼────────┼──────────┤
+│ POST                                                                                    │ Vulnerable │ Vulnerable │ SYM-07 │ —        │
+│ POST info                                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST library                                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST profiles                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST rootfolders                                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST metadata                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST libraries                                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET libraries/{machineid}                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST oauth                                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST tags                                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST v3/languageprofiles                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST discord                                                                            │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST pushbullet                                                                         │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST pushover                                                                           │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST gotify                                                                             │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST ntfy                                                                               │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST webhook                                                                            │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST mattermost                                                                         │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST slack                                                                              │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST email                                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST plex                                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST emby                                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST jellyfin                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST radarr                                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST sonarr                                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST couchpotato                                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST telegram                                                                           │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST sickrage                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST newsletter                                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST mobile                                                                             │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST lidarr                                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET user/{id}                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT local                                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ PUT                                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE {userid}                                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST welcomeemail                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET accesstoken/{userid}                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET notificationpreferences/{userid}                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST notificationpreferences                                                            │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ GET newsletter/unsubscribe/{userid}                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET tv/{tvdbid}                                                                         │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET poster/movie/{moviedbid}                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET poster/tv/{tvdbid}                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET poster/tv/tmdb/{tmdbid}                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET background/movie/{moviedbid}                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET banner/movie/{moviedbid}                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET background/tv/{tvdbid}                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET background/tv/tmdb/{id}                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST categories                                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE categories/{catid}                                                               │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET {take}/{skip}/{status}                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET {id}                                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET request/{id}                                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET provider/{id}                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET {id}/comments                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST comments                                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE comments/{id}                                                                    │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ DELETE {id}                                                                             │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST status                                                                             │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST notification                                                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/v1/request/music/{count}/{position}/{ordertype}/{statustype}/{availabilitytype} │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST api/v1/request/music                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET api/v1/request/music/search/{searchterm}                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE api/v1/request/music/{requestid}                                                 │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/v1/request/music/approve                                                       │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/v1/request/music/available                                                     │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST api/v1/request/music/unavailable                                                   │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ PUT api/v1/request/music/deny                                                           │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ GET {pinid}                                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET movie/{count}/{position}/{ordertype}/{statustype}/{availabilitytype}                │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET movie/info/{requestid}                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST movie                                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET movie/search/{searchterm}                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE movie/{requestid}                                                                │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ PUT movie                                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST movie/approve                                                                      │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST movie/available                                                                    │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST movie/unavailable                                                                  │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ PUT movie/deny                                                                          │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ GET tv/{count}/{position}/{ordertype}/{statusfiltertype}/{availabilityfiltertype}       │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET tvlite/{count}/{position}/{ordertype}/{statusfiltertype}/{availabilityfiltertype}   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET tv/{requestid}                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST tv                                                                                 │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET tv/search/{searchterm}                                                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ DELETE tv/{requestid}                                                                   │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ PUT tv                                                                                  │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ PUT tv/root/{requestid}/{rootfolderid}                                                  │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ PUT tv/quality/{requestid}/{qualityid}                                                  │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ PUT tv/child                                                                            │ Vulnerable │ Vulnerable │ SYM-07 │ —        │
+│ PUT tv/deny                                                                             │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST tv/available                                                                       │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST tv/unavailable                                                                     │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST tv/approve                                                                         │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ DELETE tv/child/{requestid}                                                             │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ GET tv/{requestid}/child                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET userhasrequest                                                                      │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST movie/subscribe/{requestid}                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST tv/subscribe/{requestid}                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST movie/unsubscribe/{requestid}                                                      │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST tv/unsubscribe/{requestid}                                                         │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ DELETE {queueid}                                                                        │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET movie/{searchterm}                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET movie/info/{themoviedbid}                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST movie/info                                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST movie/similar                                                                      │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET movie/{themoviedbid}/similar                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET tv/{searchterm}                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET tv/info/{tvdbid}                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET music/artist/{searchterm}                                                           │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET music/album/{searchterm}                                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET music/album/info/{foreignalbumid}                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET music/artist/album/{foreignartistid}                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST ombi                                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST landingpage                                                                        │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST customization                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST authentication                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST update                                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST usermanagement                                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST dognzb                                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST jobs                                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST issues                                                                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST vote                                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST themoviedb                                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST notifications/email                                                                │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST notifications/discord                                                              │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST notifications/telegram                                                             │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST notifications/pushbullet                                                           │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST notifications/pushover                                                             │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST notifications/slack                                                                │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST notifications/mattermost                                                           │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST notifications/twilio                                                               │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST notifications/mobile                                                               │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST notifications/gotify                                                               │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST notifications/ntfy                                                                 │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST notifications/webhook                                                              │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST notifications/newsletter                                                           │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST requirepassword                                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST up/movie/{requestid}                                                               │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST up/tv/{requestid}                                                                  │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST up/album/{requestid}                                                               │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST down/movie/{requestid}                                                             │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST down/tv/{requestid}                                                                │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST down/album/{requestid}                                                             │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ GET movie/{requestid}                                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET music/{requestid}                                                                   │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET keywords/{keywordid}                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET {position}/{take}/{status}                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET details/{providerid}                                                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST send                                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET movie/{count}/{position}/{sort}/{sortorder}                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET movie/availble/{count}/{position}/{sort}/{sortorder}                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET movie/available/{count}/{position}/{sort}/{sortorder}                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET movie/processing/{count}/{position}/{sort}/{sortorder}                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET movie/pending/{count}/{position}/{sort}/{sortorder}                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET movie/denied/{count}/{position}/{sort}/{sortorder}                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET movie/unavailable/{count}/{position}/{sort}/{sortorder}                             │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET tv/{count}/{position}/{sort}/{sortorder}                                            │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET tv/pending/{count}/{position}/{sort}/{sortorder}                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET tv/processing/{count}/{position}/{sort}/{sortorder}                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET tv/available/{count}/{position}/{sort}/{sortorder}                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET tv/denied/{count}/{position}/{sort}/{sortorder}                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET tv/unavailable/{count}/{position}/{sort}/{sortorder}                                │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST movie/advancedoptions                                                              │ Vulnerable │ Vulnerable │ SYM-08 │ —        │
+│ POST tv/advancedoptions                                                                 │ Unknown    │ Unknown    │ SYM-09 │ —        │
+│ GET album/available/{count}/{position}/{sort}/{sortorder}                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET album/processing/{count}/{position}/{sort}/{sortorder}                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET album/pending/{count}/{position}/{sort}/{sortorder}                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET album/denied/{count}/{position}/{sort}/{sortorder}                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET album/{count}/{position}/{sort}/{sortorder}                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST reprocess/{type}/{requestid}/{is4k}                                                │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST movie/collection/{collectionid}                                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ POST multi/{searchterm}                                                                 │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET genres/{media}                                                                      │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET movie/{moviedbid}                                                                   │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET movie/imdb/{imdbid}                                                                 │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET movie/request/{requestid}                                                           │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET movie/collection/{collectionid}                                                     │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET tv/request/{requestid}                                                              │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET tv/moviedb/{moviedbid}                                                              │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET movie/popular/{currentposition}/{amounttoload}                                      │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ POST advancedsearch/movie/{currentposition}/{amounttoload}                              │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET movie/seasonal/{currentposition}/{amounttoload}                                     │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET movie/requested/{currentposition}/{amounttoload}                                    │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET tv/requested/{currentposition}/{amounttoload}                                       │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET movie/nowplaying/{currentposition}/{amounttoload}                                   │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET movie/toprated/{currentposition}/{amounttoload}                                     │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET movie/upcoming/{currentposition}/{amounttoload}                                     │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET tv/popular/{currentposition}/{amounttoload}                                         │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET tv/anticipated/{currentposition}/{amounttoload}                                     │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET tv/mostwatched/{currentposition}/{amounttoload}                                     │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET tv/trending/{currentposition}/{amounttoload}                                        │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET actor/{actorid}/movie                                                               │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET actor/{actorid}/tv                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET artist/{artistid}                                                                   │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET artist/request/{requestid}                                                          │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET artist/album/{albumid}                                                              │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET releasegroupart/{musicbrainzid}                                                     │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET ratings/movie/{name}/{year}                                                         │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET ratings/tv/{name}/{year}                                                            │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET stream/movie/{moviedbid}                                                            │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET stream/tv/{moviedbid}                                                               │ Unknown    │ Unknown    │ SYM-02 │ —        │
+│ GET logs/{logfilename}                                                                  │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+│ GET logs/download/{logfilename}                                                         │ OutOfScope │ OutOfScope │ SYM-01 │ —        │
+╰─────────────────────────────────────────────────────────────────────────────────────────┴────────────┴────────────┴────────┴──────────╯
+projects 23 (with errors 0) · endpoints 395 (with ids 230) · paths 319 (truncated 6) · unresolved calls 2183
+symbolic: 26 vulnerable · 0 protected · 81 unknown · 212 out of scope
+time 49.3s · peak memory 1025 MB
+
+Unknown POST discord via 'settings' (8ef4a4f04f6f)
+  No state change found, but 'settings' entered unresolved code: ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.ValidateConfiguration(T) (DiscordNotification, EmailNotification, GotifyNotification, LegacyMobileNotification, 
+MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, TelegramNotification, 
+WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification,
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewIssue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AvailableRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestApproved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.Test(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeclined(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AddedToRequestQueue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueResolved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueComment(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.PartiallyAvailable(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification); ambiguous 
+dispatch: 2 implementations of Ombi.Notifications.BaseNotification<T>.IssueInProgress(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, 
+WebhookNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification).
+  Symbolic only (semantic stage not run).
+
+Unknown POST pushbullet via 'settings' (79a32f7bc31a)
+  No state change found, but 'settings' entered unresolved code: ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.ValidateConfiguration(T) (DiscordNotification, EmailNotification, GotifyNotification, LegacyMobileNotification, 
+MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, TelegramNotification, 
+WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification,
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewIssue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AvailableRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestApproved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.Test(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeclined(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AddedToRequestQueue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueResolved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueComment(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.PartiallyAvailable(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification); ambiguous 
+dispatch: 2 implementations of Ombi.Notifications.BaseNotification<T>.IssueInProgress(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, 
+WebhookNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification).
+  Symbolic only (semantic stage not run).
+
+Unknown POST pushover via 'settings' (f4700ccc5054)
+  No state change found, but 'settings' entered unresolved code: ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.ValidateConfiguration(T) (DiscordNotification, EmailNotification, GotifyNotification, LegacyMobileNotification, 
+MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, TelegramNotification, 
+WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification,
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewIssue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AvailableRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestApproved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.Test(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeclined(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AddedToRequestQueue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueResolved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueComment(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.PartiallyAvailable(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification); ambiguous 
+dispatch: 2 implementations of Ombi.Notifications.BaseNotification<T>.IssueInProgress(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, 
+WebhookNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification).
+  Symbolic only (semantic stage not run).
+
+Unknown POST gotify via 'settings' (7bc20abcb6b5)
+  No state change found, but 'settings' entered unresolved code: ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.ValidateConfiguration(T) (DiscordNotification, EmailNotification, GotifyNotification, LegacyMobileNotification, 
+MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, TelegramNotification, 
+WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification,
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewIssue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AvailableRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestApproved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.Test(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeclined(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AddedToRequestQueue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueResolved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueComment(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.PartiallyAvailable(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification); ambiguous 
+dispatch: 2 implementations of Ombi.Notifications.BaseNotification<T>.IssueInProgress(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, 
+WebhookNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification).
+  Symbolic only (semantic stage not run).
+
+Unknown POST ntfy via 'settings' (5ac96b94966a)
+  No state change found, but 'settings' entered unresolved code: ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.ValidateConfiguration(T) (DiscordNotification, EmailNotification, GotifyNotification, LegacyMobileNotification, 
+MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, TelegramNotification, 
+WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification,
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewIssue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AvailableRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestApproved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.Test(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeclined(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AddedToRequestQueue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueResolved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueComment(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.PartiallyAvailable(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification); ambiguous 
+dispatch: 2 implementations of Ombi.Notifications.BaseNotification<T>.IssueInProgress(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, 
+WebhookNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification).
+  Symbolic only (semantic stage not run).
+
+Unknown POST webhook via 'settings' (a89d0f99ef0a)
+  No state change found, but 'settings' entered unresolved code: ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.ValidateConfiguration(T) (DiscordNotification, EmailNotification, GotifyNotification, LegacyMobileNotification, 
+MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, TelegramNotification, 
+WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification,
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewIssue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AvailableRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestApproved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.Test(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeclined(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AddedToRequestQueue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueResolved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueComment(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.PartiallyAvailable(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification); ambiguous 
+dispatch: 2 implementations of Ombi.Notifications.BaseNotification<T>.IssueInProgress(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, 
+WebhookNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification).
+  Symbolic only (semantic stage not run).
+
+Unknown POST mattermost via 'settings' (6a2ed59a06ba)
+  No state change found, but 'settings' entered unresolved code: ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.ValidateConfiguration(T) (DiscordNotification, EmailNotification, GotifyNotification, LegacyMobileNotification, 
+MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, TelegramNotification, 
+WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification,
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewIssue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AvailableRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestApproved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.Test(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeclined(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AddedToRequestQueue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueResolved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueComment(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.PartiallyAvailable(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification); ambiguous 
+dispatch: 2 implementations of Ombi.Notifications.BaseNotification<T>.IssueInProgress(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, 
+WebhookNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification).
+  Symbolic only (semantic stage not run).
+
+Unknown POST slack via 'settings' (24a7496b1606)
+  No state change found, but 'settings' entered unresolved code: ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.ValidateConfiguration(T) (DiscordNotification, EmailNotification, GotifyNotification, LegacyMobileNotification, 
+MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, TelegramNotification, 
+WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification,
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewIssue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AvailableRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestApproved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.Test(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeclined(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AddedToRequestQueue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueResolved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueComment(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.PartiallyAvailable(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification); ambiguous 
+dispatch: 2 implementations of Ombi.Notifications.BaseNotification<T>.IssueInProgress(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, 
+WebhookNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification).
+  Symbolic only (semantic stage not run).
+
+Unknown POST telegram via 'settings' (d01e3e23b744)
+  No state change found, but 'settings' entered unresolved code: ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.ValidateConfiguration(T) (DiscordNotification, EmailNotification, GotifyNotification, LegacyMobileNotification, 
+MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, TelegramNotification, 
+WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification,
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewIssue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AvailableRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestApproved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.Test(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeclined(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AddedToRequestQueue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueResolved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueComment(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.PartiallyAvailable(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification); ambiguous 
+dispatch: 2 implementations of Ombi.Notifications.BaseNotification<T>.IssueInProgress(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, 
+WebhookNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification).
+  Symbolic only (semantic stage not run).
+
+Unknown POST mobile via 'settings' (52535085b79f)
+  No state change found, but 'settings' entered unresolved code: ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.ValidateConfiguration(T) (DiscordNotification, EmailNotification, GotifyNotification, LegacyMobileNotification, 
+MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, TelegramNotification, 
+WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification,
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.NewIssue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AvailableRequest(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestApproved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.Test(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, GotifyNotification, 
+LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, SlackNotification, 
+TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeclined(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.AddedToRequestQueue(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueResolved(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueComment(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 13 implementations of 
+Ombi.Notifications.BaseNotification<T>.PartiallyAvailable(Ombi.Notifications.Models.NotificationOptions, T) (DiscordNotification, EmailNotification, 
+GotifyNotification, LegacyMobileNotification, MattermostNotification, MobileNotification, NtfyNotification, PushbulletNotification, PushoverNotification, 
+SlackNotification, TelegramNotification, WebhookNotification, WhatsAppNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.RequestDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification); ambiguous 
+dispatch: 2 implementations of Ombi.Notifications.BaseNotification<T>.IssueInProgress(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, 
+WebhookNotification); ambiguous dispatch: 2 implementations of 
+Ombi.Notifications.BaseNotification<T>.IssueDeleted(Ombi.Notifications.Models.NotificationOptions, T) (BaseNotification, WebhookNotification).
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST notificationpreferences via 'preferences' (ff43198491a6)
+  SaveChanges on UserNotificationPreferences at Ombi.Store/Repository/BaseRepository.cs:97: UserNotificationPreferences (owners: UserId (User)) is selected by 
+client-controlled 'preferences' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE categories/{catid} via 'catId' (f5b405e3eae6)
+  Remove on IssueCategory at Ombi.Store/Repository/BaseRepository.cs:66: IssueCategory has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST  via 'i' (bd83e136cb7f)
+  SaveChanges on Issues at Ombi.Store/Repository/BaseRepository.cs:97: detached Issues built from the client-controlled key is written without loading or 
+checking ownership.
+  Symbolic only (semantic stage not run).
+
+Vulnerable DELETE comments/{id} via 'id' (4d06771c7db9)
+  Remove on IssueComments at Ombi.Store/Repository/BaseRepository.cs:66: IssueComments (owners: UserId (User)) is selected by client-controlled 'id' and changed
+with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable DELETE {id} via 'id' (510406e776d8)
+  Remove on IssueComments at Ombi.Store/Repository/BaseRepository.cs:72: IssueComments (owners: UserId (User)) is selected by client-controlled 'id' and changed
+with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST status via 'model' (21b31ea8fc1e)
+  SaveChanges on Issues at Ombi.Store/Repository/BaseRepository.cs:97: Issues (owners: UserReportedId (User)) is selected by client-controlled 'model' and 
+changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable DELETE api/v1/request/music/{requestid} via 'requestId' (ce1db7b89258)
+  Remove on AlbumRequest at Ombi.Store/Repository/BaseRepository.cs:66: AlbumRequest (owners: RequestedUserId (User)) is selected by client-controlled 
+'requestId' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/v1/request/music/approve via 'model' (90a3bade798b)
+  Attach on AlbumRequest at Ombi.Store/Repository/Requests/MusicRequestRepository.cs:62: AlbumRequest (owners: RequestedUserId (User)) is selected by 
+client-controlled 'model' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/v1/request/music/available via 'model' (7f3b73dfd1db)
+  Attach on AlbumRequest at Ombi.Store/Repository/Requests/MusicRequestRepository.cs:62: AlbumRequest (owners: RequestedUserId (User)) is selected by 
+client-controlled 'model' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST api/v1/request/music/unavailable via 'model' (44358215f3fe)
+  Attach on AlbumRequest at Ombi.Store/Repository/Requests/MusicRequestRepository.cs:62: AlbumRequest (owners: RequestedUserId (User)) is selected by 
+client-controlled 'model' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable PUT api/v1/request/music/deny via 'model' (a2583f64cf82)
+  Attach on AlbumRequest at Ombi.Store/Repository/Requests/MusicRequestRepository.cs:62: AlbumRequest (owners: RequestedUserId (User)) is selected by 
+client-controlled 'model' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/{count}/{position}/{ordertype}/{statustype}/{availabilitytype} via 'count' (bf82c2c17cab)
+  No state change found, but 'count' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.MovieRequests>.GetRequests(int, int, Ombi.Core.Models.UI.OrderFilterModel) 
+(MovieRequestEngine, TvRequestEngine).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/{count}/{position}/{ordertype}/{statustype}/{availabilitytype} via 'position' (7790d28c89b0)
+  No state change found, but 'position' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.MovieRequests>.GetRequests(int, int, Ombi.Core.Models.UI.OrderFilterModel) 
+(MovieRequestEngine, TvRequestEngine).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/{count}/{position}/{ordertype}/{statustype}/{availabilitytype} via 'orderType' (3dc8d8abaac8)
+  No state change found, but 'orderType' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.MovieRequests>.GetRequests(int, int, Ombi.Core.Models.UI.OrderFilterModel) 
+(MovieRequestEngine, TvRequestEngine).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/{count}/{position}/{ordertype}/{statustype}/{availabilitytype} via 'statusType' (65d2719b5aab)
+  No state change found, but 'statusType' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.MovieRequests>.GetRequests(int, int, Ombi.Core.Models.UI.OrderFilterModel) 
+(MovieRequestEngine, TvRequestEngine).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/{count}/{position}/{ordertype}/{statustype}/{availabilitytype} via 'availabilityType' (6c194d084778)
+  No state change found, but 'availabilityType' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.MovieRequests>.GetRequests(int, int, Ombi.Core.Models.UI.OrderFilterModel) 
+(MovieRequestEngine, TvRequestEngine).
+  Symbolic only (semantic stage not run).
+
+Vulnerable DELETE movie/{requestid} via 'requestId' (9e16c8893ded)
+  Remove on MovieRequests at Ombi.Store/Repository/BaseRepository.cs:66: MovieRequests (owners: RequestedUserId (User)) is selected by client-controlled 
+'requestId' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST movie/approve via 'model' (c63675fc2b21)
+  Attach on MovieRequests at Ombi.Store/Repository/Requests/MovieRequestRepository.cs:79: MovieRequests (owners: RequestedUserId (User)) is selected by 
+client-controlled 'model' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Unknown POST movie/available via 'model' (bc80a3564d9b)
+  No state change found, but 'model' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.MovieRequests>.MarkAvailable(int, bool) (MovieRequestEngine, TvRequestEngine).
+  Symbolic only (semantic stage not run).
+
+Unknown POST movie/unavailable via 'model' (c829b5ee6c9d)
+  No state change found, but 'model' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.MovieRequests>.MarkUnavailable(int, bool) (MovieRequestEngine, TvRequestEngine).
+  Symbolic only (semantic stage not run).
+
+Vulnerable PUT movie/deny via 'model' (d5c5cb9f1350)
+  Attach on MovieRequests at Ombi.Store/Repository/Requests/MovieRequestRepository.cs:79: MovieRequests (owners: RequestedUserId (User)) is selected by 
+client-controlled 'model' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Unknown GET tv/{count}/{position}/{ordertype}/{statusfiltertype}/{availabilityfiltertype} via 'count' (b0074056fdd7)
+  No state change found, but 'count' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.TvRequests>.GetRequests(int, int, Ombi.Core.Models.UI.OrderFilterModel) 
+(MovieRequestEngine, TvRequestEngine).
+  Symbolic only (semantic stage not run).
+
+Unknown GET tv/{count}/{position}/{ordertype}/{statusfiltertype}/{availabilityfiltertype} via 'position' (cba77ce4e7f8)
+  No state change found, but 'position' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.TvRequests>.GetRequests(int, int, Ombi.Core.Models.UI.OrderFilterModel) 
+(MovieRequestEngine, TvRequestEngine).
+  Symbolic only (semantic stage not run).
+
+Unknown GET tv/{count}/{position}/{ordertype}/{statusfiltertype}/{availabilityfiltertype} via 'orderType' (56c23360f73c)
+  No state change found, but 'orderType' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.TvRequests>.GetRequests(int, int, Ombi.Core.Models.UI.OrderFilterModel) 
+(MovieRequestEngine, TvRequestEngine).
+  Symbolic only (semantic stage not run).
+
+Unknown POST tv via 'tv' (4f5f67581ba8)
+  Update on TvRequests at Ombi.Store/Repository/Requests/TvRequestRepository.cs:148: TvRequests has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE tv/{requestid} via 'requestId' (cfba0dde0d55)
+  Remove on TvRequests at Ombi.Store/Repository/BaseRepository.cs:66: TvRequests has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT tv via 'model' (e39e3daee63c)
+  Update on TvRequests at Ombi.Store/Repository/Requests/TvRequestRepository.cs:148: TvRequests has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT tv/root/{requestid}/{rootfolderid} via 'requestId' (8aab291f6770)
+  Update on TvRequests at Ombi.Store/Repository/Requests/TvRequestRepository.cs:148: TvRequests has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown PUT tv/quality/{requestid}/{qualityid} via 'requestId' (ee5d7cd16e8a)
+  Update on TvRequests at Ombi.Store/Repository/Requests/TvRequestRepository.cs:148: TvRequests has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Vulnerable PUT tv/child via 'child' (a4661f1a06c7)
+  Update on ChildRequests at Ombi.Store/Repository/Requests/TvRequestRepository.cs:155: detached ChildRequests built from the client-controlled key is written 
+without loading or checking ownership.
+  Symbolic only (semantic stage not run).
+
+Vulnerable PUT tv/deny via 'model' (524db91fcbb6)
+  Update on ChildRequests at Ombi.Store/Repository/Requests/TvRequestRepository.cs:155: ChildRequests (owners: RequestedUserId (User)) is selected by 
+client-controlled 'model' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Unknown POST tv/available via 'model' (2c9758ab6b08)
+  No state change found, but 'model' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.TvRequests>.MarkAvailable(int, bool) (MovieRequestEngine, TvRequestEngine).
+  Symbolic only (semantic stage not run).
+
+Unknown POST tv/unavailable via 'model' (3da469ff4c3e)
+  No state change found, but 'model' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.TvRequests>.MarkUnavailable(int, bool) (MovieRequestEngine, TvRequestEngine).
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST tv/approve via 'model' (752f8fc444b8)
+  Update on ChildRequests at Ombi.Store/Repository/Requests/TvRequestRepository.cs:155: ChildRequests (owners: RequestedUserId (User)) is selected by 
+client-controlled 'model' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable DELETE tv/child/{requestid} via 'requestId' (4a46d4643160)
+  Remove on ChildRequests at Ombi.Core/Engine/TvRequestEngine.cs:760: ChildRequests (owners: RequestedUserId (User)) is selected by client-controlled 
+'requestId' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Unknown GET userhasrequest via 'userId' (40ff7d27651e)
+  No state change found, but 'userId' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.MovieRequests>.UserHasRequest(string) (MovieRequestEngine, TvRequestEngine); ambiguous 
+dispatch: 2 implementations of Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.TvRequests>.UserHasRequest(string) (MovieRequestEngine, 
+TvRequestEngine).
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST movie/unsubscribe/{requestid} via 'requestId' (76db1c7b4bab)
+  Remove on RequestSubscription at Ombi.Store/Repository/BaseRepository.cs:66: RequestSubscription (owners: UserId (User)) is selected by client-controlled 
+'requestId' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST tv/unsubscribe/{requestid} via 'requestId' (cff67068c174)
+  Remove on RequestSubscription at Ombi.Store/Repository/BaseRepository.cs:66: RequestSubscription (owners: UserId (User)) is selected by client-controlled 
+'requestId' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Unknown DELETE {queueid} via 'queueId' (c352e4da96e2)
+  Remove on RequestQueue at Ombi.Store/Repository/BaseRepository.cs:66: RequestQueue has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST notifications/email via 'model' (ba21c6ab1240)
+  No state change found, but 'model' entered unresolved code: external dispatch: 
+AutoMapper.IMapperBase.Map<Ombi.Settings.Settings.Models.Notifications.EmailNotificationSettings>(object) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST notifications/discord via 'model' (63ad472db9fc)
+  No state change found, but 'model' entered unresolved code: external dispatch: 
+AutoMapper.IMapperBase.Map<Ombi.Settings.Settings.Models.Notifications.DiscordNotificationSettings>(object) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST notifications/telegram via 'model' (a30f5397e398)
+  No state change found, but 'model' entered unresolved code: external dispatch: 
+AutoMapper.IMapperBase.Map<Ombi.Settings.Settings.Models.Notifications.TelegramSettings>(object) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST notifications/pushbullet via 'model' (58b072c13305)
+  No state change found, but 'model' entered unresolved code: external dispatch: 
+AutoMapper.IMapperBase.Map<Ombi.Settings.Settings.Models.Notifications.PushbulletSettings>(object) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST notifications/pushover via 'model' (683a646c125f)
+  No state change found, but 'model' entered unresolved code: external dispatch: 
+AutoMapper.IMapperBase.Map<Ombi.Settings.Settings.Models.Notifications.PushoverSettings>(object) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST notifications/slack via 'model' (1c90392fad30)
+  No state change found, but 'model' entered unresolved code: external dispatch: 
+AutoMapper.IMapperBase.Map<Ombi.Settings.Settings.Models.Notifications.SlackNotificationSettings>(object) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST notifications/mattermost via 'model' (05de3d586bdf)
+  No state change found, but 'model' entered unresolved code: external dispatch: 
+AutoMapper.IMapperBase.Map<Ombi.Settings.Settings.Models.Notifications.MattermostNotificationSettings>(object) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST notifications/twilio via 'model' (eb5dd8f6a67c)
+  No state change found, but 'model' entered unresolved code: external dispatch: 
+AutoMapper.IMapperBase.Map<Ombi.Settings.Settings.Models.Notifications.TwilioSettings>(object) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST notifications/mobile via 'model' (15df2fd5adf4)
+  No state change found, but 'model' entered unresolved code: external dispatch: 
+AutoMapper.IMapperBase.Map<Ombi.Settings.Settings.Models.Notifications.MobileNotificationSettings>(object) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST notifications/gotify via 'model' (fa75901fd711)
+  No state change found, but 'model' entered unresolved code: external dispatch: 
+AutoMapper.IMapperBase.Map<Ombi.Settings.Settings.Models.Notifications.GotifySettings>(object) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST notifications/ntfy via 'model' (3195a1864105)
+  No state change found, but 'model' entered unresolved code: external dispatch: 
+AutoMapper.IMapperBase.Map<Ombi.Settings.Settings.Models.Notifications.NtfySettings>(object) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST notifications/webhook via 'model' (db69848bb855)
+  No state change found, but 'model' entered unresolved code: external dispatch: 
+AutoMapper.IMapperBase.Map<Ombi.Settings.Settings.Models.Notifications.WebhookSettings>(object) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Unknown POST notifications/newsletter via 'model' (14dfba263153)
+  No state change found, but 'model' entered unresolved code: external dispatch: 
+AutoMapper.IMapperBase.Map<Ombi.Settings.Settings.Models.Notifications.NewsletterSettings>(object) receives the tracked id.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST up/movie/{requestid} via 'requestId' (ea681756ca38)
+  Remove on Votes at Ombi.Store/Repository/BaseRepository.cs:66: Votes (owners: UserId (User)) is selected by client-controlled 'requestId' and changed with no 
+valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST up/tv/{requestid} via 'requestId' (7bcb7c4166d7)
+  Remove on Votes at Ombi.Store/Repository/BaseRepository.cs:66: Votes (owners: UserId (User)) is selected by client-controlled 'requestId' and changed with no 
+valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST up/album/{requestid} via 'requestId' (d19495e6c768)
+  Remove on Votes at Ombi.Store/Repository/BaseRepository.cs:66: Votes (owners: UserId (User)) is selected by client-controlled 'requestId' and changed with no 
+valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST down/movie/{requestid} via 'requestId' (71cc1f810558)
+  Remove on Votes at Ombi.Store/Repository/BaseRepository.cs:66: Votes (owners: UserId (User)) is selected by client-controlled 'requestId' and changed with no 
+valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST down/tv/{requestid} via 'requestId' (ed89e03976db)
+  Remove on Votes at Ombi.Store/Repository/BaseRepository.cs:66: Votes (owners: UserId (User)) is selected by client-controlled 'requestId' and changed with no 
+valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST down/album/{requestid} via 'requestId' (4fe97a186945)
+  Remove on Votes at Ombi.Store/Repository/BaseRepository.cs:66: Votes (owners: UserId (User)) is selected by client-controlled 'requestId' and changed with no 
+valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Vulnerable POST movie/advancedoptions via 'options' (4b6aac578003)
+  Attach on MovieRequests at Ombi.Store/Repository/Requests/MovieRequestRepository.cs:79: MovieRequests (owners: RequestedUserId (User)) is selected by 
+client-controlled 'options' and changed with no valid owner guard or applicable query filter.
+  Symbolic only (semantic stage not run).
+
+Unknown POST tv/advancedoptions via 'options' (aa27421cb150)
+  Update on TvRequests at Ombi.Store/Repository/Requests/TvRequestRepository.cs:148: TvRequests has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST tv via 'tv' (2f6407bb4ac3)
+  Update on TvRequests at Ombi.Store/Repository/Requests/TvRequestRepository.cs:148: TvRequests has no owner candidate, so ownership cannot be checked.
+  Symbolic only (semantic stage not run).
+
+Unknown POST reprocess/{type}/{requestid}/{is4k} via 'requestId' (b2399ce6921f)
+  No state change found, but 'requestId' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.TvRequests>.ReProcessRequest(int, bool, System.Threading.CancellationToken) 
+(MovieRequestEngine, TvRequestEngine); ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.MovieRequests>.ReProcessRequest(int, bool, System.Threading.CancellationToken) 
+(MovieRequestEngine, TvRequestEngine).
+  Symbolic only (semantic stage not run).
+
+Unknown POST reprocess/{type}/{requestid}/{is4k} via 'is4K' (5f616a56ee24)
+  No state change found, but 'is4K' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.TvRequests>.ReProcessRequest(int, bool, System.Threading.CancellationToken) 
+(MovieRequestEngine, TvRequestEngine); ambiguous dispatch: 2 implementations of 
+Ombi.Core.Engine.Interfaces.IRequestEngine<Ombi.Store.Entities.Requests.MovieRequests>.ReProcessRequest(int, bool, System.Threading.CancellationToken) 
+(MovieRequestEngine, TvRequestEngine).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/{moviedbid} via 'movieDbId' (67b363c1d053)
+  No state change found, but 'movieDbId' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<Ombi.Core.Models.Search.V2.MovieFullInfoViewModel>(string, 
+System.Func<System.Threading.Tasks.Task<Ombi.Core.Models.Search.V2.MovieFullInfoViewModel>>, System.DateTimeOffset) (MediaCacheService, 
+PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/imdb/{imdbid} via 'imdbId' (fe936c5198bc)
+  No state change found, but 'imdbId' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<Ombi.Core.Models.Search.V2.MovieFullInfoViewModel>(string, 
+System.Func<System.Threading.Tasks.Task<Ombi.Core.Models.Search.V2.MovieFullInfoViewModel>>, System.DateTimeOffset) (MediaCacheService, 
+PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/request/{requestid} via 'requestId' (631f727f34e7)
+  No state change found, but 'requestId' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<Ombi.Core.Models.Search.V2.MovieFullInfoViewModel>(string, 
+System.Func<System.Threading.Tasks.Task<Ombi.Core.Models.Search.V2.MovieFullInfoViewModel>>, System.DateTimeOffset) (MediaCacheService, 
+PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/collection/{collectionid} via 'collectionId' (1303c9abfbff)
+  No state change found, but 'collectionId' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<Ombi.Core.Models.Search.V2.MovieCollectionsViewModel>(string, 
+System.Func<System.Threading.Tasks.Task<Ombi.Core.Models.Search.V2.MovieCollectionsViewModel>>, System.DateTimeOffset) (MediaCacheService, 
+PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET tv/{tvdbid} via 'tvdbid' (0e5fb29b6e79)
+  No state change found, but 'tvdbid' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<Ombi.Core.Models.Search.V2.SearchFullInfoTvShowViewModel>(string, 
+System.Func<System.Threading.Tasks.Task<Ombi.Core.Models.Search.V2.SearchFullInfoTvShowViewModel>>, System.DateTimeOffset) (MediaCacheService, 
+PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET tv/request/{requestid} via 'requestId' (99c713e08c39)
+  No state change found, but 'requestId' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<Ombi.Core.Models.Search.V2.SearchFullInfoTvShowViewModel>(string, 
+System.Func<System.Threading.Tasks.Task<Ombi.Core.Models.Search.V2.SearchFullInfoTvShowViewModel>>, System.DateTimeOffset) (MediaCacheService, 
+PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET tv/moviedb/{moviedbid} via 'moviedbid' (5052b608f3cc)
+  No state change found, but 'moviedbid' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<Ombi.Core.Models.Search.V2.SearchFullInfoTvShowViewModel>(string, 
+System.Func<System.Threading.Tasks.Task<Ombi.Core.Models.Search.V2.SearchFullInfoTvShowViewModel>>, System.DateTimeOffset) (MediaCacheService, 
+PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown POST movie/similar via 'model' (8bd981da1cbf)
+  No state change found, but 'model' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/popular/{currentposition}/{amounttoload} via 'currentPosition' (6d776f5814d3)
+  No state change found, but 'currentPosition' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/popular/{currentposition}/{amounttoload} via 'amountToLoad' (3b5bdd39f67e)
+  No state change found, but 'amountToLoad' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/seasonal/{currentposition}/{amounttoload} via 'currentPosition' (b07d9cd94ede)
+  No state change found, but 'currentPosition' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/seasonal/{currentposition}/{amounttoload} via 'amountToLoad' (e28950fe6424)
+  No state change found, but 'amountToLoad' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/nowplaying/{currentposition}/{amounttoload} via 'currentPosition' (2d34072adf9e)
+  No state change found, but 'currentPosition' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/nowplaying/{currentposition}/{amounttoload} via 'amountToLoad' (1cd05fc72496)
+  No state change found, but 'amountToLoad' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/toprated/{currentposition}/{amounttoload} via 'currentPosition' (003c2b784fc7)
+  No state change found, but 'currentPosition' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/toprated/{currentposition}/{amounttoload} via 'amountToLoad' (8c9f6995223a)
+  No state change found, but 'amountToLoad' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/upcoming/{currentposition}/{amounttoload} via 'currentPosition' (f3cbf9841d6b)
+  No state change found, but 'currentPosition' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET movie/upcoming/{currentposition}/{amounttoload} via 'amountToLoad' (60571390ec58)
+  No state change found, but 'amountToLoad' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchMovieViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET tv/popular/{currentposition}/{amounttoload} via 'currentPosition' (044f78e6ba5b)
+  No state change found, but 'currentPosition' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchTvShowViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchTvShowViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET tv/popular/{currentposition}/{amounttoload} via 'amountToLoad' (09c8605b74e6)
+  No state change found, but 'amountToLoad' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchTvShowViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchTvShowViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET tv/anticipated/{currentposition}/{amounttoload} via 'currentPosition' (c2dbcfec61ca)
+  No state change found, but 'currentPosition' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchTvShowViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchTvShowViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET tv/anticipated/{currentposition}/{amounttoload} via 'amountToLoad' (299ca7ae0833)
+  No state change found, but 'amountToLoad' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchTvShowViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchTvShowViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET tv/mostwatched/{currentposition}/{amounttoload} via 'currentPosition' (4ed4f78f976d)
+  No state change found, but 'currentPosition' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchTvShowViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchTvShowViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET tv/mostwatched/{currentposition}/{amounttoload} via 'amountToLoad' (bcdf285a8a3b)
+  No state change found, but 'amountToLoad' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchTvShowViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchTvShowViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET tv/trending/{currentposition}/{amounttoload} via 'currentPosition' (531d0f6a7d2d)
+  No state change found, but 'currentPosition' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchTvShowViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchTvShowViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET tv/trending/{currentposition}/{amounttoload} via 'amountToLoad' (8c851f49f6b1)
+  No state change found, but 'amountToLoad' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchTvShowViewModel>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.SearchTvShowViewModel>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET artist/{artistid} via 'artistId' (ca694c4983fc)
+  No state change found, but 'artistId' entered unresolved code: external dispatch: Hqub.MusicBrainz.API.Services.IArtistService.GetAsync(string, params 
+string[]) receives the tracked id; max call depth (5) reached before Ombi.Api.Api.LogDebugContent(string); max call depth (5) reached before 
+Ombi.Api.Api.LogDebugContent(System.Net.Http.HttpResponseMessage); ambiguous dispatch: 12 implementations of 
+Ombi.Core.Rule.Interfaces.IRules<Ombi.Core.Models.Search.SearchViewModel>.Execute(Ombi.Core.Models.Search.SearchViewModel) (AutoApproveRule, CanRequestRule, 
+ExistingMovieRequestRule, ExistingPlexRequestRule, ExistingTvRequestRule, RequestLimitRule, SonarrCacheRequestRule, CouchPotatoCacheRule, 
+MediaServerAvailabilityRule, ExistingRule, RadarrCacheRule, SonarrCacheSearchRule).
+  Symbolic only (semantic stage not run).
+
+Unknown GET artist/album/{albumid} via 'albumId' (42f81d5e9f80)
+  No state change found, but 'albumId' entered unresolved code: external dispatch: Hqub.MusicBrainz.API.Services.IReleaseService.GetAsync(string, params 
+string[]) receives the tracked id; ambiguous dispatch: 12 implementations of 
+Ombi.Core.Rule.Interfaces.IRules<Ombi.Core.Models.Search.SearchViewModel>.Execute(Ombi.Core.Models.Search.SearchViewModel) (AutoApproveRule, CanRequestRule, 
+ExistingMovieRequestRule, ExistingPlexRequestRule, ExistingTvRequestRule, RequestLimitRule, SonarrCacheRequestRule, CouchPotatoCacheRule, 
+MediaServerAvailabilityRule, ExistingRule, RadarrCacheRule, SonarrCacheSearchRule).
+  Symbolic only (semantic stage not run).
+
+Unknown GET ratings/movie/{name}/{year} via 'name' (a5785693c076)
+  No state change found, but 'name' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<Ombi.Api.External.ExternalApis.RottenTomatoes.Models.MovieRatings>(string, 
+System.Func<System.Threading.Tasks.Task<Ombi.Api.External.ExternalApis.RottenTomatoes.Models.MovieRatings>>, System.DateTimeOffset) (MediaCacheService, 
+PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET ratings/movie/{name}/{year} via 'year' (95a7799d9fc7)
+  No state change found, but 'year' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<Ombi.Api.External.ExternalApis.RottenTomatoes.Models.MovieRatings>(string, 
+System.Func<System.Threading.Tasks.Task<Ombi.Api.External.ExternalApis.RottenTomatoes.Models.MovieRatings>>, System.DateTimeOffset) (MediaCacheService, 
+PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET ratings/tv/{name}/{year} via 'name' (e68b1729e047)
+  No state change found, but 'name' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<Ombi.Api.External.ExternalApis.RottenTomatoes.Models.TvRatings>(string, 
+System.Func<System.Threading.Tasks.Task<Ombi.Api.External.ExternalApis.RottenTomatoes.Models.TvRatings>>, System.DateTimeOffset) (MediaCacheService, 
+PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET ratings/tv/{name}/{year} via 'year' (f5324205d2b4)
+  No state change found, but 'year' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<Ombi.Api.External.ExternalApis.RottenTomatoes.Models.TvRatings>(string, 
+System.Func<System.Threading.Tasks.Task<Ombi.Api.External.ExternalApis.RottenTomatoes.Models.TvRatings>>, System.DateTimeOffset) (MediaCacheService, 
+PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET stream/movie/{moviedbid} via 'movieDBId' (7ddec3bc7723)
+  No state change found, but 'movieDBId' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.V2.StreamingData>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.V2.StreamingData>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
+
+Unknown GET stream/tv/{moviedbid} via 'movieDbId' (c688725d4911)
+  No state change found, but 'movieDbId' entered unresolved code: ambiguous dispatch: 2 implementations of 
+Ombi.Helpers.IMediaCacheService.GetOrAddAsync<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.V2.StreamingData>>(string, 
+System.Func<System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Ombi.Core.Models.Search.V2.StreamingData>>>, System.DateTimeOffset) 
+(MediaCacheService, PassThroughMediaCacheService).
+  Symbolic only (semantic stage not run).
