@@ -56,6 +56,8 @@ for entry in "${variants[@]}"; do
     git -C "$mirror" fetch --quiet origin "$sha" 2>/dev/null || true
     git -C "$mirror" worktree add --quiet --detach "$work" "$sha"
   fi
+  # some repositories keep projects in git submodules (IoTSharp's JsonDB provider): restore needs them
+  if [[ -f "$work/.gitmodules" ]]; then git -C "$work" submodule update --init --recursive --quiet 2>/dev/null || echo "!! submodule init failed"; fi
   actual="$(git -C "$work" rev-parse HEAD)"
   [[ "$actual" == "$sha" ]] || { echo "!! $work is at $actual, expected $sha" >&2; exit 2; }
 
