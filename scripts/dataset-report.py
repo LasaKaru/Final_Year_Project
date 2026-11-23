@@ -104,6 +104,7 @@ def main():
            "BolaLab (development set) is reported separately and never mixed in.\n"]
     totals = {}
     btotals = {}
+    atotals = {}  # hybrid mode: the symbolic arm of the same reports (ablation, RQ2)
     rows, cov, pairs = [], [], {}
     for c in cases:
         for variant in c["variants"]:
@@ -126,6 +127,7 @@ def main():
             # patched commits of Dataset A cases are the Dataset C controls: reported separately
             ds = "C (fixed commits of A)" if c["dataset"] == "A" and variant == "fixed" else c["dataset"]
             baseline = baseline_predictions(c["caseId"], variant, report)
+            sym_arm = predictions(report, symbolic=True) if a.mode == "hybrid" else None
             for l in labels:
                 k = unit_key(l["verb"], l["route"])
                 p = pred.get(k)
@@ -134,6 +136,11 @@ def main():
                 totals[ds][o] += 1
                 if l["label"] == "Vulnerable" and o in ("abstained", "no prediction"):
                     totals[ds]["missedVuln"] = totals[ds].get("missedVuln", 0) + 1
+                if sym_arm is not None:
+                    sp = sym_arm.get(k)
+                    so = outcome(l["label"], sp[0] if sp else None)
+                    atotals.setdefault(ds, {}).setdefault(so, 0)
+                    atotals[ds][so] += 1
                 bp = baseline.get(k, "Protected") if baseline is not None else None
                 bo = outcome(l["label"], bp) if bp is not None else "—"
                 if bp is not None:
@@ -156,6 +163,12 @@ def main():
         oprec = tp / vuln_total if vuln_total else None
         fpr = fp / (fp + tn) if fp + tn else None
         out.append(f"| {ds} | {tp} | {fp} | {fn} | {tn} | {ab} | {fmt(prec)} | {fmt(rec)} | {fmt(oprec)} | {fmt(fpr)} |")
+    if atotals:
+        out += ["", "## Ablation (RQ2) — symbolic arm of the same hybrid reports (identical candidates)\n",
+                "| Dataset | TP | FP | FN | TN | Abstained | Precision | Recall | FPR |", "|---|---|---|---|---|---|---|---|---|"]
+        for ds, t in sorted(atotals.items()):
+            tp, fp, fn, tn, ab = (t.get(x, 0) for x in ("TP", "FP", "FN", "TN", "abstained"))
+            out.append(f"| {ds} | {tp} | {fp} | {fn} | {tn} | {ab} | {fmt(tp / (tp + fp) if tp + fp else None)} | {fmt(tp / (tp + fn) if tp + fn else None)} | {fmt(fp / (fp + tn) if fp + tn else None)} |")
     if btotals:
         out += ["", "## Baseline arm — CodeQL C# security-extended (authorization rules CWE-284/285/566/639/862/863; `eval/baseline/codeql`)\n",
                 "| Dataset | TP | FP | FN | TN | Precision | Recall | FPR |", "|---|---|---|---|---|---|---|---|"]
