@@ -113,9 +113,15 @@ public static class GuardDetector
     }
 
     /// <summary>User.IsInRole("…") / principal.IsInRole(…): a role test (vertical privilege), not an object check.</summary>
-    public static bool IsRoleCheck(IOperation leaf) =>
-        Unwrap(leaf) is IInvocationOperation { TargetMethod.Name: "IsInRole" } inv
-        && (inv.TargetMethod.ContainingType?.Name is "ClaimsPrincipal" or "IPrincipal" || inv.Instance?.Type?.Name == "ClaimsPrincipal");
+    public static bool IsRoleCheck(IOperation leaf) => Unwrap(leaf) switch
+    {
+        IInvocationOperation { TargetMethod.Name: "IsInRole" } inv =>
+            inv.TargetMethod.ContainingType?.Name is "ClaimsPrincipal" or "IPrincipal" || inv.Instance?.Type?.Name == "ClaimsPrincipal",
+        // owner.IsAdmin / currentUser.IsSuperUser: a bool privilege flag of the caller
+        IPropertyReferenceOperation { Property: { Type.SpecialType: SpecialType.System_Boolean } p } =>
+            System.Text.RegularExpressions.Regex.IsMatch(p.Name, "^Is(Super|System|Site|Global)?(Admin|Administrator)$|^IsSuperUser$|^IsHost$"),
+        _ => false,
+    };
 
     /// <summary>Number of operands of a &amp;&amp;/|| tree (negations and parentheses are looked through).</summary>
     public static int CountLeaves(IOperation op)

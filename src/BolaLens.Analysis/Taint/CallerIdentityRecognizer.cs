@@ -15,7 +15,7 @@ public sealed class CallerIdentityRecognizer(IdentityOptions options)
     public AbstractValue? FromProperty(IPropertyReferenceOperation pr, AbstractValue instance)
     {
         var prop = pr.Property;
-        if (prop.Name == "User" && Symbols.FullName(prop.Type) == "System.Security.Claims.ClaimsPrincipal")
+        if (prop.Name is "User" or "Principal" or "CurrentPrincipal" && Symbols.FullName(prop.Type) == "System.Security.Claims.ClaimsPrincipal")
             return new AbstractValue { IsPrincipal = true, IdentityExpression = Text(pr) };
 
         if (instance.Identity is not null && prop.Name == "Value")

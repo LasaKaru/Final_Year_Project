@@ -89,7 +89,7 @@ public sealed class IdentityOptions
     public IReadOnlyList<string> ClaimAccessMethods { get; init; } = ["FindFirst", "FindFirstValue", "HasClaim"];
     public IReadOnlyList<CurrentUserType> CurrentUserTypes { get; init; } =
     [
-        .. new[] { "*.ICurrentUser", "*.ICurrentUserService", "*.ICurrentUserAccessor", "*.ICurrentUserProvider", "*.IUserContext", "*.IUserAccessor", "*.IUser" }
+        .. new[] { "*.ICurrentUser", "*.ICurrentUserService", "*.ICurrentUserAccessor", "*.ICurrentUserProvider", "*.IUserContext", "*.IUserAccessor", "*.IUser", "*.CurrentUser" }
             .Select(t => new CurrentUserType
             {
                 Type = t,

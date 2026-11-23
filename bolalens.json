@@ -235,6 +235,30 @@
           "GetTenantId",
           "GetCurrentTenantId"
         ]
+      },
+      {
+        "type": "*.CurrentUser",
+        "userMembers": [
+          "UserId",
+          "Id",
+          "PersonId",
+          "Username",
+          "UserName",
+          "GetUserId",
+          "GetCurrentUserId",
+          "GetCurrentPersonId",
+          "GetCurrentUsername",
+          "GetCurrentUserName",
+          "GetUserIdOrThrow",
+          "GetRequiredUserId"
+        ],
+        "tenantMembers": [
+          "TenantId",
+          "OrganizationId",
+          "OrganisationId",
+          "GetTenantId",
+          "GetCurrentTenantId"
+        ]
       }
     ],
     "extensionMethods": [

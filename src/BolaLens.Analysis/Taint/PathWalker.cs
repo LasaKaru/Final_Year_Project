@@ -1376,6 +1376,18 @@ public sealed class PathWalker
         Step(StepKind.Sink, $"state change: {kind} {token.ShortName}", Symbols.Display(((IInvocationOperation)op).TargetMethod), op, f);
     }
 
+    /// <summary>An owner comparison in a predicate is usable when it is not OR-ed, or OR-ed only with privilege tests that grant
+    /// access (t.OwnerId == owner.Id || owner.IsAdmin): no other operand lets a peer user's row through.</summary>
+    private static bool OwnerOrPrivileged(Comparison cmp, IOperation body)
+    {
+        if (!cmp.InDisjunction) return true;
+        if (cmp.OuterOr is not { } group) return false;
+        var span = group.Syntax.Span;
+        var leaves = GuardDetector.Leaves(body).Where(l => span.Contains(l.Leaf.Syntax.Span)).ToList();
+        var roles = leaves.Count(l => GuardDetector.IsRoleCheck(l.Leaf) && !l.Negated);
+        return roles > 0 && leaves.Count - roles == 1;
+    }
+
     /// <summary>Analyses predicate lambdas: an equality between an entity property and the tracked id
     /// selects the object; an equality (under &amp;&amp; only) between an owner property and the caller identity
     /// is an ownership predicate.</summary>
@@ -1410,7 +1422,7 @@ public sealed class PathWalker
                         if (!cmp.InDisjunction && chain.Path == chain.Top && _schema.Find(q.EntityType) is { } em && IsKey(em, chain.Top))
                             q = q with { KeyTags = Union(q.KeyTags, [yv.Tags]) };
                     }
-                    if (!cmp.InDisjunction && yv.Identity is { } idKind && OwnerKindOf(q.EntityType, chain.Top) is { } ownerKind
+                    if (OwnerOrPrivileged(cmp, LambdaExpression(lambda)) && yv.Identity is { } idKind && OwnerKindOf(q.EntityType, chain.Top) is { } ownerKind
                         && idKind == ownerKind && (q.OwnerPredicateKind is null || ownerKind == OwnerKind.User))
                     {
                         q = q with

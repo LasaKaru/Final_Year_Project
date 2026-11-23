@@ -209,4 +209,41 @@ public class MembershipPatternsTests
             """));
         r.VerdictOf("GET api/chapter/note/{id}").Status.ShouldBe(VerdictStatus.Protected);
     }
+
+    [Theory]
+    [InlineData("t.Id == id && (t.OwnerId == owner.Id || owner.IsAdmin)", VerdictStatus.Protected)]
+    [InlineData("t.Id == id && t.OwnerId == owner.Id", VerdictStatus.Protected)]
+    [InlineData("t.Id == id && (t.OwnerId == owner.Id || t.Title == \"public\")", VerdictStatus.Vulnerable)]
+    [InlineData("t.Id == id", VerdictStatus.Vulnerable)]
+    public async Task Minimal_api_bulk_delete_with_owner_or_admin_predicate(string predicate, VerdictStatus expected)
+    {
+        // davidfowl/TodoApi: CurrentUser { Principal; Id => Principal.FindFirstValue(NameIdentifier); IsAdmin => Principal.IsInRole("admin") }
+        var todo = $$"""
+            using Microsoft.AspNetCore.Builder;
+            using Microsoft.AspNetCore.Http;
+            namespace T;
+            public class Todo { public int Id { get; set; } public string OwnerId { get; set; } = ""; public string Title { get; set; } = ""; }
+            public class TodoDb(DbContextOptions<TodoDb> o) : DbContext(o) { public DbSet<Todo> Todos => Set<Todo>(); }
+            public class CurrentUser
+            {
+                public ClaimsPrincipal Principal { get; set; } = default!;
+                public string Id => Principal.FindFirstValue(ClaimTypes.NameIdentifier)!;
+                public bool IsAdmin => Principal.IsInRole("admin");
+            }
+            public static class TodoApi
+            {
+                public static void Map(WebApplication app)
+                {
+                    var group = app.MapGroup("/todos").RequireAuthorization();
+                    group.MapDelete("/{id}", async (TodoDb db, int id, CurrentUser owner) =>
+                    {
+                        var rows = await db.Todos.Where(t => {{predicate}}).ExecuteDeleteAsync();
+                        return rows == 0 ? Results.NotFound() : Results.Ok();
+                    });
+                }
+            }
+            """;
+        var r = await CompilationFactory.AnalyseAsync(todo);
+        r.VerdictOf("DELETE todos/{id}").Status.ShouldBe(expected);
+    }
 }
