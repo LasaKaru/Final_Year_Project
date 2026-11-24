@@ -1,6 +1,8 @@
-# Schedule deviations (for the IPD "updated Gantt" slide)
+# Schedule deviations — log of 19 Nov 2026
 
-Baseline: `docs/diagrams/gantt-baseline-2026-11-18.mmd` (the PP timeline is superseded). Current: `docs/diagrams/gantt.mmd`.
+> Superseded by [`schedule.md`](schedule.md) (24 Nov 2026); kept as the history of the first re-plan.
+
+Baseline: `ipd/diagrams/src/gantt-baseline-2026-11-18.mmd` (the PP timeline is superseded). Current: `ipd/diagrams/src/gantt.mmd`.
 
 | Item | Planned | Actual / new | Deviation and reason |
 |---|---|---|---|

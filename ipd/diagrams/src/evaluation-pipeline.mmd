@@ -1,0 +1,16 @@
+flowchart LR
+    subgraph Sources
+      OSV[("OSV / GitHub advisories<br/>vendor fix commits")]
+      GH[("GitHub search<br/>ASP.NET Core APIs")]
+    end
+    OSV --> A["Dataset A<br/>14 vulnerable commits"]
+    OSV --> C["Dataset C<br/>their fixed commits"]
+    GH --> B["Dataset B<br/>13 wild repositories"]
+    A & C & B --> RC["scripts/run-case.sh<br/>clone @ pinned SHA · restore · scan · env.md"]
+    RC --> REP[/"eval/runs/…/report.json.gz"/]
+    A & C --> DL["draft labels from fix diffs<br/>(owner verifies; frozen 21 Mar)"]
+    B --> WS["blind worksheets<br/>(2 raters)"]
+    REP --> DR["scripts/dataset-report.py"]
+    DL --> DR
+    CQ["CodeQL 2.27.5 security-extended<br/>(GitHub Actions)"] --> SAR[/"baseline SARIF"/] --> DR
+    DR --> SUM[/"summary-symbolic.md · summary-hybrid.md<br/>precision · recall · FPR · pairs"/]

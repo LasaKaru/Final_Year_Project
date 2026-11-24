@@ -1,0 +1,25 @@
+flowchart TD
+    IN[/".sln / .slnx / .csproj"/] --> L["WorkspaceLoader<br/>MSBuildWorkspace + Roslyn"]
+    L --> EP[EndpointEnumerator<br/>MVC + Minimal APIs]
+    L --> PM[GlobalPolicyMapper]
+    L --> SM[DbContextSchemaMapper<br/>owners · filters · membership]
+    L --> DI[DiRegistrationMap +<br/>ImplementationResolver]
+    EP --> PX["PathWalker / PathExtractor<br/>inter-procedural id taint"]
+    PM --> PX
+    SM --> PX
+    DI --> PX
+    PX --> SK[EfOperationClassifier<br/>load · write · commit · bulk · bypass]
+    PX --> GD[GuardDetector + Dominance]
+    SK --> SC["SymbolicClassifier<br/>rules SYM-01 … SYM-11"]
+    GD --> SC
+    SC -->|"candidates: Vulnerable · Unknown · delegated Protected"| IR[IrSliceGenerator<br/>label-free slice]
+    IR --> PB[PromptBuilder v1 + few-shot]
+    PB --> SV{mode}
+    SV -->|symbolic| NV[NullSemanticValidator]
+    SV -->|hybrid| OV["OnnxSemanticValidator<br/>local SLM, int4, greedy"]
+    NV --> FU[FusionPolicy<br/>conservative]
+    OV --> FU
+    FU --> RW[JSON · console · SARIF · HTML]
+    RW --> OUT[/report.json/]
+    OUT --> EV[Eval harness + labels]
+    EV --> MET[/"metrics: TP FP FN TN Unknown, P R FPR"/]

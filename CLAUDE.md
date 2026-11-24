@@ -14,7 +14,7 @@ This is a long-running project: keep working through the plan until the final di
 | Apr 2027 | SARIF, GitHub Action, robustness perturbations |
 | May–Jun 2027 | Experiments, error analysis, dissertation, final viva |
 
-IPD brief: `docs/ipd/ipd-brief.md`. It needs: stakeholders (onion), FR/NFR with implemented/partial/pending status,
+**IPD pack: `ipd/` (start at `ipd/README.md`: slides, docs, diagrams, demo, Q&A).** IPD brief: `ipd/00-brief/ipd-brief.md`. It needs: stakeholders (onion), FR/NFR with implemented/partial/pending status,
 use case diagram, architecture + design diagrams, updated Gantt with deviations, critical evaluation, and a live demo of
 real code (repo, modules, tests, preliminary results, code walkthrough). Diagrams alone fail.
 
@@ -49,7 +49,7 @@ dotnet run --project src/BolaLens.Cli -- robustness fixtures/BolaLab/BolaLab.sln
 dotnet run --project src/BolaLens.Cli -- scan <sln> --sarif out.sarif               # SARIF 2.1.0
 ```
 Always rebuild before `--no-build` runs (a stale Release build once produced invalid recorded runs).
-UI screenshots for slides: `docs/ipd/screenshots/`. Playwright is preinstalled in cloud sessions for UI checks.
+UI screenshots for slides: `ipd/screenshots/`. Playwright is preinstalled in cloud sessions for UI checks.
 
 ## Non-negotiable rules
 1. **Offline:** no network code in `src/`; UI has no CDN/external assets; models are local. The tiny SmolLM2 model is
@@ -87,7 +87,7 @@ worksheets + 2nd-rater sample; read/explain every class (R6); supervisor sign-of
 1. Tenant scoping by value (IoTSharp TenantId without a container), creation-time BOLA (Bitwarden), branch-specific permissive values (Oqtane A-004 fixed FP).
 2. Qwen2.5-Coder hybrid (model comparison) and Phi-3 on Bitwarden/Jellyfin on the 16 GB laptop (`MODES="symbolic hybrid" scripts/run-experiments.sh`).
 3. Custom policy handlers (Oqtane `[Authorize(Policy=…)]`, B-003 noise).
-4. IPD (S5): slides from `docs/ipd/*` (onion, Gantt + deviations, demo script, Q&A evidence map), rehearse, backup video.
+4. IPD (S5): draft pack done in `ipd/` (deck + PDF, notes, docs B–F, 13 diagrams, demo script/prep, Q&A, class guide). Owner: rewrite in own words, refresh numbers after the freeze, rehearse ×3, backup video.
 5. After the freeze (21 Mar): final experiments, RQ4 rubric study, dissertation (`docs/thesis/outline-and-evidence-map.md`).
 
 ## Environment notes (cloud sessions)

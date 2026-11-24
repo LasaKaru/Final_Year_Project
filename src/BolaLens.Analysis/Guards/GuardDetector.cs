@@ -191,6 +191,8 @@ public static class GuardDetector
     }
 }
 
+/// <summary>Type helpers for swallowed-throw detection: the static type of a thrown exception and catch-clause matching.
+/// Input: Roslyn operations and type symbols. Limitation: a catch with a `when` filter is never treated as swallowing the throw.</summary>
 internal static class GuardDetectorTypes
 {
     public static ITypeSymbol? ThrownType(IOperation exception) =>

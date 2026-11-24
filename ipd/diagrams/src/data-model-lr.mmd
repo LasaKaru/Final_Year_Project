@@ -1,0 +1,25 @@
+erDiagram
+    direction LR
+    SCAN_REPORT ||--|| RUN_INFO : "run"
+    SCAN_REPORT ||--|| COVERAGE_MANIFEST : "coverage"
+    SCAN_REPORT ||--o{ FINDING : "findings"
+    FINDING ||--|| EXECUTION_PATH : "path"
+    FINDING ||--|| SYMBOLIC_VERDICT : "symbolic"
+    FINDING |o--o| SEMANTIC_VERDICT : "semantic (hybrid)"
+    EXECUTION_PATH }o--|| ENDPOINT_INFO : "endpoint"
+    EXECUTION_PATH ||--|{ PATH_STEP : "steps"
+    EXECUTION_PATH ||--o{ SINK_INFO : "sinks"
+    EXECUTION_PATH ||--o{ GUARD_EVIDENCE : "guards"
+    SINK_INFO }o--|| ENTITY_MODEL : "entity type"
+    OWNERSHIP_SCHEMA ||--o{ ENTITY_MODEL : "entities"
+    ENTITY_MODEL ||--o{ OWNER_CANDIDATE : "owners"
+    ENTITY_MODEL ||--o{ QUERY_FILTER_INFO : "query filters"
+    RUN_INFO { string ToolVersion string Mode string TargetCommit string ConfigHash string ModelSha256 string PromptVersion double TotalSeconds long PeakWorkingSetBytes }
+    FINDING { string FindingId enum Final string FinalReason string Slice }
+    SYMBOLIC_VERDICT { enum Status list RuleIds string Rationale }
+    SEMANTIC_VERDICT { enum Status double Confidence string Reason list EvidenceLineIds bool ParseOk long LatencyMs }
+    ENDPOINT_INFO { string Id enum Verb string RouteTemplate string Controller string Action }
+    SINK_INFO { enum Kind string EntityType bool IsStateChanging bool BypassesQueryFilters bool IsDetached }
+    GUARD_EVIDENCE { enum Kind bool IsValid string InvalidReason string OwnerProperty string CallerExpression }
+    ENTITY_MODEL { string EntityType string DbContext list KeyProperties string MembershipPath }
+    OWNER_CANDIDATE { string Property enum Kind list Evidence }

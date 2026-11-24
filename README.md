@@ -46,7 +46,7 @@ Start scans (symbolic or hybrid, model picker, calibration gate), browse runs, a
 controller → service → repository, the checks found (with the reason each one was rejected), EF Core sinks, the label-free
 IR slice with the model's evidence lines highlighted, endpoints, policy map, ownership schema, DI map, per-phase timings —
 and evaluate a run against labels. Works on desktop and phones (light/dark). Any run can be downloaded as a single
-**offline HTML report** (also `bolalens html --report r.json --out report.html`). Screenshots: [`docs/ipd/screenshots`](docs/ipd/screenshots).
+**offline HTML report** (also `bolalens html --report r.json --out report.html`). Screenshots: [`ipd/screenshots`](ipd/screenshots).
 
 ## Commands
 
@@ -174,8 +174,8 @@ flowchart LR
 | `eval/` | Dataset registry/search log, frozen labels, splits, recorded runs |
 | `docs/` | ADRs, requirements status, diagrams, known limitations, reproducibility, logs |
 
-More: [CLAUDE.md](CLAUDE.md) (project memory, status, next steps) · [plan pack](docs/plan) · [IPD brief](docs/ipd/ipd-brief.md) · [ADRs](docs/adr) · [requirements status](docs/requirements.md) · [known limitations](docs/known-limitations.md) ·
-[reproducibility](docs/reproducibility.md) · [diagrams](docs/diagrams) · [AI-use log](docs/ai-log.md).
+More: [CLAUDE.md](CLAUDE.md) (project memory, status, next steps) · [plan pack](docs/plan) · [IPD brief](ipd/00-brief/ipd-brief.md) · [ADRs](docs/adr) · [requirements status](docs/requirements.md) · [known limitations](docs/known-limitations.md) ·
+[reproducibility](docs/reproducibility.md) · [diagrams](ipd/diagrams) · [AI-use log](docs/ai-log.md).
 
 ## Safety
 

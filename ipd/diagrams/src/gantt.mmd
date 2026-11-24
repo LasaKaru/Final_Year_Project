@@ -1,0 +1,39 @@
+gantt
+    title BolaLens - updated schedule (actual progress as of 24 Nov 2026)
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d %b
+    todayMarker stroke-width:3px,stroke:#c0392b
+
+    section Done
+    Proposal, literature, PP                              :done, pp, 2026-09-01, 2026-11-17
+    Engine S0-S4, slicer, SLM, eval (planned to 20 Jan)    :done, s04, 2026-11-18, 2026-11-20
+    Web UI, SARIF, Action, robustness (planned April)      :done, m4, 2026-11-19, 2026-11-20
+    Datasets A/B/C - 27 cases recorded (planned to Mar)    :done, ds, 2026-11-19, 2026-11-24
+    CodeQL baseline + Phi-3 hybrid experiments             :done, ex0, 2026-11-21, 2026-11-24
+    Syntactic dominance S6 step 1 (planned Feb)            :done, s6a, 2026-11-23, 1d
+
+    section Owner work (cannot be delegated)
+    Ethics Part A signed (overdue)                         :crit, e1, 2026-11-24, 2026-11-30
+    Read + re-explain every class (risk R6)                :crit, own, 2026-11-24, 2027-01-15
+    Verify draft labels A/C (33 + 29 units)                :lab1, 2026-12-01, 2026-12-31
+    Blind labelling Dataset B + 2nd rater sample           :lab2, 2026-12-07, 2027-03-14
+    Supervisor review of ADR-011 ... ADR-016               :sup, 2026-11-25, 2026-12-10
+
+    section Engineering to the code freeze
+    Tenant scoping, creation-time BOLA, policy handlers    :eng, 2026-12-01, 2027-01-10
+    Qwen2.5-Coder + Phi-3 on 16 GB laptop (Bitwarden)      :m1, 2026-12-07, 2027-01-10
+    Windows run (NFR09)                                    :win, 2027-01-04, 2027-01-10
+    Code freeze v0.1-ipd                                   :milestone, cf, 2027-01-20, 0d
+
+    section IPD
+    Slides, demo rehearsal x3, backup video                :s5, 2027-01-05, 2027-01-27
+    IPD submission                                         :milestone, ipd, 2027-01-28, 0d
+    Live IPD demo + Q&A window                             :ipdw, 2027-01-29, 2027-02-19
+
+    section After the IPD
+    Labels frozen, calibration split                       :crit, s7, 2027-03-01, 2027-03-21
+    Prompt calibration, model comparison                   :s8, 2027-03-22, 2027-04-10
+    Final experiments (3 configs x datasets x 3)           :fx, 2027-04-11, 2027-05-10
+    RQ4 rubric study (2 raters)                            :rq4, 2027-04-20, 2027-05-10
+    Dissertation chapters                                  :th, 2027-03-15, 2027-06-05
+    Final submission + viva                                :milestone, fin, 2027-06-15, 0d

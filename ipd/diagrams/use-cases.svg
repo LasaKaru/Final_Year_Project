@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1130" viewBox="0 0 1700 1130" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="open" markerWidth="12" markerHeight="12" refX="10" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#4a5a6a" stroke-width="1.6"/></marker></defs>
+<rect width="1700" height="1130" fill="#ffffff"/>
+<text x="850" y="42" text-anchor="middle" font-size="28" font-weight="bold" fill="#13202e">BolaLens — use case diagram (status as of 24 Nov 2026)</text>
+<rect x="345" y="72" width="1010" height="960" rx="14" fill="#f7f9fc" stroke="#1f4e79" stroke-width="2"/>
+<text x="365" y="100" font-size="18" font-weight="bold" fill="#1f4e79">BolaLens</text>
+<line x1="170" y1="310" x2="414" y2="146" stroke="#4a5a6a" stroke-width="1.6"/>
+<line x1="170" y1="310" x2="400" y2="239" stroke="#4a5a6a" stroke-width="1.6"/>
+<line x1="170" y1="310" x2="432" y2="608" stroke="#4a5a6a" stroke-width="1.6"/>
+<line x1="170" y1="840" x2="419" y2="648" stroke="#4a5a6a" stroke-width="1.6"/>
+<line x1="170" y1="840" x2="404" y2="741" stroke="#4a5a6a" stroke-width="1.6"/>
+<line x1="170" y1="840" x2="395" y2="833" stroke="#4a5a6a" stroke-width="1.6"/>
+<line x1="170" y1="840" x2="398" y2="924" stroke="#4a5a6a" stroke-width="1.6"/>
+<line x1="1530" y1="210" x2="1300" y2="139" stroke="#4a5a6a" stroke-width="1.6"/>
+<line x1="1530" y1="210" x2="1305" y2="230" stroke="#4a5a6a" stroke-width="1.6"/>
+<line x1="1530" y1="780" x2="1255" y2="455" stroke="#4a5a6a" stroke-width="1.6"/>
+<line x1="1530" y1="780" x2="1274" y2="550" stroke="#4a5a6a" stroke-width="1.6"/>
+<line x1="1530" y1="780" x2="1291" y2="644" stroke="#4a5a6a" stroke-width="1.6"/>
+<line x1="1530" y1="780" x2="1302" y2="736" stroke="#4a5a6a" stroke-width="1.6"/>
+<line x1="1530" y1="780" x2="1305" y2="827" stroke="#4a5a6a" stroke-width="1.6"/>
+<line x1="1530" y1="780" x2="1296" y2="919" stroke="#4a5a6a" stroke-width="1.6"/>
+<path d="M600,268 L600,292" fill="none" stroke="#4a5a6a" stroke-width="1.5" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="600" y="284" text-anchor="middle" font-size="12" font-style="italic" fill="#4a5a6a" paint-order="stroke" stroke="#f7f9fc" stroke-width="4">«include»</text>
+<path d="M405,240 Q255,330 405,420" fill="none" stroke="#4a5a6a" stroke-width="1.5" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="364" y="334" text-anchor="middle" font-size="12" font-style="italic" fill="#4a5a6a" paint-order="stroke" stroke="#f7f9fc" stroke-width="4">«include»</text>
+<path d="M405,240 Q175,380 405,520" fill="none" stroke="#4a5a6a" stroke-width="1.5" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="324" y="384" text-anchor="middle" font-size="12" font-style="italic" fill="#4a5a6a" paint-order="stroke" stroke="#f7f9fc" stroke-width="4">«include»</text>
+<path d="M600,792 L600,768" fill="none" stroke="#4a5a6a" stroke-width="1.5" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="600" y="784" text-anchor="middle" font-size="12" font-style="italic" fill="#4a5a6a" paint-order="stroke" stroke="#f7f9fc" stroke-width="4">«include»</text>
+<path d="M1100,368 L1100,392" fill="none" stroke="#4a5a6a" stroke-width="1.5" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="1100" y="384" text-anchor="middle" font-size="12" font-style="italic" fill="#4a5a6a" paint-order="stroke" stroke="#f7f9fc" stroke-width="4">«include»</text>
+<path d="M1100,692 L1100,668" fill="none" stroke="#4a5a6a" stroke-width="1.5" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="1100" y="684" text-anchor="middle" font-size="12" font-style="italic" fill="#4a5a6a" paint-order="stroke" stroke="#f7f9fc" stroke-width="4">«extend»</text>
+<path d="M899,323 L801,237" fill="none" stroke="#4a5a6a" stroke-width="1.5" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="850" y="284" text-anchor="middle" font-size="12" font-style="italic" fill="#4a5a6a" paint-order="stroke" stroke="#f7f9fc" stroke-width="4">«extend» [hybrid]</text>
+<path d="M899,137 L801,223" fill="none" stroke="#4a5a6a" stroke-width="1.5" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="850" y="184" text-anchor="middle" font-size="12" font-style="italic" fill="#4a5a6a" paint-order="stroke" stroke="#f7f9fc" stroke-width="4">«include»</text>
+<path d="M940,606 L760,254" fill="none" stroke="#4a5a6a" stroke-width="1.5" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="850" y="434" text-anchor="middle" font-size="12" font-style="italic" fill="#4a5a6a" paint-order="stroke" stroke="#f7f9fc" stroke-width="4">«include»</text>
+<path d="M895,530 L805,530" fill="none" stroke="#4a5a6a" stroke-width="1.5" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="850" y="534" text-anchor="middle" font-size="12" font-style="italic" fill="#4a5a6a" paint-order="stroke" stroke="#f7f9fc" stroke-width="4">«include»</text>
+<path d="M940,254 L760,606" fill="none" stroke="#4a5a6a" stroke-width="1.5" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="850" y="434" text-anchor="middle" font-size="12" font-style="italic" fill="#4a5a6a" paint-order="stroke" stroke="#f7f9fc" stroke-width="4">«extend»</text>
+<ellipse cx="600" cy="130" rx="205" ry="38" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/>
+<text x="600" y="126" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC02 Configure analysis</text>
+<text x="600" y="145" text-anchor="middle" font-size="12.5" fill="#3d4b5a">bolalens.json</text>
+<ellipse cx="600" cy="230" rx="205" ry="38" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/>
+<text x="600" y="226" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC01 Scan solution</text>
+<text x="600" y="245" text-anchor="middle" font-size="12.5" fill="#3d4b5a">symbolic or hybrid</text>
+<ellipse cx="600" cy="330" rx="205" ry="38" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/>
+<text x="600" y="326" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC03 Extract context</text>
+<text x="600" y="345" text-anchor="middle" font-size="12.5" fill="#3d4b5a">endpoints · policy · schema · DI</text>
+<ellipse cx="600" cy="430" rx="205" ry="38" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/>
+<text x="600" y="426" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC04 Trace id-to-sink paths</text>
+<text x="600" y="445" text-anchor="middle" font-size="12.5" fill="#3d4b5a">inter-procedural taint</text>
+<ellipse cx="600" cy="530" rx="205" ry="38" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/>
+<text x="600" y="526" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC05 Classify paths</text>
+<text x="600" y="545" text-anchor="middle" font-size="12.5" fill="#3d4b5a">rules SYM-01 … SYM-11</text>
+<ellipse cx="600" cy="630" rx="205" ry="38" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/>
+<text x="600" y="626" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC07 View findings report</text>
+<text x="600" y="645" text-anchor="middle" font-size="12.5" fill="#3d4b5a">console · JSON</text>
+<ellipse cx="600" cy="730" rx="205" ry="38" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/>
+<text x="600" y="726" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC08 Inspect path evidence</text>
+<text x="600" y="745" text-anchor="middle" font-size="12.5" fill="#3d4b5a">steps · guards · slice · spans</text>
+<ellipse cx="600" cy="830" rx="205" ry="38" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/>
+<text x="600" y="826" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC13 Browse runs + call graph</text>
+<text x="600" y="845" text-anchor="middle" font-size="12.5" fill="#3d4b5a">local web UI</text>
+<ellipse cx="600" cy="930" rx="205" ry="38" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/>
+<text x="600" y="935" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC16 Export offline HTML report</text>
+<ellipse cx="1100" cy="130" rx="205" ry="38" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/>
+<text x="1100" y="126" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC10 Gate pull request</text>
+<text x="1100" y="145" text-anchor="middle" font-size="12.5" fill="#3d4b5a">exit code · GitHub Action</text>
+<ellipse cx="1100" cy="230" rx="205" ry="38" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/>
+<text x="1100" y="226" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC09 Export SARIF 2.1.0</text>
+<text x="1100" y="245" text-anchor="middle" font-size="12.5" fill="#3d4b5a">GitHub code scanning</text>
+<ellipse cx="1100" cy="330" rx="205" ry="38" fill="#fff1cc" stroke="#b7791f" stroke-width="2"/>
+<text x="1100" y="326" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC06 Validate with local SLM</text>
+<text x="1100" y="345" text-anchor="middle" font-size="12.5" fill="#3d4b5a">fusion threshold τ uncalibrated</text>
+<ellipse cx="1100" cy="430" rx="205" ry="38" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/>
+<text x="1100" y="426" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC12 Provision + pin local model</text>
+<text x="1100" y="445" text-anchor="middle" font-size="12.5" fill="#3d4b5a">ONNX int4 · SHA-256</text>
+<ellipse cx="1100" cy="530" rx="205" ry="38" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/>
+<text x="1100" y="526" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC14 Run robustness perturbations</text>
+<text x="1100" y="545" text-anchor="middle" font-size="12.5" fill="#3d4b5a">P1–P4</text>
+<ellipse cx="1100" cy="630" rx="205" ry="38" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/>
+<text x="1100" y="626" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC11 Run evaluation</text>
+<text x="1100" y="645" text-anchor="middle" font-size="12.5" fill="#3d4b5a">labels → metrics</text>
+<ellipse cx="1100" cy="730" rx="205" ry="38" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/>
+<text x="1100" y="726" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC15 Compare with baseline SAST</text>
+<text x="1100" y="745" text-anchor="middle" font-size="12.5" fill="#3d4b5a">CodeQL SARIF arm</text>
+<ellipse cx="1100" cy="830" rx="205" ry="38" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/>
+<text x="1100" y="826" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC17 Generate labelling worksheets</text>
+<text x="1100" y="845" text-anchor="middle" font-size="12.5" fill="#3d4b5a">blind, 2 raters</text>
+<ellipse cx="1100" cy="930" rx="205" ry="38" fill="#f1f1f4" stroke="#6b7280" stroke-width="2"/>
+<text x="1100" y="926" text-anchor="middle" font-size="15" font-weight="bold" fill="#13202e">UC18 Calibrate τ + compare models</text>
+<text x="1100" y="945" text-anchor="middle" font-size="12.5" fill="#3d4b5a">after label freeze (S8)</text>
+<g stroke="#13202e" stroke-width="2.4" fill="none"><circle cx="130" cy="268" r="14" fill="#ffffff"/><line x1="130" y1="282" x2="130" y2="322"/><line x1="106" y1="296" x2="154" y2="296"/><line x1="130" y1="322" x2="112" y2="350"/><line x1="130" y1="322" x2="148" y2="350"/></g>
+<text x="130" y="374" text-anchor="middle" font-size="16" font-weight="bold" fill="#13202e">Developer</text>
+<g stroke="#13202e" stroke-width="2.4" fill="none"><circle cx="130" cy="798" r="14" fill="#ffffff"/><line x1="130" y1="812" x2="130" y2="852"/><line x1="106" y1="826" x2="154" y2="826"/><line x1="130" y1="852" x2="112" y2="880"/><line x1="130" y1="852" x2="148" y2="880"/></g>
+<text x="130" y="904" text-anchor="middle" font-size="16" font-weight="bold" fill="#13202e">Security reviewer</text>
+<g stroke="#13202e" stroke-width="2.4" fill="none"><circle cx="1570" cy="168" r="14" fill="#ffffff"/><line x1="1570" y1="182" x2="1570" y2="222"/><line x1="1546" y1="196" x2="1594" y2="196"/><line x1="1570" y1="222" x2="1552" y2="250"/><line x1="1570" y1="222" x2="1588" y2="250"/></g>
+<text x="1570" y="274" text-anchor="middle" font-size="16" font-weight="bold" fill="#13202e">CI pipeline</text>
+<text x="1570" y="292" text-anchor="middle" font-size="12" fill="#4a5a6a">«system»</text>
+<g stroke="#13202e" stroke-width="2.4" fill="none"><circle cx="1570" cy="738" r="14" fill="#ffffff"/><line x1="1570" y1="752" x2="1570" y2="792"/><line x1="1546" y1="766" x2="1594" y2="766"/><line x1="1570" y1="792" x2="1552" y2="820"/><line x1="1570" y1="792" x2="1588" y2="820"/></g>
+<text x="1570" y="844" text-anchor="middle" font-size="16" font-weight="bold" fill="#13202e">Researcher</text>
+<ellipse cx="420" cy="1078" rx="26" ry="13" fill="#dff3e4" stroke="#2e7d4f" stroke-width="2"/><text x="458" y="1083" font-size="15" fill="#13202e">Implemented</text>
+<ellipse cx="720" cy="1078" rx="26" ry="13" fill="#fff1cc" stroke="#b7791f" stroke-width="2"/><text x="758" y="1083" font-size="15" fill="#13202e">Partially implemented</text>
+<ellipse cx="1020" cy="1078" rx="26" ry="13" fill="#f1f1f4" stroke="#6b7280" stroke-width="2"/><text x="1058" y="1083" font-size="15" fill="#13202e">Pending (planned)</text>
+</svg>

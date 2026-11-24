@@ -1,0 +1,11 @@
+flowchart LR
+    SYM["symbolic verdict"] --> CAND{"candidate?<br/>Vulnerable · Unknown ·<br/>Protected SYM-05"}
+    CAND -->|no| KEEP0["final = symbolic"]
+    CAND -->|yes| SL["label-free IR slice<br/>(no comments, no verdicts)"]
+    SL --> M["local SLM<br/>JSON schema-guided, greedy"]
+    M --> GATE{"calibration gate<br/>passed? (probes)"}
+    GATE -->|no| ADV["advisory only:<br/>final = symbolic"]
+    GATE -->|yes| PARSE{"parsed, grounded,<br/>confidence ≥ τ = 0.80?"}
+    PARSE -->|no| KEEP1["final = symbolic"]
+    PARSE -->|"yes and symbolic = Vulnerable,<br/>model = Protected"| SUP["final = Protected<br/>(suppressed false positive)"]
+    PARSE -->|"any other combination"| KEEP2["final = symbolic<br/>(no escalation, ADR-012)"]

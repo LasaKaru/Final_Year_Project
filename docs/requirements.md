@@ -21,7 +21,7 @@
 | FR13 | JSON report (findings, spans, reasons, coverage, run info) + console summary | Must | F7 | ✅ | `JsonReportWriter`, `ConsoleSummaryRenderer` |
 | FR14 | SARIF 2.1.0 export | Should | F7 | ✅ | `SarifReportWriter`, `bolalens sarif` / `scan --sarif`; validated against the OASIS schema; `SarifTests` |
 | FR15 | CI integration: exit codes + GitHub Actions | Should | F7 | ✅ | exit codes, CI smoke scan, reusable composite Action `action.yml` (code-scanning upload, gate) self-tested in CI |
-| FR16 | Visualise paths (responsive UI / HTML report) | Should | F7 | ✅ | `BolaLens.Web` local dashboard + offline HTML export (ADR-010) + SVG call graph per path (`docs/ipd/screenshots/call-graph-*.png`) |
+| FR16 | Visualise paths (responsive UI / HTML report) | Should | F7 | ✅ | `BolaLens.Web` local dashboard + offline HTML export (ADR-010) + SVG call graph per path (`ipd/screenshots/call-graph-*.png`) |
 | FR17 | Evaluation harness (confusion matrix, P/R/F1/FPR/FDR, coverage) | Must | E1 | ✅ | `BolaLens.Eval`, `bolalens eval` (+ `--baseline-sarif` CodeQL arm), `scripts/dataset-report.py`, `scripts/run-experiments.sh`, `--semantic-units` |
 | FR18 | Configuration file (identity sources, owner patterns, depth, model) | Should | new | ✅ | `bolalens.json`, `BolaLensConfig` |
 | FR19 | Inspect intermediate artefacts via CLI | Should | new | ✅ | `endpoints`, `policy`, `schema`, `di`, `paths`, `slice` |

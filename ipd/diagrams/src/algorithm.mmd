@@ -1,0 +1,29 @@
+flowchart TD
+    S([endpoint parameter]) --> A{"id-like and<br/>client-controlled?"}
+    A -->|no| X([not analysed])
+    A -->|yes| B["seed taint token on the id<br/>(route · query · body · nested · list)"]
+    B --> C["walk calls: controller → service → repository<br/>(DI resolved, MediatR handlers, depth ≤ 5)"]
+    C --> D{"tracked id reaches an<br/>EF Core sink?"}
+    D -->|"no, but entered unresolved code"| U2["Unknown · SYM-02"]
+    D -->|no| O1["OutOfScope · SYM-01"]
+    D -->|"yes: load / update / remove / SaveChanges"| P{"endpoint only for<br/>privileged roles?"}
+    P -->|yes| O10["OutOfScope · SYM-10"]
+    P -->|no| E{"entity has an owner<br/>or membership relation?"}
+    E -->|neither| U9["Unknown · SYM-09"]
+    E -->|yes| G{"valid guard on the same object,<br/>bound to the caller, dominating the change?"}
+    G -->|"owner equality / LINQ owner predicate"| P3["Protected · SYM-03"]
+    G -->|"query filter of the required level"| P4["Protected · SYM-04"]
+    G -->|"AuthorizeAsync · access check · access filter"| P5["Protected · SYM-05 (delegated)"]
+    G -->|none| W{which write path?}
+    W -->|IgnoreQueryFilters| V6["Vulnerable · SYM-06"]
+    W -->|"detached / bulk write"| V7["Vulnerable · SYM-07"]
+    W -->|"membership object, no access check"| V11["Vulnerable · SYM-11"]
+    W -->|"owned object"| V8["Vulnerable · SYM-08"]
+    classDef vul fill:#fde2e1,stroke:#c0392b,color:#7b1d14
+    classDef pro fill:#dff3e4,stroke:#2e7d4f,color:#14532d
+    classDef unk fill:#fff1cc,stroke:#b7791f,color:#6b4a0c
+    classDef oos fill:#e8eaef,stroke:#6b7280,color:#374151
+    class V6,V7,V8,V11 vul
+    class P3,P4,P5 pro
+    class U2,U9 unk
+    class O1,O10,X oos

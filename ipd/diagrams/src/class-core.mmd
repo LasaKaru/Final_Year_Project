@@ -1,11 +1,11 @@
 classDiagram
     class EndpointInfo { Id; Verb; RouteTemplate; Controller; Action; Parameters; Authorization; Location }
     class ExecutionPath { Id; TaintSource; Steps; Sinks; Guards; Unresolved; Truncated }
-    class SinkInfo { Kind; EntityType; IsStateChanging; BypassesQueryFilters; IsDetached; GuardIndices }
+    class SinkInfo { Kind; EntityType; IsStateChanging; BypassesQueryFilters; IsDetached; QueryHasOwnerPredicate; GuardIndices }
     class GuardEvidence { Kind; IsValid; InvalidReason; OwnerProperty; CallerExpression }
-    class EntityModel { EntityType; KeyProperties; OwnerCandidates; QueryFilters; RequiredOwnerKind }
+    class EntityModel { EntityType; DbContext; KeyProperties; OwnerCandidates; QueryFilters; MembershipPath; RequiredOwnerKind }
     class SymbolicVerdict { Status; RuleIds; Rationale }
-    class SemanticVerdict { Status; Confidence; Reason; EvidenceLineIds; ParseOk }
+    class SemanticVerdict { Status; Confidence; Reason; EvidenceLineIds; ParseOk; ModelId; LatencyMs }
     class Finding { FindingId; Final; FinalReason; Slice }
     class ScanReport { Run; Coverage; Findings; LoadDiagnostics }
     ExecutionPath --> EndpointInfo
@@ -17,3 +17,11 @@ classDiagram
     Finding --> SemanticVerdict
     ScanReport "1" --> "*" Finding
     SinkInfo ..> EntityModel : EntityType
+    class ISemanticValidator { <<interface>> ValidateAsync(IrSlice, SemanticPrompt) }
+    class OnnxSemanticValidator
+    class NullSemanticValidator
+    class FusionPolicy { Threshold; AllowEscalation; IsCandidate(SymbolicVerdict); Fuse(symbolic, semantic, advisory) }
+    ISemanticValidator <|.. OnnxSemanticValidator
+    ISemanticValidator <|.. NullSemanticValidator
+    FusionPolicy ..> SymbolicVerdict
+    FusionPolicy ..> SemanticVerdict

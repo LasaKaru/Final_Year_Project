@@ -1,0 +1,9 @@
+{ "theme": "base",
+  "themeVariables": { "fontFamily": "Arial, Helvetica, sans-serif", "fontSize": "16px",
+    "primaryColor": "#e6eef7", "primaryBorderColor": "#1f4e79", "primaryTextColor": "#13202e",
+    "lineColor": "#4a5a6a", "secondaryColor": "#eef3e8", "tertiaryColor": "#f7f7f9",
+    "clusterBkg": "#f4f6f9", "clusterBorder": "#9aa8b6",
+    "critBkgColor": "#f6c9c4", "critBorderColor": "#c0392b", "doneTaskBkgColor": "#cfd8e3", "doneTaskBorderColor": "#5b6b7c",
+    "taskBkgColor": "#e6eef7", "taskBorderColor": "#1f4e79", "taskTextDarkColor": "#13202e", "taskTextColor": "#13202e" },
+  "gantt": { "barHeight": 22, "fontSize": 13, "sectionFontSize": 14, "leftPadding": 330, "useWidth": 1800 },
+  "flowchart": { "htmlLabels": true, "curve": "basis" } }
